@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+
+.demo {
+	fill: #ccc;
+	stroke: #000;
+}
+
+.intersection{
+	fill: none;
+	stroke: #f00;
+	stroke-width: 2px;
+	stroke-dasharray: 9, 5;
+}
