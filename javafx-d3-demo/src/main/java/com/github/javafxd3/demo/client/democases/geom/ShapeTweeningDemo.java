@@ -164,11 +164,11 @@ public class ShapeTweeningDemo extends AbstractDemoCase {
 
 		double area = polygon.area();
 		double radius = Math.sqrt(Math.abs(area) / Math.PI);
-		List<?> centroid = polygon.centroid(-1 / (6 * area));
+		List<Double> centroid = polygon.centroid(-1 / (6 * area));
 		double angleOffset = -Math.PI / 2;
 		double k = (2 * Math.PI) / lengths.get(lengths.size() - 1);
 
-		// Compute points along the circle’s circumference at equivalent
+		// Compute points along the circles circumference at equivalent
 		// distances.
 		i = -1;
 		while (++i < n) {

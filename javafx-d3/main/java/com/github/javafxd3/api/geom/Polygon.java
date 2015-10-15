@@ -74,7 +74,7 @@ public class Polygon extends ArrayList<List<Double>> {
 	 *            a scale factor
 	 * @return a two-element array representing the centroid of this polygon.
 	 */
-	public List<?> centroid(double k) {
+	public List<Double> centroid(double k) {
 		throw new IllegalStateException("not yet implemented");
 		//return this.centroid(k);
 	}
