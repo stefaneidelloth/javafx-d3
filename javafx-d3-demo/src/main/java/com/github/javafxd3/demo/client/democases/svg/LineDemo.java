@@ -1,5 +1,7 @@
 package com.github.javafxd3.demo.client.democases.svg;
 
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -7,16 +9,17 @@ import java.util.Stack;
 
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.coords.Coords;
+import com.github.javafxd3.api.core.EnteringSelection;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.UpdateSelection;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.svg.Line;
 import com.github.javafxd3.api.svg.Line.InterpolationMode;
-import com.github.javafxd3.api.wrapper.Element;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
+import com.github.javafxd3.demo.client.democases.svg.line.CustomCoords;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -26,11 +29,10 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
- *  
+ * 
  */
 public class LineDemo extends AbstractDemoCase {
 
@@ -51,7 +53,8 @@ public class LineDemo extends AbstractDemoCase {
 
 	protected InterpolationMode mode = InterpolationMode.LINEAR;
 
-	protected int width = 450, height = 320;
+	protected int width = 450;
+	protected int height = 320;
 
 	protected double tension;
 
@@ -69,7 +72,7 @@ public class LineDemo extends AbstractDemoCase {
 		super(d3, demoPreferenceBox);
 
 		// DODO: load css
-		// Bundle.INSTANCE.css().ensureInjected();
+
 	}
 
 	// #end region
@@ -104,7 +107,7 @@ public class LineDemo extends AbstractDemoCase {
 		DatumFunction<Boolean> isDefinedAccessor = CustomCoords.definedAccessor();
 		line = d3.svg().line().x(xAccessor).y(yAcccessor).defined(isDefinedAccessor);
 
-		svg = d3.select("root").append("svg").attr("width", width).attr("height", height).append("g");
+		svg = d3.select("svg").attr("width", width).attr("height", height).append("g");
 
 		String cssClassName = "linedemo";
 		path = svg.append("path").classed(cssClassName, true);
@@ -183,12 +186,12 @@ public class LineDemo extends AbstractDemoCase {
 
 		boolean first = true;
 		for (final InterpolationMode mode : values) {
-			
-			//create button
+
+			// create button
 			RadioButton button = new RadioButton();
 			button.setText(mode.name());
 
-			//add listener
+			// add listener
 			button.onActionProperty().set((event) -> {
 				LineDemo.this.mode = mode;
 				updateD3Content();
@@ -197,7 +200,7 @@ public class LineDemo extends AbstractDemoCase {
 			// add to preferences box
 			demoPreferenceBox.getChildren().add(button);
 
-			//set selection state of first button to true
+			// set selection state of first button to true
 			if (first) {
 				button.setSelected(true);
 				first = false;
@@ -210,7 +213,7 @@ public class LineDemo extends AbstractDemoCase {
 	}
 
 	protected void addPoint(boolean defined) {
-		
+
 		System.out.println("Adding point");
 
 		Random random = new Random();
@@ -218,8 +221,7 @@ public class LineDemo extends AbstractDemoCase {
 		double y = random.nextInt(height);
 		CustomCoords coords = new CustomCoords(webEngine, x, y, defined);
 		points.push(coords);
-		
-		
+
 		updateD3Content();
 	}
 
@@ -233,106 +235,75 @@ public class LineDemo extends AbstractDemoCase {
 	 * 
 	 */
 	public void updateD3Content() {
-		
+
 		System.out.println("Updating content");
-		
+
 		line.interpolate(mode);
 		line.tension(tension);
 
 		List<Coords> coordsList = new ArrayList<>(points);
-		Coords[] coordsArray = coordsList.toArray(new Coords[coordsList.size()]);
-		String coordinates = line.generate(coordsArray);
+
+		// Double[] values = new Double[]{20.0,20.0};
+
+		String coordinates = line.generate(coordsList);
 		path.attr("d", coordinates);
 
 		ArrayList<Coords> data;
-		if(showPoints){
+		if (showPoints) {
 			data = new ArrayList<>(points);
 		} else {
 			data = new ArrayList<>();
 		}
-		
+
 		UpdateSelection updateSelection = svg.selectAll("circle").data(data);
-		
-		DatumFunction<Double> cxFunction = new DatumFunction<Double>() {
-			@Override
-			public Double apply(Element context, Value value, int index) {
-				return value.<CustomCoords> as().x();
-			}
-		};
-		
-		DatumFunction<Double> cyFunction = new DatumFunction<Double>() {
-			@Override
-			public Double apply(Element context, Value value, int index) {
-				return value.<CustomCoords> as().y();
-			}
-		};
-		
-		updateSelection.enter().append("circle").attr("cx", cxFunction).attr("cy", cyFunction).attr("r", 10);
-		updateSelection.exit().remove();
+
+		DatumFunction<Double> cxFunction = new CxDatumFunction();
+
+		DatumFunction<Double> cyFunction = new CyDatumFunction();
+
+		EnteringSelection enter = updateSelection.enter();
+		if (enter != null) {
+			enter.append("circle").attr("cx", cxFunction).attr("cy", cyFunction).attr("r", 10);
+			updateSelection.exit().remove();
+		}
+
 	}
 
 	// #end region
 
 	// #region PRIVATE CLASSES
 
-	private static class CustomCoords extends Coords {
+	
 
-		// #region ATTRIBUTES
+	public class CxDatumFunction implements DatumFunction<Double> {
+
+		@Override
+		public Double apply(Object context, Object value, int index) {
+			Value valueObj = (Value) value;
+
+			return valueObj.<CustomCoords> as().x();
+		}
 		
-		boolean defined;
-
-		// #end region
-
-		// #region CONSTRUCTORS
-
-		/**
-		 * Constructor
-		 * @param webEngine 
-		 * 
-		 * @param x
-		 * @param y
-		 * @param defined
-		 */
-		public CustomCoords(WebEngine webEngine, double x, double y, boolean defined) {
-			super(webEngine, x, y);			
-			this.defined = defined;
+		public Double apply(String context, String d, int index){
+			return null;
 		}
-
-		// #end region
-
-		// #region METHODS
-
-		public static DatumFunction<Double> xAccessor() {
-			return new DatumFunction<Double>() {
-				@Override
-				public Double apply(Element context, Value d, int index) {
-					return d.<CustomCoords> as().x();
-				}
-			};
-		}
-
-		public static DatumFunction<Double> yAccessor() {
-			return new DatumFunction<Double>() {
-				@Override
-				public Double apply(Element context, Value d, int index) {
-					return d.<CustomCoords> as().y();
-				}
-			};
-		}
-
-		public static DatumFunction<Boolean> definedAccessor() {
-			return new DatumFunction<Boolean>() {
-				@Override
-				public Boolean apply(Element context, Value d, int index) {
-					return d.<CustomCoords> as().defined;
-				}
-			};
-
-		}
-
-		// #end region
-
 	}
+
+	public class CyDatumFunction implements DatumFunction<Double> {
+
+		@Override
+		public Double apply(Object context, Object value, int index) {
+			Value valueObj = (Value) value;
+
+			return valueObj.<CustomCoords> as().y();
+		}
+		
+		public Double apply(String context, String d, int index){
+			return null;
+		}
+	}
+
+	
 
 	// #end region
 }
