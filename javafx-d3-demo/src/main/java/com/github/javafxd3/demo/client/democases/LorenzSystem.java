@@ -78,7 +78,7 @@ public class LorenzSystem extends AbstractDemoCase {
 					context.beginPath();
 					context.moveTo(x, y);
 					x += δτ * σ * (y - x);
-					y += δτ * ((x * (�? - z)) - y);
+					y += δτ * ((x * (ρ - z)) - y);
 					z += δτ * ((x * y) - (β * z));
 					context.lineTo(x, y);
 					context.stroke();

@@ -282,7 +282,7 @@ public class Axis extends JavaScriptObject implements IsFunction {
 	 * The outer tick size controls the length of the square ends of the domain
 	 * path, offset from the native position of the axis.
 	 * <p>
-	 * Thus, the “outer ticks are not actually ticks but part of the domain
+	 * Thus, the outer ticks are not actually ticks but part of the domain
 	 * path, and their position is determined by the associated scale's domain
 	 * extent.
 	 * <p>
