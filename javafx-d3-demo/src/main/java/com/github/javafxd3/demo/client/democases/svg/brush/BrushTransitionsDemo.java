@@ -101,12 +101,14 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
                 .extent(defaultExtent)
                 .on(BrushEvent.BRUSH, new DatumFunction<Void>() {
                     @Override
-                    public Void apply(final Element context, final Value d, final int index) {
+                    public Void apply(final Object context, final Object d, final int index) {
                         Double[][] extent = brush.extent();
                         point.each(new DatumFunction<Void>() {
                             @Override
-                            public Void apply(final Element context, final Value d, final int index) {
-                                d.<Point> as().setSelected(false);
+                            public Void apply(final Object context, final Object d, final int index) {
+                            	
+                            	Value datum = (Value) d;
+                                datum.<Point> as().setSelected(false);
                                 return null;
                             }
                         });
@@ -117,8 +119,9 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
                                 extent[1][1]);
                         point.classed("selected", new DatumFunction<Boolean>() {
                             @Override
-                            public Boolean apply(final Element context, final Value d, final int index) {
-                                return d.<Point> as().isSelected();
+                            public Boolean apply(final Object context, final Object d, final int index) {
+                            	Value datum = (Value) d;
+                                return datum.<Point> as().isSelected();
                             }
                         });
                         return null;
@@ -126,11 +129,14 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
                 })
                 .on(BrushEvent.BRUSH_END, new DatumFunction<Void>() {
                     @Override
-                    public Void apply(final Element context, final Value d, final int index) {
+                    public Void apply(final Object context, final Object d, final int index) {
                         if (d3.<D3Event> event().sourceEvent() == null) {
                             return null; // only transition after input
                         }
-                        d3.select(context).transition()
+                        
+                        Element element = (Element) context;
+                        
+                        d3.select(element).transition()
                         .duration(brush.empty() ? 0 : 750)
                         .call(brush.extent(defaultExtent))
                         .call(brush.event());
@@ -148,14 +154,20 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
                 .attr("class", "point")
                 .attr("cx", new DatumFunction<Double>() {
                     @Override
-                    public Double apply(final Element context, final Value d, final int index) {
-                        return d.<Coords> as().x();
+                    public Double apply(final Object context, final Object d, final int index) {
+                    	
+                    	Value datum = (Value) d;
+                    	
+                        return datum.<Coords> as().x();
                     }
                 })
                 .attr("cy", new DatumFunction<Double>() {
                     @Override
-                    public Double apply(final Element context, final Value d, final int index) {
-                        return d.<Coords> as().y();
+                    public Double apply(final Object context, final Object d, final int index) {
+                    	
+                    	Value datum = (Value) d;
+                    	
+                        return datum.<Coords> as().y();
                     }
                 })
                 .attr("r", 4);

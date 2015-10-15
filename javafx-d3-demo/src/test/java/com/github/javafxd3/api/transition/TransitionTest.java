@@ -2,6 +2,8 @@ package com.github.javafxd3.api.transition;
 
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Transition;
@@ -21,13 +23,14 @@ public class TransitionTest extends AbstractSelectionTest {
 
 	private final DatumFunction<String> callback = new DatumFunction<String>() {
 		@Override
-		public String apply(final Element context, final Value d,
+		public String apply(final Object context, final Object d,
 				final int index) {
 			return "16px";
 		}
 	};
 
 	@Override
+	@Test
 	public void doTest() {
 		
 		D3 d3 = new D3(webEngine);
@@ -56,35 +59,35 @@ public class TransitionTest extends AbstractSelectionTest {
 				.delay(1000)
 				.delay(new DatumFunction<Integer>() {
 					@Override
-					public Integer apply(final Element context, final Value d,
+					public Integer apply(final Object context, final Object d,
 							final int index) {
 						return 100;
 					}
 				})
 				.duration(new DatumFunction<Integer>() {
 					@Override
-					public Integer apply(final Element context, final Value d,
+					public Integer apply(final Object context, final Object d,
 							final int index) {
 						return 123;
 					}
 				})
 				.each(EventType.START, new DatumFunction<Void>() {
 					@Override
-					public Void apply(final Element context, final Value d,
+					public Void apply(final Object context, final Object d,
 							final int index) {
 						return null;
 					}
 				})
 				.each(EventType.END, new DatumFunction<Void>() {
 					@Override
-					public Void apply(final Element context, final Value d,
+					public Void apply(final Object context, final Object d,
 							final int index) {
 						return null;
 					}
 				}).ease(Easing.back(webEngine, 12))
 				.style("font-size", new DatumFunction<String>() {
 					@Override
-					public String apply(final Element context, final Value d,
+					public String apply(final Object context, final Object d,
 							final int index) {
 						return "";
 					}

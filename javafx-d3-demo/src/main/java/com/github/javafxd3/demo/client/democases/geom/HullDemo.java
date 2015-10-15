@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.coords.Coords;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.UpdateSelection;
@@ -97,16 +98,24 @@ public class HullDemo extends AbstractDemoCase {
 		svg = d3.select("root").append("svg").attr("width", width).attr("height", height)
 				.on("MOUSEMOVE", new DatumFunction<Void>() {
 					@Override
-					public Void apply(Element context, Value d, int index) {
-						MyCoords coords = new MyCoords(webEngine, d3.mouseX(context), d3.mouseY(context));
+					public Void apply(Object context, Object d, int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						MyCoords coords = new MyCoords(webEngine, d3.mouseX(element), d3.mouseY(element));
 						vertices.set(0,  coords);
 						redraw();
 						return null;
 					}
 				}).on("CLICK", new DatumFunction<Void>() {
 					@Override
-					public Void apply(Element context, Value d, int index) {
-						MyCoords coords = new MyCoords(webEngine, d3.mouseX(context), d3.mouseY(context));
+					public Void apply(Object context, Object d, int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						MyCoords coords = new MyCoords(webEngine, d3.mouseX(element), d3.mouseY(element));
 						vertices.add(coords);
 						redraw();
 						return null;
@@ -128,10 +137,17 @@ public class HullDemo extends AbstractDemoCase {
 
 	private void redraw() {
 		try {
-			hull.datum(hullModel.apply(vertices)).attr("d", new DatumFunction<String>() {
+			
+			Array<MyCoords> coordinates = hullModel.apply(vertices);
+			
+			hull.datum(coordinates).attr("d", new DatumFunction<String>() {
 				@Override
-				public String apply(Element context, Value d, int index) {
-					List<MyCoords> coordsList = d.<List<MyCoords>> as();
+				public String apply(Object context, Object d, int index) {
+					
+					Element element = (Element) context;
+					Value datum = (Value) d;
+					
+					List<MyCoords> coordsList = datum.<List<MyCoords>> as();
 					List<String> coordsStringList = new ArrayList<>();
 					for(MyCoords coords : coordsList){
 						String coordsString = coords.toString();
@@ -146,8 +162,12 @@ public class HullDemo extends AbstractDemoCase {
 			circles.enter().append("circle").attr("r", 3);
 			circle = circles.attr("transform", new DatumFunction<String>() {
 				@Override
-				public String apply(Element context, Value d, int index) {
-					return "translate(" + d.<Coords> as() + ")";
+				public String apply(Object context, Object d, int index) {
+					
+					Element element = (Element) context;
+					Value datum = (Value) d;
+					
+					return "translate(" + datum.<Coords> as() + ")";
 				}
 			}).attr("class", "hulldemo");
 			circle = circles;
@@ -185,7 +205,7 @@ public class HullDemo extends AbstractDemoCase {
 	
 	//#regon CLASSES
 
-	private static class MyCoords extends Coords {
+	public static class MyCoords extends Coords {
 		
 
 		public MyCoords(WebEngine webEngine, double x, double y) {
@@ -201,7 +221,7 @@ public class HullDemo extends AbstractDemoCase {
 			return new DatumFunction<Double>() {
 
 				@Override
-				public Double apply(Element context, Value d, int index) {					
+				public Double apply(Object context, Object d, int index) {					
 					return null;
 				}
 		};
@@ -211,7 +231,7 @@ public class HullDemo extends AbstractDemoCase {
 			return new DatumFunction<Double>() {
 
 				@Override
-				public Double apply(Element context, Value d, int index) {
+				public Double apply(Object context, Object d, int index) {
 					// TODO Auto-generated method stub
 					return null;
 				}

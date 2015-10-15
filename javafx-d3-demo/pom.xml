@@ -22,7 +22,38 @@
             </includes>     
       </resource>     
       
-    </resources>      
+    </resources>  
+    
+    <pluginManagement>
+    <plugins>
+        <plugin>
+             <groupId>org.eclipse.m2e</groupId>
+             <artifactId>lifecycle-mapping</artifactId>
+             <version>1.0.0</version>
+             <configuration>
+                 <lifecycleMappingMetadata>
+                <pluginExecutions>
+                      <pluginExecution>
+                          <pluginExecutionFilter>                                               
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-antrun-plugin</artifactId>
+                            <versionRange>1.8</versionRange>                                            
+                            <goals>
+                              <goal>run</goal>
+                            </goals>
+                          </pluginExecutionFilter>
+                          <action>
+                              <execute>
+                                <runOnIncremental>false</runOnIncremental>
+                              </execute>
+                          </action>                                  
+                     </pluginExecution>
+                  </pluginExecutions>
+                 </lifecycleMappingMetadata>
+              </configuration>
+        </plugin>    
+    </plugins>
+</pluginManagement>         
         
     
     <plugins>
@@ -34,6 +65,30 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      
+      <plugin>                
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-antrun-plugin</artifactId>
+<version>1.8</version>
+    <executions>
+        <execution>
+            <phase>prepare-package</phase>
+            <configuration>
+                <tasks>
+                  <replace 
+                    token= "JavaSE-1.8&#34;&#62;" 
+                    value="JavaSE-1.8&#34;&#62;&#13; &#60;accessrules&#62;&#13; &#60;accessrule kind=&#34;accessible&#34; pattern=&#34;javafx/**&#34;/&#62;&#13; &#60;accessrule kind=&#34;accessible&#34; pattern=&#34;com/sun/javafx/**&#34;/&#62;&#13;&#60;/accessrules&#62;" 
+                    file=".classpath"
+                  > 
+                  </replace>
+                </tasks>
+            </configuration>
+            <goals>
+                <goal>run</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin> 
     </plugins>
   </build>
   

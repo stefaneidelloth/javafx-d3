@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Value;
@@ -18,6 +20,7 @@ public class AreaTest extends AbstractTestCase {
 	private static final double DELTA = 0.001d;
 
 	@Override
+	@Test
 	public void doTest() {
 		
 		D3 d3 = new D3(webEngine);
@@ -38,52 +41,76 @@ public class AreaTest extends AbstractTestCase {
 		// x and y
 		area.x(new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value d,
+			public Double apply(final Object context, final Object d,
 					final int index) {
-				xCapture.add(d.<Coords> as().x);
-				return d.<Coords> as().x;
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				xCapture.add(datum.<Coords> as().x);
+				return datum.<Coords> as().x;
 			}
 		});
 
 		area.x0(new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value d,
+			public Double apply(final Object context, final Object d,
 					final int index) {
-				xCapture.add(d.<Coords> as().x);
-				return d.<Coords> as().x;
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				xCapture.add(datum.<Coords> as().x);
+				return datum.<Coords> as().x;
 			}
 		});
 
 		area.x1(new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value d,
+			public Double apply(final Object context, final Object d,
 					final int index) {
-				return d.<Coords> as().x;
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				return datum.<Coords> as().x;
 			}
 		});
 
 		area.y(new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value d,
+			public Double apply(final Object context, final Object d,
 					final int index) {
-				return d.<Coords> as().y;
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				return datum.<Coords> as().y;
 			}
 		});
 
 		area.y0(new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value d,
+			public Double apply(final Object context, final Object d,
 					final int index) {
-				yCapture.add(d.<Coords> as().y);
-				return d.<Coords> as().y;
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				yCapture.add(datum.<Coords> as().y);
+				return datum.<Coords> as().y;
 			}
 		});
 
 		area.y1(new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value d,
+			public Double apply(final Object context, final Object d,
 					final int index) {
-				return d.<Coords> as().y;
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				return datum.<Coords> as().y;
 			}
 		});
 
@@ -119,7 +146,7 @@ public class AreaTest extends AbstractTestCase {
 		// defined : it does not seem to work
 		area.defined(new DatumFunction<Boolean>() {
 			@Override
-			public Boolean apply(final Element context, final Value d,
+			public Boolean apply(final Object context, final Object d,
 					final int index) {
 				// System.out.println(context);
 				// System.out.println(d);
@@ -131,11 +158,15 @@ public class AreaTest extends AbstractTestCase {
 		// not called
 		area.y(new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value d,
+			public Double apply(final Object context, final Object d,
 					final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
 				counter.y = (counter.y + 1);
-				yCapture.add(d.<Coords> as().y);
-				return d.<Coords> as().y;
+				yCapture.add(datum.<Coords> as().y);
+				return datum.<Coords> as().y;
 			}
 		});
 

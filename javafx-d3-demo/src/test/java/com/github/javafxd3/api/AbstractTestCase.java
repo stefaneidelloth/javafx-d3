@@ -5,17 +5,19 @@ import java.util.concurrent.CountDownLatch;
 import javax.swing.SwingUtilities;
 
 import com.github.javafxd3.api.core.Selection;
+import com.github.javafxd3.api.time.JsDate;
 import com.github.javafxd3.demo.client.JavaFxD3Browser;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.web.WebEngine;
+import junit.framework.Assert;
 
 /**
  * Abstract parent class for all test cases
  * 
  */
-public abstract class AbstractTestCase {
+public abstract class AbstractTestCase extends Assert {
 
 	// #region ATTRIBUTES
 
@@ -110,22 +112,38 @@ public abstract class AbstractTestCase {
 	
 	
 	/**
-	 * Clears the content of the root element and returns
-	 * the root as Selection
+	 * Clears the content of the svg element and returns
+	 * the svg as Selection
 	 * @return 
 	 */
-	public Selection clearRoot(){			
-		Selection root = getRoot();
-		root.html("");
-		return root;
+	public Selection clearSvg(){			
+		Selection svg = getSvg();
+		svg.selectAll("*").remove();
+		return svg;
 	}
 
 	/**
 	 * @return
 	 */
-	public Selection getRoot() {
-		Selection root = d3.select("#root");
-		return root;
+	public Selection getSvg() {
+		Selection svg = d3.select("#svg");
+		return svg;
+	}
+	
+	public void assertDateEquals(double expected, double actual) {
+		assertDateEquals(null, expected, actual);
+	}
+
+	public void assertDateEquals(String message, double expected, double actual) {
+		double delta = .01;
+		if (Double.compare(expected, actual) == 0)
+			return;
+		if (!(Math.abs(expected-actual) <= delta)){
+			JsDate expectedDate = JsDate.create(webEngine, expected);
+			JsDate actualDate = JsDate.create(webEngine, actual);			
+			
+			failNotEquals(message, expectedDate, actualDate);
+		}
 	}
 
 	// #end region

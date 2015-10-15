@@ -2,6 +2,8 @@ package com.github.javafxd3.api;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Prefix;
 
@@ -14,6 +16,7 @@ public class FormatTest extends AbstractTestCase {
 	
 
 	@Override
+	@Test
 	public void doTest() {
 		
 		D3 d3 = new D3(webEngine);

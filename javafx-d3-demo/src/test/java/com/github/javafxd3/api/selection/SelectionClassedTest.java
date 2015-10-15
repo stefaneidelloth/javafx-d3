@@ -2,6 +2,8 @@ package com.github.javafxd3.api.selection;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
@@ -18,6 +20,7 @@ import com.github.javafxd3.api.wrapper.Element;
 public class SelectionClassedTest extends AbstractSelectionTest {
 
 	@Override
+	@Test
 	public void doTest() {
 		testGetter();
 		testSetterConstantString();
@@ -31,7 +34,7 @@ public class SelectionClassedTest extends AbstractSelectionTest {
 		Selection selection = givenASimpleSelection(createLabelFactory(""));
 		selection.classed("foo bar", new DatumFunction<Boolean>() {
 			@Override
-			public Boolean apply(final Element context, final Value datum, final int index) {
+			public Boolean apply(final Object context, final Object datum, final int index) {
 				return true;
 			}
 		});
@@ -41,7 +44,7 @@ public class SelectionClassedTest extends AbstractSelectionTest {
 		selection = givenAMultipleSelection(createLabelFactory(""), createLabelFactory(""), createLabelFactory(""));
 		selection.classed("foo bar", new DatumFunction<Boolean>() {
 			@Override
-			public Boolean apply(final Element context, final Value datum, final int index) {
+			public Boolean apply(final Object context, final Object datum, final int index) {
 				return (index % 2) == 0;
 			}
 		});

@@ -113,13 +113,21 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 
 		final RootNode<Circle> quadtree = d3.geom().quadtree().x(new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value d, final int index) {
-				return d.<Circle> as().x;
+			public Double apply(final Object context, final Object d, final int index) {
+				
+				Element element = (Element) context;
+				Value datum = (Value) d;
+				
+				return datum.<Circle> as().x;
 			}
 		}).y(new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value d, final int index) {
-				return d.<Circle> as().y;
+			public Double apply(final Object context, final Object d, final int index) {
+				
+				Element element = (Element) context;
+				Value datum = (Value) d;
+				
+				return datum.<Circle> as().y;
 			}
 		}).extent(0, 0, width, height).apply(new Circle[1]);
 

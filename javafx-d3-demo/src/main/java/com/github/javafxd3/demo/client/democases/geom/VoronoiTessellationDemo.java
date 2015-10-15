@@ -82,8 +82,12 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 				.on("MOUSEMOVE", new DatumFunction<Void>() {
 
 					@Override
-					public Void apply(final Element context, final Value d, final int index) {
-						vertices[0] = d3.mouse(context);
+					public Void apply(final Object context, final Object d, final int index) {
+						
+						Element element = (Element) context;
+						Value datum = (Value) d;
+						
+						vertices[0] = d3.mouse(element);
 						redraw();
 						return null;
 					}
@@ -94,8 +98,12 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 		svg.selectAll("circle").data(vertices[1]).enter().append("circle")
 				.attr("transform", new DatumFunction<String>() {
 					@Override
-					public String apply(final Element context, final Value d, final int index) {
-						return "translate(" + d.asString() + ")";
+					public String apply(final Object context, final Object d, final int index) {
+						
+						Element element = (Element) context;
+						Value datum = (Value) d;
+						
+						return "translate(" + datum.asString() + ")";
 					}
 				}).attr("r", 1.5);
 
@@ -116,13 +124,17 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 
 		upd.enter().append("path").attr("class", new DatumFunction<String>() {
 			@Override
-			public String apply(final Element context, final Value d, final int index) {
+			public String apply(final Object context, final Object d, final int index) {
 				return "q" + index % 9 + "-9";
 			}
 		}).attr("d", new DatumFunction<String>() {
 			@Override
-			public String apply(final Element context, final Value d, final int index) {
-				return polygon(d);
+			public String apply(final Object context, final Object d, final int index) {
+				
+				Element element = (Element) context;
+				Value datum = (Value) d;
+				
+				return polygon(datum);
 			}
 		});
 

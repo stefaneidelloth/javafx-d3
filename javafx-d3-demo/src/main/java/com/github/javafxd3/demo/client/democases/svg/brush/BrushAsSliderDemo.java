@@ -77,8 +77,10 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 
 		brush = d3.svg().brush().x(x).extent(0, 0).on(BrushEvent.BRUSH, new DatumFunction<Void>() {
 			@Override
-			public Void apply(final Element context, final Value d, final int index) {
-				brushed(context);
+			public Void apply(final Object context, final Object d, final int index) {
+				
+				Element element = (Element) context;
+				brushed(element);
 				return null;
 			}
 		});
@@ -94,16 +96,20 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 			
 			Axis axis = d3.svg().axis().scale(x).orient(Orientation.BOTTOM).tickFormat(new DatumFunction<String>() {
 				@Override
-				public String apply(final Element context, final Value d, final int index) {
-					return d.asString() + "A";
+				public String apply(final Object context, final Object d, final int index) {
+					
+					Value value = (Value) d;
+					return value.asString() + "A";
 				}
 			}).tickSize(0).tickPadding(12);
 			
 			DatumFunction<Element> datumFunction = new DatumFunction<Element>() {
 				@Override
-				public Element apply(final Element context, final Value d, final int index) {
-					Node cloneNode = context.cloneNode(true);
-					context.getParentNode().appendChild(cloneNode);
+				public Element apply(final Object context, final Object d, final int index) {
+					
+					Element element =(Element) context;
+					Node cloneNode = element.cloneNode(true);
+					element.getParentNode().appendChild(cloneNode);
 					return cloneNode.cast();
 				}
 			};

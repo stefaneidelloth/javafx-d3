@@ -75,10 +75,11 @@ public class Area extends PathDataGenerator {
 	 *            the interpolation mode
 	 * @return the current area
 	 */
-	public Area interpolate(final InterpolationMode i) {
-		throw new IllegalStateException("not yet implemented");
-		// return
-		// this.interpolate(i.@com.github.gwtd3.api.svg.Area.InterpolationMode::getValue()());
+	public Area interpolate(final InterpolationMode mode) {
+		
+		String modeString = mode.getValue();
+		JSObject result = call("interpolate", modeString);
+		return new Area(webEngine, result);		
 	}
 
 	/**
@@ -94,14 +95,15 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area x(final DatumFunction<Double> callback) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .x(function(d, i) { return
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		String memberName = "temp_x_callback";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, callback);
+		
+		String command = "this.x(function(d, i) { return this."+memberName+".apply(this,{datum:d},i); });";
+		JSObject result = evalForJsObject(command);
+		return new Area(webEngine, result);
+		 
+		 
 	}
 
 	// should create a JSO impl of DatumFunction calling himself
@@ -247,14 +249,13 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area y0(final DatumFunction<Double> callback) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .y0(function(d, i) { return
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		String memberName = "temp_y0_callback";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, callback);
+		
+		String command = "this.y0(function(d, i) { return this."+memberName+".apply(this,{datum:d},i); });";
+		JSObject result = evalForJsObject(command);
+		return new Area(webEngine, result);	
 	}
 
 	/**
@@ -270,15 +271,15 @@ public class Area extends PathDataGenerator {
 	 * @return the current area
 	 */
 	public Area y1(final DatumFunction<Double> callback) {
-
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .y1(function(d, i) { return
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		
+		String memberName = "temp_y1_callback";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, callback);
+		
+		String command = "this.y1(function(d, i) { return this."+memberName+".apply(this,{datum:d},i); });";
+		JSObject result = evalForJsObject(command);
+		return new Area(webEngine, result);		
+		
 	}
 
 	/**

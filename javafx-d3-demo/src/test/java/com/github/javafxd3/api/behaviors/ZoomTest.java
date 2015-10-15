@@ -6,6 +6,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.behaviour.Zoom;
@@ -22,6 +24,7 @@ public class ZoomTest extends AbstractTestCase {
 	private static final double DELTA = 0.001d;
 
 	@Override
+	@Test
 	public void doTest() {
 		testCreate();
 	}
@@ -61,7 +64,7 @@ public class ZoomTest extends AbstractTestCase {
 
 	private final DatumFunction<Void> noopListener = new DatumFunction<Void>() {
 		@Override
-		public Void apply(Element context, Value d, int index) {
+		public Void apply(Object context, Object d, int index) {
 
 			return null;
 		};

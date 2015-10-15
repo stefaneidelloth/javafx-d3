@@ -95,33 +95,39 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 		symbol = svg.append("g").selectAll("path").data(data).enter().append("path")
 				.attr("transform", new DatumFunction<String>() {
 					@Override
-					public String apply(final Element context, final Value d, final int index) {
-						String value = d.<Type> as().getValue();
+					public String apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;
+						
+						String value = datum.<Type> as().getValue();
 						return "translate(" + x.apply(value).asDouble() + "," + (height / 2) + ")";
 					}
 				}).attr("d", d3.svg().symbol().type(new DatumFunction<Type>() {
 					@Override
-					public Type apply(final Element context, final Value d, final int index) {
-						return d.<Type> as();
+					public Type apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;
+						
+						return datum.<Type> as();
 					}
 				}).size(200));
 
 		svg.append("g").attr("class", "brush")
 				.call(d3.svg().brush().x(x).on(BrushEvent.BRUSH_START, new DatumFunction<Void>() {
 					@Override
-					public Void apply(final Element context, final Value d, final int index) {
+					public Void apply(final Object context, final Object d, final int index) {
 						brushstart();
 						return null;
 					}
 				}).on(BrushEvent.BRUSH, new DatumFunction<Void>() {
 					@Override
-					public Void apply(final Element context, final Value d, final int index) {
+					public Void apply(final Object context, final Object d, final int index) {
 						brushmove();
 						return null;
 					}
 				}).on(BrushEvent.BRUSH_END, new DatumFunction<Void>() {
 					@Override
-					public Void apply(final Element context, final Value d, final int index) {
+					public Void apply(final Object context, final Object d, final int index) {
 						brushend();
 						return null;
 					}
@@ -141,8 +147,11 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 		final Double[] extent = d3.event().getEventTarget().<Brush> cast().extent();
 		symbol.classed("selected", new DatumFunction<Boolean>() {
 			@Override
-			public Boolean apply(final Element context, final Value d, final int index) {
-				double value = x.apply(d.<Type> as().getValue()).asDouble();
+			public Boolean apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;
+				
+				double value = x.apply(datum.<Type> as().getValue()).asDouble();
 				return extent[0] <= value && value <= extent[1];
 			}
 		});

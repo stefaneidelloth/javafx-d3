@@ -2,6 +2,8 @@ package com.github.javafxd3.api.svg;
 
 import static org.junit.Assert.fail;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Value;
@@ -17,6 +19,7 @@ public class SymbolTest extends AbstractTestCase {
 	
 
 	@Override
+	@Test
 	public void doTest() {
 		
 		D3 d3 = new D3(webEngine);
@@ -37,7 +40,7 @@ public class SymbolTest extends AbstractTestCase {
 		symbol.size(32);
 		symbol.size(new DatumFunction<Integer>() {
 			@Override
-			public Integer apply(Element context, Value d, int index) {
+			public Integer apply(Object context, Object d, int index) {
 				return index;
 			}
 		});
@@ -45,7 +48,7 @@ public class SymbolTest extends AbstractTestCase {
 		symbol.type(Type.CIRCLE);
 		symbol.type(new DatumFunction<Type>() {
 			@Override
-			public Type apply(Element context, Value d, int index) {
+			public Type apply(Object context, Object d, int index) {
 				return Type.CIRCLE;
 			}
 		});

@@ -3,6 +3,8 @@ package com.github.javafxd3.api.selection;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
@@ -13,6 +15,7 @@ public class SelectionControlsTest extends AbstractSelectionTest {
 
 	
 	@Override
+	@Test
 	public void doTest() {
 		testEmpty();// 1
 		testNode();// 2
@@ -47,9 +50,13 @@ public class SelectionControlsTest extends AbstractSelectionTest {
 		final StringBuilder sb = new StringBuilder();
 		selection.each(new DatumFunction<Void>() {
 			@Override
-			public Void apply(final Element context, final Value d,
+			public Void apply(final Object context, final Object d,
 					final int index) {
-				sb.append(context.getInnerText());
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				sb.append(element.getInnerText());
 				return null;
 			}
 		});

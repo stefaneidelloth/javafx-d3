@@ -27,7 +27,9 @@ import com.github.javafxd3.api.geom.Geometry;
 import com.github.javafxd3.api.interpolators.Interpolators;
 import com.github.javafxd3.api.layout.Layout;
 import com.github.javafxd3.api.scales.Scales;
+import com.github.javafxd3.api.svg.Area;
 import com.github.javafxd3.api.svg.SVG;
+import com.github.javafxd3.api.time.Time;
 import com.github.javafxd3.api.wrapper.Element;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 import com.github.javafxd3.api.wrapper.JsArrayMixed;
@@ -351,7 +353,7 @@ public class D3 extends JavaScriptObject {
 	 * @return the {@link Geometry} module
 	 */
 	public Geometry geom() {
-		JSObject result = call("geom");
+		JSObject result = getMember("geom");
 		return new Geometry(webEngine, result);
 	};
 
@@ -359,7 +361,7 @@ public class D3 extends JavaScriptObject {
 	 * @return the {@link Geography} module
 	 */
 	public Geography geo() {
-		JSObject result = call("geo");
+		JSObject result = getMember("geo");
 		return new Geography(webEngine, result);
 	};
 
@@ -486,10 +488,10 @@ public class D3 extends JavaScriptObject {
 	/**
 	 * @return the time module
 	 */
-	//public Time time() {
-	//	JSObject result = call("time");
-	//	return new Time(webEngine, result);
-	//};
+	public Time time() {
+		JSObject result = getMember("time");
+		return new Time(webEngine, result);
+	};
 
 	// ========= events and interactions ============
 	/**
@@ -701,18 +703,19 @@ public class D3 extends JavaScriptObject {
 	 */
 	public <T> Dsv<T> csv(String url, DsvObjectAccessor<T> accessor, DsvCallback<T> callback) {
 
-		throw new IllegalStateException("not yet implemented");
-
-		/*
-		 * JSObject result = call($wnd.d3 .csv( url, function(row, index) {
-		 * return
-		 * accessor.@com.github.gwtd3.api.core.ObjectAccessor::apply(Ljava/lang/
-		 * Object;I)(row, index); }, function(error, rows) {
-		 * callback.@com.github.gwtd3.api.dsv.DsvCallback::get(Lcom/google/gwt/
-		 * core/client/JavaScriptObject;Lcom/github/gwtd3/api/dsv/DsvRows;)(
-		 * error, rows); });
-		 * 
-		 */
+		
+		String accessorMemberName = "temp_accessor_callback";
+		String dsvMemberName = "temp_dsv_callback";
+		
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(accessorMemberName, accessor);
+		jsObj.setMember(dsvMemberName, callback);
+		
+		String command = "this.csv('"+ url + "', function(row, index) { return this." + accessorMemberName + ".apply(row, index); }, "+
+				  "function(error, rows) { this." + dsvMemberName + ".get(error, rows); });";
+		JSObject result = evalForJsObject(command);
+		return new Dsv<T>(webEngine, result);		  
+		 
 	};
 
 	/**

@@ -115,7 +115,11 @@ public class GeneralUpdatePattern2 extends AbstractDemoCase {
 		selection.enter().append("text").attr("class", "enter").attr("dy", ".35em")
 				.text(new DatumFunction<String>() {
 					@Override
-					public String apply(final Element context, final Value datum, final int index) {
+					public String apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
 						return "" + datum.asChar();
 					}
 				});
@@ -128,7 +132,7 @@ public class GeneralUpdatePattern2 extends AbstractDemoCase {
 		// the enter selection will apply to both entering and updating nodes.
 		selection.attr("x", new DatumFunction<Integer>() {
 			@Override
-			public Integer apply(final Element context, final Value datum, final int index) {
+			public Integer apply(final Object context, final Object datum, final int index) {
 				return index * 32;
 			}
 		});

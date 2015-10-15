@@ -2,7 +2,6 @@ package com.github.javafxd3.api.coords;
 
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.wrapper.Element;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -80,8 +79,11 @@ public class Coords extends JavaScriptObject {
 	 */
 	public static final DatumFunction<Double> X_ACCESSOR = new DatumFunction<Double>(){
 		
-		@Override public Double apply(Element context, Value d, int index){
-			return d.<Coords>as().x();
+		@Override public Double apply(Object context, Object d, int index){
+			
+			Value datum = (Value) d;
+			
+			return datum.<Coords>as().x();
 		}
 	};
 
@@ -91,8 +93,11 @@ public class Coords extends JavaScriptObject {
 	 */
 	public static final DatumFunction<Double> Y_ACCESSOR=new DatumFunction<Double>(){
 		
-		@Override public Double apply(Element context,Value d,int index){
-			return d.<Coords>as().y();
+		@Override public Double apply(Object context,Object d,int index){
+			
+			Value datum = (Value) d;
+			
+			return datum.<Coords>as().y();
 			}
 	};
 

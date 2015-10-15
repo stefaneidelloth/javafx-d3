@@ -2,6 +2,7 @@ package com.github.javafxd3.api.geom;
 
 import java.util.List;
 
+import com.github.javafxd3.api.arrays.ArrayUtils;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -87,9 +88,10 @@ public class Geometry extends JavaScriptObject {
      * @return the {@link Polygon} object
      */
     public Polygon polygon(Double[][] vertices){
-    	throw new IllegalStateException("not yet implemented");
-    	//JSObject result = call("polygon", vertices);
-    	//return new Polygon(webEngine, result);			
+    	String arrayString = ArrayUtils.createArrayString(vertices);
+    	String command = "this.polygon(" + arrayString+ ")";
+    	JSObject result = evalForJsObject(command);
+    	return new Polygon(webEngine, result);			
     }
 
     /**

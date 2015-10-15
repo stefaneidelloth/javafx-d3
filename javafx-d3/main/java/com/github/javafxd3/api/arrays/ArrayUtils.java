@@ -93,6 +93,25 @@ public class ArrayUtils {
 	 * @param numbers
 	 * @return
 	 */
+	public static String createArrayString(Double[][] numbers) {
+		List<String> list = new java.util.ArrayList<>();
+    	for (Double[] numberRow: numbers){
+    		List<String> rowList = new java.util.ArrayList<>();    		
+    		for (Double number: numberRow){    			
+        		rowList.add(""+number);
+        	}
+    		String rowString = "[" + String.join(",", rowList) + "]";    		
+    		list.add(rowString);
+    	}
+    	String arrayString = "[" + String.join(",", list) + "]";
+		return arrayString;
+	}
+	
+	/**
+	 * Creates a string that contains the given values as array in square brackets
+	 * @param numbers
+	 * @return
+	 */
 	public static String createArrayString(double... numbers) {
 		List<String> list = new java.util.ArrayList<>();
     	for (Object number: numbers){

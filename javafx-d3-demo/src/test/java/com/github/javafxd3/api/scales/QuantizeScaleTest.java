@@ -2,6 +2,8 @@ package com.github.javafxd3.api.scales;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 
@@ -12,6 +14,7 @@ public class QuantizeScaleTest extends AbstractTestCase {
 	private static final double DELTA = 0.001d;
 
 	@Override
+	@Test
 	public void doTest() {
 		
 		D3 d3 = new D3(webEngine);

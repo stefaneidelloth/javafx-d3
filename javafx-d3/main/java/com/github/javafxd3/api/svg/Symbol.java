@@ -128,12 +128,13 @@ public class Symbol extends PathDataGenerator {
      */
     public  Symbol type(Type type){
     	
-    	throw new IllegalStateException("not yet implemented");
-    	/*
-		return this
-				.type(type.@com.github.gwtd3.api.svg.Symbol.Type::getValue()());
+    	    	
+    	String value = type.getValue();
+		String command = "this.type('"+value+"');";
+		JSObject result = evalForJsObject(command);
+		return new Symbol(webEngine, result);
 				
-		*/
+		
     }
 
     /**
@@ -166,8 +167,9 @@ public class Symbol extends PathDataGenerator {
      *            the size in square pixels
      * @return this instance for chaining
      */
-    public  Symbol size(int sizeInSquarePixels){
-		return this.size(sizeInSquarePixels);
+    public  Symbol size(int sizeInSquarePixels){		
+		JSObject result = call("size", sizeInSquarePixels);
+		return new Symbol(webEngine, result);
     }
 
     /**

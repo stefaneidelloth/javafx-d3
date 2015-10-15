@@ -76,8 +76,12 @@ public class ClusterDendogram extends AbstractDemoCase {
 
 		final Diagonal diagonal = d3.svg().diagonal().projection(new DatumFunction<Double[]>() {
 			@Override
-			public Double[] apply(final Element context, final Value value, final int index) {
-				return new Double[]{value.asCoords().y(), value.asCoords().x()};
+			public Double[] apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				return new Double[]{datum.asCoords().y(), datum.asCoords().x()};
 			}
 		});
 

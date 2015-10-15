@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.arrays.ArrayUtils;
+import com.github.javafxd3.api.dsv.Dsv;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.functions.KeyFunction;
 import com.github.javafxd3.api.svg.PathDataGenerator;
@@ -856,8 +857,8 @@ public class Selection extends EnteringSelection {
 	 *            the new value to set
 	 * @return the current selection
 	 */
-	public Selection html(String value) {
-		JSObject result = call("html", value);
+	public Selection html(String value) {				
+		JSObject result = call("html", value);		
 		return new Selection(webEngine, result);
 	}
 
@@ -1642,16 +1643,22 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public Selection on(String eventType, DatumFunction<Void> listener) {
-
-		throw new IllegalStateException("not yet implemented");
-
-		/*
-		 * var l = listener == null ? null : function(d, i) {
-		 * listener.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); }; return this.on(eventType, l);
-		 * 
-		 */
+		
+		String listenerName = "temp_listener_callback";
+		
+		
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(listenerName, listener);
+					
+		String command = "var listenerObj = this."+listenerName+" == null ? null : "
+				+ "function(d, i) {this."+listenerName+".apply(this,{datum:d},i); }; ";
+		
+		eval(command);
+		String onCommand = "this.on('"+ eventType +"', listenerObj);";
+		 
+		JSObject result = evalForJsObject(onCommand);
+		return new Selection(webEngine, result);	
+		
 	}
 
 	/**

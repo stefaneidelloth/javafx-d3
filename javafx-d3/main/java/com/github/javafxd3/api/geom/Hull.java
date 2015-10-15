@@ -2,6 +2,7 @@ package com.github.javafxd3.api.geom;
 
 import java.util.List;
 
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
@@ -45,14 +46,16 @@ public class Hull extends JavaScriptObject {
 	 */
 	public Hull x(DatumFunction<Double> xAccessor) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .x(function(d, i) { return
-		 * xAccessor.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		String accessorName = "temp_xAccessor_callback";
+
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(accessorName, xAccessor);
+
+		String command = "this.x(function(d, i) { return this." + accessorName + ".apply(this,{datum:d},i); });";
+
+		JSObject result = evalForJsObject(command);
+		return new Hull(webEngine, result);
+
 	}
 
 	/**
@@ -67,15 +70,17 @@ public class Hull extends JavaScriptObject {
 	 */
 
 	public Hull y(DatumFunction<Double> yAccessor) {
+		
+		String accessorName = "temp_yAccessor_callback";
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .y(function(d, i) { return
-		 * yAccessor.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(accessorName, yAccessor);
+
+		String command = "this.y(function(d, i) { return this." + accessorName + ".apply(this,{datum:d},i); });";
+
+		JSObject result = evalForJsObject(command);
+		return new Hull(webEngine, result);
+		
 	}
 
 	/**
@@ -91,9 +96,18 @@ public class Hull extends JavaScriptObject {
 	 *            the array of vertices
 	 * @return the convex hull as an array of vertices
 	 */
-	public <T> T[] apply(T[] vertices) {
-		throw new IllegalStateException("not yet implemented");
-		// return this(vertices);
+	public <T> Array<T> apply(Array<T> vertices) {
+		JSObject arrayObj = vertices.getJsObject();
+		String tempVarName = "temp__var";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(tempVarName, arrayObj);
+		String command = "this(this." + tempVarName + ")";
+		JSObject result = evalForJsObject(command);
+		
+		jsObj.removeMember(tempVarName);
+		
+		return new Array<T>(webEngine, result);
+		
 	}
 
 	/**
@@ -109,9 +123,8 @@ public class Hull extends JavaScriptObject {
 	 *            the array of vertices
 	 * @return the convex hull as an array of vertices
 	 */
-	public final <T> List<T> apply(List<T> vertices) {
-		throw new IllegalStateException("not yet implemented");
-		// return this.apply(Array.fromIterable(vertices)).asList();
+	public final <T> Array<T> apply(List<T> vertices) {		
+		return this.apply(Array.fromList(webEngine, vertices));
 	}
 
 }

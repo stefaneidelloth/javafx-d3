@@ -50,12 +50,12 @@ public class PropertyValueFunction<T> implements DatumFunction<T> {
 	}
 
 	@Override
-	public T apply(final Element context, final Value d, final int index) {
+	public T apply(final Object context, final Object d, final int index) {
 		Value value = getProperty(propertyName, d);		
 		return value.as();
 	}
 
-	private static  Value getProperty(String propName, Value v){
+	private static  Value getProperty(String propName, Object v){
 		
 		throw new IllegalStateException("not yet implemented");
 		//JsObject result = evalForJsObject(command);

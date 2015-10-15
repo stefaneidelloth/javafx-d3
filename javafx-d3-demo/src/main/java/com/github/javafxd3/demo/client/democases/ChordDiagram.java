@@ -171,7 +171,7 @@ public class ChordDiagram extends AbstractDemoCase {
 	private DatumFunction<Void> fade(final Selection svg, final double opacity) {
 		return new DatumFunction<Void>() {
 			@Override
-			public Void apply(final Element context, final Value d, final int i) {
+			public Void apply(final Object context, final Object d, final int i) {
 
 				Selection selection = svg.selectAll("." + "chord" + " path");
 

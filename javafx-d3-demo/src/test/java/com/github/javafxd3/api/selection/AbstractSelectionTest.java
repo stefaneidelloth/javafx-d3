@@ -22,7 +22,7 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 * @return the selection containing only the given widget
 	 */
 	protected Selection givenASimpleSelection(D3NodeFactory nodeFactory) {
-		Selection root = clearRoot();				
+		Selection root = clearSvg();				
 		Selection newNode = nodeFactory.create(root);		
 		return newNode;
 	}
@@ -35,7 +35,7 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 * @return
 	 */
 	protected Selection givenAMultipleSelection(final D3NodeFactory... nodeFactories) {
-		Selection root = clearRoot();	
+		Selection root = clearSvg();	
 		for (D3NodeFactory nodeFactory : nodeFactories) {
 			nodeFactory.create(root);
 		}
@@ -49,7 +49,7 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 * @return
 	 */
 	public Selection getElement(final int index) {
-		return getRoot().get(index);
+		return getSvg().get(index);
 	}
 
 	/**

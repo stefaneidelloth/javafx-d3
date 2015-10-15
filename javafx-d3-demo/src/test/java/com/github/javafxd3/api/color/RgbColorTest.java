@@ -4,6 +4,8 @@ package com.github.javafxd3.api.color;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 
 /**
@@ -13,6 +15,7 @@ public class RgbColorTest extends AbstractTestCase {
 
 	
 	@Override
+	@Test
 	public void doTest() {
 		
 		Colors colors = new Colors(webEngine);

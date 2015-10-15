@@ -162,19 +162,26 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 
 				brush = d3.svg().brush().x(x).y(y).on(BrushEvent.BRUSH_START, new DatumFunction<Void>() {
 					@Override
-					public Void apply(final Element context, final Value d, final int index) {
-						brushstart(context, d.<Point> as());
+					public Void apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						brushstart(element, datum.<Point> as());
 						return null;
 					}
 				}).on(BrushEvent.BRUSH, new DatumFunction<Void>() {
 					@Override
-					public Void apply(final Element context, final Value d, final int index) {
-						brushmove(d.<Point> as());
+					public Void apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;
+						
+						brushmove(datum.<Point> as());
 						return null;
 					}
 				}).on(BrushEvent.BRUSH_END, new DatumFunction<Void>() {
 					@Override
-					public Void apply(final Element context, final Value d, final int index) {
+					public Void apply(final Object context, final Object d, final int index) {
 						brushend();
 						return null;
 					}
@@ -187,14 +194,18 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				svg.selectAll(".x." + "axis").data(traits).enter().append("g").attr("class", "x " + "axis")
 						.attr("transform", new DatumFunction<String>() {
 					@Override
-					public String apply(final Element context, final Value d, final int index) {
+					public String apply(final Object context, final Object d, final int index) {
 						return "translate(" + (n - index - 1) * size + ",0)";
 					}
 				}).each(new DatumFunction<Void>() {
 					@Override
-					public Void apply(final Element context, final Value d, final int index) {
-						x.domain(domainByTrait.get(d.asString()));
-						d3.select(context).call(xAxis);
+					public Void apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						x.domain(domainByTrait.get(datum.asString()));
+						d3.select(element).call(xAxis);
 						return null;
 					}
 				});
@@ -202,14 +213,18 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				svg.selectAll(".y." + "axis").data(traits).enter().append("g").attr("class", "y " + "axis")
 						.attr("transform", new DatumFunction<String>() {
 					@Override
-					public String apply(final Element context, final Value d, final int index) {
+					public String apply(final Object context, final Object d, final int index) {
 						return "translate(0," + index * size + ")";
 					}
 				}).each(new DatumFunction<Void>() {
 					@Override
-					public Void apply(final Element context, final Value d, final int index) {
-						y.domain(domainByTrait.get(d.asString()));
-						d3.select(context).call(yAxis);
+					public Void apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						y.domain(domainByTrait.get(datum.asString()));
+						d3.select(element).call(yAxis);
 						return null;
 					}
 				});
@@ -217,13 +232,21 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				Selection cell = svg.selectAll(".cell").data(cross(traits, traits)).enter().append("g")
 						.attr("class", "cell").attr("transform", new DatumFunction<String>() {
 					@Override
-					public String apply(final Element context, final Value d, final int index) {
-						return "translate(" + (n - d.<Point> as().i - 1) * size + "," + d.<Point> as().j * size + ")";
+					public String apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						return "translate(" + (n - datum.<Point> as().i - 1) * size + "," + datum.<Point> as().j * size + ")";
 					}
 				}).each(new DatumFunction<Void>() {
 					@Override
-					public Void apply(final Element context, final Value d, final int index) {
-						plot(context, d.<Point> as(), data);
+					public Void apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						plot(element, datum.<Point> as(), data);
 						return null;
 					}
 				});
@@ -231,14 +254,22 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				// Titles for the diagonal.
 				cell.filter(new DatumFunction<Element>() {
 					@Override
-					public Element apply(final Element context, final Value d, final int index) {
-						return d.<Point> as().i == d.<Point> as().j ? context : null;
+					public Element apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						return datum.<Point> as().i == datum.<Point> as().j ? element : null;
 					}
 				}).append("text").attr("x", padding).attr("y", padding).attr("dy", ".71em")
 						.text(new DatumFunction<String>() {
 					@Override
-					public String apply(final Element context, final Value d, final int index) {
-						return d.<Point> as().x;
+					public String apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						return datum.<Point> as().x;
 					}
 				});
 
@@ -266,22 +297,34 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 
 		cell.selectAll("circle").data(data).enter().append("circle").attr("cx", new DatumFunction<String>() {
 			@Override
-			public String apply(final Element context, final Value d, final int index) {
-				Value v = d.<DsvRow> as().get(p.x);
+			public String apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				Value v = datum.<DsvRow> as().get(p.x);
 				String asString = x.apply(v.asDouble()).asString();
 				return asString;
 			}
 		}).attr("cy", new DatumFunction<String>() {
 			@Override
-			public String apply(final Element context, final Value d, final int index) {
-				double asDouble = d.<DsvRow> as().get(p.y).asDouble();
+			public String apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				double asDouble = datum.<DsvRow> as().get(p.y).asDouble();
 				String asString = y.apply(asDouble).asString();
 				return asString;
 			}
 		}).attr("r", 3).style("fill", new DatumFunction<String>() {
 			@Override
-			public String apply(final Element context, final Value d, final int index) {
-				return color.apply(d.<DsvRow> as().get("species").asString()).asString();
+			public String apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				return color.apply(datum.<DsvRow> as().get("species").asString()).asString();
 			}
 		});
 	}
@@ -302,10 +345,14 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 		final Double[][] e = brush.extent();
 		svg.selectAll("circle").classed("hidden", new DatumFunction<Boolean>() {
 			@Override
-			public Boolean apply(final Element context, final Value d, final int index) {
+			public Boolean apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
 				// the plot coords
-				double px = d.<DsvRow> as().get(p.x).asDouble();
-				double py = d.<DsvRow> as().get(p.y).asDouble();
+				double px = datum.<DsvRow> as().get(p.x).asDouble();
+				double py = datum.<DsvRow> as().get(p.y).asDouble();
 				// the extent of the brush
 				double ex0 = e[0][0];
 				double ey0 = e[0][1];

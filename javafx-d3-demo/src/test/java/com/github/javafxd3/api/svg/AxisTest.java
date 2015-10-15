@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Selection;
@@ -21,7 +23,8 @@ public class AxisTest extends AbstractTestCase {
 	
 	
 
-    @Override
+	@Override
+	@Test
     public void doTest() {
     	
     	D3 d3 = new D3(webEngine);
@@ -61,7 +64,7 @@ public class AxisTest extends AbstractTestCase {
         // FIXME: smoke test to be cross checked
         DatumFunction<String> f = new DatumFunction<String>() {
             @Override
-            public String apply(final Element context, final Value d, final int index) {
+            public String apply(final Object context, final Object d, final int index) {
                 return "index" + index;
             }
         };
@@ -113,8 +116,12 @@ public class AxisTest extends AbstractTestCase {
         axis.tickFormat(new DatumFunction<String>() {
 
             @Override
-            public String apply(final Element context, final Value d, final int index) {
-                System.out.println("INDEX " + index + " " + d.as());
+            public String apply(final Object context, final Object d, final int index) {
+            	
+            	Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+                System.out.println("INDEX " + index + " " + datum.as());
                 assertTrue(index >= 0 && index < 4);
                 counter.append("x");
                 if (index % 2 == 0) {

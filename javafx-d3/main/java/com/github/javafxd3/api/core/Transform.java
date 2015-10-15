@@ -194,6 +194,12 @@ public class Transform extends JavaScriptObject {
 		//return this.scale;
 	}
 	
+	public String toString(){
+		String command = "this.toString()";
+		String result = evalForString(command);
+		return result;
+	}
+	
 	//#end region
 
 }

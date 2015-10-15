@@ -100,7 +100,7 @@ public class JavaFxD3Browser extends Region {
 			boolean isSucceeded = (newState == Worker.State.SUCCEEDED);
 			if (isSucceeded) {
 				executeInitalJavaScriptToSetUpD3Wrapper();
-				postLoadingFinishedHook.run();
+				postLoadingFinishedHook.run();				
 			}
 
 			boolean isFailed = (newState == Worker.State.FAILED);
@@ -143,7 +143,7 @@ public class JavaFxD3Browser extends Region {
 	private String createInitialBrowserContent() {
 		String htmlContent = "<!DOCTYPE html>\n" + 
 							 "<meta charset=\"utf-8\">\n" + 							
-							 "<svg id=\"root\" class=\"root\"></svg>\n";
+							 "<svg id=\"svg\" class=\"svg\"></svg>\n";
 		return htmlContent;
 	}
 
@@ -152,6 +152,22 @@ public class JavaFxD3Browser extends Region {
 		// inject d3 into web engine
 		String d3Content = getD3ContentFromFile("d3.js");
 		webEngine.executeScript(d3Content);
+		
+		// inject firebug, see https://stackoverflow.com/questions/9398879/html-javascript-debugging-in-javafx-webview
+		String fireBugCommand = "if (!document.getElementById('FirebugLite')){"
+				+ "E = document['createElement' + 'NS'] && "
+				+ "document.documentElement.namespaceURI;E = E ? "
+				+ "document['createElement' + 'NS'](E, 'script') : "
+				+ "document['createElement']('script');"
+				+ "E['setAttribute']('id', 'FirebugLite');"
+				+ "E['setAttribute']('src', 'https://getfirebug.com/' + 'firebug-lite.js' + '#startOpened');"
+				+ "E['setAttribute']('FirebugLite', '4');"
+				+ "(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);"
+				+ "E = new Image;"
+				+ "E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');"
+				+ "}";
+		
+		webEngine.executeScript(fireBugCommand);
 
 		// create d3 wrapper
 		d3 = new D3(webEngine);
@@ -167,10 +183,10 @@ public class JavaFxD3Browser extends Region {
 
 		d3.createJsVariable("x", x);
 
-		Selection root = d3.select(".root").attr("width", width).attr("height", barHeight * data.length);
+		Selection svg = d3.select(".svg").attr("width", width).attr("height", barHeight * data.length);
 			
 		String expression = "function(d, i) { return \"translate(0,\" + i *" + barHeight + " + \")\"; }";
-		Selection bar = root.selectAll("g").data(data).enter().append("g").attrExpression("transform", expression);
+		Selection bar = svg.selectAll("g").data(data).enter().append("g").attrExpression("transform", expression);
 
 		Selection rect = bar.append("rect").attr("width", x).attr("height", barHeight - 1);
 		String rectStyle = "fill: steelblue;";

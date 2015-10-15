@@ -3,6 +3,8 @@ package com.github.javafxd3.api.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 
 /**
@@ -12,6 +14,7 @@ import com.github.javafxd3.api.AbstractTestCase;
 public class TransformTest extends AbstractTestCase {
 
 	@Override
+	@Test
 	public void doTest() {
 		
 		Transform transform = new Transform(webEngine);

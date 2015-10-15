@@ -2,6 +2,8 @@ package com.github.javafxd3.api.selection;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.coords.Coords;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
@@ -19,6 +21,7 @@ public class SelectionPropertyTest extends AbstractSelectionTest {
 	private static final Double DELTA = 1e-4;
 
 	@Override
+	@Test
 	public void doTest() {
 		testGetter();
 		testSetterConstantBoolean();
@@ -38,7 +41,7 @@ public class SelectionPropertyTest extends AbstractSelectionTest {
 		final double value = 1.56;
 		selection.property(SelectionPropertyTest.PROPERTY, new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value datum, final int index) {
+			public Double apply(final Object context, final Object datum, final int index) {
 				return value;
 			}
 		});
@@ -48,7 +51,7 @@ public class SelectionPropertyTest extends AbstractSelectionTest {
 		Selection selection2 = givenAMultipleSelection(new Label(), new Label(), new Label());
 		selection2.property(SelectionPropertyTest.PROPERTY, new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value datum, final int index) {
+			public Double apply(final Object context, final Object datum, final int index) {
 				return value;
 			}
 		});
@@ -62,7 +65,7 @@ public class SelectionPropertyTest extends AbstractSelectionTest {
 		final String value = "1";
 		selection.property(SelectionPropertyTest.PROPERTY, new DatumFunction<String>() {
 			@Override
-			public String apply(final Element context, final Value datum, final int index) {
+			public String apply(final Object context, final Object datum, final int index) {
 				return value;
 			}
 		});
@@ -72,7 +75,7 @@ public class SelectionPropertyTest extends AbstractSelectionTest {
 		Selection selection2 = givenAMultipleSelection(new Label(), new Label(), new Label());
 		selection2.property(SelectionPropertyTest.PROPERTY, new DatumFunction<String>() {
 			@Override
-			public String apply(final Element context, final Value datum, final int index) {
+			public String apply(final Object context, final Object datum, final int index) {
 				return value;
 			}
 		});

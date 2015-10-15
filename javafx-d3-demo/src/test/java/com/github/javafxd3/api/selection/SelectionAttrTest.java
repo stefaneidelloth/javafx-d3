@@ -1,13 +1,14 @@
 package com.github.javafxd3.api.selection;
 
-import static org.junit.Assert.assertEquals;
+import java.util.ArrayList;
+
+import org.junit.Test;
 
 import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.svg.PathDataGenerator;
 import com.github.javafxd3.api.wrapper.D3NodeFactory;
-import com.github.javafxd3.api.wrapper.Element;
+import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 @SuppressWarnings("javadoc")
 public class SelectionAttrTest extends AbstractSelectionTest {
@@ -15,6 +16,7 @@ public class SelectionAttrTest extends AbstractSelectionTest {
 	private static final String ATTRIBUTE = "myattr";
 
 	@Override
+	@Test
 	public void doTest() {
 		testGetter();
 		testSetterConstantBoolean();
@@ -32,7 +34,7 @@ public class SelectionAttrTest extends AbstractSelectionTest {
 		
 		selection.attr(ATTRIBUTE, new DatumFunction<String>() {
 			@Override
-			public String apply(final Element context, final Value datum, final int index) {
+			public String apply(final Object context, final Object datum, final int index) {
 				return value;
 			}
 		});
@@ -42,7 +44,7 @@ public class SelectionAttrTest extends AbstractSelectionTest {
 		Selection selection2 = givenAMultipleSelection(new Label(), new Label(), new Label());
 		selection2.attr(ATTRIBUTE, new DatumFunction<String>() {
 			@Override
-			public String apply(final Element context, final Value datum, final int index) {
+			public String apply(final Object context, final Object datum, final int index) {
 				return value;
 			}
 		});
@@ -104,7 +106,7 @@ public class SelectionAttrTest extends AbstractSelectionTest {
 		// works with single selection
 		Selection selection = givenASimpleSelection(new Label());
 		selection.attr(SelectionAttrTest.ATTRIBUTE, generator);
-		String expectedValue = generator.generate(new Object[]{});
+		String expectedValue = generator.generate(new ArrayList<JavaScriptObject>());
 		assertEquals(expectedValue, getElementAttribute(0, ATTRIBUTE));
 
 		// works with multiple selection

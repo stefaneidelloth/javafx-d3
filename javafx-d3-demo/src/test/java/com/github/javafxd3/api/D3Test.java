@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Test;
 
 
 @SuppressWarnings("javadoc")
@@ -25,6 +26,7 @@ public class D3Test extends AbstractTestCase {
 
 	
 	@Override
+	@Test
 	public void doTest() {
 		// version
 		version();

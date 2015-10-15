@@ -175,7 +175,12 @@ public class JavaScriptObject {
 				throw new IllegalStateException(message);
 			}
 		}
-		String message = "The result type '" + resultObj.getClass().getName() + "' is not yet implemented";
+		
+		String typeString = "null";
+		if (resultObj!=null){
+			typeString = resultObj.getClass().getName();
+		}
+		String message = "The result type '" + typeString + "' is not yet implemented for method '" + methodName + "'";
 		throw new IllegalStateException(message);
 	}
 

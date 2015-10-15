@@ -6,11 +6,10 @@ import java.util.List;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Transition.EventType;
-import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.geo.ConicProjection;
+import com.github.javafxd3.api.geo.Projection;
 import com.github.javafxd3.api.geom.Polygon;
-import com.github.javafxd3.api.wrapper.Element;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
@@ -25,36 +24,36 @@ import javafx.scene.layout.VBox;
  */
 public class ShapeTweeningDemo extends AbstractDemoCase {
 
-	
-	//#region ATTRIBUTES
-	
+	// #region ATTRIBUTES
+
 	private Selection svg;
-	private ConicProjection projection;
+	private Projection<?> projection;
 	private Selection path;
-	
-	//#end region
-	
-	//#region CONSTRUCTORS
+
+	// #end region
+
+	// #region CONSTRUCTORS
 
 	/**
 	 * Constructor
+	 * 
 	 * @param d3
 	 * @param demoPreferenceBox
 	 */
 	public ShapeTweeningDemo(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
-		//@Source("ShapeTweeningDemo.css")
-				//@Source("california.json")
-				// demo, intersection
+		// @Source("ShapeTweeningDemo.css")
+		// @Source("california.json")
+		// demo, intersection
 	}
-	
 
-	//#end region
-	
-	//#region METHODS
-	
+	// #end region
+
+	// #region METHODS
+
 	/**
 	 * Factory provider
+	 * 
 	 * @param d3
 	 * @param demoPreferenceBox
 	 * @return
@@ -67,19 +66,18 @@ public class ShapeTweeningDemo extends AbstractDemoCase {
 			}
 		};
 	}
-	
 
-	
 	@Override
 	public void start() {
-		int width = 960, height = 500;
+		int width = 960;
+		int height = 500;
 
-		projection = d3.geo().albers().rotate(120, 0).center(0, 37.7)
-				.scale(2700);
-
-		svg = d3.select("root").append("svg").attr("width", width)
-				.attr("height", height)
-				.attr("class", "demo");
+		ConicProjection albers = d3.geo().albers();
+		Projection<?> rotated = albers.rotate(120, 0);
+		Projection<?> centered = rotated.center(0, 37.7);
+		projection = centered.scale(2700);
+		 
+		svg = d3.select("svg").attr("width", width).attr("height", height).attr("class", "demo");
 
 		Double[][] coordinates0 = parseJSONToArray();
 		Double[][] coordinates1 = circle(coordinates0);
@@ -87,7 +85,6 @@ public class ShapeTweeningDemo extends AbstractDemoCase {
 		path = svg.append("path");
 		String d0 = "M" + join(coordinates0, "L") + "Z";
 		String d1 = "M" + join(coordinates1, "L") + "Z";
-
 
 		// FIXME: polygon.clip exemple
 		// Polygon intersection = d3.geom().polygon(coordinates0)
@@ -100,43 +97,43 @@ public class ShapeTweeningDemo extends AbstractDemoCase {
 
 		loop(d0, d1);
 	}
-	
+
 	@Override
 	public void stop() {
 	}
 
 	private String join(final Double[][] coords, final String delimiter) {
 		String s = "";
-		for (int i = 0; i<(coords.length-1); i++) {
+		for (int i = 0; i < (coords.length - 1); i++) {
 			s += coords[i][0] + "," + coords[i][1] + "L";
 		}
-		s += coords[coords.length-1][0] + "," + coords[coords.length-1][1];
+		s += coords[coords.length - 1][0] + "," + coords[coords.length - 1][1];
 		return s;
 	}
 
 	private Double[][] parseJSONToArray() {
-		
-		String jsonText = ""; //TODO
-		
-		//JSONValue value = JSONParser.parseLenient(jsonText);
-		//JSONArray array = value.isObject().get("coordinates").isArray();
-		
-		//return array.get(0).isArray().getJavaScriptObject().<Object[]> cast()	.map(projection);
-		return new Double[][]{};
+
+		String jsonText = ""; // TODO
+
+		// JSONValue value = JSONParser.parseLenient(jsonText);
+		// JSONArray array = value.isObject().get("coordinates").isArray();
+
+		// return array.get(0).isArray().getJavaScriptObject().<Object[]> cast()
+		// .map(projection);
+		return new Double[][] {};
 
 	}
 
 	private void loop(final String d0, final String d1) {
 
-		path.attr("d", d0).transition().duration(5000).attr("d", d1)
-		.transition().delay(5000).attr("d", d0)
-		.each(EventType.END, new DatumFunction<Void>() {
-			@Override
-			public Void apply(final Element context, final Value d, final int index) {
-				loop(d0, d1);
-				return null;
-			}
-		});
+		path.attr("d", d0).transition().duration(5000).attr("d", d1).transition().delay(5000).attr("d", d0)
+				.each(EventType.END, new DatumFunction<Void>() {
+					@Override
+					public Void apply(final Object context, final Object d, final int index) {
+						loop(d0, d1);
+						return null;
+					}
+				});
 
 	}
 
@@ -178,18 +175,14 @@ public class ShapeTweeningDemo extends AbstractDemoCase {
 			double angle = angleOffset + (lengths.get(i) * k);
 			double first = (double) centroid.get(0) + (radius * Math.cos(angle));
 			double second = (double) centroid.get(1) + (radius * Math.sin(angle));
-			
-			circle.add(new Double[]{first,second});
+
+			circle.add(new Double[] { first, second });
 		}
-		
+
 		Double[][] circleArray = (Double[][]) circle.toArray();
 
 		return circleArray;
 	}
 
-	
-
-	
-	
-	//#end region
+	// #end region
 }

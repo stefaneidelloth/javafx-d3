@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Random;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Selection;
@@ -17,6 +19,7 @@ public class EasingTest extends AbstractTestCase {
 	private static final double DELTA = 0.001d;
 		
 	@Override
+	@Test
 	public void doTest() {
 		
 		

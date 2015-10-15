@@ -112,7 +112,7 @@ public class GeneralUpdatePattern3 extends AbstractDemoCase {
 		selection.attr("class", "updateD3Content").transition().duration(750).attr("x",
 				new DatumFunction<Integer>() {
 					@Override
-					public Integer apply(final Element context, final Value d, final int index) {
+					public Integer apply(final Object context, final Object d, final int index) {
 						return index * 32;
 					}
 				});
@@ -122,12 +122,16 @@ public class GeneralUpdatePattern3 extends AbstractDemoCase {
 		selection.enter().append("text").attr("class", "enter").attr("dy", ".35em").attr("y", -60)
 				.attr("x", new DatumFunction<Integer>() {
 					@Override
-					public Integer apply(final Element context, final Value d, final int index) {
+					public Integer apply(final Object context, final Object d, final int index) {
 						return index * 32;
 					}
 				}).style("fill-opacity", 0.01D).text(new DatumFunction<String>() {
 					@Override
-					public String apply(final Element context, final Value datum, final int index) {
+					public String apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
 						return Character.toString(datum.asChar());
 					}
 				})

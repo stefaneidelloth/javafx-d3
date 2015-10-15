@@ -2,6 +2,8 @@ package com.github.javafxd3.api.scales;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Value;
@@ -12,6 +14,7 @@ import com.github.javafxd3.api.wrapper.Element;
 public class LogScaleTest extends AbstractTestCase {
 
 	@Override
+	@Test
 	public void doTest() {
 		
 		D3 d3 = new D3(webEngine);
@@ -100,8 +103,12 @@ public class LogScaleTest extends AbstractTestCase {
 		assertEquals("$50.00", scale.tickFormat(20, "$,.2f").format(50));
 		String format = scale.tickFormat(20, new DatumFunction<String>() {
 			@Override
-			public String apply(Element context, Value d, int index) {
-				System.out.println("FORMATTER " + d.asDouble());
+			public String apply(Object context, Object d, int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				System.out.println("FORMATTER " + datum.asDouble());
 				return "blah";
 			}
 		}).format(50);

@@ -116,7 +116,11 @@ public class ZoomDemo extends AbstractDemoCase {
 	public class OnZoom implements DatumFunction<Void> {
 
 		@Override
-		public Void apply(final Element context, final Value d, final int index) {
+		public Void apply(final Object context, final Object d, final int index) {
+			
+			Value datum = (Value) d;						
+			Element element =(Element) context;
+			
 
 			// print the current scale and translate
 			scaleLabel.text("scale:" + d3.zoomEvent().scale());

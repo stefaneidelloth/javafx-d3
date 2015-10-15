@@ -120,18 +120,30 @@ public class BarChart extends AbstractDemoCase {
 				svg.selectAll("." + "bar").data(data).enter().append("rect").attr("class", "bar")
 						.attr("x", new DatumFunction<Double>() {
 					@Override
-					public Double apply(final Element context, final Value d, final int index) {
-						return x.apply(d.<Data> as().getLetter()).asDouble();
+					public Double apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						return x.apply(datum.<Data> as().getLetter()).asDouble();
 					}
 				}).attr("width", x.rangeBand()).attr("y", new DatumFunction<Double>() {
 					@Override
-					public Double apply(final Element context, final Value d, final int index) {
-						return y.apply(d.<Data> as().getFrequency()).asDouble();
+					public Double apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						return y.apply(datum.<Data> as().getFrequency()).asDouble();
 					}
 				}).attr("height", new DatumFunction<Double>() {
 					@Override
-					public Double apply(final Element context, final Value d, final int index) {
-						return height - y.apply(d.<Data> as().getFrequency()).asDouble();
+					public Double apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						return height - y.apply(datum.<Data> as().getFrequency()).asDouble();
 					}
 				});
 			}

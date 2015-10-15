@@ -2,6 +2,8 @@ package com.github.javafxd3.api.transition;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.color.Colors;
 import com.github.javafxd3.api.color.HSLColor;
@@ -20,6 +22,7 @@ public class InterpolatorsTest extends AbstractTestCase {
 	private static final double DELTA = 0.001;
 
 	@Override
+	@Test
 	public void doTest() {
 		testD3InterpolateNumber();
 		testD3InterpolateRound();

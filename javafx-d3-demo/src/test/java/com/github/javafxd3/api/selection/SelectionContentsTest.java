@@ -3,12 +3,15 @@ package com.github.javafxd3.api.selection;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.core.Selection;
 
 @SuppressWarnings("javadoc")
 public class SelectionContentsTest extends AbstractSelectionTest {
 
 	@Override
+	@Test
 	public void doTest() {
 		testRemove();
 		testInsert();
@@ -17,7 +20,7 @@ public class SelectionContentsTest extends AbstractSelectionTest {
 
 	
 	private void testRemove() {
-		clearRoot();
+		clearSvg();
 		Selection selection = givenAMultipleSelection(new Label(), new Label(), new Label());
 		
 		// we gonna insert sub elements into the divs
@@ -30,18 +33,18 @@ public class SelectionContentsTest extends AbstractSelectionTest {
 		assertEquals(0, selection.node().getChildCount());
 
 		// GIVEN 3 divs, the last div is a blahblah class
-		clearRoot();
+		clearSvg();
 		for (int i = 0; i < 3; i++) {
 			selection = d3.select("#root").append("div");
 		}
 		selection.classed("blahblah", true);
 		assertEquals(1, selection.size());
-		assertEquals(3, getRoot().node().getChildCount());
+		assertEquals(3, getSvg().node().getChildCount());
 		// WHEN I remove the blahblah div from the selection
 		selection = d3.select("#root").selectAll(".blahblah");
 		selection.remove();
 		// THEN it remove from the DOM
-		assertEquals(2, getRoot().node().getChildCount());
+		assertEquals(2, getSvg().node().getChildCount());
 		// BUT remains in the selection
 		assertEquals(1, selection.size());
 	}
@@ -68,7 +71,7 @@ public class SelectionContentsTest extends AbstractSelectionTest {
 	private void testAppend() {
 		Selection selection = givenAMultipleSelection(new Label(), new Label());
 		assertEquals(2, selection.size());
-		assertEquals(getRoot().node(), selection.node().getParentElement());
+		assertEquals(getSvg().node(), selection.node().getParentElement());
 		Selection selection2 = selection.append("div");
 		assertEquals(2, selection.size());
 		assertNotNull(selection.node());

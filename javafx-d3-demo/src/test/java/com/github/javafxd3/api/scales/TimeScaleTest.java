@@ -1,5 +1,7 @@
 package com.github.javafxd3.api.scales;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 
 @SuppressWarnings("javadoc")
@@ -8,6 +10,7 @@ public class TimeScaleTest extends AbstractTestCase {
 	
 
 	@Override
+	@Test
 	public void doTest() {
 		
 		//D3 d3 = new D3(webEngine);

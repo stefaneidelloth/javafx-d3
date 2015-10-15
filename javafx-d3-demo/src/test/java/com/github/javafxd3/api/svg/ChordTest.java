@@ -2,6 +2,8 @@ package com.github.javafxd3.api.svg;
 
 import java.sql.Array;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Value;
@@ -13,6 +15,7 @@ import com.github.javafxd3.api.wrapper.Element;
 public class ChordTest extends AbstractTestCase {
 
 	@Override
+	@Test
 	public void doTest() {
 		
 		D3 d3 = new D3(webEngine);
@@ -26,14 +29,14 @@ public class ChordTest extends AbstractTestCase {
 
 		chord.source(new DatumFunction<ChordDef>() {
 			@Override
-			public ChordDef apply(Element context, Value d, int index) {
+			public ChordDef apply(Object context, Object d, int index) {
 				System.out.println("source" + d);
 				return new ChordDef(index * 5, index * 5, index * 5);
 			}
 		});
 		chord.target(new DatumFunction<ChordDef>() {
 			@Override
-			public ChordDef apply(Element context, Value d, int index) {
+			public ChordDef apply(Object context, Object d, int index) {
 				System.out.println("target" + d);
 				return new ChordDef(index * 5, index * 5, index * 5);
 			}
@@ -42,21 +45,36 @@ public class ChordTest extends AbstractTestCase {
 		// chord
 		chord.startAngle(new DatumFunction<Double>() {
 			@Override
-			public Double apply(Element context, Value d, int index) {
+			public Double apply(Object context, Object d, int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
 				System.out.println("start" + d);
-				return d.<ChordDef> as().start;
+				return datum.<ChordDef> as().start;
 			}
 		}).endAngle(new DatumFunction<Double>() {
+			
+			
+			
 			@Override
-			public Double apply(Element context, Value d, int index) {
+			public Double apply(Object context, Object d, int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
 				System.out.println("end" + d);
-				return d.<ChordDef> as().end;
+				return datum.<ChordDef> as().end;
 			}
 		}).radius(new DatumFunction<Double>() {
 			@Override
-			public Double apply(Element context, Value d, int index) {
+			public Double apply(Object context, Object d, int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
 				System.out.println("rad" + d);
-				return d.<ChordDef> as().radius;
+				return datum.<ChordDef> as().radius;
 			}
 		});
 

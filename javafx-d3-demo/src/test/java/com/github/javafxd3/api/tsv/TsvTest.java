@@ -4,6 +4,8 @@ package com.github.javafxd3.api.tsv;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.dsv.DsvArrayAccessor;
@@ -20,6 +22,7 @@ public class TsvTest extends AbstractTestCase {
 	
 
 	@Override
+	@Test
 	public void doTest() {
 		testTsvParse();
 		testTsvParseWithAccessor();

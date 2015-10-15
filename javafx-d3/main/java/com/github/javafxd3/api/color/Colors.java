@@ -29,8 +29,8 @@ public class Colors extends JavaScriptObject {
 	public Colors(WebEngine webEngine) {
 		super(webEngine);
 		D3 d3 = new D3(webEngine);
-		JSObject jsObject = d3.getMember("colors");
-		setJsObject(jsObject);		
+		JSObject d3Obj = d3.getJsObject();
+		setJsObject(d3Obj);		
 	}
 	
 	//#end region

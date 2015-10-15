@@ -1,8 +1,6 @@
 package com.github.javafxd3.api.functions;
 
 import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.wrapper.Element;
 
 /**
  * A {@link DatumFunction} that counts something, mainly used as a debugging purpose
@@ -36,7 +34,7 @@ public class CountFunction implements DatumFunction<Void> {
 	//#region METHODS
 	
 	@Override
-	public Void apply(final Element context, final Value d, final int index) {
+	public Void apply(final Object context, final Object d, final int index) {
 		if (takeIntoAccount(context, d, index)) {
 			count++;
 		}
@@ -51,7 +49,7 @@ public class CountFunction implements DatumFunction<Void> {
 	 * @param index
 	 * @return true to increment the count, false otherwise.
 	 */
-	private boolean takeIntoAccount(final Element context, final Value d, final int index) {
+	private boolean takeIntoAccount(final Object context, final Object d, final int index) {
 		return true;
 	}
 

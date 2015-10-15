@@ -11,7 +11,7 @@ import netscape.javascript.JSObject;
  *
  * @param <P>
  */
-public class Projection<P extends Projection<P>> extends JavaScriptObject {
+public class Projection<P extends Projection<?>> extends JavaScriptObject {
 
 	// #region CONSTRUCTORS
 

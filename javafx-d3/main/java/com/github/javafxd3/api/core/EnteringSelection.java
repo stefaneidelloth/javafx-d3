@@ -1,6 +1,8 @@
 package com.github.javafxd3.api.core;
 
 
+import java.util.Objects;
+
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.functions.IsFunction;
@@ -49,6 +51,7 @@ public class EnteringSelection extends JavaScriptObject {
 	 */
 	public EnteringSelection(WebEngine webEngine, JSObject wrappedJSObject) {
 		super(webEngine);
+		Objects.requireNonNull(wrappedJSObject);
 		setJsObject(wrappedJSObject);
 	}
 	

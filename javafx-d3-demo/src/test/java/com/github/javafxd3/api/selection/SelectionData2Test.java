@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNull;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.UpdateSelection;
 import com.github.javafxd3.api.core.Value;
@@ -20,6 +22,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 	static final double DELTA = 1e-4;
 
 	@Override
+	@Test
 	public void doTest() {
 
 		// testSelectionExit();
@@ -36,7 +39,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 	 * 
 	 */
 	private void testSelectionExit() {
-		clearRoot();
+		clearSvg();
 		// GIVEN 6 divs elements with their textContents filled with the fibonacci numbers
 		// AND joined to the same data
 		int[] data = new int[] { 1, 2, 3, 5, 8, 13 };
@@ -44,8 +47,12 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		Selection dataJoinedSelection = sandBoxSelection.selectAll("div").data(data).enter().append("div")
 				.attr("blah", new DatumFunction<String>() {
 					@Override
-					public String apply(final Element context, final Value d, final int index) {
-						return d.asString();
+					public String apply(final Object context, final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						return datum.asString();
 					}
 				});
 		assertEquals(6, dataJoinedSelection.size());
@@ -77,8 +84,12 @@ public class SelectionData2Test extends AbstractSelectionTest {
 			private int i = 1;
 
 			@Override
-			public Void apply(final Element context, final Value d, final int index) {
-				assertEquals(i, d.asInt());
+			public Void apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				assertEquals(i, datum.asInt());
 				i++;
 				return null;
 			}
@@ -95,15 +106,19 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// WHEN I call selection.datum() with a function depending on the index
 		selection.datum(new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value d, final int index) {
+			public Double apply(final Object context, final Object d, final int index) {
 				return (index % 2) == 0 ? 5.0 : 2.0;
 			}
 		});
 		// THEN each element has a the corresponding data
 		selection.each(new DatumFunction<Void>() {
 			@Override
-			public Void apply(final Element context, final Value d, final int index) {
-				assertEquals(((index % 2) == 0) ? 5.0 : 2.0, d.asDouble(),DELTA);
+			public Void apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				assertEquals(((index % 2) == 0) ? 5.0 : 2.0, datum.asDouble(),DELTA);
 				return null;
 			}
 		});
@@ -120,8 +135,12 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// THEN all data has a datum of "blah"
 		selection.each(new DatumFunction<Void>() {
 			@Override
-			public Void apply(final Element context, final Value d, final int index) {
-				assertEquals("blah", d.asString());
+			public Void apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				assertEquals("blah", datum.asString());
 				return null;
 			}
 		});
@@ -130,8 +149,12 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// THEN all elements has a null data
 		selection.each(new DatumFunction<Void>() {
 			@Override
-			public Void apply(final Element context, final Value d, final int index) {
-				assertNull(d.asString());
+			public Void apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				assertNull(datum.asString());
 				return null;
 			}
 		});
@@ -161,8 +184,12 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// WHEN i call filter(":nth-child(odd)")
 		Selection filtered = selection.filter(new DatumFunction<Element>() {
 			@Override
-			public Element apply(final Element context, final Value d, final int index) {
-				return (index % 2) == 0 ? context : null;
+			public Element apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				return (index % 2) == 0 ? element : null;
 			}
 		});
 		// THEN the returned selection contains 2 elements (css is 1-based index)
@@ -193,10 +220,10 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// GIVEN a selection with elements ordered differently than in the DOM
 		Label l1 = new Label("blah2"), l2 = new Label("blah1");
 		Selection selection = givenAMultipleSelection(l1, l2);
-		assertEquals("blah2", getRoot().get(0).get(0).node().getInnerText());
-		assertEquals("blah1", getRoot().get(0).get(1).node().getInnerText());
-		assertEquals("blah2", ((Element) getRoot().node().getChild(0)).getInnerText());
-		assertEquals("blah1", ((Element) getRoot().node().getChild(1)).getInnerText());
+		assertEquals("blah2", getSvg().get(0).get(0).node().getInnerText());
+		assertEquals("blah1", getSvg().get(0).get(1).node().getInnerText());
+		assertEquals("blah2", ((Element) getSvg().node().getChild(0)).getInnerText());
+		assertEquals("blah1", ((Element) getSvg().node().getChild(1)).getInnerText());
 		// bind integers 1 and 2 on the elements
 		selection.data(new Integer[]{2, 1});
 		// WHEN calling selection.order
@@ -210,10 +237,10 @@ public class SelectionData2Test extends AbstractSelectionTest {
 			}
 		});
 		// THEN the elements are reordered in the DOM in the order of the selection
-		assertEquals("blah1", getRoot().get(0).get(0).node().getInnerText());
-		assertEquals("blah2", getRoot().get(0).get(1).node().getInnerText());
-		assertEquals("blah1", ((Element) getRoot().node().getChild(0)).getInnerText());
-		assertEquals("blah2", ((Element) getRoot().node().getChild(1)).getInnerText());
+		assertEquals("blah1", getSvg().get(0).get(0).node().getInnerText());
+		assertEquals("blah2", getSvg().get(0).get(1).node().getInnerText());
+		assertEquals("blah1", ((Element) getSvg().node().getChild(0)).getInnerText());
+		assertEquals("blah2", ((Element) getSvg().node().getChild(1)).getInnerText());
 	}
 
 	/**
@@ -223,19 +250,19 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// GIVEN a selection with elements ordered differently than in the DOM
 		Label l1 = new Label("blah1"), l2 = new Label("blah2");
 		Selection selection = givenAMultipleSelection(l1, l2);
-		getRoot().node().remove(l1);
-		getRoot().node().add(l1);
+		getSvg().node().remove(l1);
+		getSvg().node().add(l1);
 		assertEquals("blah1", selection.get(0).get(0).node().getInnerText());
 		assertEquals("blah2", selection.get(0).get(1).node().getInnerText());
-		assertEquals("blah2", ((Element) getRoot().node().getChild(0)).getInnerText());
-		assertEquals("blah1", ((Element) getRoot().node().getChild(1)).getInnerText());
+		assertEquals("blah2", ((Element) getSvg().node().getChild(0)).getInnerText());
+		assertEquals("blah1", ((Element) getSvg().node().getChild(1)).getInnerText());
 		// WHEN calling selection.order
 		selection.order();
 		// THEN the elements are reordered in the DOM in the order of the selection
-		assertEquals("blah1", getRoot().get(0).get(0).node().getInnerText());
-		assertEquals("blah2", getRoot().get(0).get(1).node().getInnerText());
-		assertEquals("blah1", ((Element) getRoot().node().getChild(0)).getInnerText());
-		assertEquals("blah2", ((Element) getRoot().node().getChild(1)).getInnerText());
+		assertEquals("blah1", getSvg().get(0).get(0).node().getInnerText());
+		assertEquals("blah2", getSvg().get(0).get(1).node().getInnerText());
+		assertEquals("blah1", ((Element) getSvg().node().getChild(0)).getInnerText());
+		assertEquals("blah2", ((Element) getSvg().node().getChild(1)).getInnerText());
 
 	}
 

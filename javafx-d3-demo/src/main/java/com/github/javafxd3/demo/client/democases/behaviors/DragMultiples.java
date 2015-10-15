@@ -103,13 +103,21 @@ public class DragMultiples extends AbstractDemoCase {
 
 		svg.append("circle").attr("r", CIRCLE_RADIUS).attr("cx", new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value d, final int index) {
-				return d.as(Coords.class).x();
+			public Double apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				return datum.as(Coords.class).x();
 			}
 		}).attr("cy", new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value d, final int index) {
-				return d.as(Coords.class).y();
+			public Double apply(final Object context, final Object d, final int index) {
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				return datum.as(Coords.class).y();
 			}
 		}).style("cursor", "pointer")
 				// listeners are registered
@@ -119,10 +127,14 @@ public class DragMultiples extends AbstractDemoCase {
 
 	private class OnDragMove implements DatumFunction<Void> {
 		@Override
-		public Void apply(final Element context, final Value d, final int index) {
+		public Void apply(final Object context, final Object d, final int index) {
+			
+			Value dat = (Value) d;						
+			Element element =(Element) context;
+			
 			// change color of the element being dragged
-			d3.select(context).attr("fill", "green");
-			Coords datum = d.as();
+			d3.select(element).attr("fill", "green");
+			Coords datum = dat.as();
 			// compute the new x and y using the mouse position
 			// note: the mouse position has been adjusted to the drag 'origin'
 			double newX = Math.max(CIRCLE_RADIUS, Math.min(SQUARE_WIDTH - CIRCLE_RADIUS, d3.eventAsCoords().x()));
@@ -130,7 +142,7 @@ public class DragMultiples extends AbstractDemoCase {
 			// update the datum itself, to adjust the origin
 			datum.x(newX).y(newY);
 			// update the position of the circle
-			d3.select(context).attr("cx", datum.x()).attr("cy", datum.y());
+			d3.select(element).attr("cx", datum.x()).attr("cy", datum.y());
 			return null;
 		}
 	}
@@ -138,9 +150,13 @@ public class DragMultiples extends AbstractDemoCase {
 	public class OnDragEnd implements DatumFunction<Void> {
 
 		@Override
-		public Void apply(final Element context, final Value d, final int index) {
+		public Void apply(final Object context, final Object d, final int index) {
+			
+			Value datum = (Value) d;						
+			Element element =(Element) context;
+			
 			// remove fill attributes
-			d3.select(context).attr("fill", "");
+			d3.select(element).attr("fill", "");
 			return null;
 		}
 
@@ -149,8 +165,12 @@ public class DragMultiples extends AbstractDemoCase {
 	public class OnDragStart implements DatumFunction<Void> {
 
 		@Override
-		public Void apply(final Element context, final Value d, final int index) {
-			d3.select(context).attr("fill", "red");
+		public Void apply(final Object context, final Object d, final int index) {
+			
+			Value datum = (Value) d;						
+			Element element =(Element) context;
+			
+			d3.select(element).attr("fill", "red");
 			return null;
 		}
 

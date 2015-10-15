@@ -55,6 +55,13 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 
 	// #region METHODS
 
+	// -- create
+
+	@Override
+	protected TimeScale createScale(WebEngine webEngine, JSObject result) {
+		return new TimeScale(webEngine, result);
+	}
+
 	/**
 	 * Extends the domain so that it starts and ends on nice round values as
 	 * determined by the specified time interval.
@@ -74,7 +81,9 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * @return the current scale
 	 */
 	public TimeScale nice(Interval interval) {
-		return this.nice(interval);
+		JSObject intervalObj = interval.getJsObject();
+		JSObject result = call("nice", intervalObj);
+		return new TimeScale(webEngine, result);
 	}
 
 	/**
@@ -100,7 +109,9 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * @return the current scale
 	 */
 	public TimeScale nice(Interval interval, int step) {
-		return this.nice(interval, step);
+		JSObject intervalObj = interval.getJsObject();
+		JSObject result = call("nice", intervalObj, step);
+		return new TimeScale(webEngine, result);
 	}
 
 	/**
@@ -129,8 +140,10 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * @return the array of reference ticks
 	 */
 	public <T> T[] ticks(int count) {
+		JSObject result = call("ticks", count);
+		// return result;
 		throw new IllegalStateException("not yet implemented");
-		//return this.ticks(count);
+
 	}
 
 	/**
@@ -139,8 +152,9 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * @return the array of reference ticks
 	 */
 	public <T> T[] ticks() {
+		JSObject result = call("ticks");
+		// return result;
 		throw new IllegalStateException("not yet implemented");
-		//return this.ticks();
 	}
 
 	/**
@@ -185,8 +199,10 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * @return the array of reference ticks
 	 */
 	public <T> T[] ticks(Interval interval, int steps) {
+		JSObject intervalObj = interval.getJsObject();
+		JSObject result = call("ticks", intervalObj, steps);
+		// return result;
 		throw new IllegalStateException("not yet implemented");
-		//return this.ticks(interval, steps);
 	}
 
 	// =========== tickFormat ==========
@@ -215,12 +231,12 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * local and global context for each time interval.
 	 * <p>
 	 * For example, by showing the sequence [11 PM, Mon 07, 01 AM], the tick
-	 * formatter reveals information about hours, dates, and day
-	 * simultaneously—rather than just the hours.
+	 * formatter reveals information about hours, dates, and day simultaneously
+	 * rather than just the hours.
 	 * <p>
 	 * If you'd prefer single-scale time formatting, you can always use your own
-	 * d3.time.format. You can also roll your own custom
-	 * <a href="http:scale time format</a>.
+	 * d3.time.format. You can also roll your own custom <a href="http:scale
+	 * time format</a>.
 	 * 
 	 * 
 	 * @param count
@@ -230,16 +246,9 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 */
 	public Formatter tickFormat(int count) {
 		JSObject result = call("tickFourmat", count);
-		return new Formatter(webEngine, result);		
+		return new Formatter(webEngine, result);
 	}
-	
-	//-- create
 
-	@Override
-	protected TimeScale createScale(WebEngine webEngine, JSObject result) {
-		return new TimeScale(webEngine, result);		
-	}
-	
-	//#end region
+	// #end region
 
 }

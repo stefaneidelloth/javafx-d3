@@ -3,6 +3,8 @@ package com.github.javafxd3.api.dsv;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
@@ -22,6 +24,7 @@ public class DsvTest extends AbstractTestCase {
 	// #region METHODS
 
 	@Override
+	@Test
 	public void doTest() {
 
 		d3 = new D3(webEngine);

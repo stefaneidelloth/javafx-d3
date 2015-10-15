@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.sql.Array;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.CountFunction;
@@ -24,7 +26,8 @@ import com.github.javafxd3.api.wrapper.NodeList;
  */
 public class SubselectionsTest extends AbstractSelectionTest {
 
-    @Override
+	@Override
+	@Test
     public void doTest()  {
         testD3Select();
         testD3SelectAll();
@@ -50,9 +53,9 @@ public class SubselectionsTest extends AbstractSelectionTest {
      *
      */
     private void testD3Select()  {
-        clearRoot();
+        clearSvg();
         Selection selection = d3.select("root");
-        assertEquals(getRoot().node(), selection.node());
+        assertEquals(getSvg().node(), selection.node());
 
         // internal structure
        
@@ -83,9 +86,9 @@ public class SubselectionsTest extends AbstractSelectionTest {
      *
      */
     private void testD3SelectAll() {
-        clearRoot();
+        clearSvg();
 
-        getRoot().node().setInnerHtml(
+        getSvg().node().setInnerHtml(
                 "<div><blah>foo</blah></div>" +
                         "<div><blah>bar</blah></div>" +
                         "<div><blah>zing</blah></div>"
@@ -111,12 +114,12 @@ public class SubselectionsTest extends AbstractSelectionTest {
         assertParentNodeIsRootHtml(barfoos);
 
         // also test variant of selectAll
-        Selection selection = d3.selectAll(getRoot().node().getChildNodes());
+        Selection selection = d3.selectAll(getSvg().node().getChildNodes());
         assertEquals(3, selection.size());
 
-        Element[][] matrix1 = getRoot().node().getChild(0).<Element[][]> cast();
-        Element[][] matrix2 = getRoot().node().getChild(1).<Element[][]> cast();
-        Element[][] matrix3 = getRoot().node().getChild(2).<Element[][]> cast();
+        Element[][] matrix1 = getSvg().node().getChild(0).<Element[][]> cast();
+        Element[][] matrix2 = getSvg().node().getChild(1).<Element[][]> cast();
+        Element[][] matrix3 = getSvg().node().getChild(2).<Element[][]> cast();
         selection = d3.selectAll(matrix1, matrix2, matrix3);
         assertEquals(3, selection.size());
 
@@ -126,10 +129,10 @@ public class SubselectionsTest extends AbstractSelectionTest {
      *
      */
     private void testD3SelectThenSelect() {
-        clearRoot();
+        clearSvg();
         // given 3 DIV>SPAN elements in the sandbox
-        clearRoot();
-        getRoot().node().setInnerHtml(
+        clearSvg();
+        getSvg().node().setInnerHtml(
                 "<div><zorg>foo</zorg><zorg>foo2</zorg></div>" +
                         "<div><zorg>bar</zorg><zorg>bar2</zorg></div>" +
                         "<div><zorg>zing</zorg><zorg>zing2</zorg></div>"
@@ -150,8 +153,8 @@ public class SubselectionsTest extends AbstractSelectionTest {
 
         // if no element match for a element, the element at the current index will be null in the returned selection
         // a) operators skip null element , thereby preserving the index of the existing selection
-        clearRoot();
-        getRoot().node().setInnerHtml(
+        clearSvg();
+        getSvg().node().setInnerHtml(
                 "<div></div>" +
                         "<div></div>" +
                         "<div><zorg>zing</zorg><zorg>zing2</zorg></div>"
@@ -169,8 +172,8 @@ public class SubselectionsTest extends AbstractSelectionTest {
 
         // if the current element has associated data, this data is inherited by the returned subselection and
         // automatically bound to the newly selected elements
-        clearRoot();
-        getRoot().node().setInnerHtml(
+        clearSvg();
+        getSvg().node().setInnerHtml(
                 "<div><zorg>foo</zorg><zorg>foo2</zorg></div>" +
                         "<div><zorg>bar</zorg><zorg>bar2</zorg></div>" +
                         "<div><zorg>zing</zorg><zorg>zing2</zorg></div>"
@@ -204,32 +207,36 @@ public class SubselectionsTest extends AbstractSelectionTest {
      *
      */
     private void testD3SelectThenSelectAll() {
-        clearRoot();
+        clearSvg();
         // given 3 DIV elements in the sandbox
-        getRoot().node().setInnerHtml(
+        getSvg().node().setInnerHtml(
                 "<div><span></span></div>" +
                         "<div><span></span></div>" +
                         "<div><span></span></div>"
                 );
         //
-        assertEquals(3, getRoot().node().getChildCount());
+        assertEquals(3, getSvg().node().getChildCount());
         Selection spans = d3.select("root").selectAll("span");
         assertEquals(3, spans.size());
         assertEquals(1, spans.groupCount());
-        assertEquals(getRoot().node(), spans.parentNode(0));
+        assertEquals(getSvg().node(), spans.parentNode(0));
         // appending a node append it to each span nodes, and the parent node of the new selection is the same as before
         Selection appended = spans.append("foobar");
         assertEquals(3, appended.size());
         assertEquals(1, appended.groupCount());
-        assertEquals(getRoot().node(), appended.parentNode(0));
+        assertEquals(getSvg().node(), appended.parentNode(0));
 
         // where does the new nodes have been appended ? in the span ? or in the sanbox ?
-        assertEquals(3, getRoot().node().getChildCount());
+        assertEquals(3, getSvg().node().getChildCount());
         // it seems in the span elements
         d3.select("root").selectAll("span").each(new DatumFunction<Void>() {
             @Override
-            public Void apply(final Element context, final Value d, final int index) {
-                assertEquals(1, context.getChildCount());
+            public Void apply(final Object context, final Object d, final int index) {
+            	
+            	Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+                assertEquals(1, element.getChildCount());
                 return null;
             }
         });
@@ -240,37 +247,45 @@ public class SubselectionsTest extends AbstractSelectionTest {
      *
      */
     private void testD3SelectThenSelectAllByFunction() {
-        clearRoot();
+        clearSvg();
         // given 3 DIV elements in the sandbox
-        getRoot().node().setInnerHtml(
+        getSvg().node().setInnerHtml(
                 "<div><span></span></div>" +
                         "<div><span></span></div>" +
                         "<div><span></span></div>"
                 );
         //
-        assertEquals(3, getRoot().node().getChildCount());
+        assertEquals(3, getSvg().node().getChildCount());
         Selection spans = d3.select("root").selectAll(new DatumFunction<Element[]>() {
             @Override
-            public Element[] apply(final Element context, final Value d, final int index) {
-                return context.getElementsByTagName("span");
+            public Element[] apply(final Object context, final Object d, final int index) {
+            	
+            	Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+                return element.getElementsByTagName("span");
             }
         });
         assertEquals(3, spans.size());
         assertEquals(1, spans.groupCount());
-        assertEquals(getRoot().node(), spans.parentNode(0));
+        assertEquals(getSvg().node(), spans.parentNode(0));
         // appending a node append it to each span nodes, and the parent node of the new selection is the same as before
         Selection appended = spans.append("foobar");
         assertEquals(3, appended.size());
         assertEquals(1, appended.groupCount());
-        assertEquals(getRoot().node(), appended.parentNode(0));
+        assertEquals(getSvg().node(), appended.parentNode(0));
 
         // where does the new nodes have been appended ? in the span ? or in the sanbox ?
-        assertEquals(3, getRoot().node().getChildCount());
+        assertEquals(3, getSvg().node().getChildCount());
         // it seems in the span elements
         d3.select("root").selectAll("span").each(new DatumFunction<Void>() {
             @Override
-            public Void apply(final Element context, final Value d, final int index) {
-                assertEquals(1, context.getChildCount());
+            public Void apply(final Object context, final Object d, final int index) {
+            	
+            	Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+                assertEquals(1, element.getChildCount());
                 return null;
             }
         });
@@ -278,9 +293,9 @@ public class SubselectionsTest extends AbstractSelectionTest {
     }
 
     private void testSelectAllSelectByString() {
-        clearRoot();
+        clearSvg();
         // given 3 DIV>SPAN elements in the sandbox
-        getRoot().node().setInnerHtml(
+        getSvg().node().setInnerHtml(
                 "<div><span>foo</span></div>" +
                         "<div><span>bar</span></div>" +
                         "<div><span>zing</span></div>"

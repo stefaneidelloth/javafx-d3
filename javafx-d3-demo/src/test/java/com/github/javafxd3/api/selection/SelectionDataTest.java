@@ -6,6 +6,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
@@ -16,6 +18,7 @@ import com.github.javafxd3.api.wrapper.Element;
 public class SelectionDataTest extends AbstractSelectionTest {
 
 	@Override
+	@Test
 	public void doTest() {
 		testSelectionDataGetter();
 		testSelectionDataSetterArray();
@@ -30,7 +33,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 			{ 1013, 990, 940, 6907 } };
 
 	protected Selection givenASimpleSelection() {
-		clearRoot();
+		clearSvg();
 		return d3.select("root").append("table").selectAll("tr")
 				.data(MATRIX[0]).enter().append("tr");
 	}
@@ -44,21 +47,29 @@ public class SelectionDataTest extends AbstractSelectionTest {
 	 * @return the selection
 	 */
 	protected Selection givenANestedSelection() {
-		clearRoot();
+		clearSvg();
 		Selection tr = d3.select("root").append("table").selectAll("tr").data(MATRIX).enter().append("tr");
 
 		Selection td = tr.selectAll("td").data(new DatumFunction<Integer[]>() {
 					@Override
-					public Integer[] apply(final Element context,
-							final Value d, final int index) {
-						Integer[] as = d.as();
+					public Integer[] apply(final Object context,
+							final Object d, final int index) {
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						Integer[] as = datum.as();
 						return as;
 					}
 				}).enter().append("td").text(new DatumFunction<String>() {
 					@Override
-					public String apply(final Element context, final Value d,
+					public String apply(final Object context, final Object d,
 							final int index) {
-						return d.asString();
+						
+						Value datum = (Value) d;						
+						Element element =(Element) context;
+						
+						return datum.asString();
 					}
 				});
 		return td;
@@ -72,7 +83,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 
 		selection.data(new DatumFunction<String[]>() {
 			@Override
-			public String[] apply(final Element context, final Value d,
+			public String[] apply(final Object context, final Object d,
 					final int index) {
 				System.out
 						.println("testSelectionDataSetterFunctionReturningPrimitiveArray "
@@ -88,7 +99,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 	}
 
 	protected Selection givenTrElementsInATable(final int numberOfTRToCreate) {
-		clearRoot();
+		clearSvg();
 		Selection table = d3.select("root").append("table");
 		for (int i = 0; i < numberOfTRToCreate; i++) {
 			table.append("tr");
@@ -270,7 +281,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 	}
 
 	private void testNestedSelection() {
-		clearRoot();
+		clearSvg();
 		Selection tr = d3.select("root").append("table").selectAll("tr")
 				.data(MATRIX).enter().append("tr");
 
@@ -285,19 +296,27 @@ public class SelectionDataTest extends AbstractSelectionTest {
 			 * .gwt.dom.client.Element, com.github.gwtd3.api.core.Datum, int)
 			 */
 			@Override
-			public Object[] apply(final Element context, final Value d,
+			public Object[] apply(final Object context, final Object d,
 					final int index) {
-				System.out.println(context + " " + d.asString() + " " + index);
-				Object[] as = d.as();
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				System.out.println(context + " " + datum.asString() + " " + index);
+				Object[] as = datum.as();
 				System.out.println(as);
 				return as;
 				// return JsArrays.asJsArray(Arrays.asList("J", "K", "L"));
 			}
 		}).enter().append("td").text(new DatumFunction<String>() {
 			@Override
-			public String apply(final Element context, final Value d,
+			public String apply(final Object context, final Object d,
 					final int index) {
-				return d.asString();
+				
+				Value datum = (Value) d;						
+				Element element =(Element) context;
+				
+				return datum.asString();
 			}
 		});
 

@@ -3,13 +3,16 @@ package com.github.javafxd3.api.scales;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 
 @SuppressWarnings("javadoc")
 public class OrdinalScaleTest extends AbstractTestCase {
 
-    @Override
+	@Override
+	@Test
     public void doTest() {
     	
     	D3 d3 = new D3(webEngine);

@@ -2,6 +2,8 @@ package com.github.javafxd3.api.selection;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
@@ -21,6 +23,7 @@ public class SelectionStyleTest extends AbstractSelectionTest {
 	private static final Double DELTA = 1e-4;
 
 	@Override
+	@Test
 	public void doTest() {
 		testSetterConstantString();
 		testSetterConstantDouble();
@@ -36,7 +39,7 @@ public class SelectionStyleTest extends AbstractSelectionTest {
 		final double value = 0.5;
 		selection.style(STYLE_HTML, new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value datum, final int index) {
+			public Double apply(final Object context, final Object datum, final int index) {
 				return value;
 			}
 		});
@@ -46,7 +49,7 @@ public class SelectionStyleTest extends AbstractSelectionTest {
 		Selection selection2 = givenAMultipleSelection(new Label(), new Label(), new Label());
 		selection2.style(STYLE_HTML, new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value datum, final int index) {
+			public Double apply(final Object context, final Object datum, final int index) {
 				return value;
 			}
 		});
@@ -62,7 +65,7 @@ public class SelectionStyleTest extends AbstractSelectionTest {
 		final double value = 1.54;
 		selection.style(SelectionStyleTest.STYLE_HTML, new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value datum, final int index) {
+			public Double apply(final Object context, final Object datum, final int index) {
 				return value;
 			}
 		}, true);
@@ -72,7 +75,7 @@ public class SelectionStyleTest extends AbstractSelectionTest {
 		Selection selection2 = givenAMultipleSelection(new Label(), new Label(), new Label());
 		selection2.style(SelectionStyleTest.STYLE_HTML, new DatumFunction<Double>() {
 			@Override
-			public Double apply(final Element context, final Value datum, final int index) {
+			public Double apply(final Object context, final Object datum, final int index) {
 				return value;
 			}
 		});
