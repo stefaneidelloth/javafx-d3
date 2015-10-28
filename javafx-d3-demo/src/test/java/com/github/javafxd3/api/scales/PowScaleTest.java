@@ -30,14 +30,14 @@ public class PowScaleTest extends AbstractTestCase {
 		// get default domain
 		scale = d3.scale().pow();
 		assertEquals(2, scale.domain().length());
-		assertEquals(0, scale.domain().get(0, Value.class).asInt());
-		assertEquals(1, scale.domain().get(1, Value.class).asInt());
+		assertEquals(0, (int) scale.domain().get(0, Value.class).asInt());
+		assertEquals(1, (int) scale.domain().get(1, Value.class).asInt());
 
 		// set the domain, keep the default range .get(0,1]
 		scale.domain(10, 100);
 		assertEquals(2, scale.domain().length());
-		assertEquals(10, scale.domain().get(0, Value.class).asInt());
-		assertEquals(100, scale.domain().get(1, Value.class).asInt());
+		assertEquals(10, (int) scale.domain().get(0, Value.class).asInt());
+		assertEquals(100, (int) scale.domain().get(1, Value.class).asInt());
 
 		scale.domain("5", "6");
 		assertEquals(2, scale.domain().length());
@@ -47,9 +47,9 @@ public class PowScaleTest extends AbstractTestCase {
 		scale.domain(-1, 0, 1).range(
 				new String[] { "red", "white", "blue" });
 		assertEquals(3, scale.domain().length());
-		assertEquals(-1, scale.domain().get(0, Value.class).asInt());
-		assertEquals(0, scale.domain().get(1, Value.class).asInt());
-		assertEquals(1, scale.domain().get(2, Value.class).asInt());
+		assertEquals(-1, (int) scale.domain().get(0, Value.class).asInt());
+		assertEquals(0, (int) scale.domain().get(1, Value.class).asInt());
+		assertEquals(1, (int) scale.domain().get(2, Value.class).asInt());
 
 		// default range
 		scale = d3.scale().pow();
@@ -139,14 +139,14 @@ public class PowScaleTest extends AbstractTestCase {
 		// apply the function
 		scale = d3.scale().pow();
 		scale.domain(1, 10).range(0, 10);
-		assertEquals(-1, scale.apply(0).asInt());
-		assertEquals(10, scale.apply(10).asInt());
-		assertEquals(110, scale.apply(100).asInt());
-		assertEquals(-12, scale.apply(-10).asInt());
+		assertEquals(-1,(int)  scale.apply(0).asInt());
+		assertEquals(10, (int) scale.apply(10).asInt());
+		assertEquals(110, (int) scale.apply(100).asInt());
+		assertEquals(-12, (int) scale.apply(-10).asInt());
 
 		// invert
-		assertEquals(91, scale.invert(100).asInt());
-		assertEquals(-89, scale.invert(-100).asInt());
+		assertEquals(91, (int) scale.invert(100).asInt());
+		assertEquals(-89, (int) scale.invert(-100).asInt());
 
 		// copy
 		scale.domain(1, 2);

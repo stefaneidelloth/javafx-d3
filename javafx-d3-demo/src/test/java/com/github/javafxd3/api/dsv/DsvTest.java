@@ -51,7 +51,7 @@ public class DsvTest extends AbstractTestCase {
 		assertEquals(5, rows.length);
 		DsvRow jane = rows[2];
 		assertEquals("Jane", jane.get("Name").asString());
-		assertEquals(15, jane.get("Age").asInt());
+		assertEquals(15, (int) jane.get("Age").asInt());
 	}
 
 	private void testCsvParseWithAccessor() {
@@ -207,7 +207,7 @@ class PersonRowCallback implements DsvCallback<DsvRow> {
 		assertEquals(5, rows.length);
 		DsvRow jane = rows[2];
 		assertEquals("Jane", jane.get("Name").asString());
-		assertEquals(15, jane.get("Age").asInt());
+		assertEquals(15, (int) jane.get("Age").asInt());
 	}
 }
 

@@ -80,11 +80,11 @@ public class OrdinalScaleTest extends AbstractTestCase {
         System.out.println(ordinal2.apply("01/05").asInt());
         System.out.println(ordinal2.rangeBand());
 
-        assertEquals(19, ordinal2.apply("01/01").asInt());
-        assertEquals(215, ordinal2.apply("01/02").asInt());
-        assertEquals(411, ordinal2.apply("01/03").asInt());
-        assertEquals(607, ordinal2.apply("01/04").asInt());
-        assertEquals(803, ordinal2.apply("01/05").asInt());
+        assertEquals(19, (int) ordinal2.apply("01/01").asInt());
+        assertEquals(215, (int) ordinal2.apply("01/02").asInt());
+        assertEquals(411, (int) ordinal2.apply("01/03").asInt());
+        assertEquals(607, (int) ordinal2.apply("01/04").asInt());
+        assertEquals(803, (int) ordinal2.apply("01/05").asInt());
 
         assertEquals(176.47, ordinal2.rangeBand(), 0.005);
 

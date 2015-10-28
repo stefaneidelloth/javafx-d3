@@ -89,7 +89,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 				Value datum = (Value) d;						
 				Element element =(Element) context;
 				
-				assertEquals(i, datum.asInt());
+				assertEquals(i, (int) datum.asInt());
 				i++;
 				return null;
 			}
