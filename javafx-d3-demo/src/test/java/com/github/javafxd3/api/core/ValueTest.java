@@ -22,6 +22,11 @@ public class ValueTest extends AbstractTestCase {
 	@Test
 	public void doTest() {
 		
+		doOnJavaFXThread(()->runTest());
+
+	}
+
+	private void runTest() {
 		// typeof
 		assertEquals("function", getFunction().typeof());
 		assertEquals("number", getInt().typeof());
@@ -134,49 +139,49 @@ public class ValueTest extends AbstractTestCase {
 
 		// casting from number
 		Value value = getNewNumber();
-		assertEquals(55, value.asInt());
-		assertEquals(55, value.asByte());
+		assertEquals(55, (int) value.asInt());
+		assertEquals(55, (byte) value.asByte());
 		assertEquals(55F, value.asFloat(),1e-6);
 		assertEquals(55, value.asLong());
 		assertEquals(55.0, value.asDouble(),1e-6);
 		assertEquals(55, value.asChar());
-		assertEquals(55, value.asShort());
+		assertEquals(55, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("55", value.asString());
 		//assertEquals(55D, value.asJsDate().getTime());
 
 		value = getInt();
-		assertEquals(5, value.asInt());
-		assertEquals(5, value.asByte());
+		assertEquals(5, (int) value.asInt());
+		assertEquals(5, (byte) value.asByte());
 		assertEquals(5F, value.asFloat(),1e-6);
 		assertEquals(5, value.asLong());
 		assertEquals(5.0, value.asDouble(),1e-6);
 		assertEquals(5, value.asChar());
-		assertEquals(5, value.asShort());
+		assertEquals(5, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("5", value.asString());
 		//assertEquals(5D, value.asJsDate().getTime());
 
 		value = getZero();
-		assertEquals(0, value.asInt());
-		assertEquals(0, value.asByte());
+		assertEquals(0, (int) value.asInt());
+		assertEquals(0, (byte) value.asByte());
 		assertEquals(0F, value.asFloat(),1e-6);
 		assertEquals(0, value.asLong());
 		assertEquals(0D, value.asDouble(),1e-6);
 		assertEquals(0, value.asChar());
-		assertEquals(0, value.asShort());
+		assertEquals(0, (short) value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals("0", value.asString());
 		//assertEquals(0D, value.asJsDate().getTime());
 
 		value = getNaN();
-		assertEquals(0, value.asInt());
-		assertEquals(0, value.asByte());
+		assertEquals(null, value.asInt());
+		assertEquals(0, (byte) value.asByte());
 		assertTrue(Float.isNaN(value.asFloat()));
 		assertEquals(0, value.asLong());
 		assertTrue(Double.isNaN(value.asDouble()));
 		assertEquals(0, value.asChar());
-		assertEquals(0, value.asShort());
+		assertEquals(null, value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals("NaN", value.asString());
 		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
@@ -196,101 +201,101 @@ public class ValueTest extends AbstractTestCase {
 
 		value = getDecimal();
 		int n = (int) value.asDouble();
-		assertEquals(n, value.asInt());
-		assertEquals(n, value.asByte());
+		assertEquals(n, (int) value.asInt());
+		assertEquals(n, (byte) value.asByte());
 		assertEquals(12.5F, value.asFloat(),1e-6);
 		assertEquals(12L, value.asLong());
 		assertEquals(12.5D, value.asDouble(),1e-6);
 		assertEquals(n, value.asChar());
-		assertEquals(n, value.asShort());
+		assertEquals(n, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("12.5", value.asString());
 		//assertEquals(12.0D, value.asJsDate().getTime());
 
 		// casting from null
 		value = getNull();
-		assertEquals(0, value.asInt());
-		assertEquals(0, value.asByte());
+		assertEquals(null, value.asInt());
+		assertEquals(0, (byte) value.asByte());
 		assertEquals(0F, value.asFloat(),1e-6);
 		assertEquals(0L, value.asLong());
 		assertEquals(0D, value.asDouble(),1e-6);
 		assertEquals(0, value.asChar());
-		assertEquals(0, value.asShort());
+		assertEquals(null, value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals(null, value.asString());
 		//assertEquals(0D, value.asJsDate().getTime());
 
 		// casting from undefined
 		value = getUndefined();
-		assertEquals(0, value.asInt());
-		assertEquals(0, value.asByte());
+		assertEquals(null, value.asInt());
+		assertEquals(0, (byte) value.asByte());
 		assertTrue(Float.isNaN(value.asFloat()));
 		assertEquals(0L, value.asLong());
 		assertTrue(Double.isNaN(value.asDouble()));
 		assertEquals(0, value.asChar());
-		assertEquals(0, value.asShort());
+		assertEquals(null, value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals(null, value.asString());
 		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
 
 		// casting from boolean
 		value = getFalse();
-		assertEquals(0, value.asInt());
-		assertEquals(0, value.asByte());
+		assertEquals(0, (int) value.asInt());
+		assertEquals(0, (byte) value.asByte());
 		assertEquals(0F, value.asFloat(),1e-6);
 		assertEquals(0L, value.asLong());
 		assertEquals(0D, value.asDouble(),1e-6);
 		assertEquals(0, value.asChar());
-		assertEquals(0, value.asShort());
+		assertEquals(0, (short) value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals("false", value.asString());
 		//assertEquals(0D, value.asJsDate().getTime());
 
 		value = getNewBooleanFalse();
-		assertEquals(0, value.asInt());
-		assertEquals(0, value.asByte());
+		assertEquals(0, (int) value.asInt());
+		assertEquals(0, (byte) value.asByte());
 		assertEquals(0F, value.asFloat(),1e-6);
 		assertEquals(0L, value.asLong());
 		assertEquals(0D, value.asDouble(),1e-6);
 		assertEquals(0, value.asChar());
-		assertEquals(0, value.asShort());
+		assertEquals(0, (short) value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals("false", value.asString());
 		//assertEquals(0D, value.asJsDate().getTime());
 
 		value = getTrue();
-		assertEquals(1, value.asInt());
-		assertEquals(1, value.asByte());
+		assertEquals(1, (int) value.asInt());
+		assertEquals(1, (byte) value.asByte());
 		assertEquals(1F, value.asFloat(),1e-6);
 		assertEquals(1L, value.asLong());
 		assertEquals(1D, value.asDouble(),1e-6);
 		assertEquals(1, value.asChar());
-		assertEquals(1, value.asShort());
+		assertEquals(1, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("true", value.asString());
 		//assertEquals(1D, value.asJsDate().getTime());
 
 		value = getNewBooleanTrue();
-		assertEquals(1, value.asInt());
-		assertEquals(1, value.asByte());
+		assertEquals(1, (int) value.asInt());
+		assertEquals(1, (byte) value.asByte());
 		assertEquals(1F, value.asFloat(),1e-6);
 		assertEquals(1L, value.asLong());
 		assertEquals(1D, value.asDouble(),1e-6);
 		assertEquals(1, value.asChar());
-		assertEquals(1, value.asShort());
+		assertEquals(1, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("true", value.asString());
 		//assertEquals(1D, value.asJsDate().getTime());
 
 		// casting from string
 		value = getStringWithInt();
-		assertEquals(5, value.asInt());
-		assertEquals(5, value.asByte());
+		assertEquals(5, (int) value.asInt());
+		assertEquals(5, (byte) value.asByte());
 		assertEquals(5F, value.asFloat(),1e-6);
 		assertEquals(5, value.asLong());
 		assertEquals(5D, value.asDouble(),1e-6);
 		assertEquals(5, value.asChar());
-		assertEquals(5, value.asShort());
+		assertEquals(5, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("5", value.asString());
 		// FF: ok, Chrome: ko
@@ -298,13 +303,13 @@ public class ValueTest extends AbstractTestCase {
 		// assertTrue(Double.isNaN(value.asJsDate().getTime()));
 
 		value = getStringWithDate();
-		assertEquals(0, value.asInt());
-		assertEquals(0, value.asByte());
+		assertEquals(0, (int) value.asInt());
+		assertEquals(0, (byte) value.asByte());
 		assertTrue(Float.isNaN(value.asFloat()));
 		assertEquals(0, value.asLong());
 		assertTrue(Double.isNaN(value.asDouble()));
 		assertEquals(0, value.asChar());
-		assertEquals(0, value.asShort());
+		assertEquals(0, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("October 13, 1975 11:13:00", value.asString());
 		// Chrome bug
@@ -312,62 +317,62 @@ public class ValueTest extends AbstractTestCase {
 		// assertEquals(182423580000D, value.asJsDate().getTime());
 
 		value = getStringEmpty();
-		assertEquals(0, value.asInt());
-		assertEquals(0, value.asByte());
+		assertEquals(0, (int) value.asInt());
+		assertEquals(0, (byte) value.asByte());
 		assertEquals(0F, value.asFloat(),1e-6);
 		assertEquals(0, value.asLong());
 		assertEquals(0D, value.asDouble(),1e-6);
 		assertEquals(0, value.asChar());
-		assertEquals(0, value.asShort());
+		assertEquals(0, (short) value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals("", value.asString());
 		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
 
 		value = getString();
-		assertEquals(0, value.asInt());
-		assertEquals(0, value.asByte());
+		assertEquals(0, (int) value.asInt());
+		assertEquals(0, (byte) value.asByte());
 		assertTrue(Float.isNaN(value.asFloat()));
 		assertEquals(0, value.asLong());
 		assertTrue(Double.isNaN(value.asDouble()));
 		assertEquals(0, value.asChar());
-		assertEquals(0, value.asShort());
+		assertEquals(0, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("foobar", value.asString());
 		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
 
 		value = getStringWithFalse();
-		assertEquals(0, value.asInt());
-		assertEquals(0, value.asByte());
+		assertEquals(0, (int) value.asInt());
+		assertEquals(0, (byte) value.asByte());
 		assertTrue(Float.isNaN(value.asFloat()));
 		assertEquals(0L, value.asLong());
 		assertTrue(Double.isNaN(value.asDouble()));
 		assertEquals(0, value.asChar());
-		assertEquals(0, value.asShort());
+		assertEquals(0, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("false", value.asString());
 		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
 
 		value = getStringWithTrue();
-		assertEquals(0, value.asInt());
-		assertEquals(0, value.asByte());
+		assertEquals(0, (int) value.asInt());
+		assertEquals(0, (byte) value.asByte());
 		assertTrue(Float.isNaN(value.asFloat()));
 		assertEquals(0L, value.asLong());
 		assertTrue(Double.isNaN(value.asDouble()));
 		assertEquals(0, value.asChar());
-		assertEquals(0, value.asShort());
+		assertEquals(0, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("true", value.asString());
 		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
 
 		// casting from function
 		value = getFunction();
-		assertEquals(0, value.asInt());
-		assertEquals(0, value.asByte());
+		assertEquals(0, (int) value.asInt());
+		assertEquals(0, (byte) value.asByte());
 		assertTrue(Float.isNaN(value.asFloat()));
 		assertEquals(0L, value.asLong());
 		assertTrue(Double.isNaN(value.asDouble()));
 		assertEquals(0, value.asChar());
-		assertEquals(0, value.asShort());
+		assertEquals(0, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertTrue(value.asString().contains("function"));
 		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
@@ -375,13 +380,12 @@ public class ValueTest extends AbstractTestCase {
 		// object wrapper
 		value = Value.create(webEngine, getCoords(10, 12));
 		assertTrue(value.getProperty("x").isDefined());
-		assertEquals(10, value.getProperty("x").asInt());
-		assertEquals(12, value.getProperty("y").asInt());
+		assertEquals(10, (int) value.getProperty("x").asInt());
+		assertEquals(12, (int) value.getProperty("y").asInt());
 		assertTrue(value.getProperty("fake").isUndefined());
 		assertFalse(value.getProperty("x").isBoolean());
 		assertFalse(value.getProperty("x").isString());
 		assertFalse(value.getProperty("x").isFunction());
-
 	}
 
 	private final Coords getCoords(final int x, final int y) {	

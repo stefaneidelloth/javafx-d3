@@ -904,19 +904,15 @@ public class Selection extends EnteringSelection {
 	 *            the callback function
 	 * @return the current selection
 	 */
-	public Selection each(DatumFunction<Void> func) {
+	public Selection each(DatumFunction<Void> function) {
 
-		throw new IllegalStateException("not yet implemented");
+		String functionName = "temp_func";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(functionName, function);
 
-		/*
-		 * 
-		 * 
-		 * return this .each(function(d, i) {
-		 * func.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google
-		 * /gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{
-		 * datum:d},i); });
-		 * 
-		 */
+		String command = "this.each(function(d, i) { this." + functionName + ".apply(this,{datum:d},i); });";
+		JSObject result = evalForJsObject(command);
+		return new Selection(webEngine, result); 
 	}
 
 	// ================================ data getter functions ========

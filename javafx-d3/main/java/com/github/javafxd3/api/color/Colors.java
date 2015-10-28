@@ -78,7 +78,8 @@ public class Colors extends JavaScriptObject {
 	 * @return the new color
 	 */
 	public RGBColor rgb(final Color color) {
-		JSObject result = call("rgb", color);
+		JSObject jsObject = color.getJsObject();
+		JSObject result = call("rgb", jsObject);
 		return new RGBColor(webEngine, result);
 	}
 
@@ -130,7 +131,8 @@ public class Colors extends JavaScriptObject {
 	 * @return the new color
 	 */
 	public HSLColor hsl(final RGBColor color) {
-		JSObject result = call("hsl", color);
+		JSObject jsObject = color.getJsObject();
+		JSObject result = call("hsl", jsObject);
 		return new HSLColor(webEngine, result);
 	}
 

@@ -978,7 +978,7 @@ public class D3 extends JavaScriptObject {
 	 * @return the behaviour module
 	 */
 	public Behavior behavior() {
-		JSObject result = call("behavior");
+		JSObject result = getMember("behavior");
 		return new Behavior(webEngine, result);
 	};
 

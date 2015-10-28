@@ -133,6 +133,12 @@ public class JavaScriptObject {
 			return doubleResult;
 		}
 
+		boolean isInteger = result instanceof Integer;
+		if (isInteger) {
+			Double doubleResult = Double.parseDouble("" + result);
+			return doubleResult;
+		}
+
 		boolean isString = result instanceof String;
 		if (isString) {
 			String stringResult = (String) result;
@@ -189,47 +195,47 @@ public class JavaScriptObject {
 	protected Object callThis(Object... args) {
 		String varNamePrefix = "temp__var__";
 
-		//store args as member and create variable name list
+		// store args as member and create variable name list
 		List<String> varNames = new ArrayList<>();
 		for (int index = 0; index < args.length; index++) {
 			String varName = varNamePrefix + index;
 			varNames.add(varName);
 			jsObject.setMember(varName, args[index]);
 		}
-		
-		//eval command
+
+		// eval command
 		String command = "this(" + String.join(",", varNames) + ");";
 		Object result = eval(command);
-		
-		//remove temporary members
-		for(String varName: varNames){
+
+		// remove temporary members
+		for (String varName : varNames) {
 			jsObject.removeMember(varName);
-		}		
-		
+		}
+
 		return result;
 	}
-	
-	protected Integer callThisForInteger(Object... args){
+
+	protected Integer callThisForInteger(Object... args) {
 		Object result = callThis(args);
 		return (Integer) result;
 	}
-	
-	protected Boolean callThisForBoolean(Object... args){
+
+	protected Boolean callThisForBoolean(Object... args) {
 		Object result = callThis(args);
 		return (Boolean) result;
 	}
-	
-	protected String callThisForString(Object... args){
+
+	protected String callThisForString(Object... args) {
 		Object result = callThis(args);
 		return (String) result;
 	}
-	
-	protected Double callThisForDouble(Object... args){
+
+	protected Double callThisForDouble(Object... args) {
 		Object result = callThis(args);
 		return (Double) result;
 	}
-	
-	protected JSObject callThisForJsObject(Object... args){
+
+	protected JSObject callThisForJsObject(Object... args) {
 		Object result = callThis(args);
 		return (JSObject) result;
 	}
@@ -278,8 +284,22 @@ public class JavaScriptObject {
 	 * @return
 	 */
 	protected Double getMemberForDouble(String name) {
-		Double result = (Double) jsObject.getMember(name);
-		return result;
+		Object resultObj = jsObject.getMember(name);
+		boolean isDouble = resultObj instanceof Double;
+		if (isDouble) {
+			Double result = (Double) resultObj;
+			return result;
+		}
+		
+		boolean isNumber = resultObj instanceof Number;
+		if (isNumber){
+			Double result = Double.parseDouble("" + resultObj);
+			return result;
+		}
+		
+		String message = "Could not retrieve value of type " + resultObj.getClass().getName() +" as double.";
+		throw new IllegalStateException(message);
+		
 	}
 
 	/**
@@ -372,7 +392,8 @@ public class JavaScriptObject {
 	 * @return
 	 */
 	public JSObject evalForJsObject(String command) {
-		JSObject result = (JSObject) jsObject.eval(command);
+		Object resultObj = jsObject.eval(command);
+		JSObject result = (JSObject) resultObj;
 		return result;
 	};
 

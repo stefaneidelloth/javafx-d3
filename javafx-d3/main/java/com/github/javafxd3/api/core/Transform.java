@@ -66,7 +66,7 @@ public class Transform extends JavaScriptObject {
 	 * @return the Transform object
 	 */
 	public Transform parse(String transformString) {
-		String command = "d3.transform(" + transformString + ")";
+		String command = "d3.transform('" + transformString + "')";
 		JSObject result = evalForJsObject(command);
 		return new Transform(webEngine, result);
 	}

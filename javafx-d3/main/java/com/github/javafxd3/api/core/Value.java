@@ -104,10 +104,17 @@ public class Value extends JavaScriptObject {
 	 *
 	 * @return the value
 	 */
-	public byte asByte() {
+	public Byte asByte() {
 		String command = "~~this.datum;";
 		Object result = eval(command);
-		return (byte) result;
+		
+		boolean isUndefined = result.equals("undefined");
+		if(isUndefined){			
+			return null;
+		}
+		
+		int intResult = (int) result;
+		return (byte) intResult;
 	}
 
 	/**
@@ -118,8 +125,10 @@ public class Value extends JavaScriptObject {
 	 */
 	public char asChar() {
 		String command = "~~this.datum;";
-		Object result = eval(command);
-		return (char) result;
+		Object resultObj = eval(command);
+		int intResult = (int) resultObj;
+		char result = Character.toChars(intResult)[0];
+		return result;
 	}
 
 	public JsDate asJsDate(){
@@ -137,8 +146,22 @@ public class Value extends JavaScriptObject {
 	 */
 	public double asDouble() {
 		String command = "this.datum-0;";
-		Object result = eval(command);
-		return (double) result;
+		Object resultObj = eval(command);
+		
+		boolean isDouble = resultObj instanceof Float;
+		if (isDouble){
+			Double result = (Double) resultObj;
+			return result;
+		}
+		
+		boolean isNumber = resultObj instanceof Number;
+		if (isNumber){
+			Double result = Double.parseDouble("" + resultObj);
+			return result;
+		}
+		
+		String message = "Could not convert result of type " + resultObj.getClass().getName() + " to double.";
+		throw new IllegalStateException(message);
 	}
 
 	/**
@@ -149,8 +172,21 @@ public class Value extends JavaScriptObject {
 	 */
 	public float asFloat() {
 		String command = "this.datum-0;";
-		Object result = eval(command);
-		return (float) result;
+		Object resultObj = eval(command);
+		boolean isFloat = resultObj instanceof Float;
+		if (isFloat){
+			Float result = (Float) resultObj;
+			return result;
+		}
+		
+		boolean isNumber = resultObj instanceof Number;
+		if (isNumber){
+			Float result = Float.parseFloat("" + resultObj);
+			return result;
+		}
+		
+		String message = "Could not convert result of type " + resultObj.getClass().getName() + " to float.";
+		throw new IllegalStateException(message);
 	}
 
 	/**
@@ -159,12 +195,43 @@ public class Value extends JavaScriptObject {
 	 *
 	 * @return the value
 	 */
-	public int asInt() {
+	public Integer asInt() {
 		String command = "this.datum;";
-		Object result = eval(command);
-		String resultString = result.toString();
-		int integerResult = Integer.parseInt(resultString);
-		return integerResult;
+		Object resultObj = eval(command);
+		
+		if (resultObj == null){
+			return null;
+		}
+		
+		String resultString = resultObj.toString();
+		boolean isNaN = resultString.equals("NaN");
+		if(isNaN){			
+			return null;
+		}		
+		
+		boolean isUndefined = resultString.equals("undefined");
+		if(isUndefined){			
+			return null;
+		}
+		
+		boolean isFalse = resultString.equals("false");
+		if(isFalse){			
+			return 0;
+		}
+		
+		boolean isTrue = resultString.equals("true");
+		if(isTrue){			
+			return 1;
+		}
+		
+		try{
+			int integerResult = Integer.parseInt(resultString);
+			return integerResult;
+		} catch (Exception exception){
+			double doubleResult = Double.parseDouble(resultString);
+			int intResult = (int) doubleResult;
+			return intResult;
+		}
 	}
 
 	/**
@@ -174,9 +241,8 @@ public class Value extends JavaScriptObject {
 	 * @return the value
 	 */
 	public final long asLong() {
-		String command = "(long) asDouble();";
-		Object result = eval(command);
-		return (long) result;
+		long result = (long) asDouble();		
+		return  result;
 	}
 
 	/**
@@ -185,10 +251,44 @@ public class Value extends JavaScriptObject {
 	 *
 	 * @return the value
 	 */
-	public short asShort() {
+	public Short asShort() {
 		String command = "this.datum";
-		Object result = eval(command);
-		return (short) result;
+		Object resultObj = eval(command);
+		
+		if (resultObj==null){
+			return null;
+		}
+		
+		String resultString = resultObj.toString();
+		boolean isNaN = resultString.equals("NaN");
+		if (isNaN){
+			return null;
+		}
+		
+		boolean isUndefined = resultString.equals("undefined");
+		if(isUndefined){			
+			return null;
+		}
+		
+		boolean isFalse = resultString.equals("false");
+		if(isFalse){			
+			return 0;
+		}
+		
+		boolean isTrue = resultString.equals("true");
+		if(isTrue){			
+			return 1;
+		}
+		
+		try{
+		short result = Short.parseShort("" + resultObj);			
+		return result;
+		} catch (Exception excepiton){
+			double doubleResult = Double.parseDouble("" + resultObj);
+			short result = (short) doubleResult;
+			return result;
+		}
+		
 	}
 
 	/**

@@ -190,7 +190,7 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 */
 	public Zoom scaleExtent(Double[] scale) {
 		String arrayString = ArrayUtils.createArrayString(scale);
-		String command = "this.scaleExtend(" + arrayString + ")";
+		String command = "this.scaleExtent(" + arrayString + ")";
 		JSObject result = evalForJsObject(command);
 		return new Zoom(webEngine, result);
 	}
@@ -226,6 +226,9 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 */
 	public Array<Double> center() {
 		JSObject result = call("center");
+		if (result == null){
+			return null;
+		}
 		return new Array<Double>(webEngine, result);
 	}
 
@@ -322,7 +325,8 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 * @return the current zoom
 	 */
 	public Zoom event(Selection selection) {
-		JSObject result = call("event", selection);
+		JSObject jsObject = selection.getJsObject();
+		JSObject result = call("event", jsObject);
 		return new Zoom(webEngine, result);
 	}
 

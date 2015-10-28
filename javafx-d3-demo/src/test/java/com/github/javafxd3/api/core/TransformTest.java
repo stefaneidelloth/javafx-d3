@@ -16,6 +16,10 @@ public class TransformTest extends AbstractTestCase {
 	@Test
 	public void doTest() {
 		
+		doOnJavaFXThread(()->runTest());
+	}
+
+	private void runTest() {
 		Transform transform = new Transform(webEngine);
 		
 		// empty

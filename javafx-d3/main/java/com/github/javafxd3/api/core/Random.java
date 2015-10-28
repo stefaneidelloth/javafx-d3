@@ -102,7 +102,10 @@ public class Random extends JavaScriptObject {
 	 * @return the generator
 	 */
 	public Random normal(double mean, double deviation) {
-		JSObject result = call("mean", mean, deviation);
+		JSObject result = call("normal", mean, deviation);
+		if (result == null){
+			return null;
+		}
 		return new Random(webEngine, result);
 	}
 

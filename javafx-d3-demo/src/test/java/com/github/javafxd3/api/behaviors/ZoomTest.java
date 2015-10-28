@@ -2,19 +2,14 @@ package com.github.javafxd3.api.behaviors;
 
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
 import org.junit.Test;
 
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.behaviour.Zoom;
 import com.github.javafxd3.api.behaviour.Zoom.ZoomEventType;
-import com.github.javafxd3.api.core.Value;
+import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.wrapper.Element;
 
 /**
  * Tests the class Zoom   
@@ -26,7 +21,8 @@ public class ZoomTest extends AbstractTestCase {
 	@Override
 	@Test
 	public void doTest() {
-		testCreate();
+		Runnable testRunnable = ()->testCreate();
+		doOnJavaFXThread(testRunnable);
 	}
 
 	private void testCreate() {
@@ -44,9 +40,11 @@ public class ZoomTest extends AbstractTestCase {
 		zoom.size(400, 300);
 		assertEquals(400.0, zoom.size().get(0, Double.class), DELTA);
 		assertEquals(300.0, zoom.size().get(1, Double.class), DELTA);
+		
+		Selection body = d3.select("body");
 
-		zoom.event(d3.select("body"));
-		zoom.event(d3.select("body").transition());
+		zoom.event(body);
+		zoom.event(body.transition());
 
 		zoom.on(ZoomEventType.ZOOMSTART, noopListener);
 		zoom.on(ZoomEventType.ZOOM, noopListener);

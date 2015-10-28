@@ -27,8 +27,8 @@ public class HSLColor extends Color {
 	/**
 	 * @return the hue component in the range [0;360]
 	 */
-	public int h() {
-		Integer result = getMemberForInteger("h");
+	public double h() {
+		Double result = getMemberForDouble("h");
 		return result;
 	}
 

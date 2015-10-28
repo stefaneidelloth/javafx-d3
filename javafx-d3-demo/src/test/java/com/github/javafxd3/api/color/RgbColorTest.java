@@ -18,6 +18,11 @@ public class RgbColorTest extends AbstractTestCase {
 	@Test
 	public void doTest() {
 		
+		Runnable testRunnable = ()->createRgbColor();
+		doOnJavaFXThread(testRunnable);
+	}
+
+	private void createRgbColor() {
 		Colors colors = new Colors(webEngine);
 		
 		RGBColor rgb = colors.rgb("#ff0000");

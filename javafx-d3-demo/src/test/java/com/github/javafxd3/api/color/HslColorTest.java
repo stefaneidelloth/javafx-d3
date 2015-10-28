@@ -16,17 +16,21 @@ public class HslColorTest extends AbstractTestCase {
 	@Override
 	@Test
 	public void doTest() {
-		
+		Runnable testRunnable = ()->createHslColor();
+		doOnJavaFXThread(testRunnable);
+	}
+
+	private void createHslColor() {
 		Colors colors = new Colors(webEngine);
 		
 		HSLColor hsl = colors.hsl("red");
-		assertEquals(0, hsl.h());
+		assertEquals(0.0, hsl.h(), 1e-6);
 		assertEquals(1.0, hsl.s(), 1e-6);
 		assertEquals(0.5, hsl.l(), 1e-6);
 		hsl = hsl.darker();
 		assertTrue(hsl.h() < 255);
 		hsl = hsl.brighter();
-		assertEquals(0, hsl.h());
+		assertEquals(0.0, hsl.h());
 		RGBColor rgb = hsl.rgb();
 		assertEquals(255, rgb.r());
 		assertEquals(0, rgb.g());
@@ -36,7 +40,7 @@ public class HslColorTest extends AbstractTestCase {
 		System.out.println(hsl2.toHexaString());
 
 		HSLColor hsl3 = colors.hsl(rgb);
-		assertEquals(0, hsl3.h());
+		assertEquals(0.0, hsl3.h(), 1e-6);
 		assertEquals(1.0, hsl3.s(), 1e-6);
 		assertEquals(0.5, hsl3.l(), 1e-6);
 	}	
