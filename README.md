@@ -36,7 +36,7 @@ for Java desktop applications to produce neat visualizations [[5]](https://githu
 
 ## License ##
 
-This project is lisenced under BSD:
+This project is licensed under BSD:
 * javafx-d3: https://github.com/stefaneidelloth/javafx-d3/blob/master/LICENSE
 
 Javafx-d3 is based on third party code which is licensed under BSD as well:
