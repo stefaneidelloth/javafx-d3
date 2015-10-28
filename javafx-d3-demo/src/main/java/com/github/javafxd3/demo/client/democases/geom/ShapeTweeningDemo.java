@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Transition.EventType;
 import com.github.javafxd3.api.functions.DatumFunction;
@@ -164,7 +165,7 @@ public class ShapeTweeningDemo extends AbstractDemoCase {
 
 		double area = polygon.area();
 		double radius = Math.sqrt(Math.abs(area) / Math.PI);
-		List<Double> centroid = polygon.centroid(-1 / (6 * area));
+		Array<Double> centroid = polygon.centroid(-1 / (6 * area));
 		double angleOffset = -Math.PI / 2;
 		double k = (2 * Math.PI) / lengths.get(lengths.size() - 1);
 
@@ -173,8 +174,8 @@ public class ShapeTweeningDemo extends AbstractDemoCase {
 		i = -1;
 		while (++i < n) {
 			double angle = angleOffset + (lengths.get(i) * k);
-			double first = (double) centroid.get(0) + (radius * Math.cos(angle));
-			double second = (double) centroid.get(1) + (radius * Math.sin(angle));
+			double first = (double) centroid.get(0, Double.class) + (radius * Math.cos(angle));
+			double second = (double) centroid.get(1, Double.class) + (radius * Math.sin(angle));
 
 			circle.add(new Double[] { first, second });
 		}

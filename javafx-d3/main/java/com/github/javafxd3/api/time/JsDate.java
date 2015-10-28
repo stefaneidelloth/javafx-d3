@@ -1,12 +1,7 @@
 package com.github.javafxd3.api.time;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Locale;
 
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
@@ -32,7 +27,7 @@ public class JsDate extends JavaScriptObject {
 	public static JsDate create(WebEngine webEngine, long time) {
 		D3 d3 = new D3(webEngine);
 		Date date = new Date(time);
-		int year = date.getYear();
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss:SSS");
 		String dateString = dateFormat.format(date);
 

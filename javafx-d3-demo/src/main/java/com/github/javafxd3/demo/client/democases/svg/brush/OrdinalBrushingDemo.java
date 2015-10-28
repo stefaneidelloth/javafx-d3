@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
@@ -13,7 +14,6 @@ import com.github.javafxd3.api.svg.Brush;
 import com.github.javafxd3.api.svg.Brush.BrushEvent;
 import com.github.javafxd3.api.svg.Symbol;
 import com.github.javafxd3.api.svg.Symbol.Type;
-import com.github.javafxd3.api.wrapper.Element;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
@@ -144,7 +144,7 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 	}
 
 	private void brushmove() {
-		final Double[] extent = d3.event().getEventTarget().<Brush> cast().extent();
+		final Array<Double> extent = d3.event().getEventTarget().<Brush> cast().extent();
 		symbol.classed("selected", new DatumFunction<Boolean>() {
 			@Override
 			public Boolean apply(final Object context, final Object d, final int index) {
@@ -152,7 +152,7 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 				Value datum = (Value) d;
 				
 				double value = x.apply(datum.<Type> as().getValue()).asDouble();
-				return extent[0] <= value && value <= extent[1];
+				return extent.get(0, Double.class) <= value && value <= extent.get(1, Double.class);
 			}
 		});
 	}

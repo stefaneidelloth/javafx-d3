@@ -1,8 +1,7 @@
 package com.github.javafxd3.api.geom;
 
-
-
-
+import com.github.javafxd3.api.arrays.Array;
+import com.github.javafxd3.api.arrays.ArrayUtils;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.layout.Link;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
@@ -17,9 +16,6 @@ import netscape.javascript.JSObject;
  * Tovi Grossman’s paper on <a
  * href="http://www.tovigrossman.com/BubbleCursor">bubble cursors</a> for a
  * related concept.
- *
- * 
- *
  */
 public class Voronoi extends JavaScriptObject {
 
@@ -32,7 +28,6 @@ public class Voronoi extends JavaScriptObject {
     public Voronoi(WebEngine webEngine, JSObject wrappedJsObject) {
     	super(webEngine);
     	setJsObject(wrappedJsObject);
-
     }
     
     //#end region
@@ -87,9 +82,9 @@ public class Voronoi extends JavaScriptObject {
      *
      * @return the current clip extent which defaults to null.
      */
-    public  Double[][] clipExtent(){
-    	throw new IllegalStateException("not yet implemented");
-    	//return this.clipExtent();
+    public  Array<Array<Double>> clipExtent(){
+    	JSObject result = call("clipExtendt");
+    	return new Array<Array<Double>>(webEngine, result);    	
     }
 
     /**
@@ -106,9 +101,17 @@ public class Voronoi extends JavaScriptObject {
      *            the array of vertices
      * @return the array of polygons
      */
-    public  <T> T[] apply(T[] vertices){
-    	throw new IllegalStateException("not yet implemented");
-    	//return this(vertices);
+    public  <T> Array<T> apply(Array<T> vertices){
+    	JSObject arrayObj = vertices.getJsObject();
+    	JSObject result = callThisForJsObject(arrayObj);
+    	return new Array<T>(webEngine, result);    	
+    }
+    
+    public  Array<Array<Double>> apply(Double[][] vertices){
+    	String arrayString = ArrayUtils.createArrayString(vertices);
+    	String command = "this.(" + arrayString + ")";
+    	JSObject result = evalForJsObject(command);
+    	return new Array<Array<Double>>(webEngine, result);    	
     }
 
     /**

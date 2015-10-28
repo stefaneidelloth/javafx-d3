@@ -8,11 +8,7 @@ import netscape.javascript.JSObject;
  * <ul>
  * <li>{@link ContinuousQuantitativeScale} have a continuous output range
  * <li>{@link DiscreteQuantitativeScale} have a discrete output range
- * </ul>
- * 
- * 
- * 
- * 
+ * </ul> 
  */
 public abstract class QuantitativeScale<S extends QuantitativeScale<S>> extends Scale<S> {
 
@@ -26,7 +22,6 @@ public abstract class QuantitativeScale<S extends QuantitativeScale<S>> extends 
 	 */
 	public QuantitativeScale(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);
-
 	}
 
 	// #end region

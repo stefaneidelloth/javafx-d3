@@ -21,7 +21,6 @@ public class WidgetCollection extends JavaScriptObject implements Iterable<Widge
 		super(webEngine);
 		setJsObject(wrappedJsObject);
 	}
-
 	
 	//#end region
 	
@@ -33,9 +32,4 @@ public class WidgetCollection extends JavaScriptObject implements Iterable<Widge
 	
 	//#end region
 	
-	//#region ACCESSORS
-
-		
-	//#end region
-
 }

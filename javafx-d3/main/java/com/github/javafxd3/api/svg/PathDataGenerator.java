@@ -48,9 +48,6 @@ import netscape.javascript.JSObject;
  * <p>
  *
  * @see <a href="https:generators">Official API</a>
- *
- * 
- *
  */
 public abstract class PathDataGenerator extends JavaScriptObject implements IsFunction {
 
@@ -206,7 +203,7 @@ public abstract class PathDataGenerator extends JavaScriptObject implements IsFu
 	 * @return the generated path data
 	 */
 	public final String generate(final Double... data) {
-		Array array = Array.fromDoubles(webEngine, data);
+		Array<Double> array = Array.fromDoubles(webEngine, data);
 		String result = generate(array);
 		return result;
 	}

@@ -24,11 +24,7 @@ import netscape.javascript.JSObject;
  * so as to draw annular segments at the start and end of the chords. In
  * addition, the {@link com.github.javafxd3.api.layout.Chord} layout is useful
  * for generating objects that describe a set of grouped chords from a matrix,
- * compatible with the default accessors.
- * 
- * 
- * 
- * 
+ * compatible with the default accessors. 
  */
 public class Chord extends PathDataGenerator {
 

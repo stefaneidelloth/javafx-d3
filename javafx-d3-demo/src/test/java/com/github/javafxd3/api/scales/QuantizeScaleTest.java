@@ -39,8 +39,8 @@ public class QuantizeScaleTest extends AbstractTestCase {
 		// domain: only 1st and last number are taken
 		quantize.domain(0.0, 1.0, 30.0);
 		// it takes only the first and last
-		assertEquals(0.0, quantize.domain()[0]);
-		assertEquals(30.0, quantize.domain()[1]);
+		assertEquals(0.0, quantize.domain().get(0, Double.class));
+		assertEquals(30.0, quantize.domain().get(1, Double.class));
 
 		assertEquals(0.0, quantize.apply(-10.0).asDouble(),DELTA);
 		assertEquals(0.0, quantize.apply(0.0).asDouble(),DELTA);
@@ -53,19 +53,19 @@ public class QuantizeScaleTest extends AbstractTestCase {
 		assertEquals(100.0, quantize.apply(261).asDouble(),DELTA);
 
 		//invertextent
-		assertEquals(0.0, quantize.invertExtent(0.0)[0],DELTA);
-		assertEquals(10.0, quantize.invertExtent(0.0)[1],DELTA);
+		assertEquals(0.0, quantize.invertExtent(0.0).get(0, Double.class),DELTA);
+		assertEquals(10.0, quantize.invertExtent(0.0).get(1, Double.class),DELTA);
 
 		// getters
-		assertEquals(0.0, quantize.range()[0]);
-		assertEquals(1.0, quantize.range()[1]);
-		assertEquals(100.0, quantize.range()[2]);
+		assertEquals(0.0, quantize.range().get(0, Double.class));
+		assertEquals(1.0, quantize.range().get(1, Double.class));
+		assertEquals(100.0, quantize.range().get(2, Double.class));
 
 		// copy
 		quantize.copy().range(5, 6, 7);
-		assertEquals(0.0, quantize.range()[0]);
-		assertEquals(1.0, quantize.range()[1]);
-		assertEquals(100.0, quantize.range()[2]);
+		assertEquals(0.0, quantize.range().get(0, Double.class));
+		assertEquals(1.0, quantize.range().get(1, Double.class));
+		assertEquals(100.0, quantize.range().get(2, Double.class));
 
 	}
 }

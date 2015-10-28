@@ -11,12 +11,7 @@ import netscape.javascript.JSObject;
  * Data must be an array-like structure. the type of the array elements depends
  * on the x and y functions. the default x and y functions assumes that each
  * input element is a two-element array of numbers.
- * <p>
- * 
- * <p>
- * 
- * 
- * 
+ * <p> 
  */
 public class Line extends PathDataGenerator {
 
@@ -30,7 +25,6 @@ public class Line extends PathDataGenerator {
 	 */
 	public Line(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);
-
 	}
 
 	// #end region
@@ -122,10 +116,8 @@ public class Line extends PathDataGenerator {
 	 * @return
 	 */
 	public Line x(final DatumFunction<Double> callback) {
-
 		JSObject result = applyDatumFunction("x", callback);
 		return new Line(webEngine, result);
-
 	}
 
 	// should create a JSO impl of DatumFunction calling himself
@@ -156,7 +148,6 @@ public class Line extends PathDataGenerator {
 	 * @return
 	 */
 	public Line y(final DatumFunction<Double> callback) {
-
 		JSObject result = applyDatumFunction("y", callback);
 		return new Line(webEngine, result);
 	}
@@ -232,10 +223,7 @@ public class Line extends PathDataGenerator {
 	 * {@link Line#interpolate(InterpolationMode)}.
 	 * <p>
 	 * The behavior of some of these interpolation modes may be further
-	 * customized by specifying a {@link Line#tension()}.
-	 * 
-	 * 
-	 * 
+	 * customized by specifying a {@link Line#tension()}. 
 	 */
 	public static enum InterpolationMode {
 

@@ -1,8 +1,5 @@
 package com.github.javafxd3.api.arrays;
 
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.wrapper.JavaScriptObject;
-
 /**
  * Convenient methods to deal with arrays.
  * <p>
@@ -94,41 +91,42 @@ public class Arrays {
 	// };
 
 	/**
-     * Transform the values in the given array using the specified
-     * {@link ForEachCallback} and returns the maximum value in the transformed
-     * values using natural order.
-     * <p>
-     * The given {@link NumericForEachCallback} is equivalent to calling
-     * array.map(accessor) before computing the maximum value.
-     * <p>
-     * If the array is empty, returns undefined.
-     * <p>
-     * Unlike the built-in {@link Math#max}, this method ignores undefined
-     * values; this is useful for computing the domain of a scale while only
-     * considering the defined region of the data.
-     * <p>
-     * In addition, elements are compared using numeric order.
-     *
-     * @param array
-     *            the array to be transformed
-     * @param accessor
-     *            the function used to convert each element in the original
-     *            array to a transformed value
-     * @return the maximum of the transformed values as a {@link Value} object
-     */
-//    public static Value max(WebEngine webEngine, JavaScriptObject array, NumericForEachCallback accessor) {
-//    	D3 d3 = new D3(webEngine);
-//    	
-//		var rs = $wnd.d3
-//				.max(
-//						array,
-//						function(d, i, a) {
-//							return accessor.forEach(this,{datum:d},i,a);
-//						});
-//		return {
-//			datum : rs
-//		};
-//    };
+	 * Transform the values in the given array using the specified
+	 * {@link ForEachCallback} and returns the maximum value in the transformed
+	 * values using natural order.
+	 * <p>
+	 * The given {@link NumericForEachCallback} is equivalent to calling
+	 * array.map(accessor) before computing the maximum value.
+	 * <p>
+	 * If the array is empty, returns undefined.
+	 * <p>
+	 * Unlike the built-in {@link Math#max}, this method ignores undefined
+	 * values; this is useful for computing the domain of a scale while only
+	 * considering the defined region of the data.
+	 * <p>
+	 * In addition, elements are compared using numeric order.
+	 *
+	 * @param array
+	 *            the array to be transformed
+	 * @param accessor
+	 *            the function used to convert each element in the original
+	 *            array to a transformed value
+	 * @return the maximum of the transformed values as a {@link Value} object
+	 */
+	// public static Value max(WebEngine webEngine, JavaScriptObject array,
+	// NumericForEachCallback accessor) {
+	// D3 d3 = new D3(webEngine);
+	//
+	// var rs = $wnd.d3
+	// .max(
+	// array,
+	// function(d, i, a) {
+	// return accessor.forEach(this,{datum:d},i,a);
+	// });
+	// return {
+	// datum : rs
+	// };
+	// };
 
 	/**
 	 * Returns the minimum value in the given array using natural order.

@@ -1,5 +1,6 @@
 package com.github.javafxd3.api.layout;
 
+import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.coords.Coords;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
@@ -44,14 +45,23 @@ public class Link extends JavaScriptObject {
 	 * 
 	 * @return the link object
 	 */
-	public static Link create(Coords source, Coords target) {
-
-		throw new IllegalStateException("not yet implemented");
-
-		/*
-		 * 
-		 * return { source : source, target : target };
-		 */
+	public static Link create(WebEngine webEngine, Coords source, Coords target) {
+		JSObject sourceObj = source.getJsObject();
+		JSObject targetObj = target.getJsObject();
+		D3 d3 = new D3(webEngine);
+		JSObject d3Obj = d3.getJsObject();
+		
+		String sourceVarName = "temp__source_var";
+		String targetVarName = "temp__target_var";
+		d3Obj.setMember(sourceVarName, sourceObj);
+		d3Obj.setMember(targetVarName, targetObj);
+		String command = "{ source : this."+ sourceVarName +", target : this."+ targetVarName +" }";
+		JSObject result = d3.evalForJsObject(command);
+		
+		d3Obj.removeMember(sourceVarName);
+		d3Obj.removeMember(targetVarName);
+		
+		return new Link(webEngine, result);		
 	}
 
 	/**
@@ -60,7 +70,6 @@ public class Link extends JavaScriptObject {
 	public Node target() {
 		JSObject result = getMember("target");
 		return new Node(webEngine, result);
-
 	}
 
 	/**

@@ -1,10 +1,5 @@
 package com.github.javafxd3.api.interpolators;
 
-
-
-
-
-
 import com.github.javafxd3.api.color.Color;
 import com.github.javafxd3.api.color.HSLColor;
 import com.github.javafxd3.api.color.RGBColor;
@@ -17,10 +12,7 @@ import javafx.scene.web.WebEngine;
 
 /**
  * Provide access to the d3.interpolat* methods.
- * <p>
- * 
- * 
- * 
+ * <p> 
  */
 public class Interpolators {
 	

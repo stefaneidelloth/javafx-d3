@@ -1,12 +1,11 @@
 package com.github.javafxd3.api.scales;
 
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 
 @SuppressWarnings("javadoc")
 public class QuantileScaleTest extends AbstractTestCase {
@@ -21,17 +20,17 @@ public class QuantileScaleTest extends AbstractTestCase {
 		
 		QuantileScale quantile = d3.scale().quantile();
 		// domain and range are null
-		assertEquals(0, quantile.domain().length);
-		assertEquals(0, quantile.range().length);
+		assertEquals(0, quantile.domain().length());
+		assertEquals(0, quantile.range().length());
 
 		// domain
 		quantile.domain(1, 1, 1, 1, 2, 5, 6, 100);
 		quantile.range("one", "two", "three", "last one");
-		Double[] quantiles = quantile.quantiles();
+		Array<Double> quantiles = quantile.quantiles();
 
-		assertEquals(1.0, quantiles[0],DELTA);
-		assertEquals(1.5, quantiles[1],DELTA);
-		assertEquals(5.25, quantiles[2],DELTA);
+		assertEquals(1.0, quantiles.get(0, Double.class),DELTA);
+		assertEquals(1.5, quantiles.get(1, Double.class),DELTA);
+		assertEquals(5.25, quantiles.get(2, Double.class),DELTA);
 
 		assertEquals("one", quantile.apply(0.5).asString());
 		assertEquals("two", quantile.apply(1.0).asString());
@@ -41,15 +40,15 @@ public class QuantileScaleTest extends AbstractTestCase {
 		assertEquals("last one", quantile.apply(60.0).asString());
 
 		//invertextent
-		assertEquals(1.5, quantile.invertExtent("three")[0],DELTA);
-		assertEquals(5.25, quantile.invertExtent("three")[1],DELTA);
+		assertEquals(1.5, quantile.invertExtent("three").get(0, Double.class),DELTA);
+		assertEquals(5.25, quantile.invertExtent("three").get(1, Double.class),DELTA);
 
 		//copy
 		QuantileScale copy = quantile.copy();
 		copy.domain(1, 2, 3);
-		assertEquals(1.0, quantiles[0],DELTA);
-		assertEquals(1.5, quantiles[1],DELTA);
-		assertEquals(5.25, quantiles[2],DELTA);
+		assertEquals(1.0, quantiles.get(0, Double.class),DELTA);
+		assertEquals(1.5, quantiles.get(1, Double.class),DELTA);
+		assertEquals(5.25, quantiles.get(2, Double.class),DELTA);
 
 	}
 }

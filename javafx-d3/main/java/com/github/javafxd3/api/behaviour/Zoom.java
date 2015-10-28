@@ -1,6 +1,7 @@
 package com.github.javafxd3.api.behaviour;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.arrays.ArrayUtils;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Transition;
@@ -29,12 +30,7 @@ import netscape.javascript.JSObject;
  * </pre>
  * 
  * 
- *         <a href="https://github.com/augbog">Augustus Yuan</a>
- * 
- */
-
-/**
- * 
+ * <a href="https://github.com/augbog">Augustus Yuan</a>
  * 
  */
 public class Zoom extends JavaScriptObject implements IsFunction {
@@ -48,7 +44,6 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	public Zoom(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
-
 	}
 
 	// #end region
@@ -101,17 +96,16 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 */
 	public Zoom on(ZoomEventType type, DatumFunction<Void> listener) {
 
-		throw new IllegalStateException("not yet implemented");
+		String listenerName = "listener_callback";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(listenerName, listener);
 
-		/*
-		 * JSObject result = call( this .on(
-		 * type.@com.github.gwtd3.api.behaviour.Zoom.ZoomEventType::name()()
-		 * .toLowerCase(), function(d, index) {
-		 * listener.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},index); });
-		 * 
-		 */
+		String eventName = type.name().toLowerCase();
+
+		String command = "this.on('" + eventName + "', " + "function(d, index) { this." + listenerName
+				+ ".apply(this,{datum:d},index); });";
+		JSObject result = evalForJsObject(command);
+		return new Zoom(webEngine, result);
 	}
 
 	/**
@@ -178,10 +172,9 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 * 
 	 * @return the zoom scale's allowed range as a two-element array
 	 */
-	public Double[] scaleExtent() {
-		throw new IllegalStateException("not yet implemented");
-
-		// JSObject result = call("scaleExtent");
+	public Array<Double> scaleExtent() {
+		JSObject result = call("scaleExtent");
+		return new Array<Double>(webEngine, result);
 	}
 
 	/**
@@ -231,11 +224,9 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 * 
 	 * @return the array of double
 	 */
-	public Double[] center() {
-
-		throw new IllegalStateException("not yet implemented");
-
-		// JSObject result = call("center()");
+	public Array<Double> center() {
+		JSObject result = call("center");
+		return new Array<Double>(webEngine, result);
 	}
 
 	/**
@@ -250,7 +241,7 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 *            the height of the viewport
 	 * @return the current zoom instance
 	 */
-	public  Zoom size(int width, int height){		
+	public Zoom size(int width, int height) {
 		String command = "this.size([" + width + "," + height + "])";
 		JSObject result = evalForJsObject(command);
 		return new Zoom(webEngine, result);
@@ -262,10 +253,9 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 * 
 	 * @return the size
 	 */
-	public  Double[] size(){
-		throw new IllegalStateException("not yet implemented");
-
-		// JSObject result = call("size()");
+	public Array<Double> size() {
+		JSObject result = call("size");
+		return new Array<Double>(webEngine, result);
 	}
 
 	/**
@@ -274,7 +264,7 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 * 
 	 * @return the current zoom scale
 	 */
-	public  double scale(){
+	public double scale() {
 		Double result = callForDouble("scale");
 		return result;
 	}
@@ -287,7 +277,7 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 *            the zoom scale factor
 	 * @return the current zoom object
 	 */
-	public  Zoom scale(double scale){		
+	public Zoom scale(double scale) {
 		JSObject result = call("scale", scale);
 		return new Zoom(webEngine, result);
 	}
@@ -298,9 +288,9 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 * 
 	 * @return the current translation vector
 	 */
-	public  Double[] translate(){
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call("translate");
+	public Array<Double> translate() {
+		JSObject result = call("translate");
+		return new Array<Double>(webEngine, result);
 	}
 
 	/**
@@ -311,10 +301,11 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 *            current zoom translation vector
 	 * @return the current zoom object
 	 */
-	public  Zoom translate(Double[] vector){
-		
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call("translate", vector);
+	public Zoom translate(Double[] vector) {
+		String arrayString = ArrayUtils.createArrayString(vector);
+		String command = "this.translate(" + arrayString + ");";
+		JSObject result = evalForJsObject(command);
+		return new Zoom(webEngine, result);
 	}
 
 	/**
@@ -323,14 +314,14 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 * {@link ZoomEventType#ZOOM} and {@link ZoomEventType#ZOOMEND}.
 	 * <p>
 	 * This can be useful in triggering listeners after setting the
-	 *  #translate(Array) or {@link #scale(double)} programmatically.
+	 * #translate(Array) or {@link #scale(double)} programmatically.
 	 * <p>
 	 * 
 	 * @param selection
 	 *            the selection to triggers the events to.
 	 * @return the current zoom
 	 */
-	public  Zoom event(Selection selection){		
+	public Zoom event(Selection selection) {
 		JSObject result = call("event", selection);
 		return new Zoom(webEngine, result);
 	}
@@ -350,7 +341,7 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 * @param selection
 	 * @return
 	 */
-	public  Zoom event(Transition selection){		
+	public Zoom event(Transition selection) {
 		JSObject jsObject = selection.getJsObject();
 		JSObject result = call("event", jsObject);
 		return new Zoom(webEngine, result);
@@ -368,22 +359,22 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 	 */
 	public static class ZoomEvent extends JavaScriptObject {
 
-		//#region CONSTRUCTORS
-		
+		// #region CONSTRUCTORS
+
 		/**
 		 * Constructor
+		 * 
 		 * @param webEngine
 		 * @param wrappedJsObject
 		 */
 		public ZoomEvent(WebEngine webEngine, JSObject wrappedJsObject) {
 			super(webEngine);
 			setJsObject(wrappedJsObject);
-
 		}
-		
-		//#end region
-		
-		//#region METHODS
+
+		// #end region
+
+		// #region METHODS
 
 		/**
 		 * The scale of the zoom
@@ -395,7 +386,6 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 		public double scale() {
 			Double result = getMemberForDouble("scale");
 			return result;
-			
 		}
 
 		/**
@@ -404,11 +394,9 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 		 * @return the translation vector
 		 */
 
-		public Double[] translate() {
-			
-			throw new IllegalStateException("not yet implemented");
-			//JSObject result = getMember("translate");
-			//return result;
+		public Array<Double> translate() {
+			JSObject result = getMember("translate");
+			return new Array<Double>(webEngine, result);
 		}
 
 		/**
@@ -418,10 +406,8 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 		 */
 
 		public double translateX() {
-			
 			Double result = evalForDouble("this.translate[0];");
 			return result;
-
 		}
 
 		/**
@@ -431,12 +417,10 @@ public class Zoom extends JavaScriptObject implements IsFunction {
 		 */
 
 		public double translateY() {
-
 			Double result = evalForDouble("this.translate[1];");
 			return result;
-
 		}
-		
+
 		// #end region
 	}
 

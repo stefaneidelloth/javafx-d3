@@ -33,11 +33,7 @@ import netscape.javascript.JSObject;
  * <p>
  * The elements in the output range array need not be numbers; any value or type
  * will work.
- * <p>
- * 
- * 
- * 
- * 
+ * <p> 
  */
 public class ThresholdScale extends DiscreteQuantitativeScale<ThresholdScale> {
 
@@ -51,7 +47,6 @@ public class ThresholdScale extends DiscreteQuantitativeScale<ThresholdScale> {
 	 */
 	public ThresholdScale(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);
-
 	}	
 
 	// #end region
@@ -64,6 +59,5 @@ public class ThresholdScale extends DiscreteQuantitativeScale<ThresholdScale> {
 	}
 	
 	//#end region
-
 
 }

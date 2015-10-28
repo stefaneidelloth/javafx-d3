@@ -26,6 +26,7 @@ import com.github.javafxd3.api.xhr.XmlHttpRequest;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
+import netscape.javascript.JSObject;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
@@ -215,7 +216,9 @@ public class AxisComponent extends AbstractDemoCase {
 						int n = values.length - 1;
 						int i = (int) Math.floor((Math.random() * n) / 2);
 						int j = i + (int) Math.floor((Math.random() * n) / 2) + 1;
-						x.domain(Array.fromObjects(webEngine, values[i].getDate(), values[j].getDate()));
+						JSObject firstObj = values[i].getDate().getJsObject();
+						JSObject secondObj = values[j].getDate().getJsObject();
+						x.domain(Array.fromJavaScriptObjects(webEngine, firstObj, secondObj));
 						Transition transition = svg.transition().duration(750);
 						transition.select("." + "x" + "." + "axis").call(xAxis);
 						transition.select("." + "area").attr("d", area.apply(values));

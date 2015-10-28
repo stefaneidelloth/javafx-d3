@@ -21,10 +21,7 @@ import netscape.javascript.JSObject;
  * <p>
  * 
  * http://bl.ocks.org/mbostock/4343214#index.html
- * http://bl.ocks.org/mbostock/1804919
- * 
- * 
- * 
+ * http://bl.ocks.org/mbostock/1804919 
  */
 public class Quadtree extends JavaScriptObject {
 
@@ -37,7 +34,6 @@ public class Quadtree extends JavaScriptObject {
 	public Quadtree(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
-
 	}
 
 	// #end region
@@ -192,7 +188,6 @@ public class Quadtree extends JavaScriptObject {
 		 */
 		public Node(WebEngine webEngine) {
 			super(webEngine);
-
 		}
 
 		/**
@@ -204,7 +199,6 @@ public class Quadtree extends JavaScriptObject {
 		public Node(WebEngine webEngine, JSObject wrappedJsObject) {
 			super(webEngine);
 			setJsObject(wrappedJsObject);
-
 		}
 
 		// #end region

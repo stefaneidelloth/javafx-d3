@@ -2,6 +2,7 @@ package com.github.javafxd3.api.time;
 
 import java.sql.Time;
 
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.core.Formatter;
 import com.github.javafxd3.api.scales.ContinuousQuantitativeScale;
 import com.github.javafxd3.api.scales.LinearScale;
@@ -34,10 +35,7 @@ import netscape.javascript.JSObject;
  * Although time scales typically have just two dates in their domain, you can
  * specify more than two dates for a polylinear scale. In this case, there must
  * be an equivalent number of values in the output range.
- * <p>
- * 
- * 
- * 
+ * <p> 
  */
 public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 
@@ -139,11 +137,9 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 *            domain
 	 * @return the array of reference ticks
 	 */
-	public <T> T[] ticks(int count) {
+	public <T> Array<T> ticks(int count) {
 		JSObject result = call("ticks", count);
-		// return result;
-		throw new IllegalStateException("not yet implemented");
-
+		return new Array<T>(webEngine, result);
 	}
 
 	/**
@@ -151,10 +147,9 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * 
 	 * @return the array of reference ticks
 	 */
-	public <T> T[] ticks() {
+	public <T> Array<T> ticks() {
 		JSObject result = call("ticks");
-		// return result;
-		throw new IllegalStateException("not yet implemented");
+		return new Array<T>(webEngine, result);
 	}
 
 	/**
@@ -198,11 +193,10 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 *            the number of interval between each tick
 	 * @return the array of reference ticks
 	 */
-	public <T> T[] ticks(Interval interval, int steps) {
+	public <T> Array<T> ticks(Interval interval, int steps) {
 		JSObject intervalObj = interval.getJsObject();
 		JSObject result = call("ticks", intervalObj, steps);
-		// return result;
-		throw new IllegalStateException("not yet implemented");
+		return new Array<T>(webEngine, result);
 	}
 
 	// =========== tickFormat ==========

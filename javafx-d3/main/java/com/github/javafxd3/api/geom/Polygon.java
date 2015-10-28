@@ -1,7 +1,7 @@
 package com.github.javafxd3.api.geom;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.github.javafxd3.api.arrays.Array;
+import com.github.javafxd3.api.arrays.ArrayUtils;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -9,21 +9,9 @@ import netscape.javascript.JSObject;
 /**
  * 
  */
-public class Polygon extends ArrayList<List<Double>> {
+public class Polygon extends Array<Array<Double>> {
 
-	// #region ATTRIBUTES
-
-	/**
-	 * Serialization id
-	 */
-	private static final long serialVersionUID = -5064777499799164675L;
-
-	WebEngine webEngine;
-
-	JSObject wrappedJsObject;
-
-	// #end region
-
+	
 	// #region CONSTRUCTORS
 
 	/**
@@ -31,9 +19,7 @@ public class Polygon extends ArrayList<List<Double>> {
 	 * @param wrappedJsObject
 	 */
 	public Polygon(WebEngine webEngine, JSObject wrappedJsObject) {
-		super();
-		this.webEngine = webEngine;
-		this.wrappedJsObject = wrappedJsObject;
+		super(webEngine, wrappedJsObject);		
 	}
 
 	// #end region
@@ -48,11 +34,9 @@ public class Polygon extends ArrayList<List<Double>> {
 	 * 
 	 * @return the signed area
 	 */
-	public double area() {
-		throw new IllegalStateException("not yet implemented");
-		//Double result = callForDouble("area");
-		//return result;
-		
+	public double area() {		
+		Double result = callForDouble("area");
+		return result;		
 	}
 
 	/**
@@ -61,9 +45,9 @@ public class Polygon extends ArrayList<List<Double>> {
 	 * 
 	 * @return a two-element array representing the centroid of this polygon.
 	 */
-	public List<?> centroid() {
-		throw new IllegalStateException("not yet implemented");
-		//return this.centroid();
+	public Array<?> centroid() {
+		JSObject result = call("centroid");
+		return new Array<Object>(webEngine, result);		
 	}
 
 	/**
@@ -74,9 +58,9 @@ public class Polygon extends ArrayList<List<Double>> {
 	 *            a scale factor
 	 * @return a two-element array representing the centroid of this polygon.
 	 */
-	public List<Double> centroid(double k) {
-		throw new IllegalStateException("not yet implemented");
-		//return this.centroid(k);
+	public Array<Double> centroid(double k) {
+		JSObject result = call("centroid", k);
+		return new Array<Double>(webEngine, result);			
 	}
 
 	/**
@@ -93,8 +77,10 @@ public class Polygon extends ArrayList<List<Double>> {
 	 * @return the clip polygon
 	 */
 	public Polygon clip(Double[][] subject) {
-		throw new IllegalStateException("not yet implemented");
-		//return this.clip(subject);
+		String arrayString = ArrayUtils.createArrayString(subject);
+		String command = "this.clip(" + arrayString + ")";
+		JSObject result = evalForJsObject(command);
+		return new Polygon(webEngine, result);		
 	}
 
 }

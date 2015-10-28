@@ -18,9 +18,6 @@ import netscape.javascript.JSObject;
  * 
  * Diagonals default to Cartesian orientations, but can be used in radial and
  * other orientations using {@link Diagonal#projection(DatumFunction)}.
- * 
- * 
- * 
  */
 public class Diagonal extends PathDataGenerator {
 
@@ -34,7 +31,6 @@ public class Diagonal extends PathDataGenerator {
 	 */
 	public Diagonal(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);
-
 	}
 
 	// #end region

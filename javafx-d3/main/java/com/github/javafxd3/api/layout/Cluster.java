@@ -30,9 +30,7 @@ public class Cluster extends HierarchicalLayout {
 	 */
 	public Cluster(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);
-
 	}
-
 	
 	// #end region
 

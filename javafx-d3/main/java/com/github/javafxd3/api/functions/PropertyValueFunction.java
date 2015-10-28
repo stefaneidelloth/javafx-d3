@@ -1,14 +1,15 @@
 package com.github.javafxd3.api.functions;
 
+import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.wrapper.Element;
+
+import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
 
 /**
  * A convenient {@link DatumFunction} which returns the value of a specified
  * property for each datum.
  * <p>
- * 
- * 
  *
  * @param <T>
  */
@@ -18,9 +19,9 @@ public class PropertyValueFunction<T> implements DatumFunction<T> {
 
 	private final String propertyName;
 	
-	//#end region
-
+	private WebEngine webEngine;
 	
+	//#end region
 
 	// #region CONSTRUCTORS
 
@@ -28,7 +29,8 @@ public class PropertyValueFunction<T> implements DatumFunction<T> {
 	 * Constructor
 	 * @param propertyName
 	 */
-	public PropertyValueFunction(String propertyName) {
+	public PropertyValueFunction(WebEngine webEngine, String propertyName) {
+		this.webEngine = webEngine;
 		this.propertyName=propertyName;
 
 	}
@@ -45,8 +47,8 @@ public class PropertyValueFunction<T> implements DatumFunction<T> {
 	 *            the name of the property the value should be returned of
 	 * @return the new function
 	 */
-	public static <X> PropertyValueFunction<X> forProperty(final String propertyName) {
-		return new PropertyValueFunction<X>(propertyName);
+	public static <X> PropertyValueFunction<X> forProperty(WebEngine webEngine, final String propertyName) {
+		return new PropertyValueFunction<X>(webEngine, propertyName);
 	}
 
 	@Override
@@ -55,11 +57,16 @@ public class PropertyValueFunction<T> implements DatumFunction<T> {
 		return value.as();
 	}
 
-	private static  Value getProperty(String propName, Object v){
+	private Value getProperty(String propName, Object valueObj){
 		
-		throw new IllegalStateException("not yet implemented");
-		//JsObject result = evalForJsObject(command);
-		//return {datum:v.datum[propName]};
+		String varName = "temp_object_var";
+		D3 d3 = new D3(webEngine);
+		JSObject jsObject = d3.getJsObject();
+		jsObject.setMember(varName, valueObj);
+		
+		String command = "{datum:this." +varName +".datum['"+ propName+ "']};";
+		JSObject result = d3.evalForJsObject(command);
+		return new Value(webEngine, result);
 	}
 
 	// #end region

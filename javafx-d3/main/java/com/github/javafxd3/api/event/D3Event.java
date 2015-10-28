@@ -9,8 +9,7 @@ import netscape.javascript.JSObject;
  *
  */
 public class D3Event<T> extends Event<T> {
-	
-		
+			
 	//#region CONSTRUCTORS
 	
 	/**
@@ -24,7 +23,7 @@ public class D3Event<T> extends Event<T> {
 	
 	//#end region
 
-	
+	//#region METHODS
 
     /**
      * Returns the source event that triggered this instance.
@@ -36,4 +35,6 @@ public class D3Event<T> extends Event<T> {
     public T sourceEvent() {
 		return this.sourceEvent;
     };
+    
+    //#end region
 }

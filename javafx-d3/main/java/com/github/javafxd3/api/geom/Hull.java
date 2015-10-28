@@ -27,7 +27,6 @@ public class Hull extends JavaScriptObject {
 	public Hull(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
-
 	}
 
 	// #end region

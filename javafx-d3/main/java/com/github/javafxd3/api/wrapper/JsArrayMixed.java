@@ -31,8 +31,5 @@ public class JsArrayMixed extends JavaScriptObject {
     }
     
     //#end region
-    
-    //#region METHODS
-    //#end region
-
+     
 }

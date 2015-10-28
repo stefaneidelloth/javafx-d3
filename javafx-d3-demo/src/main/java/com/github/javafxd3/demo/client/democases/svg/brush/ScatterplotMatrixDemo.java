@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.arrays.ForEachCallback;
 import com.github.javafxd3.api.core.ObjectAccessor;
 import com.github.javafxd3.api.core.Selection;
@@ -342,7 +343,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 
 	// Highlight the selected circles.
 	private void brushmove(final Point p) {
-		final Double[][] e = brush.extent();
+		final Array<Double> e = brush.extent();
 		svg.selectAll("circle").classed("hidden", new DatumFunction<Boolean>() {
 			@Override
 			public Boolean apply(final Object context, final Object d, final int index) {
@@ -354,10 +355,10 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				double px = datum.<DsvRow> as().get(p.x).asDouble();
 				double py = datum.<DsvRow> as().get(p.y).asDouble();
 				// the extent of the brush
-				double ex0 = e[0][0];
-				double ey0 = e[0][1];
-				double ex1 = e[1][0];
-				double ey1 = e[1][1];
+				double ex0 = e.get(0, 0, Double.class);
+				double ey0 = e.get(0, 1, Double.class);
+				double ex1 = e.get(1, 0, Double.class);
+				double ey1 = e.get(1, 1, Double.class);
 				// hide it (returns true) if the plot is outside the brush
 				// extent
 				boolean b = ex0 > px || px > ex1 || ey0 > py || py > ey1;

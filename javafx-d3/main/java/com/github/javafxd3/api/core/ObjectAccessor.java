@@ -3,6 +3,7 @@ package com.github.javafxd3.api.core;
 import com.github.javafxd3.api.dsv.DsvRow;
 
 public interface ObjectAccessor<D, T> {
+	
     /**
      * The accessor function which transform a {@link DsvRow} in an other type
      * T.

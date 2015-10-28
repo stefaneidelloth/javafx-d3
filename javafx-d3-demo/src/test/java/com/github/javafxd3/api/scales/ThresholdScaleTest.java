@@ -1,12 +1,11 @@
 package com.github.javafxd3.api.scales;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
+import com.github.javafxd3.api.core.Value;
 
 @SuppressWarnings("javadoc")
 public class ThresholdScaleTest extends AbstractTestCase {
@@ -21,14 +20,14 @@ public class ThresholdScaleTest extends AbstractTestCase {
 		
 		// default domain and range, and apply functions
 		ThresholdScale threshold = d3.scale().threshold();
-		Object[] domain = threshold.domain();
-		assertEquals(1, domain.length);
-		assertEquals(0.5, domain[0]);
+		Array<Value> domain = threshold.domain();
+		assertEquals(1, domain.length());
+		assertEquals(0.5, domain.get(0, Double.class));
 
-		Object[] range = threshold.range();
-		assertEquals(2, range.length);
-		assertEquals(0d, range[0]);
-		assertEquals(1d, range[1]);
+		Array<Double> range = threshold.range();
+		assertEquals(2, range.length());
+		assertEquals(0d, range.get(0, Double.class));
+		assertEquals(1d, range.get(1, Double.class));
 
 		assertEquals(0d, threshold.apply(0.49d).asDouble(),DELTA);
 		assertEquals(1d, threshold.apply(0.51d).asDouble(),DELTA);
@@ -47,8 +46,8 @@ public class ThresholdScaleTest extends AbstractTestCase {
 		assertEquals("c", threshold.apply(0.82d).asString());
 
 		// invert extent
-		assertEquals(0.5d, threshold.invertExtent("b")[0],DELTA);
-		assertEquals(0.8d, threshold.invertExtent("b")[1],DELTA);
+		assertEquals(0.5d, threshold.invertExtent("b").get(0, Double.class),DELTA);
+		assertEquals(0.8d, threshold.invertExtent("b").get(1, Double.class),DELTA);
 
 	}
 }

@@ -32,9 +32,6 @@ import netscape.javascript.JSObject;
  * if you have missing data or inconsistent x-coordinates per series, you must
  * resample and interpolate your data before computing the stacked layout.
  * <p>
- * 
- * 
- * 
  */
 public class Area extends PathDataGenerator {
 
@@ -54,18 +51,15 @@ public class Area extends PathDataGenerator {
 
 	// #region METHODS
 
-	
-
 	/**
 	 * Returns the current interpolation mode.
 	 * 
 	 * @return the current interpolation mode.
 	 */
 	public InterpolationMode interpolate() {
-		throw new IllegalStateException("not yet implemented");
-
-		// return
-		// @com.github.gwtd3.api.svg.Area.InterpolationMode::fromValue(Ljava/lang/String;)(this.interpolate());
+		String mode = callForString("interpolate");
+		InterpolationMode result = InterpolationMode.fromValue(mode);
+		return result;
 	}
 
 	/**
@@ -76,10 +70,10 @@ public class Area extends PathDataGenerator {
 	 * @return the current area
 	 */
 	public Area interpolate(final InterpolationMode mode) {
-		
+
 		String modeString = mode.getValue();
 		JSObject result = call("interpolate", modeString);
-		return new Area(webEngine, result);		
+		return new Area(webEngine, result);
 	}
 
 	/**
@@ -98,16 +92,15 @@ public class Area extends PathDataGenerator {
 		String memberName = "temp_x_callback";
 		JSObject jsObj = getJsObject();
 		jsObj.setMember(memberName, callback);
-		
-		String command = "this.x(function(d, i) { return this."+memberName+".apply(this,{datum:d},i); });";
+
+		String command = "this.x(function(d, i) { return this." + memberName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
 		return new Area(webEngine, result);
-		 
-		 
+
 	}
 
 	// should create a JSO impl of DatumFunction calling himself
-	//{
+	// {
 	// return this.x();
 	// }
 
@@ -119,7 +112,7 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area x(double d) {
 		JSObject result = call("x", d);
-		return new Area(webEngine, result);		
+		return new Area(webEngine, result);
 	}
 
 	/**
@@ -130,7 +123,7 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area x0(double d) {
 		JSObject result = call("x0", d);
-		return new Area(webEngine, result);			
+		return new Area(webEngine, result);
 	}
 
 	/**
@@ -158,8 +151,8 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area x1(double d) {
 		JSObject result = call("x1", d);
-		return new Area(webEngine, result);	
-		
+		return new Area(webEngine, result);
+
 	}
 
 	/**
@@ -187,7 +180,7 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area y(double d) {
 		JSObject result = call("y", d);
-		return new Area(webEngine, result);			
+		return new Area(webEngine, result);
 	}
 
 	/**
@@ -198,7 +191,7 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area y0(double d) {
 		JSObject result = call("y0", d);
-		return new Area(webEngine, result);			
+		return new Area(webEngine, result);
 	}
 
 	/**
@@ -209,7 +202,7 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area y1(double d) {
 		JSObject result = call("y1", d);
-		return new Area(webEngine, result);			
+		return new Area(webEngine, result);
 	}
 
 	/**
@@ -252,10 +245,10 @@ public class Area extends PathDataGenerator {
 		String memberName = "temp_y0_callback";
 		JSObject jsObj = getJsObject();
 		jsObj.setMember(memberName, callback);
-		
-		String command = "this.y0(function(d, i) { return this."+memberName+".apply(this,{datum:d},i); });";
+
+		String command = "this.y0(function(d, i) { return this." + memberName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
-		return new Area(webEngine, result);	
+		return new Area(webEngine, result);
 	}
 
 	/**
@@ -271,15 +264,15 @@ public class Area extends PathDataGenerator {
 	 * @return the current area
 	 */
 	public Area y1(final DatumFunction<Double> callback) {
-		
+
 		String memberName = "temp_y1_callback";
 		JSObject jsObj = getJsObject();
 		jsObj.setMember(memberName, callback);
-		
-		String command = "this.y1(function(d, i) { return this."+memberName+".apply(this,{datum:d},i); });";
+
+		String command = "this.y1(function(d, i) { return this." + memberName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
-		return new Area(webEngine, result);		
-		
+		return new Area(webEngine, result);
+
 	}
 
 	/**
@@ -315,7 +308,7 @@ public class Area extends PathDataGenerator {
 	 */
 	public double tension() {
 		Double result = callForDouble("tension");
-		return result;		
+		return result;
 	}
 
 	/**
@@ -339,56 +332,56 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area tension(double tension) {
 		JSObject result = call("tension", tension);
-		return new Area(webEngine, result);		
+		return new Area(webEngine, result);
 	}
 
 	/**
-     * Generate a piecewise linear area, as in an area chart.
-     * <p>
-     * Data must be an array-like structure. the type of the array elements
-     * depends on the x and y functions. the default x and y functions assumes
-     * that each input element is a two-element array of numbers.
-	 * @param data 
-     * 
-     * @return
-     */
-    public  <T> String apply(T data){
-    	String result = callForString("this", data);
-    	return result;		
-    }
+	 * Generate a piecewise linear area, as in an area chart.
+	 * <p>
+	 * Data must be an array-like structure. the type of the array elements
+	 * depends on the x and y functions. the default x and y functions assumes
+	 * that each input element is a two-element array of numbers.
+	 * 
+	 * @param data
+	 * 
+	 * @return
+	 */
+	public <T> String apply(T data) {
+		String result = callForString("this", data);
+		return result;
+	}
 
 	/**
-     * Generate a piecewise linear area, as in an area chart.
-     * <p>
-     * Data must be an array-like structure. the type of the array elements
-     * depends on the x and y functions. the default x and y functions assumes
-     * that each input element is a two-element array of numbers.
-     * <p>
-     * The index will be passed through to the line's accessor functions.
-     * <p>
-     * 
-     * @param data
-     * @param index
-     * @return
-     */
-    public  <T> String apply(T data, int index){
-    	String result = callForString("this", data, index);
-    	return result;		
-    }
-    
-    //#end region
-    
-    //#region ENUM
-    
-    /**
+	 * Generate a piecewise linear area, as in an area chart.
+	 * <p>
+	 * Data must be an array-like structure. the type of the array elements
+	 * depends on the x and y functions. the default x and y functions assumes
+	 * that each input element is a two-element array of numbers.
+	 * <p>
+	 * The index will be passed through to the line's accessor functions.
+	 * <p>
+	 * 
+	 * @param data
+	 * @param index
+	 * @return
+	 */
+	public <T> String apply(T data, int index) {
+		String result = callForString("this", data, index);
+		return result;
+	}
+
+	// #end region
+
+	// #region ENUM
+
+	/**
 	 * Represents the mode of interpolation
 	 *
 	 */
 	public static enum InterpolationMode {
-		
-		
-		//#region VALUES
-		
+
+		// #region VALUES
+
 		/**
 		 * piecewise linear segments, as in a polyline.
 		 */
@@ -415,43 +408,43 @@ public class Area extends PathDataGenerator {
 		/**
 		 * a B-spline, with control point duplication on the ends.
 		 */
-		BASIS("basis"), /**
-						 * an open B-spline; may not intersect the start or end.
-						 */
-		BASIS_OPEN("basis-open"), /**
-									 * a Cardinal spline, with control point
-									 * duplication on the ends.
-									 */
-		CARDINAL("cardinal"), /**
-								 * an open Cardinal spline; may not intersect
-								 * the start or end, but will intersect other
-								 * control points.
-								 */
-		CARDINAL_OPEN("cardinal-open"), /**
-										 * cubic interpolation that preserves
-										 * monotonicity in y.
-										 */
+		BASIS("basis"),
+		/**
+		 * an open B-spline; may not intersect the start or end.
+		 */
+		BASIS_OPEN("basis-open"),
+		/**
+		 * a Cardinal spline, with control point duplication on the ends.
+		 */
+		CARDINAL("cardinal"),
+		/**
+		 * an open Cardinal spline; may not intersect the start or end, but will
+		 * intersect other control points.
+		 */
+		CARDINAL_OPEN("cardinal-open"),
+		/**
+		 * cubic interpolation that preserves monotonicity in y.
+		 */
 		MONOTONE("monotone");
-		
-		//#end region
-		
-		//#region ATTRIBUTES
+
+		// #end region
+
+		// #region ATTRIBUTES
 
 		private final String value;
-		
-		//#end region
-		
-		//#region CONSTRUCTORS
+
+		// #end region
+
+		// #region CONSTRUCTORS
 
 		private InterpolationMode(final String value) {
 			this.value = value;
 		}
-		
-		
-		//#end region
-		
-		//#region METHODS
-		
+
+		// #end region
+
+		// #region METHODS
+
 		/**
 		 * @param value
 		 * @return
@@ -459,25 +452,22 @@ public class Area extends PathDataGenerator {
 		public static InterpolationMode fromValue(final String value) {
 			return valueOf(value.toUpperCase().replace('-', '_'));
 		}
-		
-		//#end region
-		
-		//#region ACCESSORS
-		
+
+		// #end region
+
+		// #region ACCESSORS
+
 		/**
 		 * @return the value
 		 */
 		public String getValue() {
 			return value;
 		}
-		
-		//#end region
 
-		
+		// #end region
 
-		
 	}
-    
-    //#end region
+
+	// #end region
 
 }

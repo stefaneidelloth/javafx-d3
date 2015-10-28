@@ -1,6 +1,7 @@
 package com.github.javafxd3.demo.client.democases.svg.brush;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.coords.Coords;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
@@ -102,7 +103,7 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
                 .on(BrushEvent.BRUSH, new DatumFunction<Void>() {
                     @Override
                     public Void apply(final Object context, final Object d, final int index) {
-                        Double[][] extent = brush.extent();
+                        Array<Double> extent = brush.extent();
                         point.each(new DatumFunction<Void>() {
                             @Override
                             public Void apply(final Object context, final Object d, final int index) {
@@ -113,10 +114,10 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
                             }
                         });
                         search(quadtree,
-                                extent[0][0],
-                                extent[0][1],
-                                extent[1][0],
-                                extent[1][1]);
+                                extent.get(0,0, Double.class),
+                                extent.get(0,1, Double.class),
+                                extent.get(1,0, Double.class),
+                                extent.get(1,1, Double.class));
                         point.classed("selected", new DatumFunction<Boolean>() {
                             @Override
                             public Boolean apply(final Object context, final Object d, final int index) {

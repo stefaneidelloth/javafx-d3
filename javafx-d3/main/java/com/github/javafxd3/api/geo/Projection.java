@@ -7,8 +7,6 @@ import netscape.javascript.JSObject;
 
 //TODO: conic projection subclass with parallels() accessors
 /**
- *
- *
  * @param <P>
  */
 public class Projection<P extends Projection<?>> extends JavaScriptObject {
@@ -22,7 +20,6 @@ public class Projection<P extends Projection<?>> extends JavaScriptObject {
 	public Projection(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
-
 	}
 
 	// #end region
@@ -37,7 +34,6 @@ public class Projection<P extends Projection<?>> extends JavaScriptObject {
 	public P rotate(double longitude, double latitude) {
 		JSObject result = call("rotate", longitude, latitude);
 		return (P) new Projection<P>(webEngine, result);
-
 	}
 
 	/**

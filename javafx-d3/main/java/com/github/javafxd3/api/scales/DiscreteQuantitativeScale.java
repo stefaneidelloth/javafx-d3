@@ -1,34 +1,30 @@
 package com.github.javafxd3.api.scales;
 
+import com.github.javafxd3.api.arrays.Array;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
 /**
  * {@link QuantitativeScale} with a discrete output range.
- * <p>
- * 
- * 
- * 
+ * <p> 
  * @param <S>
  */
-public abstract class DiscreteQuantitativeScale<S extends DiscreteQuantitativeScale<S>>
-		extends QuantitativeScale<S> {
+public abstract class DiscreteQuantitativeScale<S extends DiscreteQuantitativeScale<S>> extends QuantitativeScale<S> {
 
 	// #region CONSTRUCTORS
 
-		/**
-		 * Constructor
-		 * 
-		 * @param webEngine
-		 * @param wrappedJsObject
-		 */
-		public DiscreteQuantitativeScale(WebEngine webEngine, JSObject wrappedJsObject) {
-			super(webEngine, wrappedJsObject);
+	/**
+	 * Constructor
+	 * 
+	 * @param webEngine
+	 * @param wrappedJsObject
+	 */
+	public DiscreteQuantitativeScale(WebEngine webEngine, JSObject wrappedJsObject) {
+		super(webEngine, wrappedJsObject);
+	}
 
-		}
-
-		// #end region
+	// #end region
 
 	/**
 	 * Returns the extent of values in the input domain [x0, x1] for the
@@ -43,9 +39,9 @@ public abstract class DiscreteQuantitativeScale<S extends DiscreteQuantitativeSc
 	 *            the output value to be converted to a domain range
 	 * @return the array of doubles
 	 */
-	public  Double[] invertExtent(double y){
-		throw new IllegalStateException("not yet implemented");
-		//return this.invertExtent(y);
+	public Array<Double> invertExtent(double y) {
+		JSObject result = call("invertExtent", y);
+		return new Array<Double>(webEngine, result);		
 	}
 
 	/**
@@ -61,9 +57,9 @@ public abstract class DiscreteQuantitativeScale<S extends DiscreteQuantitativeSc
 	 *            the output value to be converted to a domain range
 	 * @return the array of doubles
 	 */
-	public  Double[] invertExtent(String y){
-		throw new IllegalStateException("not yet implemented");
-		//return this.invertExtent(y);
+	public Array<Double> invertExtent(String y) {
+		JSObject result = call("invertExtent", y);
+		return new Array<Double>(webEngine, result);
 	}
 
 }

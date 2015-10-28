@@ -27,12 +27,8 @@ public class JsArrayNumber extends JavaScriptObject {
     public JsArrayNumber(WebEngine webEngine, JSObject wrappedJsObject) {
     	super(webEngine);
     	setJsObject(wrappedJsObject);
-
     }
     
     //#end region
-    
-    //#region METHODS
-    //#end region
-
+      
 }

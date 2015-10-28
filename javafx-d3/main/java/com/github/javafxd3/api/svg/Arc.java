@@ -1,6 +1,7 @@
 package com.github.javafxd3.api.svg;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -179,9 +180,9 @@ public class Arc extends PathDataGenerator {
 	 * @param index
 	 * @return
 	 */
-	public Double[] centroid(JSObject datum, int index) {
-		throw new IllegalStateException("not yet implemented");
-		// return this.centroid(datum, index);
+	public Array<Double> centroid(JSObject datum, int index) {
+		JSObject result = call("centroid", datum, index);
+		return new Array<Double>(webEngine, result);
 	}
 
 	/**

@@ -16,7 +16,6 @@ public class Dsv<T> extends JavaScriptObject {
 	public Dsv(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
-
 	}
 
 	// #end region

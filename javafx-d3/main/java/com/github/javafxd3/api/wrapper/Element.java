@@ -1,7 +1,5 @@
 package com.github.javafxd3.api.wrapper;
 
-
-
 import javafx.geometry.BoundingBox;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -12,23 +10,23 @@ import netscape.javascript.JSObject;
  */
 public class Element extends Node {
 
-	//#region CONSTRUCTORS
-	
-		
+	// #region CONSTRUCTORS
+
 	/**
 	 * Constructor
+	 * 
 	 * @param webEngine
 	 * @param wrappedJsObject
 	 */
 	public Element(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);
-		
+
 	}
-	
-	//#end region
-	
-	//#region METHODS
-	
+
+	// #end region
+
+	// #region METHODS
+
 	/**
 	 * @param b
 	 * @return
@@ -52,9 +50,8 @@ public class Element extends Node {
 		String command = "d3.select(this).parentNode";
 		JSObject result = evalForJsObject(command);
 		return new Node(webEngine, result);
-		
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -62,7 +59,7 @@ public class Element extends Node {
 		String command = "var temp__dummy__var = 0; this.each(function() { ++temp__dummy__var; });";
 		eval(command);
 		int result = evalForInteger("temp__dummy__var");
-		return result;		
+		return result;
 	}
 
 	/**
@@ -72,14 +69,14 @@ public class Element extends Node {
 		String result = getMemberForString("text");
 		return result;
 	}
-	
+
 	/**
 	 * @param string
 	 */
 	public void setInnerHtml(String string) {
 		throw new IllegalStateException("not yet implemented");
-		//return null;
-		
+		// return null;
+
 	}
 
 	/**
@@ -90,41 +87,41 @@ public class Element extends Node {
 		String result = getMemberForString(attr);
 		return result;
 	}
-	
+
 	/**
 	 * @param string
 	 * @param b
 	 */
 	public void setPropertyBoolean(String string, boolean b) {
 		throw new IllegalStateException("not yet implemented");
-		
+
 	}
-	
+
 	/**
 	 * @param dataProperty
 	 * @return
 	 */
 	public Integer getPropertyInt(String dataProperty) {
 		throw new IllegalStateException("not yet implemented");
-		//return null;
+		// return null;
 	}
-	
+
 	/**
 	 * @param dataProperty
 	 * @param i
 	 */
 	public void setPropertyInt(String dataProperty, int i) {
 		throw new IllegalStateException("not yet implemented");
-		
+
 	}
-	
+
 	/**
 	 * @param dataProperty
 	 * @return
 	 */
 	public String getPropertyString(String dataProperty) {
 		throw new IllegalStateException("not yet implemented");
-		//return null;
+		// return null;
 	}
 
 	/**
@@ -133,16 +130,16 @@ public class Element extends Node {
 	 */
 	public Element getChild(int i) {
 		throw new IllegalStateException("not yet implemented");
-		//return null;
+		// return null;
 	}
-	
+
 	/**
 	 * @return
 	 */
 	public String getChildNodes() {
 		throw new IllegalStateException("not yet implemented");
 	}
-	
+
 	/**
 	 * @param string
 	 * @return
@@ -150,13 +147,13 @@ public class Element extends Node {
 	public Element[] getElementsByTagName(String string) {
 		throw new IllegalStateException("not yet implemented");
 	}
-	
+
 	/**
 	 * @param nodeFactory
 	 */
 	public void add(D3NodeFactory nodeFactory) {
 		throw new IllegalStateException("not yet implemented");
-		
+
 	}
 
 	/**
@@ -164,7 +161,7 @@ public class Element extends Node {
 	 */
 	public void remove(D3NodeFactory nodeFactory) {
 		throw new IllegalStateException("not yet implemented");
-		
+
 	}
 
 	public BoundingBox getBBox() {
@@ -175,24 +172,6 @@ public class Element extends Node {
 		throw new IllegalStateException("not yet implemented");
 	}
 
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-	
-	//#end region
-	
-	
+	// #end region
 
 }

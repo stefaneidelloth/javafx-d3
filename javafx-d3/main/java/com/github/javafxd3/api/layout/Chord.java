@@ -85,8 +85,7 @@ public class Chord extends JavaScriptObject {
 		 */
 		public int index() {
 			Integer result = getMemberForInteger("index");
-			return result;
-			
+			return result;			
 		}
 
 		/**
@@ -121,6 +120,7 @@ public class Chord extends JavaScriptObject {
 	 *
 	 */
 	public static class ChordItem extends Value {
+		
 		// #region CONSTRUCTORS
 
 		/**

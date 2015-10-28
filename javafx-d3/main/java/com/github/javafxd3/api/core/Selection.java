@@ -7,14 +7,11 @@ import java.util.List;
 
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.arrays.ArrayUtils;
-import com.github.javafxd3.api.dsv.Dsv;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.functions.KeyFunction;
 import com.github.javafxd3.api.svg.PathDataGenerator;
 import com.github.javafxd3.api.wrapper.Element;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
-import com.github.javafxd3.api.wrapper.Node;
-import com.github.javafxd3.api.wrapper.NodeList;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -59,14 +56,14 @@ import netscape.javascript.JSObject;
  * to integrate with GWT {@link Element} API.
  * <p>
  * <h1>Operating on selections</h1> Selections are arrays of
- * elementsâ€�?literally. D3 binds additional methods to the array so that
- * you can apply operators to the selected elements, such as setting an
- * attribute on all the selected elements. One nuance is that selections are
- * grouped: rather than a one-dimensional array, each selection is an array of
- * arrays of elements. This preserves the hierarchical structure of
- * subselections. Most of the time, you can ignore this detail, but that's why a
- * single-element selection looks like [[node]] rather than [node]. For more on
- * nested selections, see Nested Selections.
+ * elementsâ€�?literally. D3 binds additional methods to the array so that you
+ * can apply operators to the selected elements, such as setting an attribute on
+ * all the selected elements. One nuance is that selections are grouped: rather
+ * than a one-dimensional array, each selection is an array of arrays of
+ * elements. This preserves the hierarchical structure of subselections. Most of
+ * the time, you can ignore this detail, but that's why a single-element
+ * selection looks like [[node]] rather than [node]. For more on nested
+ * selections, see Nested Selections.
  * <p>
  * If you want to learn how selections work, try selecting elements
  * interactively using your browser's developer console. You can inspect the
@@ -86,10 +83,6 @@ import netscape.javascript.JSObject;
  * plays an important role in the data join, and functional operators may depend
  * on the numeric index of the current element within its group.
  * <p>
- *
- *
- * 
- *
  */
 public class Selection extends EnteringSelection {
 
@@ -210,26 +203,25 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public <T extends Element> Selection selectAll(DatumFunction<T[]> func) {
+		String funcName = "listener_callback";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(funcName, func);
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .selectAll(function(d, i) { return
-		 * func.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google
-		 * /gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{
-		 * datum:d},i); });
-		 */
-
+		String command = "this.selectAll(function(d, i) { return this." + funcName + ".apply(this,{datum:d},i); });";
+		JSObject result = evalForJsObject(command);
+		return new Selection(webEngine, result);
 	}
-	
+
 	/**
 	 * Returns the selection child with the given index
+	 * 
 	 * @param index
 	 * @return
 	 */
 	public Selection get(int index) {
-		String command = "this["+index+"]";
+		String command = "this[" + index + "]";
 		JSObject result = evalForJsObject(command);
-		return new Selection(webEngine, result);		
+		return new Selection(webEngine, result);
 	}
 
 	/**
@@ -370,15 +362,6 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public Selection attr(final String name, final DatumFunction<?> callback) {
-
-		/*
-		 * return this .attr( name, function(d, i) { return
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
-
 		// get attribute
 		JSObject jsObj = getJsObject();
 
@@ -387,15 +370,13 @@ public class Selection extends EnteringSelection {
 		jsObj.setMember(memberName, callback);
 
 		// tell x to use the callback
-		String command = "this.attr(\"" + name
-				+ "\", function(d,i) {return this."+memberName+".apply(this, {datum:d}, i);})";
-		
+		String command = "this.attr('" + name + "', function(d,i) {return this." + memberName
+				+ ".apply(this, {datum:d}, i);})";
 		eval(command);
 
 		// get modified JSObject and return it as new instance
 		JSObject result = evalForJsObject("this");
 		return new Selection(webEngine, result);
-
 	}
 
 	/**
@@ -467,17 +448,17 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public Selection style(String name, DatumFunction<?> callback) {
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * try { return this .style( name, function(d, i) { try {
-		 * 
-		 * var r =
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); //r.@java.lang.Object::toString()(); return r; }
-		 * catch (e) { alert(e); return null; } }); } catch (e) { alert(e);
-		 * return null; }
-		 */
+
+		String funcName = "style_callback";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(funcName, callback);
+
+		String command = "try { return this.style('" + name + "', " + //
+				"function(d, i) { " + "try { var r = this." + funcName + ".apply(this,{datum:d},i); return r; } "
+				+ "catch (e) { alert(e); return null; } }); } " + //
+				"catch (e) { alert(e); return null; }";
+		JSObject result = evalForJsObject(command);
+		return new Selection(webEngine, result);
 	}
 
 	/**
@@ -504,17 +485,16 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection style(String name, DatumFunction<?> callback, boolean important) {
 
-		throw new IllegalStateException("not yet implemented");
+		String funcName = "style_callback";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(funcName, callback);
 
-		/*
-		 * var imp = important ? 'important' : null; return this .style( name,
-		 * function(d, i) { var r =
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)
-		 * (this,{datum:d},i); return r?r.@java.lang.Object::toString()():null;
-		 * }, imp);
-		 * 
-		 */
+		String command = "var imp = important ? 'important' : null; " //
+				+ "return this.style('" + name + "', function(d, i) { var r = this." + funcName
+				+ ".apply(this,{datum:d},i);" + " return r?r.toString()():null;}, " + important + ");";
+		JSObject result = evalForJsObject(command);
+		return new Selection(webEngine, result);
+
 	}
 
 	// ================ classed functions ================
@@ -857,8 +837,8 @@ public class Selection extends EnteringSelection {
 	 *            the new value to set
 	 * @return the current selection
 	 */
-	public Selection html(String value) {				
-		JSObject result = call("html", value);		
+	public Selection html(String value) {
+		JSObject result = call("html", value);
 		return new Selection(webEngine, result);
 	}
 
@@ -879,10 +859,10 @@ public class Selection extends EnteringSelection {
 	/**
 	 * Removes the elements in the current selection from the current document.
 	 * Returns the current selection (the same elements that were removed) which
-	 * are now â€œoff-screenâ€�, detached from the DOM. Note that there
-	 * is not currently a dedicated API to add removed elements back to the
-	 * document; however, you can pass a function to selection.each or
-	 * selection.select to re-add elements.
+	 * are now â€œoff-screenâ€�, detached from the DOM. Note that there is not
+	 * currently a dedicated API to add removed elements back to the document;
+	 * however, you can pass a function to selection.each or selection.select to
+	 * re-add elements.
 	 * <p>
 	 * The elements are removed from the DOM but still remains in the selection.
 	 * <p>
@@ -962,7 +942,7 @@ public class Selection extends EnteringSelection {
 
 	// ================================ data setter functions with array
 	// ========
-	
+
 	/**
 	 * Joins the specified array of data with the current selection using the
 	 * default by-index key mapping.
@@ -1033,7 +1013,7 @@ public class Selection extends EnteringSelection {
 	 *            elements
 	 * @return the {@link UpdateSelection}
 	 */
-	public UpdateSelection data(JSObject array, KeyFunction<?> keyFunction) {
+	public UpdateSelection data(JavaScriptObject array, KeyFunction<?> keyFunction) {
 
 		throw new IllegalStateException("not yet implemented");
 
@@ -1048,8 +1028,6 @@ public class Selection extends EnteringSelection {
 		 */
 	}
 
-	
-	
 	/**
 	 * Joins each array returned by the specified function to a group of the
 	 * current selection, using the default by-index key mapping.
@@ -1105,7 +1083,7 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 		return new UpdateSelection(webEngine, result);
 	}
-	
+
 	/**
 	 * Joins the specified array of data with the current selection using the
 	 * default by-index key mapping.
@@ -1123,7 +1101,7 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 		return new UpdateSelection(webEngine, result);
 	}
-	
+
 	/**
 	 * Joins the specified array of data with the current selection using the
 	 * default by-index key mapping.
@@ -1141,15 +1119,14 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 		return new UpdateSelection(webEngine, result);
 	}
-	
+
 	/**
 	 * Same as {@link #data(JSObject, KeyFunction)}.
 	 * <p>
 	 *
 	 * @param array
-	 *            the data array to map to the selection
-	 *            the function to control how data is mapped to the selection
-	 *            elements
+	 *            the data array to map to the selection the function to control
+	 *            how data is mapped to the selection elements
 	 * @return the update selection
 	 */
 	public final UpdateSelection data(final Object[] array) {
@@ -1357,7 +1334,7 @@ public class Selection extends EnteringSelection {
 
 		// return data(JsArrayUtils.readOnlyJsArray(array));
 	}
-	
+
 	/**
 	 * Joins the specified array of data with the current selection using the
 	 * default by-index key mapping.
@@ -1373,7 +1350,7 @@ public class Selection extends EnteringSelection {
 
 		// return data(JsArrayUtils.readOnlyJsArray(array));
 	}
-	
+
 	/**
 	 * Joins the specified array of data with the current selection using the
 	 * default by-index key mapping.
@@ -1643,22 +1620,21 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public Selection on(String eventType, DatumFunction<Void> listener) {
-		
+
 		String listenerName = "temp_listener_callback";
-		
-		
+
 		JSObject jsObj = getJsObject();
 		jsObj.setMember(listenerName, listener);
-					
-		String command = "var listenerObj = this."+listenerName+" == null ? null : "
-				+ "function(d, i) {this."+listenerName+".apply(this,{datum:d},i); }; ";
-		
+
+		String command = "var listenerObj = this." + listenerName + " == null ? null : " + "function(d, i) {this."
+				+ listenerName + ".apply(this,{datum:d},i); }; ";
+
 		eval(command);
-		String onCommand = "this.on('"+ eventType +"', listenerObj);";
-		 
+		String onCommand = "this.on('" + eventType + "', listenerObj);";
+
 		JSObject result = evalForJsObject(onCommand);
-		return new Selection(webEngine, result);	
-		
+		return new Selection(webEngine, result);
+
 	}
 
 	/**
@@ -1717,8 +1693,6 @@ public class Selection extends EnteringSelection {
 		 * 
 		 */
 	}
-
-	
 
 	// #end region
 

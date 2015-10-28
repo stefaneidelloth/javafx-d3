@@ -1,5 +1,7 @@
 package com.github.javafxd3.api.wrapper;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -66,10 +68,10 @@ public class JavaScriptObject {
 		Object resultObject = jsObject.call(methodName, args);
 		boolean isInteger = resultObject instanceof Integer;
 		if (isInteger) {
-		Integer result = (Integer) resultObject;
-		return result;
+			Integer result = (Integer) resultObject;
+			return result;
 		}
-		
+
 		boolean isString = resultObject instanceof String;
 		if (isString) {
 			String stringResult = (String) resultObject;
@@ -98,7 +100,7 @@ public class JavaScriptObject {
 		String result = (String) jsObject.call(methodName, args);
 		return result;
 	}
-	
+
 	/**
 	 * Invokes the method with the given name and arguments and returns the
 	 * result as String
@@ -108,7 +110,7 @@ public class JavaScriptObject {
 	 * @return
 	 */
 	protected String callForString(String methodName, JSObject... args) {
-		
+
 		Object[] objectArray = (Object[]) args;
 		Object resultObj = jsObject.call(methodName, objectArray);
 		String result = (String) resultObj;
@@ -159,29 +161,77 @@ public class JavaScriptObject {
 	protected JSObject call(String methodName, Object... args) {
 		Object resultObj = jsObject.call(methodName, args);
 		boolean isJsObject = resultObj instanceof JSObject;
-		if (isJsObject){
+		if (isJsObject) {
 			JSObject result = (JSObject) resultObj;
 			return result;
 		}
-		
+
 		boolean isString = resultObj instanceof String;
-		if (isString){
+		if (isString) {
 			String result = (String) resultObj;
 			boolean isUndefined = result.equals("undefined");
-			if (isUndefined){
+			if (isUndefined) {
 				return null;
-			} else{
+			} else {
 				String message = "A result of type String with the value " + result + "' could not be processed.";
 				throw new IllegalStateException(message);
 			}
 		}
-		
+
 		String typeString = "null";
-		if (resultObj!=null){
+		if (resultObj != null) {
 			typeString = resultObj.getClass().getName();
 		}
 		String message = "The result type '" + typeString + "' is not yet implemented for method '" + methodName + "'";
 		throw new IllegalStateException(message);
+	}
+
+	protected Object callThis(Object... args) {
+		String varNamePrefix = "temp__var__";
+
+		//store args as member and create variable name list
+		List<String> varNames = new ArrayList<>();
+		for (int index = 0; index < args.length; index++) {
+			String varName = varNamePrefix + index;
+			varNames.add(varName);
+			jsObject.setMember(varName, args[index]);
+		}
+		
+		//eval command
+		String command = "this(" + String.join(",", varNames) + ");";
+		Object result = eval(command);
+		
+		//remove temporary members
+		for(String varName: varNames){
+			jsObject.removeMember(varName);
+		}		
+		
+		return result;
+	}
+	
+	protected Integer callThisForInteger(Object... args){
+		Object result = callThis(args);
+		return (Integer) result;
+	}
+	
+	protected Boolean callThisForBoolean(Object... args){
+		Object result = callThis(args);
+		return (Boolean) result;
+	}
+	
+	protected String callThisForString(Object... args){
+		Object result = callThis(args);
+		return (String) result;
+	}
+	
+	protected Double callThisForDouble(Object... args){
+		Object result = callThis(args);
+		return (Double) result;
+	}
+	
+	protected JSObject callThisForJsObject(Object... args){
+		Object result = callThis(args);
+		return (JSObject) result;
 	}
 
 	// #end region
@@ -198,7 +248,7 @@ public class JavaScriptObject {
 		JSObject result = (JSObject) jsObject.getMember(name);
 		return result;
 	}
-	
+
 	/**
 	 * Gets the member with the given name as Integer
 	 * 
@@ -209,7 +259,7 @@ public class JavaScriptObject {
 		Integer result = (Integer) jsObject.getMember(name);
 		return result;
 	}
-	
+
 	/**
 	 * Gets the member with the given name as Boolean
 	 * 
@@ -220,7 +270,7 @@ public class JavaScriptObject {
 		Boolean result = (Boolean) jsObject.getMember(name);
 		return result;
 	}
-	
+
 	/**
 	 * Gets the member with the given name as Double
 	 * 
@@ -231,7 +281,7 @@ public class JavaScriptObject {
 		Double result = (Double) jsObject.getMember(name);
 		return result;
 	}
-	
+
 	/**
 	 * Gets the member with the given name as Float
 	 * 
@@ -242,7 +292,7 @@ public class JavaScriptObject {
 		Float result = (Float) jsObject.getMember(name);
 		return result;
 	}
-	
+
 	/**
 	 * Gets the member with the given name as String
 	 * 
@@ -255,80 +305,85 @@ public class JavaScriptObject {
 	}
 
 	// #end region
-	
-	//#region EVAL
-	
+
+	// #region EVAL
+
 	/**
-	 * Evaluates the given java script command
+	 * Evaluates the given java script command and returns the result as Object
+	 * 
 	 * @param command
 	 * @return
 	 */
 	public Object eval(String command) {
 		Object result = jsObject.eval(command);
-		return result;		
+		return result;
 	};
-	
+
 	/**
-	 * Evaluates the given java script command
+	 * Evaluates the given java script command and returns the result as Boolean
+	 * 
 	 * @param command
 	 * @return
 	 */
 	public Boolean evalForBoolean(String command) {
 		Boolean result = (Boolean) jsObject.eval(command);
-		return result;		
+		return result;
 	};
-	
+
 	/**
-	 * Evaluates the given java script command
+	 * Evaluates the given java script command and returns the result as Integer
+	 * 
 	 * @param command
 	 * @return
 	 */
 	public Integer evalForInteger(String command) {
 		Integer result = (Integer) jsObject.eval(command);
-		return result;		
+		return result;
 	};
-	
+
 	/**
-	 * Evaluates the given java script command
+	 * Evaluates the given java script command and returns the result as Double
+	 * 
 	 * @param command
 	 * @return
 	 */
 	public Double evalForDouble(String command) {
 		Double result = (Double) jsObject.eval(command);
-		return result;		
+		return result;
 	};
-	
+
 	/**
-	 * Evaluates the given java script command
+	 * Evaluates the given java script command and returns the result as String
+	 * 
 	 * @param command
 	 * @return
 	 */
 	public String evalForString(String command) {
 		Object resultObj = jsObject.eval(command);
 		String result = (String) resultObj;
-		return result;		
+		return result;
 	};
-	
+
 	/**
-	 * Evaluates the given java script command
+	 * Evaluates the given java script command and returns the result as
+	 * JSObject
+	 * 
 	 * @param command
 	 * @return
 	 */
 	public JSObject evalForJsObject(String command) {
 		JSObject result = (JSObject) jsObject.eval(command);
-		return result;		
+		return result;
 	};
-	
-	
-	
-	//#end region
+
+	// #end region
 
 	// #region CAST
 
 	/**
-	 * @return	
+	 * @return
 	 */
-	public <T> T cast()  {
+	public <T> T cast() {
 		throw new IllegalStateException("not yet implemented");
 	}
 
@@ -337,29 +392,29 @@ public class JavaScriptObject {
 	// #end region
 
 	// #region ACCESSORS
-	
+
 	/**
 	 * Returns the wrapped JSObject
-	 *	
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public JSObject getJsObject() {
 		return jsObject;
 	}
 
 	/**
-	 * Sets the wraped JSObject
+	 * Sets the wrapped JSObject
 	 * 
 	 * @param wrappedJsObject
 	 */
 	public void setJsObject(JSObject wrappedJsObject) {
 		this.jsObject = wrappedJsObject;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public WebEngine getWebEngine(){
+	public WebEngine getWebEngine() {
 		return webEngine;
 	}
 

@@ -30,17 +30,9 @@ import netscape.javascript.JSObject;
  * <p>
  * The axis component is designed to work with D3â€™s {@link QuantitativeScale},
  * {@link TimeScale} and {@link OrdinalScale} scales.
- * <p>
- * 
- * <p>
- * 
- * 
- * 
- * 
+ * <p> 
  */
 public class Axis extends JavaScriptObject implements IsFunction {
-
-	
 
 //#region CONSTRUCTORS
 	
@@ -116,8 +108,7 @@ public class Axis extends JavaScriptObject implements IsFunction {
 	public  Axis orient(Orientation o){
 		String orientation = o.toString().toLowerCase();
 		JSObject result = call("orient", orientation);
-		return new Axis(webEngine, result);
-		
+		return new Axis(webEngine, result);		
 	}
 
 	// ========== ticks methods =========
@@ -168,8 +159,7 @@ public class Axis extends JavaScriptObject implements IsFunction {
 	 */
 	public  Axis ticks(int count, String formatSpecifier){
 		JSObject result = call("count", count, formatSpecifier);
-		return new Axis(webEngine, result);
-		
+		return new Axis(webEngine, result);		
 	}
 
 	/**
@@ -227,8 +217,7 @@ public class Axis extends JavaScriptObject implements IsFunction {
 	 */
 	public  Axis tickSize(int outerInnerTickSizeInPixels){
 		JSObject result = call("tickSize",outerInnerTickSizeInPixels );
-		return new Axis(webEngine, result);
-		
+		return new Axis(webEngine, result);		
 	}
 	
 	/**
@@ -353,8 +342,7 @@ public class Axis extends JavaScriptObject implements IsFunction {
 	 */
 	public  Axis apply(Selection selection) {
 		JSObject result = call("this",selection.getJsObject());
-		return new Axis(webEngine, result);
-		
+		return new Axis(webEngine, result);		
 	}
 
 	/**
@@ -459,8 +447,7 @@ public class Axis extends JavaScriptObject implements IsFunction {
 	 */
 	public  Axis tickValues(JavaScriptObject values){
 		JSObject result = call("tickValues", values);
-		return new Axis(webEngine, result);
-		
+		return new Axis(webEngine, result);		
 	}
 
 	/**

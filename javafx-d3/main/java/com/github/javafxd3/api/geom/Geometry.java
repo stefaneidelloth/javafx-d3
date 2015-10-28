@@ -2,25 +2,15 @@ package com.github.javafxd3.api.geom;
 
 import java.util.List;
 
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.arrays.ArrayUtils;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-
 /**
  * The geometry module.
- * <p>
- * <ul>
- * <li>
- * <li>
- * <li>
- * <li>
- * </ul>
- *
- * 
- *
  */
 public class Geometry extends JavaScriptObject {
 
@@ -33,7 +23,6 @@ public class Geometry extends JavaScriptObject {
     public Geometry(WebEngine webEngine, JSObject wrappedJsObject) {
     	super(webEngine);
     	setJsObject(wrappedJsObject);
-
     }
     
     //#end region
@@ -59,11 +48,10 @@ public class Geometry extends JavaScriptObject {
      *
      * @return the convex hull as an array of vertices
      */
-    public  <T> T[] hull(T[] vertices){
-    	
-    	throw new IllegalStateException("not yet implemented");
-    	//JSObject result = call("hull", vertices);
-    	//return new T[](webEngine, result);			
+    public  <T> Array<T> hull(Array<T> vertices){    	
+    	JSObject verticesObj = vertices.getJsObject();
+    	JSObject result = call("hull", verticesObj);
+    	return new Array<T>(webEngine, result);			
     }
 
     /**
@@ -76,7 +64,7 @@ public class Geometry extends JavaScriptObject {
      */
     public final <T> List<T> hull(final List<T> vertices) {
     	throw new IllegalStateException("not yet implemented");
-        //return this.hull(vertices.toArray()).asList();
+    	//return this.hull(Array.fromIterable(vertices)).asList();
     }
 
     /**

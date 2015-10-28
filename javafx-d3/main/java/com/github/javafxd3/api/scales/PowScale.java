@@ -1,6 +1,7 @@
 package com.github.javafxd3.api.scales;
 
 
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.core.Formatter;
 
 import javafx.scene.web.WebEngine;
@@ -119,9 +120,9 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * 
 	 * @return
 	 */
-	public  <T> T[] ticks(int count){
-		throw new IllegalStateException("not yet implemented");
-		//return this.ticks(count);
+	public  <T> Array<T> ticks(int count){
+		JSObject result = call("ticks", count);
+		return new Array<T>(webEngine, result);
 	}
 
 	/**
@@ -129,9 +130,9 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * 
 	 * @return the array of reference ticks
 	 */
-	public  <T> T[] ticks(){
-		throw new IllegalStateException("not yet implemented");
-		//return this.ticks(count);
+	public  <T> Array<T> ticks(){
+		JSObject result = call("ticks");
+		return new Array<T>(webEngine, result);
 	}
 
 	// =========== tickFormat ==========

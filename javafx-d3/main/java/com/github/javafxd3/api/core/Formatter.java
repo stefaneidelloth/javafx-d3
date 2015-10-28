@@ -98,7 +98,6 @@ public class Formatter extends JavaScriptObject implements IsFunction {
 	public Formatter(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
-
 	}
 
 	// #end region
@@ -129,8 +128,6 @@ public class Formatter extends JavaScriptObject implements IsFunction {
 		String result = callForString("this(d)");
 		return result;
 	}
-
-	
 	
 	//#end region
 }

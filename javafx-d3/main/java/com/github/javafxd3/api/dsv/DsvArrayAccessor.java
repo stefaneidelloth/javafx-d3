@@ -1,7 +1,5 @@
 package com.github.javafxd3.api.dsv;
 
-
-
 /**
  * This accessor function is invoked for each row in a DSV file, being passed
  * the current row and index as two arguments. The return value of the function
@@ -19,6 +17,7 @@ package com.github.javafxd3.api.dsv;
  * @see Dsv#parseRows(String)
  */
 public interface DsvArrayAccessor<T> {
+	
 	/**
 	 * An accessor function may invoked for each row in a DSV file, being passed
 	 * the current row and index as two arguments. The return value of the

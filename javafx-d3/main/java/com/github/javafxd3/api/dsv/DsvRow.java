@@ -13,23 +13,21 @@ import netscape.javascript.JSObject;
  * 
  */
 public class DsvRow extends JavaScriptObject {
-	
-	
-//#region CONSTRUCTORS
-	
-    /**
-     * @param webEngine
-     * @param wrappedJsObject
-     */
-    public DsvRow(WebEngine webEngine, JSObject wrappedJsObject) {
-    	super(webEngine);
-    	setJsObject(wrappedJsObject);
 
-    }
-    
-    //#end region
-    
-    //#region METHODS
+	// #region CONSTRUCTORS
+
+	/**
+	 * @param webEngine
+	 * @param wrappedJsObject
+	 */
+	public DsvRow(WebEngine webEngine, JSObject wrappedJsObject) {
+		super(webEngine);
+		setJsObject(wrappedJsObject);
+	}
+
+	// #end region
+
+	// #region METHODS
 
 	/**
 	 * Generic method to get the value of a named field.
@@ -37,8 +35,8 @@ public class DsvRow extends JavaScriptObject {
 	 * @param field
 	 * @return
 	 */
-	public  Value get(String field) {
-		String command = "return { datum : this[" + field+ "] };";
+	public Value get(String field) {
+		String command = "return { datum : this[" + field + "] };";
 		JSObject result = evalForJsObject(command);
 		return new Value(webEngine, result);
 	}

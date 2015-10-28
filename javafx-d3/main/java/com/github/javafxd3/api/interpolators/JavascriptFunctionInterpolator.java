@@ -14,10 +14,7 @@ import netscape.javascript.JSObject;
  * This class is used by {@link D3} to allow java code to invoke built-in
  * interpolators. You should not instanciate this object unless you know what
  * you are doing.
- * <p>
- * 
- * 
- * 
+ * <p>  
  */
 public class JavascriptFunctionInterpolator extends JavaScriptObject implements Interpolator<Value> {
 
@@ -27,8 +24,9 @@ public class JavascriptFunctionInterpolator extends JavaScriptObject implements 
 	 * Constructor
 	 * @param webEngine
 	 */
-	public JavascriptFunctionInterpolator(WebEngine webEngine) {
+	public JavascriptFunctionInterpolator(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
+		setJsObject(wrappedJsObject);
 	}
 	
 	//#end region
@@ -37,10 +35,9 @@ public class JavascriptFunctionInterpolator extends JavaScriptObject implements 
 
 	@Override
 	public  Value interpolate(final double t){
-		throw new IllegalStateException("not yet implemented");
-		//return {
-		//	datum : this(t)
-		//};
+		String command = "{datum : this("+t+")};";
+		JSObject result = evalForJsObject(command);
+		return new Value(webEngine, result);
 	}
 
 	@Override

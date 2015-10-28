@@ -1,11 +1,8 @@
 package com.github.javafxd3.api.functions;
 
 /**
- * A function to be used with D3#timer().
- * <p>
- * 
- * 
- * 
+ * A function to be used with D3 timer().
+ * <p> 
  */
 public interface TimerFunction {
 

@@ -3,8 +3,6 @@ package com.github.javafxd3.api.wrapper;
 import javafx.scene.web.WebEngine;
 
 /**
- * 
- *
  */
 public class Sort extends JavaScriptObject {
 	
@@ -19,6 +17,5 @@ public class Sort extends JavaScriptObject {
 	}
 	
 	//#end region
-	
 	
 }

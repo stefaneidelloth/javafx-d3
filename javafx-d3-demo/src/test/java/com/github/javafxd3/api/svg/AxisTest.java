@@ -1,10 +1,5 @@
 package com.github.javafxd3.api.svg;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import com.github.javafxd3.api.AbstractTestCase;
@@ -34,7 +29,7 @@ public class AxisTest extends AbstractTestCase {
         // default scale
         LinearScale s = axis.scale();
         assertNotNull(s);
-        int asInt = (int) s.domain()[0].asInt();
+        int asInt = s.domain().get(0, Value.class).asInt();
         assertEquals(0, asInt);
         // default orientation
         assertEquals(Orientation.BOTTOM, axis.orient());

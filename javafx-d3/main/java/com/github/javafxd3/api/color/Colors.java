@@ -9,17 +9,10 @@ import netscape.javascript.JSObject;
 /**
  * Provides factory methods to create colors.
  * <p>
- * 
- * 
- * 
  */
 public class Colors extends JavaScriptObject {
-	
-	//#region ATTRIBUTES
-	
-	//#end region
-	
-	//#region CONSTRUCTORS
+
+	// #region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -30,13 +23,12 @@ public class Colors extends JavaScriptObject {
 		super(webEngine);
 		D3 d3 = new D3(webEngine);
 		JSObject d3Obj = d3.getJsObject();
-		setJsObject(d3Obj);		
+		setJsObject(d3Obj);
 	}
-	
-	//#end region
-	
-	//#region METHODS
-	
+
+	// #end region
+
+	// #region METHODS
 
 	/**
 	 * Constructs a new RGB color with the specified r, g and b channel values.
@@ -52,7 +44,7 @@ public class Colors extends JavaScriptObject {
 	 *            the blue channel
 	 * @return the new color instance
 	 */
-	public  RGBColor rgb(int r, int g, int b){
+	public RGBColor rgb(int r, int g, int b) {
 		JSObject result = call("rgb", r, g, b);
 		return new RGBColor(webEngine, result);
 	};
@@ -72,8 +64,8 @@ public class Colors extends JavaScriptObject {
 	 *            the color string representation
 	 * @return the new color
 	 */
-	public  RGBColor rgb(final String color){
-		JSObject result = call("rgb",color);
+	public RGBColor rgb(final String color) {
+		JSObject result = call("rgb", color);
 		return new RGBColor(webEngine, result);
 	}
 
@@ -85,7 +77,7 @@ public class Colors extends JavaScriptObject {
 	 *            the existing color object
 	 * @return the new color
 	 */
-	public  RGBColor rgb(final Color color){
+	public RGBColor rgb(final Color color) {
 		JSObject result = call("rgb", color);
 		return new RGBColor(webEngine, result);
 	}
@@ -104,8 +96,8 @@ public class Colors extends JavaScriptObject {
 	 *            the light channel [0;1]
 	 * @return the new color instance
 	 */
-	public  HSLColor hsl(int h, double s, double l){
-		JSObject result = call("hsl",h, s, l);
+	public HSLColor hsl(int h, double s, double l) {
+		JSObject result = call("hsl", h, s, l);
 		return new HSLColor(webEngine, result);
 	}
 
@@ -124,8 +116,8 @@ public class Colors extends JavaScriptObject {
 	 *            the color string representation
 	 * @return the new color
 	 */
-	public  HSLColor hsl(final String color){
-		JSObject result = call("hsl",color);
+	public HSLColor hsl(final String color) {
+		JSObject result = call("hsl", color);
 		return new HSLColor(webEngine, result);
 	}
 
@@ -137,11 +129,10 @@ public class Colors extends JavaScriptObject {
 	 *            the existing color object
 	 * @return the new color
 	 */
-	public  HSLColor hsl(final RGBColor color){
-		JSObject result = call("hsl",color);
+	public HSLColor hsl(final RGBColor color) {
+		JSObject result = call("hsl", color);
 		return new HSLColor(webEngine, result);
 	}
 
-	
-	//#end region
+	// #end region
 }

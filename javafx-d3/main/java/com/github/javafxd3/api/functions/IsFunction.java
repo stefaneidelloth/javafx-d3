@@ -4,10 +4,7 @@ import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 /**
  * A marker interface to identify {@link JavaScriptObject} representing functions.
- * <p>
- * 
- * 
- * 
+ * <p>  
  */
 public interface IsFunction {
 

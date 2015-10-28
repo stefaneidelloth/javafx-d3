@@ -19,9 +19,6 @@ import netscape.javascript.JSObject;
  * console.log(prefix.scale(1.21e9)); // 1.21
  * }
  * <p>
- * 
- * 
- * 
  */
 public class Prefix extends JavaScriptObject {
 
@@ -47,7 +44,7 @@ public class Prefix extends JavaScriptObject {
 	 * 
 	 * @return the prefix symbol
 	 */
-	public String symbol(){
+	public String symbol() {
 		String result = callForString("this.symbol");
 		return result;
 	}
@@ -60,7 +57,7 @@ public class Prefix extends JavaScriptObject {
 	 *            the number to convert
 	 * @return the converted number
 	 */
-	public double scale(double input){
+	public double scale(double input) {
 		Double result = callForDouble("this.scale", input);
 		return result;
 	}

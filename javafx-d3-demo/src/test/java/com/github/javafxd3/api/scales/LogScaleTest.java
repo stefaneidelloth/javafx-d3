@@ -21,62 +21,62 @@ public class LogScaleTest extends AbstractTestCase {
 		
 		LogScale scale = d3.scale().log();
 		// get default domain
-		assertEquals(2, scale.domain().length);
-		assertEquals(1, scale.domain()[0].asInt());
-		assertEquals(10, scale.domain()[1].asInt());
+		assertEquals(2, scale.domain().length());
+		assertEquals(1, scale.domain().get(0, Value.class).asInt());
+		assertEquals(10, scale.domain().get(1, Value.class).asInt());
 
-		// set the domain, keep the default range [0,1]
+		// set the domain, keep the default range .get(0,1]
 		scale.domain(10, 100);
-		assertEquals(2, scale.domain().length);
-		assertEquals(10, scale.domain()[0].asInt());
-		assertEquals(100, scale.domain()[1].asInt());
+		assertEquals(2, scale.domain().length());
+		assertEquals(10, scale.domain().get(0, Value.class).asInt());
+		assertEquals(100, scale.domain().get(1, Value.class).asInt());
 
 		scale.domain("5", "6");
-		assertEquals(2, scale.domain().length);
-		assertEquals("5", scale.domain()[0].asString());
-		assertEquals("6", scale.domain()[1].asString());
+		assertEquals(2, scale.domain().length());
+		assertEquals("5", scale.domain().get(0, Value.class).asString());
+		assertEquals("6", scale.domain().get(1, Value.class).asString());
 
 		scale.domain(-1, 0, 1).range(
 				new String[] { "red", "white", "blue" });
-		assertEquals(3, scale.domain().length);
-		assertEquals(-1, scale.domain()[0].asInt());
-		assertEquals(0, scale.domain()[1].asInt());
-		assertEquals(1, scale.domain()[2].asInt());
+		assertEquals(3, scale.domain().length());
+		assertEquals(-1, scale.domain().get(0, Value.class).asInt());
+		assertEquals(0, scale.domain().get(1, Value.class).asInt());
+		assertEquals(1, scale.domain().get(2, Value.class).asInt());
 
 		// default range
 		scale = d3.scale().log();
-		assertEquals(0.0, scale.range()[0]);
-		assertEquals(1.0, scale.range()[1]);
+		assertEquals(0.0, scale.range().get(0, Double.class));
+		assertEquals(1.0, scale.range().get(1, Double.class));
 
 		// set the range
 		scale.range(0, 100);
-		assertEquals(0.0, scale.range()[0]);
-		assertEquals(100.0, scale.range()[1]);
+		assertEquals(0.0, scale.range().get(0, Double.class));
+		assertEquals(100.0, scale.range().get(1, Double.class));
 
 		scale.range(0, 100, 200);
-		assertEquals(0.0, scale.range()[0]);
-		assertEquals(100.0, scale.range()[1]);
-		assertEquals(200.0, scale.range()[2]);
+		assertEquals(0.0, scale.range().get(0, Double.class));
+		assertEquals(100.0, scale.range().get(1, Double.class));
+		assertEquals(200.0, scale.range().get(2, Double.class));
 
 		scale.range("blah", "bloh", "bluh");
-		assertEquals("blah", scale.range()[0]);
-		assertEquals("bloh", scale.range()[1]);
-		assertEquals("bluh", scale.range()[2]);
+		assertEquals("blah", scale.range().get(0, Double.class));
+		assertEquals("bloh", scale.range().get(1, Double.class));
+		assertEquals("bluh", scale.range().get(2, Double.class));
 
 		// range round
 		scale.rangeRound(0, 100);
-		assertEquals(0.0, scale.range()[0]);
-		assertEquals(100.0, scale.range()[1]);
+		assertEquals(0.0, scale.range().get(0, Double.class));
+		assertEquals(100.0, scale.range().get(1, Double.class));
 
 		scale.rangeRound(0, 100, 200);
-		assertEquals(0.0, scale.range()[0]);
-		assertEquals(100.0, scale.range()[1]);
-		assertEquals(200.0, scale.range()[2]);
+		assertEquals(0.0, scale.range().get(0, Double.class));
+		assertEquals(100.0, scale.range().get(1, Double.class));
+		assertEquals(200.0, scale.range().get(2, Double.class));
 
 		scale.rangeRound("blah", "bloh", "bluh");
-		assertEquals("blah", scale.range()[0]);
-		assertEquals("bloh", scale.range()[1]);
-		assertEquals("bluh", scale.range()[2]);
+		assertEquals("blah", scale.range().get(0, Double.class));
+		assertEquals("bloh", scale.range().get(1, Double.class));
+		assertEquals("bluh", scale.range().get(2, Double.class));
 
 		// clamp
 		assertEquals(false, scale.clamp());
@@ -86,13 +86,13 @@ public class LogScaleTest extends AbstractTestCase {
 		// ticks
 		scale = d3.scale().log();
 		scale.domain(10, 100);
-		assertEquals(10, scale.ticks().length);
-		assertEquals(10.0, scale.ticks()[0]);
-		assertEquals(20.0, scale.ticks()[1]);
-		assertEquals(100.0, scale.ticks()[9]);
+		assertEquals(10, scale.ticks().length());
+		assertEquals(10.0, scale.ticks().get(0, Double.class));
+		assertEquals(20.0, scale.ticks().get(1, Double.class));
+		assertEquals(100.0, scale.ticks().get(9, Double.class));
 
 		scale.domain(10, 1000);
-		// assertEquals(17, scale.ticks().length());
+		// assertEquals(17, scale.ticks().length()());
 
 		// tickFormat
 		scale = d3.scale().log();
@@ -117,11 +117,11 @@ public class LogScaleTest extends AbstractTestCase {
 		// nice
 		scale = d3.scale().log();
 		scale.domain(1.02, 4.98);
-		assertEquals(1.02, scale.domain()[0]);
-		assertEquals(4.98, scale.domain()[1]);
+		assertEquals(1.02, scale.domain().get(0, Double.class));
+		assertEquals(4.98, scale.domain().get(1, Double.class));
 		scale.nice();
-		assertEquals(1.0, scale.domain()[0]);
-		assertEquals(10.0, scale.domain()[1]);
+		assertEquals(1.0, scale.domain().get(0, Double.class));
+		assertEquals(10.0, scale.domain().get(1, Double.class));
 
 		// apply the function
 		scale = d3.scale().log();
@@ -139,8 +139,8 @@ public class LogScaleTest extends AbstractTestCase {
 		scale.domain(1, 2);
 		LogScale copy = scale.copy();
 		copy.domain(2, 3);
-		assertEquals(1.0, scale.domain()[0]);
-		assertEquals(2.0, scale.domain()[1]);
+		assertEquals(1.0, scale.domain().get(0, Double.class));
+		assertEquals(2.0, scale.domain().get(1, Double.class));
 
 		// base
 		assertEquals(10, scale.base());

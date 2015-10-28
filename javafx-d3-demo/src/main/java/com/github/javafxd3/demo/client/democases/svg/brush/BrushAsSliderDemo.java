@@ -22,9 +22,6 @@ import javafx.scene.layout.VBox;
 
 /**
  * FIXME find another Slider component
- *
- * 
- *
  */
 public class BrushAsSliderDemo extends AbstractDemoCase {
 
@@ -132,7 +129,7 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 	}
 
 	private void brushed(final Element context) {
-		double value = brush.<Double> extent()[0];
+		double value = brush.<Double> extent().get(0, Double.class);
 
 		if (d3.<D3Event> event().sourceEvent() != null) { // not a programmatic
 															// event

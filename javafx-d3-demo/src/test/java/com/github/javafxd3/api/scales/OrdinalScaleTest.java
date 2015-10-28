@@ -27,8 +27,8 @@ public class OrdinalScaleTest extends AbstractTestCase {
         ordinal.domain(1, 2);
         OrdinalScale copy = ordinal.copy();
         copy.domain(2, 3);
-        assertEquals(1.0, ordinal.domain()[0]);
-        assertEquals(2.0, ordinal.domain()[1]);
+        assertEquals(1.0, ordinal.domain().get(0, Double.class));
+        assertEquals(2.0, ordinal.domain().get(1, Double.class));
 
         OrdinalScale scale = d3.scale().ordinal();
         scale.domain((byte) 0, (byte) 10);

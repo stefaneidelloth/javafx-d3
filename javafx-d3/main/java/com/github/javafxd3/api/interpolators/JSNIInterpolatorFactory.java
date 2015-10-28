@@ -54,9 +54,8 @@ public class JSNIInterpolatorFactory<O> extends JavaScriptObject implements Inte
 	 * @return
 	 */
 	public  <I> JavascriptFunctionInterpolator createInterpolator(final I a, final I b){
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = eval(command);
-		//return this(a, b);
+		JSObject result = callThisForJsObject(a, b);
+		return new JavascriptFunctionInterpolator(webEngine, result);		
 	}
 	
 	//#end region

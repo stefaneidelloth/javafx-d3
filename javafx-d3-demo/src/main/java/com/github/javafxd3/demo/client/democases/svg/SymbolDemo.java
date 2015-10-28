@@ -18,9 +18,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
- * 
- * 
- * 
+ *  
  */
 public class SymbolDemo extends AbstractDemoCase {
 	
@@ -67,11 +65,7 @@ public class SymbolDemo extends AbstractDemoCase {
 		};
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.github.gwtd3.demo.client.D3Demo#start()
-	 */
+	
 	@Override
 	public void start() {
 		symbols = d3.svg().symbol();

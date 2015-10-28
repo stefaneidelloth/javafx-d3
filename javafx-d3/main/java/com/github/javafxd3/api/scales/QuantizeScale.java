@@ -38,8 +38,7 @@ import netscape.javascript.JSObject;
  * <p>
  * Thus, a quantize scale can be used to encode any type that can be converted
  * to numbers.
- * <p>
- * 
+ * <p> 
  */
 public class QuantizeScale extends DiscreteQuantitativeScale<QuantizeScale> {
 
@@ -53,10 +52,7 @@ public class QuantizeScale extends DiscreteQuantitativeScale<QuantizeScale> {
 	 */
 	public QuantizeScale(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);
-
-	}
-
-	
+	}	
 
 	// #end region
 

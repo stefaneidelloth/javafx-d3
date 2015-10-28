@@ -39,11 +39,11 @@ public class ZoomTest extends AbstractTestCase {
 		zoom.center(5, 6);
 		assertNotNull(zoom.center());
 
-		assertEquals(960.0, zoom.size()[0], DELTA);
-		assertEquals(500.0, zoom.size()[1], DELTA);
+		assertEquals(960.0, zoom.size().get(0, Double.class), DELTA);
+		assertEquals(500.0, zoom.size().get(1, Double.class), DELTA);
 		zoom.size(400, 300);
-		assertEquals(400.0, zoom.size()[0], DELTA);
-		assertEquals(300.0, zoom.size()[1], DELTA);
+		assertEquals(400.0, zoom.size().get(0, Double.class), DELTA);
+		assertEquals(300.0, zoom.size().get(1, Double.class), DELTA);
 
 		zoom.event(d3.select("body"));
 		zoom.event(d3.select("body").transition());

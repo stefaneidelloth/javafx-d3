@@ -1,6 +1,7 @@
 package com.github.javafxd3.api.layout;
 
 
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.wrapper.Sort;
 
@@ -53,7 +54,7 @@ public class Tree extends HierarchicalLayout {
 	}
 
 	/**
-	 * Returns the current tree size, which defaults to 1Ã—1. Although the
+	 * Returns the current tree size, which defaults to 1—1. Although the
 	 * layout has a size in x and y, this represents an arbitrary coordinate
 	 * system. For example, to produce a radial layout where the tree breadth
 	 * (*x*) is measured in degrees, and the tree depth (*y*) is a radius r in
@@ -61,9 +62,9 @@ public class Tree extends HierarchicalLayout {
 	 * 
 	 * @return a two-element array representing the current size of the tree
 	 */
-	public Double[] size() {
-		throw new IllegalStateException("not yet implemented");
-		//return this.size();
+	public Array<Double> size() {
+		JSObject result = call("size");
+		return new Array<Double>(webEngine, result);		
 	}
 
 	/**
@@ -89,9 +90,9 @@ public class Tree extends HierarchicalLayout {
 	 * @return a two element array representing the current size of nodes in the
 	 *         tree
 	 */
-	public Double[] nodeSize() {
-		throw new IllegalStateException("not yet implemented");
-		//return this.nodeSize();
+	public Array<Double> nodeSize() {
+		JSObject result = call("nodeSize");
+		return new Array<Double>(webEngine, result);
 	}
 
 	/**
@@ -140,16 +141,14 @@ public class Tree extends HierarchicalLayout {
 	 *            a datum function describing how to compute children
 	 * @return this tree object
 	 */
-	public  Tree children(DatumFunction<Node[]> df) {
+	public  Tree children(DatumFunction<Array<Node>> function) {		
+		String functionName = "children__function__name";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(functionName, function);
 		
-		throw new IllegalStateException("not yet implemented");
-		/*
-			return this
-			.children(function(d) {
-			return df.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},0);
-			});
-			}
-		*/
+		String command = "this.children(function(d) { return this."+functionName +".apply(this,{datum:d},0);})";
+		JSObject result = evalForJsObject(command);
+		return new Tree(webEngine, result);		
 	}
 
 	/**
@@ -163,16 +162,15 @@ public class Tree extends HierarchicalLayout {
 	 *            a datum function describing how to access node values
 	 * @return this tree object
 	 */
-	public  Tree value(DatumFunction<?> df) {
-		throw new IllegalStateException("not yet implemented");
-		/*
-	
-			return this
-			.value(function(d, i) {
-			return df.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
-			});
-			}
-		*/
+	public  Tree value(DatumFunction<?> function) {
+		
+		String functionName = "value__function__name";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(functionName, function);
+		
+		String command = "this.value(function(d, i) { return this."+functionName+".apply(this,{datum:d},i);})";
+		JSObject result = evalForJsObject(command);
+		return new Tree(webEngine, result);	     
 	}
 
 	/**
@@ -182,7 +180,14 @@ public class Tree extends HierarchicalLayout {
 	 * @return the current datum function registered for calculating node values
 	 */
 	public DatumFunction<?> value() {
-		throw new IllegalStateException("not yet implemented");
-		//return this.value();
+		JSObject result = call("value");
+		return new DatumFunction<Object>(){
+
+			@Override
+			public Object apply(Object context, Object datum, int index) {				
+				Object applyResult = result.call("apply", datum, index);
+				return applyResult;				
+			}			
+		};		
 	}
 }

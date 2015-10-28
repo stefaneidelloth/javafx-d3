@@ -3,7 +3,6 @@ package com.github.javafxd3.api.scales;
 
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.time.TimeScale;
-import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

@@ -1,29 +1,28 @@
 package com.github.javafxd3.api.core;
 
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
 /**
- * A Transform is a representation of a SVG <a
- * href="http://www.w3.org/TR/SVG/coords.html#TransformAttribute">transform
+ * A Transform is a representation of a SVG
+ * <a href="http://www.w3.org/TR/SVG/coords.html#TransformAttribute">transform
  * attribute</a>.
  * <p>
  * It allows parsing the svg transform attribute with {@link #parse(String)},
- * manipulation using setters, such as {@link #rotate(double)},
- * then generation of the transform attribute with {@link #toString()}
+ * manipulation using setters, such as {@link #rotate(double)}, then generation
+ * of the transform attribute with {@link #toString()}
  * <p>
- * 
- * 
- * 
  */
 public class Transform extends JavaScriptObject {
 
-	//#region CONSTRUCTORS
-	
+	// #region CONSTRUCTORS
+
 	/**
 	 * Constructor
+	 * 
 	 * @param webEngine
 	 */
 	public Transform(WebEngine webEngine) {
@@ -32,44 +31,44 @@ public class Transform extends JavaScriptObject {
 		JSObject transform = (JSObject) d3.getMember("transform");
 		setJsObject(transform);
 	}
-	
+
 	/**
 	 * Constructor
+	 * 
 	 * @param webEngine
-	 * @param wrappedJsObject 
+	 * @param wrappedJsObject
 	 */
 	public Transform(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
 	}
-	
-	//#end region
-	
-	//#region METHODS
+
+	// #end region
+
+	// #region METHODS
 
 	/**
-	 * Parses the given 2D affine transform string, as defined by SVG's <a
-	 * href="http://www.w3.org/TR/SVG/coords.html#TransformAttribute">transform
-	 * attribute</a>.
+	 * Parses the given 2D affine transform string, as defined by SVG's
+	 * <a href="http://www.w3.org/TR/SVG/coords.html#TransformAttribute">
+	 * transform attribute</a>.
 	 * <p>
 	 * The transform is then decomposed to a standard representation of
 	 * translate, rotate, x-skew and scale.
 	 * <p>
-	 * This behavior is standardized by CSS: see <a
-	 * href="http:decomposing">matrix
-	 * decomposition for animation</a>.
+	 * This behavior is standardized by CSS: see
+	 * <a href="http:decomposing">matrix decomposition for animation</a>.
 	 * <p>
 	 * 
 	 * @param transformString
 	 *            the transform string as in <a href=
-	 *            "http://www.w3.org/TR/SVG/coords.html#TransformAttribute"
-	 *            >SVG</a>
+	 *            "http://www.w3.org/TR/SVG/coords.html#TransformAttribute" >SVG
+	 *            </a>
 	 * @return the Transform object
 	 */
-	public Transform parse(String transformString){
+	public Transform parse(String transformString) {
 		String command = "d3.transform(" + transformString + ")";
 		JSObject result = evalForJsObject(command);
-		return new Transform(webEngine, result);	
+		return new Transform(webEngine, result);
 	}
 
 	/**
@@ -77,9 +76,9 @@ public class Transform extends JavaScriptObject {
 	 * 
 	 * @return the rotation angle
 	 */
-	public  double rotate(){
+	public double rotate() {
 		Double result = getMemberForDouble("rotate");
-		return result;		
+		return result;
 	}
 
 	/**
@@ -89,7 +88,7 @@ public class Transform extends JavaScriptObject {
 	 *            the rotate degree
 	 * @return the modified transformation
 	 */
-	public  Transform rotate(double degrees){
+	public Transform rotate(double degrees) {
 		String command = "this.rotate = " + degrees;
 		eval(command);
 		return this;
@@ -102,11 +101,9 @@ public class Transform extends JavaScriptObject {
 	 * 
 	 * @return translation coords
 	 */
-	public  Double[] translate(){
-		
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = getMember("translate");
-		//return result;
+	public Array<Double> translate() {
+		JSObject result = getMember("translate");
+		return new Array<Double>(webEngine, result);
 	}
 
 	/**
@@ -116,9 +113,9 @@ public class Transform extends JavaScriptObject {
 	 * @param y
 	 * @return the {@link Transform}.
 	 */
-	public  Transform translate(final int x, final int y){
-		String command = "this.translate=[" + x + "," + y +"]";
-		eval(command);		
+	public Transform translate(final int x, final int y) {
+		String command = "this.translate=[" + x + "," + y + "]";
+		eval(command);
 		return this;
 	}
 
@@ -129,9 +126,9 @@ public class Transform extends JavaScriptObject {
 	 *            the x
 	 * @return the {@link Transform}
 	 */
-	public  Transform translate(final int x){
+	public Transform translate(final int x) {
 		String command = "this.translate=[" + x + ",0]";
-		eval(command);		
+		eval(command);
 		return this;
 	}
 
@@ -142,9 +139,9 @@ public class Transform extends JavaScriptObject {
 	 * @param y
 	 * @return the {@link Transform}.
 	 */
-	public  Transform scale(final int x, final int y){
-		String command = "this.scale=[" + x + "," + y +"]";
-		eval(command);		
+	public Transform scale(final int x, final int y) {
+		String command = "this.scale=[" + x + "," + y + "]";
+		eval(command);
 		return this;
 	}
 
@@ -155,9 +152,9 @@ public class Transform extends JavaScriptObject {
 	 *            the x
 	 * @return the {@link Transform}
 	 */
-	public  Transform scale(final int x){
+	public Transform scale(final int x) {
 		String command = "this.scale=[" + x + ",0]";
-		eval(command);		
+		eval(command);
 		return this;
 	}
 
@@ -167,19 +164,18 @@ public class Transform extends JavaScriptObject {
 	 * 
 	 * @return the x skew
 	 */
-	public  double skew(){
+	public double skew() {
 		Double result = getMemberForDouble("skew");
 		return result;
-		
 	}
 
 	/**
 	 * @param x
 	 * @return
 	 */
-	public  Transform skew(double x){
+	public Transform skew(double x) {
 		String command = "this.skew = " + x;
-		eval(command);		
+		eval(command);
 		return this;
 	}
 
@@ -189,17 +185,17 @@ public class Transform extends JavaScriptObject {
 	 * 
 	 * @return translation coords
 	 */
-	public  Double[] scale(){
-		throw new IllegalStateException("not yet implemented");
-		//return this.scale;
+	public Array<Double> scale() {
+		JSObject result = getMember("scale");
+		return new Array<Double>(webEngine, result);
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		String command = "this.toString()";
 		String result = evalForString(command);
 		return result;
 	}
-	
-	//#end region
+
+	// #end region
 
 }

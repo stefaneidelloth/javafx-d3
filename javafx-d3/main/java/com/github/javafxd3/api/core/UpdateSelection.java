@@ -27,9 +27,6 @@ import netscape.javascript.JSObject;
  * reordered; use {@link Selection#sort(java.util.Comparator)} or
  * {@link Selection#order()} as needed.
  * 
- * 
- * 
- * 
  */
 public class UpdateSelection extends Selection {
 

@@ -16,10 +16,7 @@ import com.github.javafxd3.api.wrapper.Element;
  * The  #apply(Element, Datum, int) method will be called once for each element in the new data array, and once again for each existing element in the selection. The result
  * will be used to map the passed data to the passed element.
  * <p>
- * 
- * 
- * 
- * 
+ *  
  * @param <T> 
  * 
  */

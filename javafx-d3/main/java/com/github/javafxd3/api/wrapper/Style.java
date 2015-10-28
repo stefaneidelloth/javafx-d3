@@ -2,7 +2,6 @@ package com.github.javafxd3.api.wrapper;
 
 /**
  * 
- *
  */
 public class Style {
 	
@@ -15,9 +14,7 @@ public class Style {
 	/**
 	 * Constructor
 	 */
-	public Style(){
-		
-	}
+	public Style(){	}
 	
 	//#end region
 	

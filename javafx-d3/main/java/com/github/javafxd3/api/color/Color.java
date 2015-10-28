@@ -6,7 +6,6 @@ import com.github.javafxd3.api.wrapper.JavaScriptObject;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-
 /**
  * Constructing visualizations often involves working with colors.
  * <p>
@@ -18,33 +17,41 @@ import netscape.javascript.JSObject;
  * more about color manipulation, see the Wikipedia entries on RGB and HSL.
  * <p>
  * Note: while you can work with colors directly, you might also want to take a
- * look at D3's built-in {@link D3#interpolateRgb}, {@link D3#interpolateHsl} and {@link D3#scale}.
+ * look at D3's built-in {@link D3#interpolateRgb}, {@link D3#interpolateHsl}
+ * and {@link D3#scale}.
  * <p>
  * If you are looking for color palettes, see the ordinal scales reference.
  * <p>
- * 
- * 
  */
 public class Color extends JavaScriptObject {
 
+	// #region CONSTRUCTORS
+
 	/**
 	 * Constructor
+	 * 
 	 * @param webEngine
-	 * @param wrappingJsObject 
+	 * @param wrappingJsObject
 	 */
 	public Color(WebEngine webEngine, JSObject wrappingJsObject) {
 		super(webEngine);
 		setJsObject(wrappingJsObject);
 	}
 
+	// #end region
+
+	// #region METHODS
+
 	/**
 	 * Converts to a RGB hexadecimal string, such as "#f7eaba".
 	 * 
 	 * @return hexa representation of the color
 	 */
-	public String toHexaString(){
+	public String toHexaString() {
 		String result = callForString("toString");
 		return result;
 	}
+
+	// #end region
 
 }

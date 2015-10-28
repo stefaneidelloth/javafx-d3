@@ -1,6 +1,7 @@
 package com.github.javafxd3.api.scales;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.arrays.ArrayUtils;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.interpolators.Interpolator;
@@ -36,7 +37,6 @@ public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
 	 */
 	public Scale(WebEngine webEngine) {
 		super(webEngine);
-
 	}
 	
 	/**
@@ -48,7 +48,6 @@ public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
 	public Scale(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
-
 	}
 
 	// #end region
@@ -80,9 +79,6 @@ public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
     	S scaleResult = createScale(webEngine, result);   
     	return scaleResult;    	
     }
-
-	
-
    
 	/**
      * Sets the scale's input domain to the specified array of strings.
@@ -120,10 +116,9 @@ public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
      *
      * @return the current domain
      */
-    public  <T> Value[] domain(){
+    public  <T> Array<Value> domain(){
     	JSObject result = call("domain");
-    	throw new IllegalStateException("not yet implemented");
-		//return this.domain();
+    	return new Array<Value>(webEngine, result);
     }
 
     // ==================== range ====================
@@ -183,10 +178,9 @@ public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
      *
      * @return the current output range
      */
-    public  <T> T[] range(){
+    public  <T> Array<T> range(){
     	JSObject result = call("range");
-    	throw new IllegalStateException("not yet implemented");
-		//return this.domain();
+    	return new Array<T>(webEngine, result);    	
     }
 
     // ==================== copy ====================

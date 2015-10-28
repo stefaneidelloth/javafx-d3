@@ -1,5 +1,7 @@
 package com.github.javafxd3.api.svg;
 
+import com.github.javafxd3.api.arrays.Array;
+import com.github.javafxd3.api.arrays.ArrayUtils;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Transition;
 import com.github.javafxd3.api.functions.DatumFunction;
@@ -56,7 +58,7 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	}
 
 	/**
-	 * Get the brushâ€™s x-scale, which defaults to null.
+	 * Get the brushs x-scale, which defaults to null.
 	 * <p>
 	 * The scale is typically defined as a {@link QuantitativeScale}, in which
 	 * case the {@link #extent()} is in data space from the scale's
@@ -65,7 +67,7 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 * {@link OrdinalScale#rangeExtent()}.
 	 * <p>
 	 *
-	 * @return the brushâ€™s x-scale.
+	 * @return the brushs x-scale.
 	 */
 	public <T extends Scale<T>> T x() {
 		throw new IllegalStateException("not yet implemented");
@@ -90,8 +92,7 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 */
 	public Brush y(Scale<?> scale) {
 		JSObject result = call("y", scale.getJsObject());
-		return new Brush(webEngine, result);
-		
+		return new Brush(webEngine, result);		
 	}
 
 	/**
@@ -127,8 +128,7 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 */
 	public Brush apply(Selection selection) {
 		JSObject result = call("this", selection.getJsObject());
-		return new Brush(webEngine, result);
-		
+		return new Brush(webEngine, result);		
 	}
 
 	/**
@@ -152,11 +152,11 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	}
 
 	/**
-	 * Get the current brushâ€™s extent.
+	 * Get the current brushs extent.
 	 * <p>
 	 * The definition of the extent depends on the associated scales. <br>
 	 * If both an x- and y-scale are available, then the extent is the
-	 * two-dimensional array [â€�â€‹[x0, y0], [x1, y1]â€‹], where
+	 * two-dimensional array [[x0, y0], [x1, y1]], where
 	 * x0 and y0 are the lower bounds of the extent, and x1 and y1 are the upper
 	 * bounds of the extent. If only the x-scale is available, then the extent
 	 * is defined as the one-dimensional array [x0, x1]; likewise, if only the
@@ -175,13 +175,11 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 * or {@link #apply(Transition)}; to dispatch events, use
 	 * {@link #event(Selection)} or {@link #event(Transition)}.
 	 *
-	 * @return the current brushâ€™s extent.
+	 * @return the current bruss extent.
 	 */
-	public <T> T[] extent() {
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this.extent();
-		 */
+	public <T> Array<T> extent() {
+		JSObject result = call("extent");
+		return new Array<T>(webEngine, result);		
 	}
 
 	// to be in according the Scale.domain methods:
@@ -216,9 +214,17 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 *
 	 * @return the current brush
 	 */
-	public <T> Brush extent(T[] array) {
-		throw new IllegalStateException("not yet implemented");
-		//return this.extent(array);
+	public <T> Brush extent(Array<T> array) {		
+		JSObject arrayObj = array.getJsObject();
+		JSObject result = call("extent", arrayObj);
+		return new Brush(webEngine, result);		
+	}
+	
+	public <T> Brush extent(Double[][] array) {
+		String arrayString = ArrayUtils.createArrayString(array);
+		String command = "this.extent("+ arrayString + ")";
+		JSObject result = evalForJsObject(command);
+		return new Brush(webEngine, result);		
 	}
 
 	/**

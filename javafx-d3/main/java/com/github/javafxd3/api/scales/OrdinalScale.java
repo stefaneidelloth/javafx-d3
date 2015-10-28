@@ -1,5 +1,7 @@
 package com.github.javafxd3.api.scales;
 
+import com.github.javafxd3.api.arrays.Array;
+
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
@@ -41,9 +43,6 @@ import netscape.javascript.JSObject;
  * bar chart, you may find the #rangePoints(JsArrayInteger, double) or
  * #rangeBands(JsArrayInteger, double) operators more convenient.
  * <p>
- *
- * 
- *
  */
 public class OrdinalScale extends Scale<OrdinalScale> {
 
@@ -57,7 +56,6 @@ public class OrdinalScale extends Scale<OrdinalScale> {
 	 */
 	public OrdinalScale(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);
-
 	}
 
 	// #end region
@@ -320,8 +318,7 @@ public class OrdinalScale extends Scale<OrdinalScale> {
      * @return this instance
      */
     public  OrdinalScale rangeRoundBands(double start, double end,
-            double padding){
-		
+            double padding){		
 		String command = "this.rangeRoundBands([ "+start+", "+end+" ], "+padding+");";
     	JSObject result = evalForJsObject(command);
     	return new OrdinalScale(webEngine, result);
@@ -372,9 +369,9 @@ public class OrdinalScale extends Scale<OrdinalScale> {
 	 *
 	 * @return the extent of the scale's range
 	 */
-	public Double[] rangeExtent() {
-		throw new IllegalStateException("not yet implemented");
-		//return this.rangeExtent();
+	public Array<Double> rangeExtent() {
+		JSObject result = call("rangeExtent");
+		return new Array<Double>(webEngine, result);		
 	}
 
 	@Override

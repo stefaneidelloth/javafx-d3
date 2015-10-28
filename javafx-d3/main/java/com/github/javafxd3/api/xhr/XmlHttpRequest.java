@@ -6,10 +6,7 @@ import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
 /**
- * Overlay type for an XmlHttpRequest error.
- * 
- * 
- * 
+ * Overlay type for an XmlHttpRequest error. 
  */
 public class XmlHttpRequest extends JavaScriptObject {
 

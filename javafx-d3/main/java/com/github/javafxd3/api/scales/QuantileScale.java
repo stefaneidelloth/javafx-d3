@@ -1,6 +1,7 @@
 package com.github.javafxd3.api.scales;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -40,28 +41,25 @@ import netscape.javascript.JSObject;
  * determines the number of quantiles that are computed. For example, to compute
  * quartiles, values must be an array of four elements such as [0, 1, 2, 3].
  * <p>
- * 
- * 
- * 
  */
 public class QuantileScale extends DiscreteQuantitativeScale<QuantileScale> {
 
 	// #region CONSTRUCTORS
 
-		/**
-		 * Constructor
-		 * 
-		 * @param webEngine
-		 * @param wrappedJsObject
-		 */
-		public QuantileScale(WebEngine webEngine, JSObject wrappedJsObject) {
-			super(webEngine, wrappedJsObject);
+	/**
+	 * Constructor
+	 * 
+	 * @param webEngine
+	 * @param wrappedJsObject
+	 */
+	public QuantileScale(WebEngine webEngine, JSObject wrappedJsObject) {
+		super(webEngine, wrappedJsObject);
 
-		}
+	}
 
-		// #end region
+	// #end region
 
-		// #region METHODS
+	// #region METHODS
 
 	/**
 	 * Returns the quantile thresholds.
@@ -77,9 +75,9 @@ public class QuantileScale extends DiscreteQuantitativeScale<QuantileScale> {
 	 * 
 	 * @return the array of threshold values
 	 */
-	public Double[] quantiles(){
-		throw new IllegalStateException("not yet implemented");
-		//return this.quantiles();
+	public Array<Double> quantiles() {
+		JSObject result = call("quantiles");
+		return new Array<Double>(webEngine, result);
 	}
 
 	@Override

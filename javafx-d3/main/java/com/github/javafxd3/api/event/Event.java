@@ -13,11 +13,9 @@ import netscape.javascript.JSObject;
  */
 public class Event<T> extends JavaScriptObject {
 	
-	//#region ATTRIBUTES
-	
+	//#region ATTRIBUTES	
 
-	protected T sourceEvent;
-    
+	protected T sourceEvent;    
 	
 	//#end region
 

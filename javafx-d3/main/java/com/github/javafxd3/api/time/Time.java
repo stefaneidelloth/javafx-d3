@@ -1,7 +1,5 @@
 package com.github.javafxd3.api.time;
 
-
-
 import java.util.Date;
 
 import com.github.javafxd3.api.arrays.Array;
@@ -9,14 +7,13 @@ import com.github.javafxd3.api.wrapper.JavaScriptObject;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-
 /**
  * D3 includes a helper module for parsing and formatting dates modeled after
  * the venerable <a href=
- * "http://pubs.opengroup.org/onlinepubs/009695399/functions/strptime.html"
- * >strptime</a> and <a
- * href="http://pubs.opengroup.org/onlinepubs/007908799/xsh/strftime.html"
- * >strftime</a> C-library standards. These functions are also notably available
+ * "http://pubs.opengroup.org/onlinepubs/009695399/functions/strptime.html" >
+ * strptime</a> and
+ * <a href="http://pubs.opengroup.org/onlinepubs/007908799/xsh/strftime.html" >
+ * strftime</a> C-library standards. These functions are also notably available
  * in Python's <a href="http://docs.python.org/library/time.html">time</a>
  * module.
  * 
@@ -24,11 +21,12 @@ import netscape.javascript.JSObject;
  * 
  */
 public class Time extends JavaScriptObject {
-	
-	//#region CONSTRUCTORS
+
+	// #region CONSTRUCTORS
 
 	/**
 	 * Constructor
+	 * 
 	 * @param webEngine
 	 * @param wrappedJsObject
 	 */
@@ -36,10 +34,10 @@ public class Time extends JavaScriptObject {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
 	}
-	
-	//#end region
-	
-	//#region METHODS
+
+	// #end region
+
+	// #region METHODS
 
 	// ========== scales =============
 	/**
@@ -49,7 +47,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the new scale
 	 */
-	public  TimeScale scale(){
+	public TimeScale scale() {
 		JSObject result = call("scale");
 		return new TimeScale(webEngine, result);
 	}
@@ -61,44 +59,44 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return
 	 */
-	public  TimeScale utc(){
+	public TimeScale utc() {
 		String command = "this.scale.utc()";
 		JSObject result = evalForJsObject(command);
-		return new TimeScale(webEngine, result);		
+		return new TimeScale(webEngine, result);
 	}
 
 	/**
 	 * Constructs a new local time formatter using the given <i>specifier</i>.
 	 * The specifier string may contain the following directives.
 	 * <ul>
-	 * <li> <code>%a</code> - abbreviated weekday name.
-	 * <li> <code>%A</code> - full weekday name.
-	 * <li> <code>%b</code> - abbreviated month name.
-	 * <li> <code>%B</code> - full month name.
-	 * <li> <code>%c</code> - date and time, as "%a %b %e %H:%M:%S %Y".
-	 * <li> <code>%d</code> - zero-padded day of the month as a decimal number
+	 * <li><code>%a</code> - abbreviated weekday name.
+	 * <li><code>%A</code> - full weekday name.
+	 * <li><code>%b</code> - abbreviated month name.
+	 * <li><code>%B</code> - full month name.
+	 * <li><code>%c</code> - date and time, as "%a %b %e %H:%M:%S %Y".
+	 * <li><code>%d</code> - zero-padded day of the month as a decimal number
 	 * [01,31].
-	 * <li> <code>%e</code> - space-padded day of the month as a decimal number [
+	 * <li><code>%e</code> - space-padded day of the month as a decimal number [
 	 * 1,31]; equivalent to %_d.
-	 * <li> <code>%H</code> - hour (24-hour clock) as a decimal number [00,23].
-	 * <li> <code>%I</code> - hour (12-hour clock) as a decimal number [01,12].
-	 * <li> <code>%j</code> - day of the year as a decimal number [001,366].
-	 * <li> <code>%L</code> - milliseconds as a decimal number [000, 999].
-	 * <li> <code>%m</code> - month as a decimal number [01,12].
-	 * <li> <code>%M</code> - minute as a decimal number [00,59].
-	 * <li> <code>%p</code> - either AM or PM.
-	 * <li> <code>%S</code> - second as a decimal number [00,61].
-	 * <li> <code>%U</code> - week number of the year (Sunday as the first day of
+	 * <li><code>%H</code> - hour (24-hour clock) as a decimal number [00,23].
+	 * <li><code>%I</code> - hour (12-hour clock) as a decimal number [01,12].
+	 * <li><code>%j</code> - day of the year as a decimal number [001,366].
+	 * <li><code>%L</code> - milliseconds as a decimal number [000, 999].
+	 * <li><code>%m</code> - month as a decimal number [01,12].
+	 * <li><code>%M</code> - minute as a decimal number [00,59].
+	 * <li><code>%p</code> - either AM or PM.
+	 * <li><code>%S</code> - second as a decimal number [00,61].
+	 * <li><code>%U</code> - week number of the year (Sunday as the first day of
 	 * the week) as a decimal number [00,53].
-	 * <li> <code>%w</code> - weekday as a decimal number [0(Sunday),6].
-	 * <li> <code>%W</code> - week number of the year (Monday as the first day of
+	 * <li><code>%w</code> - weekday as a decimal number [0(Sunday),6].
+	 * <li><code>%W</code> - week number of the year (Monday as the first day of
 	 * the week) as a decimal number [00,53].
-	 * <li> <code>%x</code> - date, as "%m/%d/%y".
-	 * <li> <code>%X</code> - time, as "%H:%M:%S".
-	 * <li> <code>%y</code> - year without century as a decimal number [00,99].
-	 * <li> <code>%Y</code> - year with century as a decimal number.
-	 * <li> <code>%Z</code> - time zone offset, such as "-0700".
-	 * <li> <code>%%</code> - a literal "%" character.
+	 * <li><code>%x</code> - date, as "%m/%d/%y".
+	 * <li><code>%X</code> - time, as "%H:%M:%S".
+	 * <li><code>%y</code> - year without century as a decimal number [00,99].
+	 * <li><code>%Y</code> - year with century as a decimal number.
+	 * <li><code>%Z</code> - time zone offset, such as "-0700".
+	 * <li><code>%%</code> - a literal "%" character.
 	 * </ul>
 	 * For %U, all days in a new year preceding the first Sunday are considered
 	 * to be in week 0. For %W, all days in a new year preceding the first
@@ -114,26 +112,26 @@ public class Time extends JavaScriptObject {
 	 * padding modifier:
 	 * <p>
 	 * <ul>
-	 * <li> <code>0</code> - zero-padding
-	 * <li> <code>_</code> - space-padding
-	 * <li> <code>-</code> - disable padding
+	 * <li><code>0</code> - zero-padding
+	 * <li><code>_</code> - space-padding
+	 * <li><code>-</code> - disable padding
 	 * </ul>
 	 * <p>
 	 * If no padding modifier is specified, the default is <code>0</code> for
 	 * all directives, except for <code>%e</code> which defaults to
 	 * <code>_</code>).
 	 * 
-	 * @see <a
-	 *      href="https://github.com/mbostock/d3/wiki/Time-Formatting#wiki-format">Official
-	 *      API documentation</a>
+	 * @see <a href=
+	 *      "https://github.com/mbostock/d3/wiki/Time-Formatting#wiki-format">
+	 *      Official API documentation</a>
 	 * 
 	 * @param specifier
 	 *            the specifier string.
 	 * @return the formatted string.
 	 */
-	public  TimeFormat format(String specifier) {
+	public TimeFormat format(String specifier) {
 		JSObject result = call("format", specifier);
-		return new TimeFormat(webEngine, result);		
+		return new TimeFormat(webEngine, result);
 	}
 
 	/**
@@ -141,7 +139,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the builder.
 	 */
-	public  TimeFormat.Builder format() {		
+	public TimeFormat.Builder format() {
 		JSObject result = getMember("format");
 		return new TimeFormat.Builder(webEngine, result);
 	}
@@ -155,7 +153,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval second(){		
+	public Interval second() {
 		JSObject result = getMember("second");
 		return new Interval(webEngine, result);
 	}
@@ -169,7 +167,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval minute(){
+	public Interval minute() {
 		JSObject result = getMember("minute");
 		return new Interval(webEngine, result);
 	}
@@ -182,7 +180,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval hour(){
+	public Interval hour() {
 		JSObject result = getMember("hour");
 		return new Interval(webEngine, result);
 	}
@@ -196,7 +194,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval day(){
+	public Interval day() {
 		JSObject result = getMember("day");
 		return new Interval(webEngine, result);
 	}
@@ -208,7 +206,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval week(){
+	public Interval week() {
 		JSObject result = getMember("week");
 		return new Interval(webEngine, result);
 	}
@@ -219,7 +217,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval sunday(){
+	public Interval sunday() {
 		JSObject result = getMember("sunday");
 		return new Interval(webEngine, result);
 	}
@@ -230,7 +228,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval monday(){
+	public Interval monday() {
 		JSObject result = getMember("monday");
 		return new Interval(webEngine, result);
 	}
@@ -241,7 +239,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval tuesday(){
+	public Interval tuesday() {
 		JSObject result = getMember("tuesday");
 		return new Interval(webEngine, result);
 	}
@@ -252,7 +250,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval wednesday(){
+	public Interval wednesday() {
 		JSObject result = getMember("wednesday");
 		return new Interval(webEngine, result);
 	}
@@ -263,7 +261,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval thursday(){
+	public Interval thursday() {
 		JSObject result = getMember("thursday");
 		return new Interval(webEngine, result);
 	}
@@ -274,7 +272,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval friday(){
+	public Interval friday() {
 		JSObject result = getMember("friday");
 		return new Interval(webEngine, result);
 	}
@@ -285,7 +283,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval saturday(){
+	public Interval saturday() {
 		JSObject result = getMember("saturday");
 		return new Interval(webEngine, result);
 	}
@@ -297,7 +295,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval month(){
+	public Interval month() {
 		JSObject result = getMember("month");
 		return new Interval(webEngine, result);
 	}
@@ -309,7 +307,7 @@ public class Time extends JavaScriptObject {
 	 * 
 	 * @return the {@link Interval}
 	 */
-	public  Interval year(){
+	public Interval year() {
 		JSObject result = getMember("year");
 		return new Interval(webEngine, result);
 	}
@@ -1265,7 +1263,7 @@ public class Time extends JavaScriptObject {
 	 *            the given date
 	 * @return the day number
 	 */
-	public  int dayOfYear(JsDate date) {
+	public int dayOfYear(JsDate date) {
 		JSObject dateObj = date.getJsObject();
 		int result = callForInteger("dayOfYear", dateObj);
 		return result;
@@ -1302,10 +1300,10 @@ public class Time extends JavaScriptObject {
 	 *            the given date
 	 * @return the week number
 	 */
-	public  int weekOfYear(JsDate date) {
+	public int weekOfYear(JsDate date) {
 		JSObject dateObj = date.getJsObject();
 		int result = callForInteger("weekOfYear", dateObj);
-		return result;		
+		return result;
 	}
 
 	/**
@@ -1339,10 +1337,10 @@ public class Time extends JavaScriptObject {
 	 *            the given date
 	 * @return the week number
 	 */
-	public  int sundayOfYear(JsDate date) {
+	public int sundayOfYear(JsDate date) {
 		JSObject dateObj = date.getJsObject();
 		int result = callForInteger("sundayOfYear", dateObj);
-		return result;		
+		return result;
 	}
 
 	/**
@@ -1376,7 +1374,7 @@ public class Time extends JavaScriptObject {
 	 *            the given date
 	 * @return the week number
 	 */
-	public  int mondayOfYear(JsDate date) {
+	public int mondayOfYear(JsDate date) {
 		JSObject dateObj = date.getJsObject();
 		int result = callForInteger("mondayOfYear", dateObj);
 		return result;
@@ -1413,7 +1411,7 @@ public class Time extends JavaScriptObject {
 	 *            the given date
 	 * @return the week number
 	 */
-	public  int tuesdayOfYear(JsDate date) {
+	public int tuesdayOfYear(JsDate date) {
 		JSObject dateObj = date.getJsObject();
 		int result = callForInteger("tuesdayOfYear", dateObj);
 		return result;
@@ -1450,7 +1448,7 @@ public class Time extends JavaScriptObject {
 	 *            the given date
 	 * @return the week number
 	 */
-	public  int wednesdayOfYear(JsDate date) {
+	public int wednesdayOfYear(JsDate date) {
 		JSObject dateObj = date.getJsObject();
 		int result = callForInteger("wednesdayOfYear", dateObj);
 		return result;
@@ -1487,7 +1485,7 @@ public class Time extends JavaScriptObject {
 	 *            the given date
 	 * @return the week number
 	 */
-	public  int thursdayOfYear(JsDate date) {
+	public int thursdayOfYear(JsDate date) {
 		JSObject dateObj = date.getJsObject();
 		int result = callForInteger("thursOfYear", dateObj);
 		return result;
@@ -1524,7 +1522,7 @@ public class Time extends JavaScriptObject {
 	 *            the given date
 	 * @return the week number
 	 */
-	public  int fridayOfYear(JsDate date) {
+	public int fridayOfYear(JsDate date) {
 		JSObject dateObj = date.getJsObject();
 		int result = callForInteger("fridayOfYear", dateObj);
 		return result;
@@ -1561,7 +1559,7 @@ public class Time extends JavaScriptObject {
 	 *            the given date
 	 * @return the week number
 	 */
-	public  int saturdayOfYear(JsDate date) {
+	public int saturdayOfYear(JsDate date) {
 		JSObject dateObj = date.getJsObject();
 		int result = callForInteger("saturdayOfYear", dateObj);
 		return result;
@@ -1586,6 +1584,6 @@ public class Time extends JavaScriptObject {
 	public final int saturdayOfYear(final double date) {
 		return this.saturdayOfYear(JsDate.create(webEngine, date));
 	}
-	
-	//#end region
+
+	// #end region
 }

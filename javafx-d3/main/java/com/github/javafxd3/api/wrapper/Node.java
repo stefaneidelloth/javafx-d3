@@ -7,6 +7,8 @@ import netscape.javascript.JSObject;
  * 
  */
 public class Node extends JavaScriptObject {
+	
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -18,6 +20,10 @@ public class Node extends JavaScriptObject {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
 	}
+	
+	//#end region
+	
+	//#region METHODS
 
 	/**
 	 * @param cloneNode
@@ -37,6 +43,6 @@ public class Node extends JavaScriptObject {
 		//return null;
 	}
 	
-	
+	//#end region
 
 }

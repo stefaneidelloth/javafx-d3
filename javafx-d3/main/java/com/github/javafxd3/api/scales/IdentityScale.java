@@ -1,6 +1,6 @@
 package com.github.javafxd3.api.scales;
 
-
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.core.Formatter;
 import com.github.javafxd3.api.svg.Axis;
 import com.github.javafxd3.api.svg.Brush;
@@ -18,30 +18,26 @@ import netscape.javascript.JSObject;
  * <p>
  * The methods {@link #domain(double...)} and {@link #range(double...)} have the
  * same effect of setting both the domain and range in the same time.
- * <p>
- * 
- * 
- * 
- * 
+ * <p>  
  */
 public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 
 	// #region CONSTRUCTORS
 
-		/**
-		 * Constructor
-		 * 
-		 * @param webEngine
-		 * @param wrappedJsObject
-		 */
-		public IdentityScale(WebEngine webEngine, JSObject wrappedJsObject) {
-			super(webEngine, wrappedJsObject);
+	/**
+	 * Constructor
+	 * 
+	 * @param webEngine
+	 * @param wrappedJsObject
+	 */
+	public IdentityScale(WebEngine webEngine, JSObject wrappedJsObject) {
+		super(webEngine, wrappedJsObject);
 
-		}
+	}
 
-		// #end region
+	// #end region
 
-		// #region METHODS
+	// #region METHODS
 
 	// =========== ticks ==========
 
@@ -59,13 +55,14 @@ public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 	 * The specified count is only a hint; the scale may return more or fewer
 	 * values depending on the input domain.
 	 * <p>
-	 * @param count 
+	 * 
+	 * @param count
 	 * 
 	 * @return the array of ticks
 	 */
-	public <T> T[] ticks(int count){
-		throw new IllegalStateException("not yet implemented");
-		//return this.ticks(count);
+	public <T> Array<T> ticks(int count) {
+		JSObject result = call("ticks", count);
+		return new Array<T>(webEngine, result);		
 	}
 
 	/**
@@ -73,9 +70,9 @@ public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 	 * 
 	 * @return the array of reference ticks
 	 */
-	public <T> T[] ticks(){
-		throw new IllegalStateException("not yet implemented");
-		//return this.ticks(count);
+	public <T> Array<T> ticks() {
+		JSObject result = call("ticks");
+		return new Array<T>(webEngine, result);	
 	}
 
 	// =========== tickFormat ==========
@@ -96,7 +93,7 @@ public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 	 *            {@link Formatter}.
 	 * @return a number format
 	 */
-	public Formatter tickFormat(int count){
+	public Formatter tickFormat(int count) {
 		return this.tickFormat(count);
 	}
 
@@ -121,14 +118,14 @@ public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 	 *            used as a basis of the Formatter.
 	 * @return a number format
 	 */
-	public Formatter tickFormat(int count, String formatSpecifier){
+	public Formatter tickFormat(int count, String formatSpecifier) {
 		return this.tickFormat(count, formatSpecifier);
 	}
 
 	@Override
 	protected IdentityScale createScale(WebEngine webEngine, JSObject result) {
-		return new IdentityScale(webEngine, result);	
+		return new IdentityScale(webEngine, result);
 	}
-	
-	//#end region
+
+	// #end region
 }

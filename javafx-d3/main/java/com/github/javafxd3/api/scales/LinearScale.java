@@ -1,6 +1,7 @@
 package com.github.javafxd3.api.scales;
 
 
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.core.Formatter;
 
 import javafx.scene.web.WebEngine;
@@ -58,10 +59,7 @@ import netscape.javascript.JSObject;
  * <p>
  * However, numeric ranges are required for the {@link #invert(double)}
  * operator.
- * <p>
- * 
- * 
- * 
+ * <p> 
  */
 public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 
@@ -100,10 +98,9 @@ public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 	 * 
 	 * @return
 	 */
-	public <T> T[] ticks(int count) {
+	public <T> Array<T> ticks(int count) {
 		JSObject result = call("ticks", count);
-		throw new IllegalStateException("not yet implemented");
-		//return new Array<T>(webEngine, result);		
+		return new Array<T>(webEngine, result);		
 	}
 
 	/**
@@ -111,10 +108,9 @@ public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 	 * 
 	 * @return the array of reference ticks
 	 */
-	public <T> T[] ticks() {
+	public <T> Array<T> ticks() {
 		JSObject result = call("ticks");
-		throw new IllegalStateException("not yet implemented");
-		//return new Array<T>(webEngine, result);	
+		return new Array<T>(webEngine, result);	
 	}
 
 	// =========== tickFormat ==========
@@ -137,8 +133,7 @@ public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 	 */
 	public Formatter tickFormat(int count) {
 		JSObject result = call("tickFormat", count);
-		return new Formatter(webEngine, result);	
-		
+		return new Formatter(webEngine, result);		
 	}
 
 	/**

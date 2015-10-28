@@ -24,8 +24,7 @@ public class TimeFormat extends JavaScriptObject {
 
     //#end region
     
-    //#region METHODS
-   
+    //#region METHODS   
 
     /**
      * Parse a string into a date.

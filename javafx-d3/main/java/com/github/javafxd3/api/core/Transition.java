@@ -14,17 +14,16 @@ import com.github.javafxd3.api.wrapper.JavaScriptObject;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-
 /**
  * 
  * A transition is a special type of selection where the operators apply
  * smoothly over time rather than instantaneously. You derive a transition from
  * a selection using the {@link Selection#transition()} operator. While
  * transitions generally support the same operators as selections (such as
- *  #attr(String) and #style(String)), not all operators are
- * supported; for example, you must  #append(String) elements before a
- * transition starts. A {@link #remove()} operator is provided for convenient
- * removal of elements when the transition ends.
+ * #attr(String) and #style(String)), not all operators are supported; for
+ * example, you must #append(String) elements before a transition starts. A
+ * {@link #remove()} operator is provided for convenient removal of elements
+ * when the transition ends.
  * <p>
  * Transitions may have per-element #delay and {@link #duration(DatumFunction)},
  * computed using functions of data similar to other operators. This makes it
@@ -60,23 +59,23 @@ import netscape.javascript.JSObject;
  * <p>
  * For more on transitions, read the Working with Transitions tutorial.
  * 
- * 
- * 
  */
 public class Transition extends JavaScriptObject {
 
-//#region CONSTUCTORS
+	// #region CONSTUCTORS
 
 	/**
 	 * Constructor
+	 * 
 	 * @param webEngine
 	 */
 	public Transition(WebEngine webEngine) {
 		super(webEngine);
 	}
-	
+
 	/**
 	 * Constructor
+	 * 
 	 * @param webEngine
 	 * @param wrappedJsObject
 	 */
@@ -84,14 +83,12 @@ public class Transition extends JavaScriptObject {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
 	}
-	
-	//#end region
-	
-	//#region METHODS
+
+	// #end region
+
+	// #region METHODS
 
 	// ================ creating transitions ================================
-
-	
 
 	/**
 	 * Specifies the transition delay in milliseconds.
@@ -103,7 +100,7 @@ public class Transition extends JavaScriptObject {
 	 *            the transition duration in milliseconds
 	 * @return the current transition
 	 */
-	public  Transition delay(int milliseconds){
+	public Transition delay(int milliseconds) {
 		return this.delay(milliseconds);
 	}
 
@@ -132,21 +129,22 @@ public class Transition extends JavaScriptObject {
 	 * You may also compute the delay as a function of the data, thereby
 	 * creating a data-driven animation.
 	 * 
-	 *            the transition duration in milliseconds
-	 * @param func 
+	 * the transition duration in milliseconds
+	 * 
+	 * @param func
 	 * @return the current transition
 	 */
-	public  Transition delay(DatumFunction<Integer> func){
-	
-	throw new IllegalStateException("not yet implemented");
-		
+	public Transition delay(DatumFunction<Integer> func) {
+
+		throw new IllegalStateException("not yet implemented");
+
 		/*
-		return this
-				.delay(function(d, i) {
-					return func.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
-				});
-				
-			*/
+		 * return this .delay(function(d, i) { return
+		 * func.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google
+		 * /gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{
+		 * datum:d},i); });
+		 * 
+		 */
 	}
 
 	/**
@@ -157,7 +155,7 @@ public class Transition extends JavaScriptObject {
 	 *            the transition duration in milliseconds
 	 * @return the current transition
 	 */
-	public  Transition duration(int milliseconds){
+	public Transition duration(int milliseconds) {
 		return this.duration(milliseconds);
 	}
 
@@ -169,17 +167,17 @@ public class Transition extends JavaScriptObject {
 	 *            the function returning a transition duration in milliseconds
 	 * @return the current transition
 	 */
-	public  Transition duration(DatumFunction<Integer> func){
-	
-	throw new IllegalStateException("not yet implemented");
-		
+	public Transition duration(DatumFunction<Integer> func) {
+
+		throw new IllegalStateException("not yet implemented");
+
 		/*
-		return this
-				.duration(function(d, i) {
-					return func.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
-				});
-				
-		*/
+		 * return this .duration(function(d, i) { return
+		 * func.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google
+		 * /gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{
+		 * datum:d},i); });
+		 * 
+		 */
 	}
 
 	/**
@@ -198,18 +196,16 @@ public class Transition extends JavaScriptObject {
 	 *            the easing function
 	 * @return the current transition
 	 */
-	public  Transition ease(EasingFunction callback){
-	
-	throw new IllegalStateException("not yet implemented");
-		
+	public Transition ease(EasingFunction callback) {
+
+		throw new IllegalStateException("not yet implemented");
+
 		/*
-		var r = this
-				.ease(function(t) {
-					return @com.github.gwtd3.api.core.Transition::trampolineCallEase(Lcom/github/gwtd3/api/ease/EasingFunction;D)(callback,t);
-				});
-		return r;
-		
-		*/
+		 * var r = this .ease(function(t) {
+		 * return @com.github.gwtd3.api.core.Transition::trampolineCallEase(Lcom
+		 * /github/gwtd3/api/ease/EasingFunction;D)(callback,t); }); return r;
+		 * 
+		 */
 	}
 
 	/**
@@ -220,8 +216,7 @@ public class Transition extends JavaScriptObject {
 	 * @param t
 	 * @return
 	 */
-	private static final double trampolineCallEase(
-			final EasingFunction function, final double t) {
+	private static final double trampolineCallEase(final EasingFunction function, final double t) {
 		return function.ease(t);
 	}
 
@@ -252,8 +247,7 @@ public class Transition extends JavaScriptObject {
 	 *            the new value to transition to, must not be null
 	 * @return the current transition
 	 */
-	public  <T> Transition attr(final String name, String value)
-	{
+	public <T> Transition attr(final String name, String value) {
 		return this.attr(name, value);
 	}
 
@@ -268,8 +262,7 @@ public class Transition extends JavaScriptObject {
 	 * @param value
 	 * @return the current transition
 	 */
-	public  Transition attr(final String name, double value)
-	{
+	public Transition attr(final String name, double value) {
 		return this.attr(name, value);
 	}
 
@@ -301,19 +294,16 @@ public class Transition extends JavaScriptObject {
 	 *            the function used to compute the new value of the attribute
 	 * @return the current transition
 	 */
-	public  Transition attr(final String name,
-			final DatumFunction<?> callback){
+	public Transition attr(final String name, final DatumFunction<?> callback) {
 		throw new IllegalStateException("not yet implemented");
-		
+
 		/*
-		return this
-				.attr(
-						name,
-						function(d, i) {
-							return callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
-						});
-						
-		*/
+		 * return this .attr( name, function(d, i) { return
+		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
+		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
+		 * this,{datum:d},i); });
+		 * 
+		 */
 	}
 
 	/**
@@ -335,9 +325,7 @@ public class Transition extends JavaScriptObject {
 	 *            the new value to assign
 	 * @return the current transition
 	 */
-	public  Transition attr(final String name,
-			PathDataGenerator value)
-	{
+	public Transition attr(final String name, PathDataGenerator value) {
 		return this.attr(name, value);
 	}
 
@@ -354,30 +342,26 @@ public class Transition extends JavaScriptObject {
 	 * parametric value t in the domain [0,1] to a color, number or arbitrary
 	 * value.
 	 * 
-	 * @see <a
-	 *      href="https:attrTween">Offical
-	 *      API</a>
+	 * @see <a href="https:attrTween">Offical API</a>
 	 * 
 	 * @param name
 	 *            the name of the attribute to transition
 	 * @param tweenFunction
 	 *            the function used to create an interpolator
 	 */
-	public  Transition attrTween(String name,
-			TweenFunction<?> tweenFunction){
-			
+	public Transition attrTween(String name, TweenFunction<?> tweenFunction) {
+
 		throw new IllegalStateException("not yet implemented");
-		
+
 		/*
-		return this
-				.attrTween(
-						name,
-						function(d, i, a) {
-							var interpolator = tweenFunction.@com.github.gwtd3.api.tweens.TweenFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;ILcom/github/gwtd3/api/core/Value;)(this,{datum:d},i,{datum:a});
-							return @com.github.gwtd3.api.core.Transition::trampolineInterpolator(Lcom/github/gwtd3/api/interpolators/Interpolator;)(interpolator);
-						});
-						
-		*/
+		 * return this .attrTween( name, function(d, i, a) { var interpolator =
+		 * tweenFunction.@com.github.gwtd3.api.tweens.TweenFunction::apply(Lcom/
+		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;ILcom/
+		 * github/gwtd3/api/core/Value;)(this,{datum:d},i,{datum:a});
+		 * return @com.github.gwtd3.api.core.Transition::trampolineInterpolator(
+		 * Lcom/github/gwtd3/api/interpolators/Interpolator;)(interpolator); });
+		 * 
+		 */
 	}
 
 	// ================ style functions ================
@@ -417,7 +401,7 @@ public class Transition extends JavaScriptObject {
 	 *            the ending value
 	 * @return the current transition
 	 */
-	public  Transition style(String name, String value) {
+	public Transition style(String name, String value) {
 		return this.style(name, value);
 	}
 
@@ -430,7 +414,7 @@ public class Transition extends JavaScriptObject {
 	 *            the ending value
 	 * @return the current transition
 	 */
-	public  Transition style(String name, double value) {
+	public Transition style(String name, double value) {
 		return this.style(name, value);
 	}
 
@@ -443,30 +427,18 @@ public class Transition extends JavaScriptObject {
 	 *            the callback to be called
 	 * @return the current transition
 	 */
-	public  Transition style(String name, DatumFunction<?> callback) {
-	
-	throw new IllegalStateException("not yet implemented");
-		
+	public Transition style(String name, DatumFunction<?> callback) {
+
+		throw new IllegalStateException("not yet implemented");
+
 		/*
-		try {
-			return this
-					.style(
-							name,
-							function(d, i) {
-								try {
-									var r = callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
-									return r;
-								} catch (e) {
-									alert(e);
-									return null;
-								}
-							});
-		} catch (e) {
-			alert(e);
-			return null;
-		}
-		
-		*/
+		 * try { return this .style( name, function(d, i) { try { var r =
+		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
+		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
+		 * this,{datum:d},i); return r; } catch (e) { alert(e); return null; }
+		 * }); } catch (e) { alert(e); return null; }
+		 * 
+		 */
 	}
 
 	/**
@@ -512,24 +484,19 @@ public class Transition extends JavaScriptObject {
 	 *            otherwise
 	 * @return the current selection
 	 */
-	public  Selection style(String name, DatumFunction<?> callback,
-			boolean important){
-			
+	public Selection style(String name, DatumFunction<?> callback, boolean important) {
+
 		throw new IllegalStateException("not yet implemented");
-		
+
 		/*
-		var imp = important ? 'important' : null;
-		return this
-				.style(
-						name,
-						function(d, i) {
-							var r =
-							callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)
-								(this,{datum:d},i);
-							return r?r.@java.lang.Object::toString()():null;
-						}, imp);
-						
-		*/
+		 * var imp = important ? 'important' : null; return this .style( name,
+		 * function(d, i) { var r =
+		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
+		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)
+		 * (this,{datum:d},i); return r?r.@java.lang.Object::toString()():null;
+		 * }, imp);
+		 * 
+		 */
 	}
 
 	/**
@@ -556,22 +523,21 @@ public class Transition extends JavaScriptObject {
 	 *            otherwise
 	 * @return the current selection
 	 */
-	public  Selection styleTween(String name,
-			TweenFunction<?> tweenFunction, boolean important){
-			
+	public Selection styleTween(String name, TweenFunction<?> tweenFunction, boolean important) {
+
 		throw new IllegalStateException("not yet implemented");
-		
+
 		/*
-		var imp = important ? 'important' : null;
-		return this
-				.styleTween(
-						name,
-						function(d, i, a) {
-							var interpolator = tweenFunction.@com.github.gwtd3.api.tweens.TweenFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;ILcom/github/gwtd3/api/core/Value;)(this,{datum:d},i,{datum:a});
-							return @com.github.gwtd3.api.core.Transition::trampolineInterpolator(Lcom/github/gwtd3/api/interpolators/Interpolator;)(interpolator);
-						}, imp);
-						
-		*/
+		 * var imp = important ? 'important' : null; return this .styleTween(
+		 * name, function(d, i, a) { var interpolator =
+		 * tweenFunction.@com.github.gwtd3.api.tweens.TweenFunction::apply(Lcom/
+		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;ILcom/
+		 * github/gwtd3/api/core/Value;)(this,{datum:d},i,{datum:a});
+		 * return @com.github.gwtd3.api.core.Transition::trampolineInterpolator(
+		 * Lcom/github/gwtd3/api/interpolators/Interpolator;)(interpolator); },
+		 * imp);
+		 * 
+		 */
 	}
 
 	// ==================== text content ==========================
@@ -587,7 +553,7 @@ public class Transition extends JavaScriptObject {
 	 *            the new text value to set
 	 * @return the current transition
 	 */
-	public  <T> Transition text(String value){
+	public <T> Transition text(String value) {
 		return this.text(value);
 	}
 
@@ -612,17 +578,17 @@ public class Transition extends JavaScriptObject {
 	 *            the function used to compute the new text property
 	 * @return the current transition
 	 */
-	public  Transition text(final DatumFunction<String> callback) {
-	
-	throw new IllegalStateException("not yet implemented");
-		
+	public Transition text(final DatumFunction<String> callback) {
+
+		throw new IllegalStateException("not yet implemented");
+
 		/*
-		return this
-				.text(function(d, i) {
-					return callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
-				});
-				
-		*/
+		 * return this .text(function(d, i) { return
+		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
+		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
+		 * this,{datum:d},i); });
+		 * 
+		 */
 	}
 
 	/**
@@ -642,20 +608,17 @@ public class Transition extends JavaScriptObject {
 	 *            the function returning an {@link Interpolator}
 	 * @return the current transition
 	 */
-	public  Transition tween(String name,
-			DatumFunction<Interpolator<?>> factory){
-			
+	public Transition tween(String name, DatumFunction<Interpolator<?>> factory) {
+
 		throw new IllegalStateException("not yet implemented");
-		
+
 		/*
-		return this
-				.tween(
-						name,
-						function(d, i) {
-							return factory.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
-						});
-						
-		*/
+		 * return this .tween( name, function(d, i) { return
+		 * factory.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
+		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
+		 * this,{datum:d},i); });
+		 * 
+		 */
 	}
 
 	/**
@@ -668,7 +631,7 @@ public class Transition extends JavaScriptObject {
 	 * 
 	 * @return the current transition
 	 */
-	public  Transition remove(){
+	public Transition remove() {
 		return this.remove();
 	}
 
@@ -699,7 +662,7 @@ public class Transition extends JavaScriptObject {
 	 * @return the returned transition, containing at most only one element,
 	 *         inheriting duration, delay and ease from the current transition
 	 */
-	public  Transition select(String selector){
+	public Transition select(String selector) {
 		return this.select(selector);
 	}
 
@@ -725,7 +688,7 @@ public class Transition extends JavaScriptObject {
 	 * @param selector
 	 * @return the sub transition, inheriting
 	 */
-	public  Transition selectAll(String selector){
+	public Transition selectAll(String selector) {
 		return this.selectAll(selector);
 	}
 
@@ -746,7 +709,7 @@ public class Transition extends JavaScriptObject {
 	 *            the CSS3 selector to be used as a filter
 	 * @return a new transition containing the filtered elements
 	 */
-	public  Transition filter(String selector){
+	public Transition filter(String selector) {
 		return this.filter(selector);
 	}
 
@@ -766,17 +729,16 @@ public class Transition extends JavaScriptObject {
 	 *            the function to be used as a filter
 	 * @return a new transition containing the filtered elements
 	 */
-	public  Transition filter(
-			final DatumFunction<Element> datumFunction){
-			
+	public Transition filter(final DatumFunction<Element> datumFunction) {
+
 		throw new IllegalStateException("not yet implemented");
-		
+
 		/*
-		return this
-				.filter(function(d, i) {
-					return datumFunction.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
-				});
-		*/
+		 * return this .filter(function(d, i) { return
+		 * datumFunction.@com.github.gwtd3.api.functions.DatumFunction::apply(
+		 * Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I
+		 * )(this,{datum:d},i); });
+		 */
 	}
 
 	/**
@@ -788,7 +750,7 @@ public class Transition extends JavaScriptObject {
 	 * 
 	 * @return the new transition
 	 */
-	public  Transition transition(){
+	public Transition transition() {
 		return this.transition();
 	}
 
@@ -798,7 +760,7 @@ public class Transition extends JavaScriptObject {
 	 * 
 	 * @return true if the transition is empty, false otherwise.
 	 */
-	public  boolean empty(){
+	public boolean empty() {
 		return this.empty();
 	}
 
@@ -809,25 +771,24 @@ public class Transition extends JavaScriptObject {
 	 * @return the first non-null element in the current transition or null if
 	 *         the selection is empty.
 	 */
-	public  Element node(){
+	public Element node() {
 		return this.node();
 	}
 
 	/**
 	 * @return the total number of elements in the current transition.
 	 */
-	public  int size(){
+	public int size() {
 		return this.size();
 	}
 
-	private static JavaScriptObject trampolineInterpolator(final Interpolator<?> interpolator){
-			
-			throw new IllegalStateException("not yet implemented");
-			
+	private static JavaScriptObject trampolineInterpolator(final Interpolator<?> interpolator) {
+
+		throw new IllegalStateException("not yet implemented");
+
 		/*
-			 {
-		return interpolator.asJSOFunction();
-		*/
+		 * { return interpolator.asJSOFunction();
+		 */
 	}
 
 	/**
@@ -878,21 +839,19 @@ public class Transition extends JavaScriptObject {
 	 *            the listener
 	 * @return the current transition
 	 */
-	public  Transition each(EventType type,
-			DatumFunction<Void> listener){
-			
-			throw new IllegalStateException("not yet implemented");
-	/*
-		return this
-				.each(
-						type.@com.github.gwtd3.api.core.Transition.EventType::getType()(),
-						function(d, i) {
-							listener.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
-						});
-						
-			*/
+	public Transition each(EventType type, DatumFunction<Void> listener) {
+
+		throw new IllegalStateException("not yet implemented");
+		/*
+		 * return this .each(
+		 * type.@com.github.gwtd3.api.core.Transition.EventType::getType()(),
+		 * function(d, i) {
+		 * listener.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
+		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
+		 * this,{datum:d},i); });
+		 * 
+		 */
 	}
-	
 
 	/**
 	 * Behaves similarly to {@link Selection#each(DatumFunction)}: immediately
@@ -912,15 +871,15 @@ public class Transition extends JavaScriptObject {
 	 * @param listener
 	 * @return
 	 */
-	public  Transition each(DatumFunction<Void> listener){
-	
-	throw new IllegalStateException("not yet implemented");
-	/*
-		return this
-				.each(function(d, i) {
-					listener.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
-				});
-	*/
+	public Transition each(DatumFunction<Void> listener) {
+
+		throw new IllegalStateException("not yet implemented");
+		/*
+		 * return this .each(function(d, i) {
+		 * listener.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
+		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
+		 * this,{datum:d},i); });
+		 */
 	}
 
 	/**
@@ -930,9 +889,9 @@ public class Transition extends JavaScriptObject {
 	 * @param jsFunction
 	 * @return the current transition
 	 */
-	public  Transition call(IsFunction jsFunction) {
+	public Transition call(IsFunction jsFunction) {
 		return this.call(jsFunction);
 	}
-	
-	//#end region
+
+	// #end region
 }

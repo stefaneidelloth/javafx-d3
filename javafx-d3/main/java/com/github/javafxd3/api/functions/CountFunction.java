@@ -17,17 +17,14 @@ public class CountFunction implements DatumFunction<Void> {
 	
 	private int count = 0;
 
-	//#end region
-	
+	//#end region	
 	
 	//#region CONSTRUCTORS
 	
 	/**
 	 * Constructor
 	 */
-	public CountFunction(){
-		
-	}
+	public CountFunction(){}
 	
 	//#end region
 	

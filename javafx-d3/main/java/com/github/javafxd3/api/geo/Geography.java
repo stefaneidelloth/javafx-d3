@@ -7,7 +7,6 @@ import netscape.javascript.JSObject;
 
 /**
  * 
- *
  */
 public class Geography extends JavaScriptObject {
 

@@ -1,6 +1,6 @@
 package com.github.javafxd3.api.scales;
 
-
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.core.Formatter;
 import com.github.javafxd3.api.functions.DatumFunction;
 
@@ -23,29 +23,25 @@ import netscape.javascript.JSObject;
  * <p>
  * As with {@link LinearScale}s, log scales can also accept more than two values
  * for the domain and range, thus resulting in polylog scale.
- * <p>
- * 
- * 
- * 
+ * <p> 
  */
 public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 
 	// #region CONSTRUCTORS
 
-			/**
-			 * Constructor
-			 * 
-			 * @param webEngine
-			 * @param wrappedJsObject
-			 */
-			public LogScale(WebEngine webEngine, JSObject wrappedJsObject) {
-				super(webEngine, wrappedJsObject);
+	/**
+	 * Constructor
+	 * 
+	 * @param webEngine
+	 * @param wrappedJsObject
+	 */
+	public LogScale(WebEngine webEngine, JSObject wrappedJsObject) {
+		super(webEngine, wrappedJsObject);
+	}
 
-			}
+	// #end region
 
-			// #end region
-
-			// #region METHODS
+	// #region METHODS
 
 	// =========== ticks ==========
 
@@ -64,9 +60,9 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * 
 	 * @return the current scale
 	 */
-	public  <T> T[] ticks(){
-		throw new IllegalStateException("not yet implemented");
-		//return this.ticks();
+	public <T> Array<T> ticks() {
+		JSObject result = call("ticks");
+		return new Array<T>(webEngine, result);	
 	}
 
 	// =========== tickFormat ==========
@@ -79,7 +75,7 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * 
 	 * @return the number format
 	 */
-	public  Formatter tickFormat(){
+	public Formatter tickFormat() {
 		return this.tickFormat();
 	}
 
@@ -100,7 +96,7 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 *            {@link Formatter}.
 	 * @return a number format
 	 */
-	public  Formatter tickFormat(int count){
+	public Formatter tickFormat(int count) {
 		return this.tickFormat(count);
 	}
 
@@ -130,7 +126,7 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 *            used as a basis of the Formatter.
 	 * @return a number format
 	 */
-	public  Formatter tickFormat(int count, String formatSpecifier){
+	public Formatter tickFormat(int count, String formatSpecifier) {
 		return this.tickFormat(count, formatSpecifier);
 	}
 
@@ -159,19 +155,17 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 *            the function used to format the tick label
 	 * @return a number format
 	 */
-	public  Formatter tickFormat(int count,
-			DatumFunction<String> formatFunction){
+	public Formatter tickFormat(int count, DatumFunction<String> function) {
 		
-		throw new IllegalStateException("not yet implemented");
-		/*
-		return this
-				.tickFormat(
-						count,
-						function(d) {
-							return formatFunction.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(null,{datum:d},0);
-						});
-						
-		*/
+		String functionName = "format__function";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(functionName, function);
+		
+		String command = "this.tickFormat( "+count+", function(d) { "
+				+ "return this."+functionName+".apply(null,{datum:d},0); });";
+		
+		JSObject result = evalForJsObject(command);
+		return new Formatter(webEngine, result);
 	}
 
 	// =========== nice ==========
@@ -194,7 +188,7 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * 
 	 * @return the current scale
 	 */
-	public  LogScale nice(){
+	public LogScale nice() {
 		return this.nice();
 	}
 
@@ -204,7 +198,7 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * 
 	 * @return the current base
 	 */
-	public  int base(){
+	public int base() {
 		return this.base();
 	}
 
@@ -213,15 +207,15 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * 
 	 * @return the current scale
 	 */
-	public  LogScale base(int b){
+	public LogScale base(int b) {
 		return this.base(b);
 	}
 
 	@Override
 	protected LogScale createScale(WebEngine webEngine, JSObject result) {
-		return new LogScale(webEngine, result);	
+		return new LogScale(webEngine, result);
 	}
-	
-	//#end region
+
+	// #end region
 
 }

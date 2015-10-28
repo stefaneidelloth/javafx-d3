@@ -8,9 +8,6 @@ import netscape.javascript.JSObject;
 
 /**
  * The behaviour module.
- * 
- * 
- * 
  */
 public class Behavior extends JavaScriptObject {
 
@@ -23,7 +20,6 @@ public class Behavior extends JavaScriptObject {
 	public Behavior(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
-
 	}
 
 	// #end region

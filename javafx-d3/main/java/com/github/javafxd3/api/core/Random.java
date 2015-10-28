@@ -13,9 +13,6 @@ import netscape.javascript.JSObject;
  * <p>
  * The {@link #generate()} method is then used to generate numbers.
  * <p>
- * 
- * 
- * 
  */
 public class Random extends JavaScriptObject {
 
@@ -162,9 +159,8 @@ public class Random extends JavaScriptObject {
 	 * @return the new generated number.
 	 */
 	public double generate(){
-		Double result = callForDouble("call");
-		return result;
-		// call( this();
+		Double result = evalForDouble("this()");
+		return result;		
 	}
 	
 	// #end region

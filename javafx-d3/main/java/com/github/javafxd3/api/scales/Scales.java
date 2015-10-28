@@ -28,11 +28,7 @@ import netscape.javascript.JSObject;
  * additional methods that change its behavior. Like other classes in D3, scales
  * follow the method chaining pattern where setter methods return the scale
  * itself, allowing multiple setters to be invoked in a concise statement.
- * <p>
- * 
- * 
- * 
- * 
+ * <p>  
  */
 public class Scales extends JavaScriptObject {
 
@@ -66,8 +62,7 @@ public class Scales extends JavaScriptObject {
 	 * @param webEngine 
 	 * @return
 	 */
-	public static  Scales get(WebEngine webEngine){
-		
+	public static  Scales get(WebEngine webEngine){		
 		JSObject result = (JSObject) webEngine.executeScript("d3.scale");
 		return new Scales(webEngine, result);
 	}
@@ -82,9 +77,7 @@ public class Scales extends JavaScriptObject {
 	public  LinearScale linear(){
 		JSObject result = call("linear");
 		return new LinearScale(webEngine, result);
-	}
-
-	
+	}	
 
 	/**
 	 * Constructs a new identity scale with the default domain [0,1] and the
@@ -292,9 +285,7 @@ public class Scales extends JavaScriptObject {
 	public  OrdinalScale category20c(){
 		JSObject result = call("category20c");
 		return new OrdinalScale(webEngine, result);
-	}
-
-	
+	}	
 
 	// #end region
 
