@@ -1,5 +1,6 @@
 package com.github.javafxd3.api.dsv;
 
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -76,9 +77,9 @@ public class Dsv<T> extends JavaScriptObject {
 	 *            the content of a CSV file.
 	 * @return the rows.
 	 */
-	public DsvRow[] parse(String csvContent) {
-		throw new IllegalStateException("not yet implemented");
-		//return this.parse(csvContent);
+	public Array<DsvRow> parse(String csvContent) {
+		JSObject result = call("parse", csvContent);
+		return new Array<DsvRow>(webEngine, result);		
 	}
 
 	/**
@@ -95,19 +96,16 @@ public class Dsv<T> extends JavaScriptObject {
      *            the accessor.
      * @return the rows.
      */
-    public  T[] parse(String csvContent,
-            DsvObjectAccessor<T> accessor) {
+    public Array<T> parse(String csvContent, DsvObjectAccessor<T> accessor) {    	
+    	String accessorName = "temp_accessor";
+    	JSObject jsObject = getJsObject();
+    	jsObject.setMember(accessorName,  accessor);
     	
-    	throw new IllegalStateException("not yet implemented");
-		/*
-		return this
-				.parse(
-						csvContent,
-						function(row, index) {
-							return accessor.@com.github.gwtd3.api.core.ObjectAccessor::apply(Ljava/lang/Object;I)(row, index);
-						});
-						
-		*/
+    	String command = "this.parse('" + csvContent + "', function(row, index) {"
+    			+ "return this." + accessorName + ".apply(row, index);" //
+    			+ "})";
+		JSObject result = evalForJsObject(command);
+		return new Array<T>(webEngine, result);		
     }
 
 	/**

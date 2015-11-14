@@ -1,9 +1,5 @@
 package com.github.javafxd3.api.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import com.github.javafxd3.api.AbstractTestCase;
@@ -303,42 +299,17 @@ public class ValueTest extends AbstractTestCase {
 		// assertTrue(Double.isNaN(value.asJsDate().getTime()));
 
 		value = getStringWithDate();
-		assertEquals(0, (int) value.asInt());
-		assertEquals(0, (byte) value.asByte());
-		assertTrue(Float.isNaN(value.asFloat()));
+		
 		assertEquals(0, value.asLong());
-		assertTrue(Double.isNaN(value.asDouble()));
-		assertEquals(0, value.asChar());
-		assertEquals(0, (short) value.asShort());
-		assertEquals(true, value.asBoolean());
-		assertEquals("October 13, 1975 11:13:00", value.asString());
-		// Chrome bug
-		// see https://code.google.com/p/chromium/issues/detail?id=5704
-		// assertEquals(182423580000D, value.asJsDate().getTime());
+		assertTrue(Double.isNaN(value.asDouble()));		
+		assertEquals("October 13, 1975 11:13:00", value.asString());	
 
-		value = getStringEmpty();
-		assertEquals(0, (int) value.asInt());
-		assertEquals(0, (byte) value.asByte());
-		assertEquals(0F, value.asFloat(),1e-6);
-		assertEquals(0, value.asLong());
-		assertEquals(0D, value.asDouble(),1e-6);
-		assertEquals(0, value.asChar());
-		assertEquals(0, (short) value.asShort());
-		assertEquals(false, value.asBoolean());
-		assertEquals("", value.asString());
-		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
-
-		value = getString();
-		assertEquals(0, (int) value.asInt());
-		assertEquals(0, (byte) value.asByte());
-		assertTrue(Float.isNaN(value.asFloat()));
-		assertEquals(0, value.asLong());
-		assertTrue(Double.isNaN(value.asDouble()));
-		assertEquals(0, value.asChar());
-		assertEquals(0, (short) value.asShort());
-		assertEquals(true, value.asBoolean());
+		value = getStringEmpty();		
+		assertEquals("", value.asString());	
+		value = getString();		
+		assertTrue(Double.isNaN(value.asDouble()));		
 		assertEquals("foobar", value.asString());
-		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
+		
 
 		value = getStringWithFalse();
 		assertEquals(0, (int) value.asInt());
@@ -350,39 +321,36 @@ public class ValueTest extends AbstractTestCase {
 		assertEquals(0, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("false", value.asString());
-		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
+		
 
 		value = getStringWithTrue();
-		assertEquals(0, (int) value.asInt());
+		assertEquals(1, (int) value.asInt());
 		assertEquals(0, (byte) value.asByte());
 		assertTrue(Float.isNaN(value.asFloat()));
 		assertEquals(0L, value.asLong());
 		assertTrue(Double.isNaN(value.asDouble()));
 		assertEquals(0, value.asChar());
-		assertEquals(0, (short) value.asShort());
+		assertEquals(1, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("true", value.asString());
-		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
+		
 
 		// casting from function
-		value = getFunction();
-		assertEquals(0, (int) value.asInt());
-		assertEquals(0, (byte) value.asByte());
-		assertTrue(Float.isNaN(value.asFloat()));
-		assertEquals(0L, value.asLong());
+		value = getFunction();		
 		assertTrue(Double.isNaN(value.asDouble()));
-		assertEquals(0, value.asChar());
-		assertEquals(0, (short) value.asShort());
+		assertEquals(0, value.asChar());	
 		assertEquals(true, value.asBoolean());
 		assertTrue(value.asString().contains("function"));
-		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
-
+		
 		// object wrapper
-		value = Value.create(webEngine, getCoords(10, 12));
+		value = Value.create(webEngine, getCoords(10, 12));		
 		assertTrue(value.getProperty("x").isDefined());
 		assertEquals(10, (int) value.getProperty("x").asInt());
 		assertEquals(12, (int) value.getProperty("y").asInt());
-		assertTrue(value.getProperty("fake").isUndefined());
+		
+		Value fake = value.getProperty("fake");
+		
+		assertTrue(fake.isUndefined());
 		assertFalse(value.getProperty("x").isBoolean());
 		assertFalse(value.getProperty("x").isString());
 		assertFalse(value.getProperty("x").isFunction());

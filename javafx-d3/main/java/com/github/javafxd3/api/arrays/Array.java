@@ -1,5 +1,6 @@
 package com.github.javafxd3.api.arrays;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -247,6 +248,27 @@ public class Array<T> extends JavaScriptObject {
 		Object resultObj = getAsObject(index);
 		if (resultObj == null) {
 			return null;
+		}
+		
+		boolean isJavaScriptObject = classObj.getSuperclass().equals(JavaScriptObject.class);
+		if (isJavaScriptObject){
+			
+			Constructor<D> constructor;
+			try {
+				constructor = classObj.getConstructor(new Class<?>[]{WebEngine.class, JSObject.class});
+			} catch (Exception exception) {
+				String message = "Could not get constructor for JavaScriptObject";
+				throw new IllegalStateException(message, exception);				
+			} 
+			
+			D newJavaScriptObject;
+			try {
+				newJavaScriptObject = constructor.newInstance(webEngine, resultObj);
+			} catch (Exception exception) {
+				String message = "Could not construct new instance of JavaScriptObject";
+				throw new IllegalStateException(message, exception);
+			} 
+			return newJavaScriptObject;			
 		}
 
 		try {			

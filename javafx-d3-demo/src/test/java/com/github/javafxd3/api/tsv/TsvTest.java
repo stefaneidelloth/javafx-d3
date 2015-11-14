@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.dsv.DsvArrayAccessor;
 import com.github.javafxd3.api.dsv.DsvCallback;
 import com.github.javafxd3.api.dsv.DsvObjectAccessor;
@@ -37,7 +38,7 @@ public class TsvTest extends AbstractTestCase {
 		
 		D3 d3 = new D3(webEngine);
 		
-		DsvRow[] rows = d3.<DsvRow> tsv().parse( //
+		Array<DsvRow> rows = d3.<DsvRow> tsv().parse( //
 				"Name\tAge\n" + //
 						"Paul\t25\n" + //
 						"John\t38\n" + //
@@ -45,8 +46,8 @@ public class TsvTest extends AbstractTestCase {
 						"Bruce\t48\n" + //
 						"Emma\t28\n");
 
-		assertEquals(5, rows.length);
-		DsvRow jane = rows[2];
+		assertEquals(5, rows.length());
+		DsvRow jane = rows.get(2, DsvRow.class);
 		assertEquals("Jane", jane.get("Name").asString());
 		assertEquals(15, (int) jane.get("Age").asInt());
 	}
@@ -55,7 +56,7 @@ public class TsvTest extends AbstractTestCase {
 		
 		D3 d3 = new D3(webEngine);
 		
-		Person[] rows = d3.<Person> tsv().parse( //
+		Array<Person> rows = d3.<Person> tsv().parse( //
 				"Name\tAge\n" + //
 						"Paul\t25\n" + //
 						"John\t38\n" + //
@@ -63,8 +64,8 @@ public class TsvTest extends AbstractTestCase {
 						"Bruce\t48\n" + //
 						"Emma\t28\n",
 				new PersonAccessor());
-		assertEquals(5, rows.length);
-		Person jane = rows[2];
+		assertEquals(5, rows.length());
+		Person jane = rows.get(2, Person.class);
 		assertEquals("Jane", jane.getName());
 		assertEquals(15, jane.getAge());
 	}

@@ -653,7 +653,7 @@ public class D3 extends JavaScriptObject {
 	 * @return the CSV module
 	 */
 	public <T> Dsv<T> csv() {
-		JSObject result = call("csv");
+		JSObject result = getMember("csv");
 		return new Dsv<T>(webEngine, result);
 	};
 

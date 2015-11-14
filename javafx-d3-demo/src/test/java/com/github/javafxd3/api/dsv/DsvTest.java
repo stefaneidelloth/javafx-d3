@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 /**
@@ -27,20 +28,23 @@ public class DsvTest extends AbstractTestCase {
 	@Test
 	public void doTest() {
 
-		d3 = new D3(webEngine);
+		Runnable testRunnable = () -> {
+			d3 = new D3(webEngine);
 
-		testCsvParse();
-		testCsvParseWithAccessor();
-		testCsvParseRows();
-		testCsvParseRowsWithAccessor();
-		testCsvWithAccessorAndCallback();
-		testCsvWithCallback();
-		testCsvWithChainingAccessorAndCallback();
+			testCsvParse();
+			testCsvParseWithAccessor();
+			testCsvParseRows();
+			testCsvParseRowsWithAccessor();
+			testCsvWithAccessorAndCallback();
+			testCsvWithCallback();
+			testCsvWithChainingAccessorAndCallback();
+		};
+		doOnJavaFXThread(testRunnable);
 	}
 
 	private void testCsvParse() {
 
-		DsvRow[] rows = d3.<DsvRow> csv().parse( //
+		Array<DsvRow> rows = d3.<DsvRow> csv().parse( //
 				"Name,Age\n" + //
 						"Paul,25\n" + //
 						"John,38\n" + //
@@ -48,14 +52,14 @@ public class DsvTest extends AbstractTestCase {
 						"Bruce,48\n" + //
 						"Emma,28\n");
 
-		assertEquals(5, rows.length);
-		DsvRow jane = rows[2];
+		assertEquals(5, rows.length());
+		DsvRow jane = rows.get(2, DsvRow.class);
 		assertEquals("Jane", jane.get("Name").asString());
 		assertEquals(15, (int) jane.get("Age").asInt());
 	}
 
 	private void testCsvParseWithAccessor() {
-		Person[] rows = d3.<Person> csv().parse( //
+		Array<Person> rows = d3.<Person> csv().parse( //
 				"Name,Age\n" + //
 						"Paul,25\n" + //
 						"John,38\n" + //
@@ -64,8 +68,8 @@ public class DsvTest extends AbstractTestCase {
 						"Emma,28\n",
 				new PersonAccessor());
 
-		assertEquals(5, rows.length);
-		Person jane = rows[2];
+		assertEquals(5, rows.length());
+		Person jane = rows.get(2, Person.class);
 		assertEquals("Jane", jane.getName());
 		assertEquals(15, jane.getAge());
 	}
@@ -172,7 +176,7 @@ class Person {
 }
 
 class PersonAccessor implements DsvObjectAccessor<Person> {
-	
+
 	@Override
 	public Person apply(final DsvRow row, final int index) {
 		return new Person(row.get("Name").asString(), row.get("Age").asInt());
@@ -180,7 +184,7 @@ class PersonAccessor implements DsvObjectAccessor<Person> {
 }
 
 class PersonCallback implements DsvCallback<Person> {
-	
+
 	@Override
 	public void get(final JavaScriptObject error, final Person[] rows) {
 		assertNull(error);
@@ -192,7 +196,7 @@ class PersonCallback implements DsvCallback<Person> {
 }
 
 class PersonArrayAccessor implements DsvArrayAccessor<Person> {
-	
+
 	@Override
 	public Person parse(final String[] row, final int index) {
 		return new Person(row[0], Integer.parseInt(row[1]));
@@ -200,7 +204,7 @@ class PersonArrayAccessor implements DsvArrayAccessor<Person> {
 }
 
 class PersonRowCallback implements DsvCallback<DsvRow> {
-	
+
 	@Override
 	public void get(final JavaScriptObject error, final DsvRow[] rows) {
 		assertNull(error);

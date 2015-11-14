@@ -2,12 +2,11 @@ package com.github.javafxd3.api.selection;
 
 
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.Arrays;
 
 import org.junit.Test;
 
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
@@ -269,14 +268,14 @@ public class SelectionDataTest extends AbstractSelectionTest {
 	private void testSelectionDataGetter() {
 		// given a 2-dim selection
 		Selection selection = givenANestedSelection();
-		Integer[] data = selection.data();
-		assertEquals(MATRIX[0][0], (int) data[0]);
-		assertEquals(MATRIX[0][1], (int) data[1]);
+		Array<Integer> data = selection.data();
+		assertEquals(MATRIX[0][0], (int) data.get(0, Integer.class));
+		assertEquals(MATRIX[0][1], (int) data.get(1, Integer.class));
 		// with a single group selection
 		selection = givenASimpleSelection();
 		data = selection.data();
-		assertEquals(MATRIX[0][0], (int) data[0]);
-		assertEquals(MATRIX[0][1], (int) data[1]);
+		assertEquals(MATRIX[0][0], (int) data.get(0, Integer.class));
+		assertEquals(MATRIX[0][1], (int) data.get(1 , Integer.class));
 
 	}
 

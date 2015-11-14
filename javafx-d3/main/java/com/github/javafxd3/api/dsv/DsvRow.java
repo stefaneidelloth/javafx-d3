@@ -35,9 +35,10 @@ public class DsvRow extends JavaScriptObject {
 	 * @param field
 	 * @return
 	 */
-	public Value get(String field) {
-		String command = "return { datum : this[" + field + "] };";
-		JSObject result = evalForJsObject(command);
-		return new Value(webEngine, result);
+	public Value get(String field) {		
+		String command = "this['" + field + "']";
+		Object resultObj = eval(command);		
+		Value entryValue =  Value.create(webEngine, resultObj);
+		return entryValue;
 	}
 }

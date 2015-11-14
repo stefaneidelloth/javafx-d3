@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.arrays.ArrayUtils;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.functions.KeyFunction;
@@ -545,7 +546,7 @@ public class Selection extends EnteringSelection {
 	 * Sets whether or not the class should be associated or not to the
 	 * elements, according to the return value of the given function.
 	 * <p>
-	 * he function is evaluated for each selected element (in order), being
+	 * The function is evaluated for each selected element (in order), being
 	 * passed the current datum d and the current index i, with the this context
 	 * as the current DOM element. The function's return value is then used to
 	 * assign or unassign the specified class on each element.
@@ -568,18 +569,19 @@ public class Selection extends EnteringSelection {
 	 *            boolean indicating to assign or not the class to the element
 	 * @return the current selection
 	 */
-	public Selection classed(String classNames, DatumFunction<Boolean> addFunction) {
+	public Selection classed(String classNames, DatumFunction<Boolean> assignSwitchFunction) {
 
-		throw new IllegalStateException("not yet implemented");
+		String methodName = "temp__switch__function";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(methodName, assignSwitchFunction);
 
-		/*
-		 * return this .classed( classNames, function(d, i) { var r =
-		 * addFunction.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom
-		 * /google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); return r == null ? false :
-		 * r.@java.lang.Boolean::booleanValue()(); });
-		 * 
-		 */
+		String command = "this.classed('" + classNames + "', function(d, i) { " + "var r = this." + methodName
+				+ ".apply(this,{datum:d},i);" + "return r == null ? false : r(); " + "});";
+
+		JSObject result = evalForJsObject(command);
+		jsObject.removeMember(methodName);
+		return new Selection(webEngine, result);
+
 	}
 
 	// ================ property functions ================
@@ -700,15 +702,17 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection property(final String name, final DatumFunction<?> callback) {
 
-		throw new IllegalStateException("not yet implemented");
+		String methodName = "temp__callback__function";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(methodName, callback);
 
-		/*
-		 * return this .property( name, function(d, i) { return
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		String command = "this.property('" + name + "', function(d, i) {" + "return this." + methodName
+				+ ".apply(this,{datum:d},i);" + " });";
+
+		JSObject result = evalForJsObject(command);
+		jsObject.removeMember(methodName);
+		return new Selection(webEngine, result);
+
 	}
 
 	// ================ text functions ================
@@ -760,16 +764,17 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection text(final DatumFunction<String> callback) {
 
-		throw new IllegalStateException("not yet implemented");
+		String methodName = "temp__callback__function";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(methodName, callback);
 
-		/*
-		 * 
-		 * return this .text(function(d, i) { return
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		String command = "this.text(function(d, i) {" + "return this." + methodName + ".apply(this,{datum:d},i);"
+				+ " });";
+
+		JSObject result = evalForJsObject(command);
+		jsObject.removeMember(methodName);
+		return new Selection(webEngine, result);
+
 	}
 
 	/**
@@ -811,15 +816,17 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection html(final DatumFunction<String> callback) {
 
-		throw new IllegalStateException("not yet implemented");
+		String methodName = "temp__callback__function";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(methodName, callback);
 
-		/*
-		 * return this .html(function(d, i) { return
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		String command = "this.html(function(d, i) {" + "return this." + methodName + ".apply(this,{datum:d},i);"
+				+ " });";
+
+		JSObject result = evalForJsObject(command);
+		jsObject.removeMember(methodName);
+		return new Selection(webEngine, result);
+
 	}
 
 	/**
@@ -912,7 +919,7 @@ public class Selection extends EnteringSelection {
 
 		String command = "this.each(function(d, i) { this." + functionName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
-		return new Selection(webEngine, result); 
+		return new Selection(webEngine, result);
 	}
 
 	// ================================ data getter functions ========
@@ -930,10 +937,9 @@ public class Selection extends EnteringSelection {
 	 *
 	 * @return the array of data for the first group in the selection
 	 */
-	public <T> T[] data() {
-		// JSObject result = call("data");
-		throw new IllegalStateException("not yet implemented");
-		// return new Array<T>(webEngine, result);
+	public <T> Array<T> data() {
+		JSObject result = call("data");
+		return new Array<T>(webEngine, result);
 	}
 
 	// ================================ data setter functions with array
@@ -1011,17 +1017,26 @@ public class Selection extends EnteringSelection {
 	 */
 	public UpdateSelection data(JavaScriptObject array, KeyFunction<?> keyFunction) {
 
-		throw new IllegalStateException("not yet implemented");
+		String methodName = "temp__key__function";
+		String arrayName = "tamp__array";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(methodName, keyFunction);
+		JSObject arrayJsObject = array.getJsObject();
+		jsObject.setMember(arrayName, arrayJsObject);
 
-		/*
-		 * return this .data( array, function(d, i) { var ctxEl, newDataArray =
-		 * null; if (this == array) { newDataArray = this; } else { ctxEl =
-		 * this; } return
-		 * keyFunction.@com.github.gwtd3.api.functions.KeyFunction::map(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/arrays/Array;Lcom
-		 * /github/gwtd3/api/core/Value;I)(ctxEl,newDataArray,{datum:d},i); });
-		 * 
-		 */
+		String command = "this.data( this." + arrayName + ", function(d, i) {" + "var ctxEl, newDataArray = null; " //
+				+ "if (this == this." + arrayName + ") {" //
+				+ " newDataArray = this; " //
+				+ "} else { " //
+				+ "ctxEl = this; " //
+				+ "} " //
+				+ "return this." + methodName + ".map(ctxEl,newDataArray,{datum:d},i);" //
+				+ " });";
+
+		JSObject result = evalForJsObject(command);
+		jsObject.removeMember(methodName);
+		return new UpdateSelection(webEngine, result);
+
 	}
 
 	/**
@@ -1050,16 +1065,20 @@ public class Selection extends EnteringSelection {
 	 */
 	public <T> UpdateSelection data(DatumFunction<T> callback) {
 
-		throw new IllegalStateException("not yet implemented");
+		String methodName = "temp__callback__function";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(methodName, callback);
 
-		/*
-		 * 
-		 * return this .data(function(d, i) { var result =
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); //alert(result); return result; });
-		 * 
-		 */
+		String command = "this.data(function(d, i) {" //
+				+ "var result = this." + methodName + ".apply(this,{datum:d},i);" //
+		// + "alert(result); " //
+				+ "return result; " //
+				+ "});";
+
+		JSObject result = evalForJsObject(command);
+		jsObject.removeMember(methodName);
+		return new UpdateSelection(webEngine, result);
+
 	}
 
 	/**
@@ -1408,9 +1427,8 @@ public class Selection extends EnteringSelection {
 	 */
 	public final UpdateSelection data(final List<?> list, final KeyFunction<?> keyFunction) {
 
-		throw new IllegalStateException("not yet implemented");
-
-		// return this.data(Array.fromIterable(list), keyFunction);
+		Array<?> array = Array.fromList(webEngine, list);
+		return this.data(array, keyFunction);
 	}
 
 	// ================================ datum functions ========
@@ -1435,17 +1453,21 @@ public class Selection extends EnteringSelection {
 	 */
 	public <T> Selection datum(DatumFunction<T> datumFunction) {
 
-		throw new IllegalStateException("not yet implemented");
+		String methodName = "temp__datum__function";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(methodName, datumFunction);
 
-		/*
-		 * 
-		 * if (datumFunction == null) { return this.datum(null); } return this
-		 * .datum(function(d, i) { return
-		 * datumFunction.@com.github.gwtd3.api.functions.DatumFunction::apply(
-		 * Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I
-		 * )(this,{datum:d},i); });
-		 * 
-		 */
+		String command = "if (this." + methodName + " == null) { " //
+				+ "return this.datum(null); "//
+				+ "} "//
+				+ "return this.datum(function(d, i) { "//
+				+ "return this." + methodName + ".apply(this,{datum:d},i); "//
+				+ "});";
+
+		JSObject result = evalForJsObject(command);
+		jsObject.removeMember(methodName);
+		return new Selection(webEngine, result);
+		
 	}
 
 	/**
@@ -1516,16 +1538,18 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection filter(final DatumFunction<Element> datumFunction) {
 
-		throw new IllegalStateException("not yet implemented");
+		String methodName = "temp__datum__function";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(methodName, datumFunction);
 
-		/*
-		 * 
-		 * return this .filter(function(d, i) { return
-		 * datumFunction.@com.github.gwtd3.api.functions.DatumFunction::apply(
-		 * Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I
-		 * )(this,{datum:d},i); });
-		 * 
-		 */
+		String command = "this.filter(function(d, i) { " //
+				+ "return this." + methodName + ".apply(this,{datum:d},i);" //
+				+ " });";
+
+		JSObject result = evalForJsObject(command);
+		jsObject.removeMember(methodName);
+		return new Selection(webEngine, result);
+
 	}
 
 	/**
@@ -1548,14 +1572,18 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection sort(final Comparator<Value> comparator) {
 
-		throw new IllegalStateException("not yet implemented");
+		String methodName = "temp__comparator__function";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(methodName, comparator);
 
-		/*
-		 * return this .sort(function(o1, o2) { return
-		 * comparator.@java.util.Comparator::compare(Ljava/lang/Object;Ljava/
-		 * lang/Object;)({datum:o1},{datum:o2}); });
-		 * 
-		 */
+		String command = "this.sort(function(o1, o2) { " //
+				+ "return this." + methodName + ".commpare({datum:o1},{datum:o2});" //
+				+ " });";
+
+		JSObject result = evalForJsObject(command);
+		jsObject.removeMember(methodName);
+		return new Selection(webEngine, result);
+
 	}
 
 	/**
@@ -1677,17 +1705,19 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection on(String eventType, DatumFunction<Void> listener, boolean useCapture) {
 
-		throw new IllegalStateException("not yet implemented");
+		String methodName = "temp__listener__function";
+		JSObject jsObject = getJsObject();
+		jsObject.setMember(methodName, listener);
 
-		/*
-		 * 
-		 * 
-		 * var l = (listener == null ? null : function(d, i) {
-		 * listener.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); }); return this.on(eventType, l, useCapture);
-		 * 
-		 */
+		String command = "var l = (this." + methodName + " == null ? null : function(d, i) {" + "this." + methodName
+				+ ".apply(this,{datum:d},i);" //
+				+ " });" //
+				+ "return this.on('" + eventType + "', l, " + useCapture + ");";
+
+		JSObject result = evalForJsObject(command);
+		jsObject.removeMember(methodName);
+		return new Selection(webEngine, result);
+
 	}
 
 	// #end region

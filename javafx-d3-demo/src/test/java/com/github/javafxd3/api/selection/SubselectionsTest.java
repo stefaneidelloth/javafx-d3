@@ -1,19 +1,16 @@
 package com.github.javafxd3.api.selection;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
-import java.sql.Array;
 
 import org.junit.Test;
 
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.CountFunction;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.wrapper.Element;
-import com.github.javafxd3.api.wrapper.NodeList;
 
 
 
@@ -183,10 +180,10 @@ public class SubselectionsTest extends AbstractSelectionTest {
         divs.asElementArray()[0][1].setPropertyInt(Selection.DATA_PROPERTY, 2);
         divs.asElementArray()[0][2].setPropertyInt(Selection.DATA_PROPERTY, 4);
         Selection select = divs.select("zorg");
-        Object[] data = select.data();
-        assertEquals(6.0, data[0]);
-        assertEquals(2.0, data[1]);
-        assertEquals(4.0, data[2]);
+        Array<Object> data = select.data();
+        assertEquals(6.0, data.get(0, Double.class));
+        assertEquals(2.0, data.get(1, Double.class));
+        assertEquals(4.0, data.get(2, Double.class));
 
         // select as a function returning element or null
 

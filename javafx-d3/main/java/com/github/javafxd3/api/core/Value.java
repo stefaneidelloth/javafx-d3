@@ -44,7 +44,39 @@ public class Value extends JavaScriptObject {
 	// #region METHODS
 
 	/**
-	 * Wraps the given object into a {@link Value}.
+	 * Wraps the given JavaScriptObject into a {@link Value}.
+	 * 
+	 * @param webEngine
+	 * @param object
+	 *            the object to be wrapped as a Value
+	 * @return the value
+	 */
+	public static Value create(WebEngine webEngine, JavaScriptObject javaScriptObject) {
+				
+		Object wrappedObject = null;
+		if (javaScriptObject!=null){
+			wrappedObject = javaScriptObject.getJsObject(); 
+		}
+
+		String dummyTempAttributeName = "dummy__object__attr";
+		String dummyTempVariableName = "dummy_temp_var";
+
+		JSObject d3 = (JSObject) webEngine.executeScript("d3");
+
+		d3.setMember(dummyTempAttributeName, wrappedObject);
+
+		String command = "var " + dummyTempVariableName + " = { datum: d3."+dummyTempAttributeName+"};";
+		d3.eval(command);
+		JSObject result = (JSObject) d3.eval(dummyTempVariableName);
+
+		d3.removeMember(dummyTempAttributeName);
+
+		return new Value(webEngine, result);
+
+	}
+	
+	/**
+	 * Wraps the given JavaScriptObject into a {@link Value}.
 	 * 
 	 * @param webEngine
 	 * @param object
@@ -52,7 +84,6 @@ public class Value extends JavaScriptObject {
 	 * @return the value
 	 */
 	public static Value create(WebEngine webEngine, Object object) {
-
 		String dummyTempAttributeName = "dummy__object__attr";
 		String dummyTempVariableName = "dummy_temp_var";
 
@@ -60,12 +91,36 @@ public class Value extends JavaScriptObject {
 
 		d3.setMember(dummyTempAttributeName, object);
 
-		String command = "var " + dummyTempVariableName + " = { datum: d3.dummy_object_attr};";
+		String command = "var " + dummyTempVariableName + " = { datum: d3."+dummyTempAttributeName+"};";
 		d3.eval(command);
 		JSObject result = (JSObject) d3.eval(dummyTempVariableName);
 
 		d3.removeMember(dummyTempAttributeName);
 
+		return new Value(webEngine, result);
+
+	}
+	
+	/**
+	 * Creates a Value that wraps 'undefined'
+	 * 
+	 * @param webEngine
+	 * @param object
+	 *            the object to be wrapped as a Value
+	 * @return the value
+	 */
+	public static Value createUndefined(WebEngine webEngine) {
+		
+		String dummyTempVariableName = "dummy_temp_var";
+
+		JSObject d3 = (JSObject) webEngine.executeScript("d3");
+
+		
+		String command = "var " + dummyTempVariableName + " = { datum: undefined};";
+		d3.eval(command);
+		JSObject result = (JSObject) d3.eval(dummyTempVariableName);
+
+		
 		return new Value(webEngine, result);
 
 	}
@@ -107,6 +162,8 @@ public class Value extends JavaScriptObject {
 	public Byte asByte() {
 		String command = "~~this.datum;";
 		Object result = eval(command);
+		
+		
 		
 		boolean isUndefined = result.equals("undefined");
 		if(isUndefined){			
@@ -357,8 +414,8 @@ public class Value extends JavaScriptObject {
 	/**
 	 * @return true if the value is undefined in the Javascript sense
 	 */
-	public boolean isUndefined() {
-		String command = "typeof (this.datum) == \"undefined\";";
+	public boolean isUndefined() {			
+		String command = "typeof (this.datum) == 'undefined';";
 		Boolean result = evalForBoolean(command);
 		return result;
 	}
@@ -412,10 +469,19 @@ public class Value extends JavaScriptObject {
 	 * @return the property value as a value.
 	 */
 	public Value getProperty(String propertyName) {
-		String command = "this.datum[" + propertyName + "];";
+		
+		String command = "this.datum." + propertyName + ";";
 		Object datum = eval(command);
-		Value value = create(webEngine, datum);
-		return value;
+		boolean isUndefined = datum.equals("undefined");
+		if (isUndefined){
+			Value value = createUndefined(webEngine);
+			return value;
+		} else {
+			Value value = create(webEngine, datum);
+			return value;
+		}
+		
+		
 	}
 
 	/**
