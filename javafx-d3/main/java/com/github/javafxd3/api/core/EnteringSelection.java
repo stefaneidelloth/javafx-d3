@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.functions.IsFunction;
+import com.github.javafxd3.api.functions.JsFunction;
 import com.github.javafxd3.api.wrapper.Element;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
@@ -208,8 +208,16 @@ public class EnteringSelection extends JavaScriptObject {
 	 * @param jsFunction
 	 * @return the current selection
 	 */
-	public Selection call(IsFunction jsFunction) {
-		JSObject result = call("call", jsFunction);
+	public Selection call(JsFunction jsFunction) {
+		boolean isJavaScriptObject = jsFunction instanceof JavaScriptObject;
+		if(!isJavaScriptObject){
+			String message = "The interface JsFunction must only by implemented "
+					+ "by JavaScriptObjects. However its type is" + jsFunction.getClass().getName();
+			throw new IllegalStateException(message);
+		}
+		JavaScriptObject javaScriptObject = (JavaScriptObject) jsFunction;
+		JSObject functionJsObject = javaScriptObject.getJsObject();		
+		JSObject result = call("call", functionJsObject);
 		return new Selection(webEngine, result);
 	}
 

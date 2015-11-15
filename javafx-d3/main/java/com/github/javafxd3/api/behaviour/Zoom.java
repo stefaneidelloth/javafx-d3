@@ -6,7 +6,7 @@ import com.github.javafxd3.api.arrays.ArrayUtils;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Transition;
 import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.functions.IsFunction;
+import com.github.javafxd3.api.functions.JsFunction;
 import com.github.javafxd3.api.scales.LinearScale;
 import com.github.javafxd3.api.scales.QuantitativeScale;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
@@ -33,7 +33,7 @@ import netscape.javascript.JSObject;
  * <a href="https://github.com/augbog">Augustus Yuan</a>
  * 
  */
-public class Zoom extends JavaScriptObject implements IsFunction {
+public class Zoom extends JavaScriptObject implements JsFunction {
 
 	// #region CONSTRUCTORS
 

@@ -4,8 +4,9 @@ import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.arrays.ArrayUtils;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Transition;
+import com.github.javafxd3.api.event.D3Event;
 import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.functions.IsFunction;
+import com.github.javafxd3.api.functions.JsFunction;
 import com.github.javafxd3.api.scales.ContinuousQuantitativeScale;
 import com.github.javafxd3.api.scales.OrdinalScale;
 import com.github.javafxd3.api.scales.QuantitativeScale;
@@ -19,7 +20,7 @@ import netscape.javascript.JSObject;
  * 
  *
  */
-public class Brush extends JavaScriptObject implements IsFunction {
+public class Brush extends JavaScriptObject implements JsFunction {
 
 	// #region CONSTRUCTORS
 
@@ -54,7 +55,7 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 */
 	public Brush x(Scale<?> scale) {
 		JSObject result = call("x", scale.getJsObject());
-		return new Brush(webEngine, result);		
+		return new Brush(webEngine, result);
 	}
 
 	/**
@@ -92,7 +93,7 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 */
 	public Brush y(Scale<?> scale) {
 		JSObject result = call("y", scale.getJsObject());
-		return new Brush(webEngine, result);		
+		return new Brush(webEngine, result);
 	}
 
 	/**
@@ -128,7 +129,7 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 */
 	public Brush apply(Selection selection) {
 		JSObject result = call("this", selection.getJsObject());
-		return new Brush(webEngine, result);		
+		return new Brush(webEngine, result);
 	}
 
 	/**
@@ -156,12 +157,12 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 * <p>
 	 * The definition of the extent depends on the associated scales. <br>
 	 * If both an x- and y-scale are available, then the extent is the
-	 * two-dimensional array [[x0, y0], [x1, y1]], where
-	 * x0 and y0 are the lower bounds of the extent, and x1 and y1 are the upper
-	 * bounds of the extent. If only the x-scale is available, then the extent
-	 * is defined as the one-dimensional array [x0, x1]; likewise, if only the
-	 * y-scale is available, then the extent is [y0, y1]. If neither scale is
-	 * available, then the extent is null.
+	 * two-dimensional array [[x0, y0], [x1, y1]], where x0 and y0 are the lower
+	 * bounds of the extent, and x1 and y1 are the upper bounds of the extent.
+	 * If only the x-scale is available, then the extent is defined as the
+	 * one-dimensional array [x0, x1]; likewise, if only the y-scale is
+	 * available, then the extent is [y0, y1]. If neither scale is available,
+	 * then the extent is null.
 	 * <p>
 	 * When the extent is set to values, the resulting extent is preserved
 	 * exactly. However, as soon as the brush is moved by the user (on mousemove
@@ -179,7 +180,7 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 */
 	public <T> Array<T> extent() {
 		JSObject result = call("extent");
-		return new Array<T>(webEngine, result);		
+		return new Array<T>(webEngine, result);
 	}
 
 	// to be in according the Scale.domain methods:
@@ -191,12 +192,12 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 * <p>
 	 * The definition of the extent depends on the associated scales. <br>
 	 * If both an x- and y-scale are available, then the extent is the
-	 * two-dimensional array [â€�â€‹[x0, y0], [x1, y1]â€‹], where
-	 * x0 and y0 are the lower bounds of the extent, and x1 and y1 are the upper
-	 * bounds of the extent. If only the x-scale is available, then the extent
-	 * is defined as the one-dimensional array [x0, x1]; likewise, if only the
-	 * y-scale is available, then the extent is [y0, y1]. If neither scale is
-	 * available, then the extent is null.
+	 * two-dimensional array [â€�â€‹[x0, y0], [x1, y1]â€‹], where x0 and y0 are
+	 * the lower bounds of the extent, and x1 and y1 are the upper bounds of the
+	 * extent. If only the x-scale is available, then the extent is defined as
+	 * the one-dimensional array [x0, x1]; likewise, if only the y-scale is
+	 * available, then the extent is [y0, y1]. If neither scale is available,
+	 * then the extent is null.
 	 * <p>
 	 * When the extent is set to values, the resulting extent is preserved
 	 * exactly. However, as soon as the brush is moved by the user (on mousemove
@@ -210,71 +211,85 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 * or {@link #apply(Transition)}; to dispatch events, use
 	 * {@link #on(BrushEvent, DatumFunction)}.
 	 * <p>
-	 * @param array 
+	 * 
+	 * @param array
 	 *
 	 * @return the current brush
 	 */
-	public <T> Brush extent(Array<T> array) {		
+	public <T> Brush extent(Array<T> array) {
 		JSObject arrayObj = array.getJsObject();
 		JSObject result = call("extent", arrayObj);
-		return new Brush(webEngine, result);		
+		return new Brush(webEngine, result);
 	}
-	
+
 	public <T> Brush extent(Double[][] array) {
 		String arrayString = ArrayUtils.createArrayString(array);
-		String command = "this.extent("+ arrayString + ")";
+		String command = "this.extent(" + arrayString + ")";
 		JSObject result = evalForJsObject(command);
-		return new Brush(webEngine, result);		
+		return new Brush(webEngine, result);
 	}
 
 	/**
-     * Set the current brushâ€™s extent for a one-dimensional brush (defined by its x scale, or by its y scale, but not
-     * both).
-     * <p>
-     * When the extent is set to values, the resulting extent is preserved exactly. However, as soon as the brush is
-     * moved by the user (on mousemove following a mousedown), then the extent will be recomputed by calling
-     * {@link ContinuousQuantitativeScale#invert(double)}. Note that, in this case, the values may be slightly imprecise
-     * due to the limited precision of pixels.
-     * <p>
-     * Note that this does not automatically redraw the brush or dispatch any events to listeners. To redraw the brush,
-     * call {@link #apply(Selection)} or {@link #apply(Transition)}; to dispatch events, use {@link #event(Selection)}
-     * or {@link #event(Transition)}.
-     * <p>
-     *
-     * @param min the lowest value of the brush's extent
-     * @param max the highest value of the brush's extent
-     * @return the current brush
-     */
-    public  <T> Brush extent(double min, double max) {
-    	String command = "this.extent([ "+min+", "+max+" ]);";
-    	JSObject result = evalForJsObject(command);
-    	return new Brush(webEngine, result);
-    }
+	 * Set the current brushâ€™s extent for a one-dimensional brush (defined by
+	 * its x scale, or by its y scale, but not both).
+	 * <p>
+	 * When the extent is set to values, the resulting extent is preserved
+	 * exactly. However, as soon as the brush is moved by the user (on mousemove
+	 * following a mousedown), then the extent will be recomputed by calling
+	 * {@link ContinuousQuantitativeScale#invert(double)}. Note that, in this
+	 * case, the values may be slightly imprecise due to the limited precision
+	 * of pixels.
+	 * <p>
+	 * Note that this does not automatically redraw the brush or dispatch any
+	 * events to listeners. To redraw the brush, call {@link #apply(Selection)}
+	 * or {@link #apply(Transition)}; to dispatch events, use
+	 * {@link #event(Selection)} or {@link #event(Transition)}.
+	 * <p>
+	 *
+	 * @param min
+	 *            the lowest value of the brush's extent
+	 * @param max
+	 *            the highest value of the brush's extent
+	 * @return the current brush
+	 */
+	public <T> Brush extent(double min, double max) {
+		String command = "this.extent([ " + min + ", " + max + " ]);";
+		JSObject result = evalForJsObject(command);
+		return new Brush(webEngine, result);
+	}
 
 	/**
-     * Set the current brushâ€™s extent for a two-dimensional brush (defined by both its x scale and its y scale.
-     * <p>
-     * When the extent is set to values, the resulting extent is preserved exactly. However, as soon as the brush is
-     * moved by the user (on mousemove following a mousedown), then the extent will be recomputed by calling
-     * {@link ContinuousQuantitativeScale#invert(double)}. Note that, in this case, the values may be slightly imprecise
-     * due to the limited precision of pixels.
-     * <p>
-     * Note that this does not automatically redraw the brush or dispatch any events to listeners. To redraw the brush,
-     * call {@link #apply(Selection)} or {@link #apply(Transition)}; to dispatch events, use {@link #event(Selection)}
-     * or {@link #event(Transition)}.
-     * <p>
-     *
-     * @param x0 the lowest value of the x scale
-     * @param y0 the lowest value of the y scale
-     * @param x1 the highest value of the x scale
-     * @param y1 the highest value of the y scale
-     * @return the current brush
-     */
-    public  <T> Brush extent(double x0, double y0, double x1, double y1) {			
-		String command = "this.extent([ [ "+x0+", "+y0+" ], [ "+x1+", "+y1+" ] ]);";
-    	JSObject result = evalForJsObject(command);
-    	return new Brush(webEngine, result);
-    }
+	 * Set the current brushâ€™s extent for a two-dimensional brush (defined by
+	 * both its x scale and its y scale.
+	 * <p>
+	 * When the extent is set to values, the resulting extent is preserved
+	 * exactly. However, as soon as the brush is moved by the user (on mousemove
+	 * following a mousedown), then the extent will be recomputed by calling
+	 * {@link ContinuousQuantitativeScale#invert(double)}. Note that, in this
+	 * case, the values may be slightly imprecise due to the limited precision
+	 * of pixels.
+	 * <p>
+	 * Note that this does not automatically redraw the brush or dispatch any
+	 * events to listeners. To redraw the brush, call {@link #apply(Selection)}
+	 * or {@link #apply(Transition)}; to dispatch events, use
+	 * {@link #event(Selection)} or {@link #event(Transition)}.
+	 * <p>
+	 *
+	 * @param x0
+	 *            the lowest value of the x scale
+	 * @param y0
+	 *            the lowest value of the y scale
+	 * @param x1
+	 *            the highest value of the x scale
+	 * @param y1
+	 *            the highest value of the y scale
+	 * @return the current brush
+	 */
+	public <T> Brush extent(double x0, double y0, double x1, double y1) {
+		String command = "this.extent([ [ " + x0 + ", " + y0 + " ], [ " + x1 + ", " + y1 + " ] ]);";
+		JSObject result = evalForJsObject(command);
+		return new Brush(webEngine, result);
+	}
 
 	/**
 	 * Set the listener for the specified event type.
@@ -300,16 +315,19 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 */
 	public Brush on(BrushEvent event, DatumFunction<Void> listener) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .on(
-		 * event.@com.github.gwtd3.api.svg.Brush.BrushEvent::getValue()(),
-		 * function(d, i) {
-		 * listener.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		String eventString = event.getValue();
+
+		String memberName = "temp_listener";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, listener);
+
+		String command = "this.on('" + eventString + "', function(d, i) {" //
+				+ "this." + memberName + ".apply(this,{datum:d},i);" //
+				+ "});";
+
+		JSObject result = evalForJsObject(command);
+		return new Brush(webEngine, result);
+		
 	}
 
 	/**
@@ -331,21 +349,21 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 */
 	public Brush event(Selection selection) {
 		JSObject result = call("event", selection.getJsObject());
-		return new Brush(webEngine, result);		
+		return new Brush(webEngine, result);
 	}
 
 	/**
 	 * Same as {@link #event(Selection)} or {@link #event(Transition)}, but
-	 * allows the use of {@link Selection#call(IsFunction)}.
+	 * allows the use of {@link Selection#call(JsFunction)}.
 	 * <p>
 	 *
-	 * @return a function object to pass to {@link Selection#call(IsFunction)}
+	 * @return a function object to pass to {@link Selection#call(JsFunction)}
 	 */
-	public IsFunction event() {
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = getMember("event");
-		//return new IsFunction(webEngine, result);
+	public JsFunction event() {
 		
+		JSObject result = getMember("event");
+		return new D3Event<Brush>(webEngine, result);
+
 	}
 
 	/**
@@ -377,31 +395,37 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	}
 
 	/**
-     * Sets the current clamping behavior., for a brush where only one of the x-scale and y-scale are available.
-     * <p>
-     *
-     * @param clamp true if the one-dimensional extent should be clamped to its scale
-     * @return the current brush
-     */
-    public  Brush clamp(boolean clamp) {
-    	String command = "this.clamp([ " +clamp+ "]);";
-    	JSObject result = evalForJsObject(command);
-    	return new Brush(webEngine, result);		
-    }
+	 * Sets the current clamping behavior., for a brush where only one of the
+	 * x-scale and y-scale are available.
+	 * <p>
+	 *
+	 * @param clamp
+	 *            true if the one-dimensional extent should be clamped to its
+	 *            scale
+	 * @return the current brush
+	 */
+	public Brush clamp(boolean clamp) {
+		String command = "this.clamp([ " + clamp + "]);";
+		JSObject result = evalForJsObject(command);
+		return new Brush(webEngine, result);
+	}
 
 	/**
-     * Sets the current clamping behavior, for a brush where both an x- and y-scale are available.
-     * <p>
-     *
-     * @param clampX true if the x-extent should be clamped to its scale
-     * @param clampY true if the Y-extent should be clamped to its scale
-     * @return the current brush
-     */
-    public  Brush clamp(boolean clampX, boolean clampY) {		
-		String command = "this.clamp([ "+clampX+", "+clampY+" ]);";
-    	JSObject result = evalForJsObject(command);
-    	return new Brush(webEngine, result);
-    }
+	 * Sets the current clamping behavior, for a brush where both an x- and
+	 * y-scale are available.
+	 * <p>
+	 *
+	 * @param clampX
+	 *            true if the x-extent should be clamped to its scale
+	 * @param clampY
+	 *            true if the Y-extent should be clamped to its scale
+	 * @return the current brush
+	 */
+	public Brush clamp(boolean clampX, boolean clampY) {
+		String command = "this.clamp([ " + clampX + ", " + clampY + " ]);";
+		JSObject result = evalForJsObject(command);
+		return new Brush(webEngine, result);
+	}
 
 	/**
 	 * Gets the current clamping behavior.
@@ -417,11 +441,9 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 *
 	 * @return the current brush
 	 */
-	public Boolean[] clamp() {
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this.clamp();
-		 */
+	public Array<Boolean> clamp() {
+		JSObject result = call("clamp");
+		return new Array<Boolean>(webEngine, result);		
 	}
 
 	/**
@@ -449,8 +471,8 @@ public class Brush extends JavaScriptObject implements IsFunction {
 	 * 
 	 */
 	public static enum BrushEvent {
-		
-		//#region VALUES
+
+		// #region VALUES
 		/**
 		 * on mousedown.
 		 */
@@ -465,24 +487,24 @@ public class Brush extends JavaScriptObject implements IsFunction {
 		 * on mouseup.
 		 */
 		BRUSH_END("brushend");
-		
-		//#end region
-		
-		//#region ATTRIBUTES
+
+		// #end region
+
+		// #region ATTRIBUTES
 
 		private final String value;
-		
-		//#end region
-		
-		//#region CONSTRUCTORS
+
+		// #end region
+
+		// #region CONSTRUCTORS
 
 		private BrushEvent(final String value) {
 			this.value = value;
 		}
-		
-		//#end region
-		
-		//#region ACCESSORS
+
+		// #end region
+
+		// #region ACCESSORS
 
 		/**
 		 * @return the value
@@ -490,8 +512,8 @@ public class Brush extends JavaScriptObject implements IsFunction {
 		public String getValue() {
 			return value;
 		}
-		
-		//#end region
+
+		// #end region
 	}
 
 	// #end region

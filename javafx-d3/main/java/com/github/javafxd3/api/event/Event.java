@@ -1,6 +1,7 @@
 package com.github.javafxd3.api.event;
 
 import com.github.javafxd3.api.core.Selection;
+import com.github.javafxd3.api.functions.JsFunction;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -11,7 +12,7 @@ import netscape.javascript.JSObject;
  * @param <T> 
  *
  */
-public class Event<T> extends JavaScriptObject {
+public class Event<T> extends JavaScriptObject implements JsFunction {
 	
 	//#region ATTRIBUTES	
 

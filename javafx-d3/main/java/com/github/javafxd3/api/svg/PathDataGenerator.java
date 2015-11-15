@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.functions.IsFunction;
+import com.github.javafxd3.api.functions.JsFunction;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -49,7 +49,7 @@ import netscape.javascript.JSObject;
  *
  * @see <a href="https:generators">Official API</a>
  */
-public abstract class PathDataGenerator extends JavaScriptObject implements IsFunction {
+public abstract class PathDataGenerator extends JavaScriptObject implements JsFunction {
 
 	// #region CONSTRUCTORS
 

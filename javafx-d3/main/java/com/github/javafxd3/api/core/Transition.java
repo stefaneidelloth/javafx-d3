@@ -1,10 +1,11 @@
 package com.github.javafxd3.api.core;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.color.Color;
 import com.github.javafxd3.api.ease.Easing;
 import com.github.javafxd3.api.ease.EasingFunction;
 import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.functions.IsFunction;
+import com.github.javafxd3.api.functions.JsFunction;
 import com.github.javafxd3.api.interpolators.Interpolator;
 import com.github.javafxd3.api.svg.PathDataGenerator;
 import com.github.javafxd3.api.tweens.TweenFunction;
@@ -136,15 +137,20 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition delay(DatumFunction<Integer> func) {
 
-		throw new IllegalStateException("not yet implemented");
+		String memberName = "temp_delay_function";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, func);
 
-		/*
-		 * return this .delay(function(d, i) { return
-		 * func.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google
-		 * /gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{
-		 * datum:d},i); });
-		 * 
-		 */
+		String command = "this.delay(function(d, i) { " //
+				+ "return this." + memberName + ".apply(this,{datum:d},i);"//
+				+ " });";
+
+		JSObject result = evalForJsObject(command);
+
+		jsObj.removeMember(memberName);
+
+		return new Transition(webEngine, result);
+
 	}
 
 	/**
@@ -169,15 +175,20 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition duration(DatumFunction<Integer> func) {
 
-		throw new IllegalStateException("not yet implemented");
+		String memberName = "temp_duration_function";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, func);
 
-		/*
-		 * return this .duration(function(d, i) { return
-		 * func.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google
-		 * /gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{
-		 * datum:d},i); });
-		 * 
-		 */
+		String command = "this.duration(function(d, i) { " //
+				+ "return this." + memberName + ".apply(this,{datum:d},i);"//
+				+ " });";
+
+		JSObject result = evalForJsObject(command);
+
+		jsObj.removeMember(memberName);
+
+		return new Transition(webEngine, result);
+
 	}
 
 	/**
@@ -198,26 +209,22 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition ease(EasingFunction callback) {
 
-		throw new IllegalStateException("not yet implemented");
+		String memberName = "temp_ease_callback";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, callback);
 
-		/*
-		 * var r = this .ease(function(t) {
-		 * return @com.github.gwtd3.api.core.Transition::trampolineCallEase(Lcom
-		 * /github/gwtd3/api/ease/EasingFunction;D)(callback,t); }); return r;
-		 * 
-		 */
-	}
+		String command = "var r = this.ease(" //
+				+ "function(t) { " //
+				+ " this." + memberName + ".ease(t);" //
+				+ "}"//
+				+ "):" + "return r;";
 
-	/**
-	 * Trampoline function to allow a EasingFunction to be called from JSNI.
-	 * <p>
-	 * 
-	 * @param function
-	 * @param t
-	 * @return
-	 */
-	private static final double trampolineCallEase(final EasingFunction function, final double t) {
-		return function.ease(t);
+		JSObject result = evalForJsObject(command);
+
+		jsObj.removeMember(memberName);
+
+		return new Transition(webEngine, result);
+
 	}
 
 	// ==================== attr =================================
@@ -295,15 +302,21 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition attr(final String name, final DatumFunction<?> callback) {
-		throw new IllegalStateException("not yet implemented");
 
-		/*
-		 * return this .attr( name, function(d, i) { return
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		String memberName = "temp_callback";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, callback);
+
+		String command = "this.attr('" + name + "', function(d, i) {" //
+				+ "return this." + memberName + ".apply(this,{datum:d},i);" //
+				+ "});";
+
+		JSObject result = evalForJsObject(command);
+
+		jsObj.removeMember(memberName);
+
+		return new Transition(webEngine, result);
+
 	}
 
 	/**
@@ -351,17 +364,19 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition attrTween(String name, TweenFunction<?> tweenFunction) {
 
-		throw new IllegalStateException("not yet implemented");
+		String memberName = "temp_tween_callback";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, tweenFunction);
 
-		/*
-		 * return this .attrTween( name, function(d, i, a) { var interpolator =
-		 * tweenFunction.@com.github.gwtd3.api.tweens.TweenFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;ILcom/
-		 * github/gwtd3/api/core/Value;)(this,{datum:d},i,{datum:a});
-		 * return @com.github.gwtd3.api.core.Transition::trampolineInterpolator(
-		 * Lcom/github/gwtd3/api/interpolators/Interpolator;)(interpolator); });
-		 * 
-		 */
+		String command = "this.attrTween('" + name + "', function(d, i, a) { " + "var interpolator = this." + memberName
+				+ ".apply(this,{datum:d},i,{datum:a});" + "return interpolator;" + "});";
+
+		JSObject result = evalForJsObject(command);
+
+		jsObj.removeMember(memberName);
+
+		return new Transition(webEngine, result);
+
 	}
 
 	// ================ style functions ================
@@ -429,16 +444,34 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition style(String name, DatumFunction<?> callback) {
 
-		throw new IllegalStateException("not yet implemented");
+		String memberName = "temp_style_callback";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, callback);
 
-		/*
-		 * try { return this .style( name, function(d, i) { try { var r =
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); return r; } catch (e) { alert(e); return null; }
-		 * }); } catch (e) { alert(e); return null; }
-		 * 
-		 */
+		String command = "try { " //
+				+ "          return this.style('" + name + "', function(d, i) {" //
+				+ "             try { "//
+				+ "               var r = this." + memberName + ".apply(this,{datum:d},i);" //
+				+ "               return r;" //
+				+ "             } catch (e) {"//
+				+ "               alert(e); "//
+				+ "               return null; "//
+				+ "             }"//
+				+ "          });"//
+				+ "       } catch (e) { "//
+				+ "         alert(e); "//
+				+ "         return null; " + "       }";
+
+		JSObject result = evalForJsObject(command);
+
+		jsObj.removeMember(memberName);
+
+		if (result == null) {
+			return null;
+		}
+
+		return new Transition(webEngine, result);
+
 	}
 
 	/**
@@ -486,17 +519,28 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Selection style(String name, DatumFunction<?> callback, boolean important) {
 
-		throw new IllegalStateException("not yet implemented");
+		String memberName = "temp_style_callback";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, callback);
 
-		/*
-		 * var imp = important ? 'important' : null; return this .style( name,
-		 * function(d, i) { var r =
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)
-		 * (this,{datum:d},i); return r?r.@java.lang.Object::toString()():null;
-		 * }, imp);
-		 * 
-		 */
+		String command = "var imp = " + important + " ? 'important' : null;"//
+				+ "return this.style('" + name + "'," //
+				+ "  function(d, i) { "//
+				+ "    var r = this." + memberName + ".apply(this,{datum:d},i); "//
+				+ "    return r?r.toString():null;"//
+				+ "  },"//
+				+ "imp);";
+
+		JSObject result = evalForJsObject(command);
+
+		jsObj.removeMember(memberName);
+
+		if (result == null) {
+			return null;
+		}
+
+		return new Selection(webEngine, result);
+
 	}
 
 	/**
@@ -525,19 +569,28 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Selection styleTween(String name, TweenFunction<?> tweenFunction, boolean important) {
 
-		throw new IllegalStateException("not yet implemented");
+		String memberName = "temp_style_callback";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, tweenFunction);
 
-		/*
-		 * var imp = important ? 'important' : null; return this .styleTween(
-		 * name, function(d, i, a) { var interpolator =
-		 * tweenFunction.@com.github.gwtd3.api.tweens.TweenFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;ILcom/
-		 * github/gwtd3/api/core/Value;)(this,{datum:d},i,{datum:a});
-		 * return @com.github.gwtd3.api.core.Transition::trampolineInterpolator(
-		 * Lcom/github/gwtd3/api/interpolators/Interpolator;)(interpolator); },
-		 * imp);
-		 * 
-		 */
+		String command = "var imp = " + important + " ? 'important' : null;" //
+				+ "return this.styleTween('" + name + "', " //
+				+ "  function(d, i, a) {" //
+				+ "    var interpolator = this." + memberName + ".apply(this,{datum:d},i,{datum:a});" //
+				+ "    return interpolator;" //
+				+ "  }, " //
+				+ "imp);";
+
+		JSObject result = evalForJsObject(command);
+
+		jsObj.removeMember(memberName);
+
+		if (result == null) {
+			return null;
+		}
+
+		return new Selection(webEngine, result);
+
 	}
 
 	// ==================== text content ==========================
@@ -580,15 +633,24 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition text(final DatumFunction<String> callback) {
 
-		throw new IllegalStateException("not yet implemented");
+		String memberName = "temp_text_callback";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, callback);
 
-		/*
-		 * return this .text(function(d, i) { return
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		String command = "this.text(function(d, i) { " //
+				+ "return this." + memberName + ".apply(this,{datum:d},i);"//
+				+ "});";
+
+		JSObject result = evalForJsObject(command);
+
+		jsObj.removeMember(memberName);
+
+		if (result == null) {
+			return null;
+		}
+
+		return new Transition(webEngine, result);
+
 	}
 
 	/**
@@ -610,15 +672,24 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition tween(String name, DatumFunction<Interpolator<?>> factory) {
 
-		throw new IllegalStateException("not yet implemented");
+		String memberName = "temp_tween_factory";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, factory);
 
-		/*
-		 * return this .tween( name, function(d, i) { return
-		 * factory.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		String command = "this.tween('" + name + "', function(d, i) { " //
+				+ "return this." + memberName + ".apply(this,{datum:d},i);" //
+				+ "});";
+
+		JSObject result = evalForJsObject(command);
+
+		jsObj.removeMember(memberName);
+
+		if (result == null) {
+			return null;
+		}
+
+		return new Transition(webEngine, result);
+
 	}
 
 	/**
@@ -731,14 +802,24 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition filter(final DatumFunction<Element> datumFunction) {
 
-		throw new IllegalStateException("not yet implemented");
+		String memberName = "temp_filter_function";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, datumFunction);
 
-		/*
-		 * return this .filter(function(d, i) { return
-		 * datumFunction.@com.github.gwtd3.api.functions.DatumFunction::apply(
-		 * Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I
-		 * )(this,{datum:d},i); });
-		 */
+		String command = "this.filter(function(d, i) { " //
+				+ "return this." + memberName + ".apply(this,{datum:d},i);" //
+				+ "});";
+
+		JSObject result = evalForJsObject(command);
+
+		jsObj.removeMember(memberName);
+
+		if (result == null) {
+			return null;
+		}
+
+		return new Transition(webEngine, result);
+
 	}
 
 	/**
@@ -780,15 +861,6 @@ public class Transition extends JavaScriptObject {
 	 */
 	public int size() {
 		return this.size();
-	}
-
-	private static JavaScriptObject trampolineInterpolator(final Interpolator<?> interpolator) {
-
-		throw new IllegalStateException("not yet implemented");
-
-		/*
-		 * { return interpolator.asJSOFunction();
-		 */
 	}
 
 	/**
@@ -841,16 +913,24 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition each(EventType type, DatumFunction<Void> listener) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .each(
-		 * type.@com.github.gwtd3.api.core.Transition.EventType::getType()(),
-		 * function(d, i) {
-		 * listener.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 * 
-		 */
+		String typeString = type.getType();
+
+		String memberName = "temp_filter_function";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, listener);
+
+		String command = "this.each('" + typeString + "', function(d, i) {" //
+				+ "this." + memberName + ".apply(this,{datum:d},i);"//
+				+ "});";
+
+		JSObject result = evalForJsObject(command);
+
+		if (result == null) {
+			return null;
+		}
+
+		return new Transition(webEngine, result);
+
 	}
 
 	/**
@@ -873,13 +953,22 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition each(DatumFunction<Void> listener) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .each(function(d, i) {
-		 * listener.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 */
+		String memberName = "temp_filter_function";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, listener);
+
+		String command = "this.each(function(d, i) {" //
+				+ "this." + memberName + ".apply(this,{datum:d},i);" //
+				+ "});";
+
+		JSObject result = evalForJsObject(command);
+
+		if (result == null) {
+			return null;
+		}
+
+		return new Transition(webEngine, result);
+
 	}
 
 	/**
@@ -889,8 +978,18 @@ public class Transition extends JavaScriptObject {
 	 * @param jsFunction
 	 * @return the current transition
 	 */
-	public Transition call(IsFunction jsFunction) {
-		return this.call(jsFunction);
+	public Transition call(JsFunction jsFunction) {
+		
+		boolean isJavaScriptObject = jsFunction instanceof JavaScriptObject;
+		if(!isJavaScriptObject){
+			String message = "The interface JsFunction must only by implemented "
+					+ "by JavaScriptObjects. However its type is" + jsFunction.getClass().getName();
+			throw new IllegalStateException(message);
+		}
+		JavaScriptObject javaScriptObject = (JavaScriptObject) jsFunction;
+		JSObject functionJsObject = javaScriptObject.getJsObject();		
+		JSObject result = call("call", functionJsObject);
+		return new Transition(webEngine, result);			
 	}
 
 	// #end region

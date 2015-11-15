@@ -336,6 +336,16 @@ public class Array<T> extends JavaScriptObject {
 		return resultObj;
 	}
 
+	public List<T> asList(Class<T> classObj) {
+		int size = length();
+		List<T> list = new ArrayList<>();
+		for(int index=0;index<size;index++){
+			T element = this.get(index, classObj);
+			list.add(element);
+		}
+		return list;		
+	}
+
 	
 
 	// #end region

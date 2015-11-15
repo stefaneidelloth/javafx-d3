@@ -41,15 +41,15 @@ public class AxisTest extends AbstractTestCase {
         axis.scale(d3.scale().log());
 
         // ticks
-        assertEquals(1, axis.ticks().length);
-        assertEquals(10, (int) axis.ticks()[0].asInt());
+        assertEquals(1, axis.ticks().length());
+        assertEquals(10, (int) axis.ticks().get(0,  Value.class).asInt());
 
         axis.ticks(12);
-        assertEquals(12, (int) axis.ticks()[0].asInt());
+        assertEquals(12, (int) axis.ticks().get(0,  Value.class).asInt());
 
         axis.ticks(15, "blah");
-        assertEquals(15, (int) axis.ticks()[0].asInt());
-        assertEquals("blah", axis.ticks()[1].asString());
+        assertEquals(15, (int) axis.ticks().get(0,  Value.class).asInt());
+        assertEquals("blah", axis.ticks().get(1, Value.class).asString());
 
       //  Interval interval = d3.time().day();
       //  axis.ticks(interval, 10);
@@ -64,15 +64,15 @@ public class AxisTest extends AbstractTestCase {
             }
         };
         axis.ticks(8, f);
-        assertEquals(8, (int) axis.ticks()[0].asInt());
-        assertEquals(f, (int) axis.ticks()[1].as());
+        assertEquals(8, (int) axis.ticks().get(0,  Value.class).asInt());
+        assertEquals(f, (int) axis.ticks().get(1,  Value.class).as());
 
         // tick values
         assertNull(axis.tickValues());
         axis.tickValues(1, 2, 3);
-        assertEquals(1, (int) axis.tickValues()[0].asInt());
-        assertEquals(2, (int) axis.tickValues()[1].asInt());
-        assertEquals(3, (int) axis.tickValues()[2].asInt());
+        assertEquals(1, (int) axis.tickValues().get(0,  Value.class).asInt());
+        assertEquals(2, (int) axis.tickValues().get(1,  Value.class).asInt());
+        assertEquals(3, (int) axis.tickValues().get(2,  Value.class).asInt());
 
         // tick subdivide : replaced
         // assertEquals(0, axis.tickSubdivide());

@@ -1,7 +1,7 @@
 package com.github.javafxd3.api.core;
 
 import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.functions.IsFunction;
+import com.github.javafxd3.api.functions.JsFunction;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -87,7 +87,7 @@ import netscape.javascript.JSObject;
  * 
  * 
  */
-public class Formatter extends JavaScriptObject implements IsFunction {
+public class Formatter extends JavaScriptObject implements JsFunction {
 
 	// #region CONSTRUCTORS
 

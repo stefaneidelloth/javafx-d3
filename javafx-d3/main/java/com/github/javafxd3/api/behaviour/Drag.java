@@ -3,7 +3,7 @@ package com.github.javafxd3.api.behaviour;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.coords.Coords;
 import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.functions.IsFunction;
+import com.github.javafxd3.api.functions.JsFunction;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -23,7 +23,7 @@ import netscape.javascript.JSObject;
  * }
  * </pre>
  */
-public class Drag extends JavaScriptObject implements IsFunction {
+public class Drag extends JavaScriptObject implements JsFunction {
 
 	// #region CONSTRUCTORS
 

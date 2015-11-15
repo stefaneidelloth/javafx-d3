@@ -1,13 +1,14 @@
 package com.github.javafxd3.api.svg;
 
 
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.arrays.ArrayUtils;
 import com.github.javafxd3.api.core.Formatter;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Transition;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.functions.IsFunction;
+import com.github.javafxd3.api.functions.JsFunction;
 import com.github.javafxd3.api.scales.LinearScale;
 import com.github.javafxd3.api.scales.LogScale;
 import com.github.javafxd3.api.scales.OrdinalScale;
@@ -32,7 +33,7 @@ import netscape.javascript.JSObject;
  * {@link TimeScale} and {@link OrdinalScale} scales.
  * <p> 
  */
-public class Axis extends JavaScriptObject implements IsFunction {
+public class Axis extends JavaScriptObject implements JsFunction {
 
 //#region CONSTRUCTORS
 	
@@ -80,11 +81,12 @@ public class Axis extends JavaScriptObject implements IsFunction {
 	 * @return the current orientation
 	 */
 	public  Orientation orient(){
-		throw new IllegalStateException("not yet implemented");
-		/*
-		var o = this.orient().toUpperCase();
-		return @com.github.gwtd3.api.svg.Axis.Orientation::valueOf(Ljava/lang/String;)(o);
-		*/
+		
+		String command = "this.orient().toUpperCase()";
+		String enumString = evalForString(command);
+		Orientation orientation = Orientation.valueOf(enumString);
+		return orientation;
+				
 	}
 
 	/**
@@ -118,11 +120,9 @@ public class Axis extends JavaScriptObject implements IsFunction {
 	 * 
 	 * @return the arguments
 	 */
-	public  Value[] ticks(){
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call("ticks");
-		//return result;
-		
+	public  Array<Value> ticks(){		
+		JSObject result = call("ticks");
+		return new Array<Value>(webEngine, result);		
 	}
 
 	/**
@@ -176,10 +176,19 @@ public class Axis extends JavaScriptObject implements IsFunction {
 	public  Axis ticks(int count,
 			DatumFunction<String> formatSpecifier){
 		
-		throw new IllegalStateException("not yet implemented");
-		//JSObject jsObject = formatSpecifier.getJsObject();
+		String memberName = "temp_callback";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, formatSpecifier);
+
+		String command = "this.ticks("+count+", this." + memberName +");";
+
+		JSObject result = evalForJsObject(command);
 		
-		//return this.ticks(count, formatSpecifier);
+		jsObj.removeMember(memberName);
+		
+		return new Axis(webEngine, result);
+		
+		
 	}
 
 	/**
@@ -390,14 +399,20 @@ public class Axis extends JavaScriptObject implements IsFunction {
 	 */
 	public  Axis tickFormat(DatumFunction<String> formatFunction) {
 		
-		throw new IllegalStateException("not yet implemented");
-		/*
+		String memberName = "temp_callback";
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(memberName, formatFunction);
+
+		String command = "this.tickFormat(function(d,i) {"//
+				+ "return this." + memberName + ".apply(null,{datum:d},i);"
+						+ "});";
+
+		JSObject result = evalForJsObject(command);
 		
-		return this
-				.tickFormat(function(d,i) {
-					return formatFunction.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(null,{datum:d},i);
-				});
-		*/
+		jsObj.removeMember(memberName);
+		
+		return new Axis(webEngine, result);
+				
 	}
 
 	/**
@@ -423,9 +438,9 @@ public class Axis extends JavaScriptObject implements IsFunction {
 	 * 
 	 * @return the currently-set tick values
 	 */
-	public  Value[] tickValues(){
-		throw new IllegalStateException("not yet implemented");
-		//return this.tickValues();
+	public  Array<Value> tickValues(){
+		JSObject result = call("tickValues");
+		return new Array<Value>(webEngine, result);	
 	}
 
 	/**
