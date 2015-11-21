@@ -28,7 +28,12 @@ public class CyDatumFunction implements DatumFunction<Double> {
 		JSObject datum = (JSObject) value;
 		Value valueObj = new Value(webEngine, datum);
 
-		return valueObj.<CustomCoords> as(CustomCoords.class).y();
+		CustomCoords coords = valueObj.<CustomCoords> as(CustomCoords.class);
+		if (coords!=null){
+			Double y =  coords.y();
+			return y;
+		}
+		return null;
 	}
 
 	public Double apply(String context, String d, int index) {

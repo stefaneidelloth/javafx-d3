@@ -2,6 +2,7 @@ package com.github.javafxd3.demo.client.democases.svg.line;
 
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
+import com.github.javafxd3.api.wrapper.Inspector;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -26,9 +27,16 @@ public class CxDatumFunction implements DatumFunction<Double> {
 	public Double apply(Object context, Object value, int index) {
 
 		JSObject datum = (JSObject) value;
+		Inspector.inspect(datum);
 		Value valueObj = new Value(webEngine, datum);
+		
+		CustomCoords coords = valueObj.<CustomCoords> as(CustomCoords.class);
+		if (coords!=null){
+			Double x =  coords.x();
+			return x;
+		}
 
-		return valueObj.<CustomCoords> as(CustomCoords.class).x();
+		return null;
 	}
 
 	public Double apply(String context, String d, int index) {

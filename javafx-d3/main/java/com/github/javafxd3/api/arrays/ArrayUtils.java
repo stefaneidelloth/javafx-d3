@@ -218,23 +218,6 @@ public class ArrayUtils {
     	String arrayString = "[" + String.join(",", list) + "]";
 		return arrayString;
 	}
-
-	/**
-	 * Extracts the JSObjects from the given JavaScriptObjects and returns them
-	 * as new array
-	 * @param data
-	 * @return
-	 */
-	public static JSObject[] JavaScriptObjectToJSObject(Iterable<? extends JavaScriptObject> data) {
-			    		
-		List<JSObject> jsObjectList = new ArrayList<>();
-		for(JavaScriptObject javaScriptObject: data){
-			jsObjectList.add(javaScriptObject.getJsObject());
-		}
-		JSObject[] jsObjects = jsObjectList.toArray(new JSObject[jsObjectList.size()]);
-		
-		return jsObjects;
-	}
 	
 	/**
 	 * Extracts the JSObjects from the given JavaScriptObjects and returns them

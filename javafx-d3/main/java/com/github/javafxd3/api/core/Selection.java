@@ -15,7 +15,6 @@ import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.functions.KeyFunction;
 import com.github.javafxd3.api.svg.PathDataGenerator;
 import com.github.javafxd3.api.wrapper.Element;
-import com.github.javafxd3.api.wrapper.Inspector;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -1068,9 +1067,19 @@ public class Selection extends EnteringSelection {
 	 * @return the update selection
 	 */
 	public UpdateSelection data(Collection<? extends JavaScriptObject> collection) {
-		JSObject[] array = ArrayUtils.JavaScriptObjectToJSObject(collection);
-		JSObject result = call("data", (Object[]) array);
-
+				
+		JSObject d3JsObject = getD3();
+		List<String> fullVarNames = new ArrayList<>();
+		
+		for(JavaScriptObject javaScriptObject: collection){
+			String varName = createNewTemporaryInstanceName();
+			JSObject jsObject = javaScriptObject.getJsObject();
+			d3JsObject.setMember(varName, jsObject);
+			fullVarNames.add("d3." + varName);
+		}
+		
+		String command = "this.data([" + String.join(",", fullVarNames) + "])";		
+		JSObject result = evalForJsObject(command);
 		return new UpdateSelection(webEngine, result);
 	}
 
@@ -1541,8 +1550,18 @@ public class Selection extends EnteringSelection {
 	 */
 	public final UpdateSelection data(final List<JavaScriptObject> list) {
 
-		JSObject[] array = ArrayUtils.JavaScriptObjectToJSObject(list);
-		JSObject result = call("data", (Object[]) array);
+		JSObject d3JsObject = getD3();
+		List<String> fullVarNames = new ArrayList<>();
+		
+		for(JavaScriptObject javaScriptObject: list){
+			String varName = createNewTemporaryInstanceName();
+			JSObject jsObject = javaScriptObject.getJsObject();
+			d3JsObject.setMember(varName, jsObject);
+			fullVarNames.add("d3." + varName);
+		}
+		
+		String command = "this.data([" + String.join(",", fullVarNames) + "])";		
+		JSObject result = evalForJsObject(command);
 		return new UpdateSelection(webEngine, result);
 	}
 

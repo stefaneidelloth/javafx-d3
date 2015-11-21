@@ -15,6 +15,7 @@ import com.github.javafxd3.api.core.UpdateSelection;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.svg.Line;
 import com.github.javafxd3.api.svg.Line.InterpolationMode;
+import com.github.javafxd3.api.wrapper.Inspector;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
@@ -37,8 +38,8 @@ public class LineDemo extends AbstractDemoCase {
 
 	//#region ATTRIBUTES
 
-	// @Source("LineDemo.css")
-	// public MyResources css;
+	
+	private String cssPath = "LineDemo.css";
 
 	private boolean showPoints = true;
 
@@ -70,7 +71,9 @@ public class LineDemo extends AbstractDemoCase {
 	public LineDemo(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
 
-		// DODO: load css
+		String filePath = "D:/javafx-d3/javafx-d3-demo/src/main/java/com/github/javafxd3/demo/client/democases/svg/line/LineDemo.css";
+		loadCss(filePath);
+		
 
 	}
 
@@ -257,7 +260,7 @@ public class LineDemo extends AbstractDemoCase {
 			data = new ArrayList<>();
 		}
 
-		UpdateSelection updateSelection = svg.selectAll("circle").data(data);
+		UpdateSelection updateSelection = getSvg().selectAll("circle").data(data);
 
 		DatumFunction<Double> cxFunction = new CxDatumFunction(webEngine);
 
@@ -265,7 +268,9 @@ public class LineDemo extends AbstractDemoCase {
 
 		EnteringSelection enter = updateSelection.enter();
 		if (enter != null) {
-			enter.append("circle").attr("cx", cxFunction).attr("cy", cyFunction).attr("r", 10);
+			Selection result = enter.append("circle").attr("cx", cxFunction).attr("cy", cyFunction).attr("r", 10);
+						
+			Inspector.inspect(result);
 			updateSelection.exit().remove();
 		}
 

@@ -83,6 +83,26 @@ public abstract class AbstractDemoCase implements DemoCase {
 		return svg;
 	}
 	
+	public void loadCss(String filepath){
+		
+		String command = "var cssId = 'myCss';" //
+		+ "if (!document.getElementById(cssId))" //
+		+ "{" //
+		+ "    var head  = document.getElementsByTagName('head')[0];" //
+		+ "    var link  = document.createElement('link');" //
+		+ "    link.id   = cssId;" //
+		+ "    link.rel  = 'stylesheet';" //
+		+ "    link.type = 'text/css';" //
+		+ "    link.href = 'file:///"+ filepath + "';" //
+		+ "    link.media = 'all';" //
+		+ "    head.appendChild(link);" //
+		+ "}";
+		
+		webEngine.executeScript(command);
+		
+	}
+	
+	
 	
 	//#end region
 

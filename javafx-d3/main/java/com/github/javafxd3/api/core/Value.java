@@ -41,8 +41,6 @@ public class Value extends JavaScriptObject {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
 	}
-	
-	
 
 	//#end region
 
@@ -57,20 +55,20 @@ public class Value extends JavaScriptObject {
 	 * @return the value
 	 */
 	public static Value create(WebEngine webEngine, JavaScriptObject javaScriptObject) {
-				
+
 		Object wrappedObject = null;
-		if (javaScriptObject!=null){
-			wrappedObject = javaScriptObject.getJsObject(); 
+		if (javaScriptObject != null) {
+			wrappedObject = javaScriptObject.getJsObject();
 		}
 
-		String dummyTempAttributeName = "dummy__object__attr";
-		String dummyTempVariableName = "dummy_temp_var";
+		String dummyTempAttributeName = createNewTemporaryInstanceName();
+		String dummyTempVariableName = createNewTemporaryInstanceName();
 
 		JSObject d3 = (JSObject) webEngine.executeScript("d3");
 
 		d3.setMember(dummyTempAttributeName, wrappedObject);
 
-		String command = "var " + dummyTempVariableName + " = { datum: d3."+dummyTempAttributeName+"};";
+		String command = "var " + dummyTempVariableName + " = { datum: d3." + dummyTempAttributeName + "};";
 		d3.eval(command);
 		JSObject result = (JSObject) d3.eval(dummyTempVariableName);
 
@@ -79,7 +77,7 @@ public class Value extends JavaScriptObject {
 		return new Value(webEngine, result);
 
 	}
-	
+
 	/**
 	 * Wraps the given JavaScriptObject into a {@link Value}.
 	 * 
@@ -89,8 +87,7 @@ public class Value extends JavaScriptObject {
 	 * @return the value
 	 */
 	public static Value create(WebEngine webEngine, Object object) {
-			
-		
+
 		String dummyTempAttributeName = "dummy__object__attr";
 		String dummyTempVariableName = "dummy_temp_var";
 
@@ -98,7 +95,7 @@ public class Value extends JavaScriptObject {
 
 		d3.setMember(dummyTempAttributeName, object);
 
-		String command = "var " + dummyTempVariableName + " = { datum: d3."+dummyTempAttributeName+"};";
+		String command = "var " + dummyTempVariableName + " = { datum: d3." + dummyTempAttributeName + "};";
 		d3.eval(command);
 		JSObject result = (JSObject) d3.eval(dummyTempVariableName);
 
@@ -107,7 +104,7 @@ public class Value extends JavaScriptObject {
 		return new Value(webEngine, result);
 
 	}
-	
+
 	/**
 	 * Creates a Value that wraps 'undefined'
 	 * 
@@ -117,17 +114,15 @@ public class Value extends JavaScriptObject {
 	 * @return the value
 	 */
 	public static Value createUndefined(WebEngine webEngine) {
-		
+
 		String dummyTempVariableName = "dummy_temp_var";
 
 		JSObject d3 = (JSObject) webEngine.executeScript("d3");
 
-		
 		String command = "var " + dummyTempVariableName + " = { datum: undefined};";
 		d3.eval(command);
 		JSObject result = (JSObject) d3.eval(dummyTempVariableName);
 
-		
 		return new Value(webEngine, result);
 
 	}
@@ -169,14 +164,12 @@ public class Value extends JavaScriptObject {
 	public Byte asByte() {
 		String command = "~~this.datum;";
 		Object result = eval(command);
-		
-		
-		
+
 		boolean isUndefined = result.equals("undefined");
-		if(isUndefined){			
+		if (isUndefined) {
 			return null;
 		}
-		
+
 		int intResult = (int) result;
 		return (byte) intResult;
 	}
@@ -195,11 +188,11 @@ public class Value extends JavaScriptObject {
 		return result;
 	}
 
-	public JsDate asJsDate(){
-		
+	public JsDate asJsDate() {
+
 		// return this.datum instanceof JsDate ? this.datum : new JsDate(this.datum);		
 		JSObject result = getMember("datum");
-		return new JsDate(webEngine, result);			  
+		return new JsDate(webEngine, result);
 	}
 
 	/**
@@ -211,19 +204,19 @@ public class Value extends JavaScriptObject {
 	public double asDouble() {
 		String command = "this.datum-0;";
 		Object resultObj = eval(command);
-		
+
 		boolean isDouble = resultObj instanceof Float;
-		if (isDouble){
+		if (isDouble) {
 			Double result = (Double) resultObj;
 			return result;
 		}
-		
+
 		boolean isNumber = resultObj instanceof Number;
-		if (isNumber){
+		if (isNumber) {
 			Double result = Double.parseDouble("" + resultObj);
 			return result;
 		}
-		
+
 		String message = "Could not convert result of type " + resultObj.getClass().getName() + " to double.";
 		throw new IllegalStateException(message);
 	}
@@ -238,17 +231,17 @@ public class Value extends JavaScriptObject {
 		String command = "this.datum-0;";
 		Object resultObj = eval(command);
 		boolean isFloat = resultObj instanceof Float;
-		if (isFloat){
+		if (isFloat) {
 			Float result = (Float) resultObj;
 			return result;
 		}
-		
+
 		boolean isNumber = resultObj instanceof Number;
-		if (isNumber){
+		if (isNumber) {
 			Float result = Float.parseFloat("" + resultObj);
 			return result;
 		}
-		
+
 		String message = "Could not convert result of type " + resultObj.getClass().getName() + " to float.";
 		throw new IllegalStateException(message);
 	}
@@ -262,45 +255,44 @@ public class Value extends JavaScriptObject {
 	public Integer asInt() {
 		String command = "this.datum;";
 		Object resultObj = eval(command);
-		
-		if (resultObj == null){
+
+		if (resultObj == null) {
 			return null;
 		}
-		
+
 		String resultString = resultObj.toString();
 		boolean isNaN = resultString.equals("NaN");
-		if(isNaN){			
-			return null;
-		}		
-		
-		boolean isUndefined = resultString.equals("undefined");
-		if(isUndefined){			
+		if (isNaN) {
 			return null;
 		}
-		
+
+		boolean isUndefined = resultString.equals("undefined");
+		if (isUndefined) {
+			return null;
+		}
+
 		boolean isFalse = resultString.equals("false");
-		if(isFalse){			
+		if (isFalse) {
 			return 0;
 		}
-		
+
 		boolean isTrue = resultString.equals("true");
-		if(isTrue){			
+		if (isTrue) {
 			return 1;
 		}
-		
-		try{
+
+		try {
 			int integerResult = Integer.parseInt(resultString);
 			return integerResult;
-		} catch (Exception exception){
+		} catch (Exception exception) {
 			double doubleResult = Double.parseDouble(resultString);
-			
-			if (doubleResult > Integer.MAX_VALUE){
-				String message = "The value " + doubleResult + " exceeds the maximum integer value " + 
-			Integer.MAX_VALUE + " and can not be returned as integer.";
+
+			if (doubleResult > Integer.MAX_VALUE) {
+				String message = "The value " + doubleResult + " exceeds the maximum integer value " + Integer.MAX_VALUE
+						+ " and can not be returned as integer.";
 				throw new IllegalStateException(message);
 			}
-			
-			
+
 			int intResult = (int) doubleResult;
 			return intResult;
 		}
@@ -313,8 +305,8 @@ public class Value extends JavaScriptObject {
 	 * @return the value
 	 */
 	public final long asLong() {
-		long result = (long) asDouble();		
-		return  result;
+		long result = (long) asDouble();
+		return result;
 	}
 
 	/**
@@ -326,41 +318,41 @@ public class Value extends JavaScriptObject {
 	public Short asShort() {
 		String command = "this.datum";
 		Object resultObj = eval(command);
-		
-		if (resultObj==null){
+
+		if (resultObj == null) {
 			return null;
 		}
-		
+
 		String resultString = resultObj.toString();
 		boolean isNaN = resultString.equals("NaN");
-		if (isNaN){
+		if (isNaN) {
 			return null;
 		}
-		
+
 		boolean isUndefined = resultString.equals("undefined");
-		if(isUndefined){			
+		if (isUndefined) {
 			return null;
 		}
-		
+
 		boolean isFalse = resultString.equals("false");
-		if(isFalse){			
+		if (isFalse) {
 			return 0;
 		}
-		
+
 		boolean isTrue = resultString.equals("true");
-		if(isTrue){			
+		if (isTrue) {
 			return 1;
 		}
-		
-		try{
-		short result = Short.parseShort("" + resultObj);			
-		return result;
-		} catch (Exception excepiton){
+
+		try {
+			short result = Short.parseShort("" + resultObj);
+			return result;
+		} catch (Exception excepiton) {
 			double doubleResult = Double.parseDouble("" + resultObj);
 			short result = (short) doubleResult;
 			return result;
 		}
-		
+
 	}
 
 	/**
@@ -413,31 +405,42 @@ public class Value extends JavaScriptObject {
 		String command = "this.datum";
 		Object resultObj = eval(command);
 		
+		boolean isUndefined = resultObj.equals("undefined");
+		if (isUndefined){
+			return null;
+		}
+
 		boolean targetIsJavaScriptObject = JavaScriptObject.class.isAssignableFrom(clazz);
-		
-		if (targetIsJavaScriptObject){
+
+		if (targetIsJavaScriptObject) {
 			Constructor<T> constructor;
 			try {
-				constructor= clazz.getConstructor(new Class<?>[]{WebEngine.class, JSObject.class});
+				constructor = clazz.getConstructor(new Class<?>[] { WebEngine.class, JSObject.class });
 			} catch (NoSuchMethodException | SecurityException exception) {
 				String message = "Could not find constructor";
 				throw new IllegalStateException(message, exception);
-			} 
-			
-			JSObject jsObject = (JSObject) resultObj;
-			T instance;
-			try {
-				instance = constructor.newInstance(webEngine, jsObject);
-			} catch (Exception exception) {
-				String message = "Could not create new instance constructor";
-				throw new IllegalStateException(message, exception);
-			} 
-			
-			return instance;				
-			
+			}
+
+			boolean resultIsJsObject = resultObj instanceof JSObject;
+			if (resultIsJsObject) {
+				JSObject jsObject = (JSObject) resultObj;
+				T instance;
+				try {
+					instance = constructor.newInstance(webEngine, jsObject);
+				} catch (Exception exception) {
+					String message = "Could not create new instance constructor";
+					throw new IllegalStateException(message, exception);
+				}
+
+				return instance;
+			} else {
+				return null;
+								
+			}
+
 		}
-				
-		T result =  clazz.cast(resultObj);
+
+		T result = clazz.cast(resultObj);
 		return result;
 	}
 
@@ -455,7 +458,7 @@ public class Value extends JavaScriptObject {
 	/**
 	 * @return true if the value is undefined in the Javascript sense
 	 */
-	public boolean isUndefined() {			
+	public boolean isUndefined() {
 		String command = "this.datum == 'undefined';";
 		Boolean result = evalForBoolean(command);
 		return result;
@@ -510,19 +513,18 @@ public class Value extends JavaScriptObject {
 	 * @return the property value as a value.
 	 */
 	public Value getProperty(String propertyName) {
-		
+
 		String command = "this.datum." + propertyName + ";";
 		Object datum = eval(command);
 		boolean isUndefined = datum.equals("undefined");
-		if (isUndefined){
+		if (isUndefined) {
 			Value value = createUndefined(webEngine);
 			return value;
 		} else {
 			Value value = create(webEngine, datum);
 			return value;
 		}
-		
-		
+
 	}
 
 	/**
