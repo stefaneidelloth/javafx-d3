@@ -70,6 +70,9 @@ public class Array<T> extends JavaScriptObject {
 			if (isJavaScriptObject) {
 				JavaScriptObject javaScriptObject = (JavaScriptObject) value;
 				JSObject wrappedJsObject = javaScriptObject.getJsObject();
+				
+				//Inspector.inspect(wrappedJsObject);
+				
 				tempArray.setSlot(index, wrappedJsObject);
 			} else {
 				tempArray.setSlot(index, value);
@@ -281,7 +284,7 @@ public class Array<T> extends JavaScriptObject {
 			if (resultIsJsObject) {
 				
 				JSObject resultJsObject = (JSObject) resultObj;
-				Inspector.inspect(resultJsObject);
+				//Inspector.inspect(resultJsObject);
 				
 				try {
 					constructor = classObj.getConstructor(new Class<?>[] { WebEngine.class, JSObject.class });

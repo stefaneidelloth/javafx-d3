@@ -50,16 +50,13 @@ public class SelectionDataTest extends AbstractSelectionTest {
 		clearSvg();
 		Selection tr = d3.select("root").append("table").selectAll("tr").data(MATRIX).enter().append("tr");
 		
-		Inspector.inspect(tr);
+		//Inspector.inspect(tr);
 		Selection tds = tr.selectAll("td");
 		
-		Inspector.inspect(tds);
+		//Inspector.inspect(tds);
 		
-		
-
 		Selection withInteger = tds.data(new IntegerArrayDatumFunction(webEngine));
-		
-				
+						
 		Selection td = withInteger.enter().append("td").text(new StringDatumFunction(webEngine));
 		return td;
 	}
@@ -227,13 +224,13 @@ public class SelectionDataTest extends AbstractSelectionTest {
 	protected void assertDataPropertyEqualsTo(final Object expectedData, final Selection selection,
 			final int elementIndex) {
 
-		Inspector.inspect(selection);
+		//Inspector.inspect(selection);
 		
 		Selection selectionArray = selection.get(0);
-		Inspector.inspect(selectionArray);
+		//Inspector.inspect(selectionArray);
 		Selection childSelection = selectionArray.get(elementIndex);
 		
-		Inspector.inspect(childSelection);
+		//Inspector.inspect(childSelection);
 		
 		JSObject jsObject = childSelection.getJsObject();
 		String command = "this." + Selection.DATA_PROPERTY;
@@ -246,7 +243,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 			final int elementIndex) {
 		
 		Selection selectionArray = selection.get(0);
-		Inspector.inspect(selectionArray);
+		//Inspector.inspect(selectionArray);
 		Selection childSelection = selectionArray.get(elementIndex);
 		
 		JSObject jsObject = childSelection.getJsObject();

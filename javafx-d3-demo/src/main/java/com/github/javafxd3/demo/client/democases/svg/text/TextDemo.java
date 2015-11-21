@@ -1,4 +1,4 @@
-package com.github.javafxd3.demo.client.democases.svg;
+package com.github.javafxd3.demo.client.democases.svg.text;
 
 import static org.junit.Assert.assertEquals;
 

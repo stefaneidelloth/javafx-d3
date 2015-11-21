@@ -191,8 +191,8 @@ public class Line extends PathDataGenerator {
 				+ "  var result = d3." + callbackName + ".apply(null, {datum:d}, 0);" //
 				+ "  if (result == null) { " //
 				+ "       return false; " //
-				+ "  } else {" //
-				+ "       return result.booleanValue();"//
+				+ "  } else {" //				
+				+ "       return result;"//
 				+ "  }"//
 				+ "});";
 		JSObject result = evalForJsObject(command);

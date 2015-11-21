@@ -56,7 +56,7 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 */
 	public Selection getElement(final int index) {
 		Selection children = getSvg().selectAll("*").get(0);
-		Inspector.inspect(children);
+		//Inspector.inspect(children);
 		Selection child = children.get(index);
 
 		return child;

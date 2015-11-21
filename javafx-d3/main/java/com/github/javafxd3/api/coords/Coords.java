@@ -36,9 +36,11 @@ public class Coords extends JavaScriptObject {
 		this.y = y;
 
 		JSObject d3 = (JSObject) webEngine.executeScript("d3");
-		String command = "var temp__result__object = {x:" + x + ",y:" + y + "};";
+		String varName = createNewTemporaryInstanceName();
+		
+		String command = "var " + varName +" = {x_:" + x + ",y_:" + y + "};";
 		d3.eval(command);
-		Object resultObj = d3.eval("temp__result__object");
+		Object resultObj = d3.eval(varName);
 		JSObject result = (JSObject) resultObj;
 		setJsObject(result);
 	}
@@ -65,8 +67,8 @@ public class Coords extends JavaScriptObject {
 	public Coords(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
-		this.x = getMemberForDouble("x");
-		this.y = getMemberForDouble("y");
+		this.x = getMemberForDouble("x_");
+		this.y = getMemberForDouble("y_");
 	}
 
 	//#end region
@@ -77,29 +79,19 @@ public class Coords extends JavaScriptObject {
 	 * Convenient {@link DatumFunction} that return the x component of a
 	 * {@link Coords} datum.
 	 */
-	public static final DatumFunction<Double> X_ACCESSOR = new DatumFunction<Double>() {
-
-		@Override
-		public Double apply(Object context, Object d, int index) {
-
-			Value datum = (Value) d;
-			return datum.<Coords> as().x();
-		}
-	};
+	public static final DatumFunction<Double> getXAccessor(WebEngine webEngine){
+		DatumFunction<Double> accessor = new XAccessorDatumFunction(webEngine); 
+		return accessor;
+	}
 
 	/**
 	 * Convenient {@link DatumFunction} that return the y component of a
 	 * {@link Coords} datum.
 	 */
-	public static final DatumFunction<Double> Y_ACCESSOR = new DatumFunction<Double>() {
-
-		@Override
-		public Double apply(Object context, Object d, int index) {
-
-			Value datum = (Value) d;
-			return datum.<Coords> as().y();
-		}
-	};
+	public static final DatumFunction<Double> getYAccessor(WebEngine webEngine){
+		DatumFunction<Double> accessor = new YAccessorDatumFunction(webEngine); 
+		return accessor;
+	}
 
 	/**
 	 * @return the x coordinates

@@ -1,5 +1,8 @@
 package com.github.javafxd3.api.core;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import com.github.javafxd3.api.coords.Coords;
 import com.github.javafxd3.api.time.JsDate;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
@@ -408,8 +411,34 @@ public class Value extends JavaScriptObject {
 	 */
 	public final <T> T as(final Class<T> clazz) {
 		String command = "this.datum";
-		Object result = eval(command);
-		return clazz.cast(result);
+		Object resultObj = eval(command);
+		
+		boolean targetIsJavaScriptObject = JavaScriptObject.class.isAssignableFrom(clazz);
+		
+		if (targetIsJavaScriptObject){
+			Constructor<T> constructor;
+			try {
+				constructor= clazz.getConstructor(new Class<?>[]{WebEngine.class, JSObject.class});
+			} catch (NoSuchMethodException | SecurityException exception) {
+				String message = "Could not find constructor";
+				throw new IllegalStateException(message, exception);
+			} 
+			
+			JSObject jsObject = (JSObject) resultObj;
+			T instance;
+			try {
+				instance = constructor.newInstance(webEngine, jsObject);
+			} catch (Exception exception) {
+				String message = "Could not create new instance constructor";
+				throw new IllegalStateException(message, exception);
+			} 
+			
+			return instance;				
+			
+		}
+				
+		T result =  clazz.cast(resultObj);
+		return result;
 	}
 
 	/**

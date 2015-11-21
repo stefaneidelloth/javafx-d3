@@ -6,7 +6,7 @@ import com.github.javafxd3.api.functions.DatumFunction;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-public class XAccessorDatumFunction implements DatumFunction<Double> {
+public class CyDatumFunction implements DatumFunction<Double> {
 
 	//#region ATTRIBUTES
 
@@ -16,28 +16,22 @@ public class XAccessorDatumFunction implements DatumFunction<Double> {
 
 	//#region CONSTRUCTORS
 
-	public XAccessorDatumFunction(WebEngine webEngine) {
+	public CyDatumFunction(WebEngine webEngine) {
 		this.webEngine = webEngine;
 	}
 
 	//#end region
 
-	//#region METHODS	
-
 	@Override
-	public Double apply(Object context, Object d, int index) {
+	public Double apply(Object context, Object value, int index) {
 
-		JSObject datum = (JSObject) d;
-		Value value = new Value(webEngine, datum);
+		JSObject datum = (JSObject) value;
+		Value valueObj = new Value(webEngine, datum);
 
-		Double x = value.<CustomCoords> as(CustomCoords.class).x();
-		return x;
-
+		return valueObj.<CustomCoords> as(CustomCoords.class).y();
 	}
 
 	public Double apply(String context, String d, int index) {
 		return null;
 	}
-
-	//#end region
 }

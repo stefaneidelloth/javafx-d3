@@ -4,7 +4,7 @@ import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.functions.ConstantDatumFunction;
 import com.github.javafxd3.api.functions.EvenIndexDatumFunction;
 import com.github.javafxd3.api.wrapper.D3NodeFactory;
-import com.github.javafxd3.demo.client.democases.svg.LabelFactory;
+import com.github.javafxd3.demo.client.democases.svg.text.LabelFactory;
 
 /**
  * Testing

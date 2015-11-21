@@ -1,5 +1,7 @@
 package com.github.javafxd3.demo.client.democases.svg.line;
 
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,7 +12,6 @@ import com.github.javafxd3.api.coords.Coords;
 import com.github.javafxd3.api.core.EnteringSelection;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.UpdateSelection;
-import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.svg.Line;
 import com.github.javafxd3.api.svg.Line.InterpolationMode;
@@ -24,6 +25,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -99,9 +101,9 @@ public class LineDemo extends AbstractDemoCase {
 
 		// create initial d3 content
 
-		DatumFunction<Double> xAccessor = CustomCoords.xAccessor();
-		DatumFunction<Double> yAcccessor = CustomCoords.yAccessor();
-		DatumFunction<Boolean> isDefinedAccessor = CustomCoords.definedAccessor();
+		DatumFunction<Double> xAccessor = CustomCoords.xAccessor(webEngine);
+		DatumFunction<Double> yAcccessor = CustomCoords.yAccessor(webEngine);
+		DatumFunction<Boolean> isDefinedAccessor = CustomCoords.definedAccessor(webEngine);
 		line = d3.svg().line().x(xAccessor).y(yAcccessor).defined(isDefinedAccessor);
 
 		svg = d3.select("svg").attr("width", width).attr("height", height).append("g");
@@ -180,12 +182,15 @@ public class LineDemo extends AbstractDemoCase {
 	}
 
 	private void createInterpolationModeWidget(InterpolationMode[] values) {
+		
+		ToggleGroup rbGroup = new ToggleGroup();
 
 		boolean first = true;
 		for (final InterpolationMode mode : values) {
 
 			// create button
 			RadioButton button = new RadioButton();
+			button.setToggleGroup(rbGroup);
 			button.setText(mode.name());
 
 			// add listener
@@ -235,8 +240,8 @@ public class LineDemo extends AbstractDemoCase {
 
 		System.out.println("Updating content");
 
-		line.interpolate(mode);
-		line.tension(tension);
+		line = line.interpolate(mode);
+		line = line.tension(tension);
 
 		List<Coords> coordsList = new ArrayList<>(points);
 
@@ -254,9 +259,9 @@ public class LineDemo extends AbstractDemoCase {
 
 		UpdateSelection updateSelection = svg.selectAll("circle").data(data);
 
-		DatumFunction<Double> cxFunction = new CxDatumFunction();
+		DatumFunction<Double> cxFunction = new CxDatumFunction(webEngine);
 
-		DatumFunction<Double> cyFunction = new CyDatumFunction();
+		DatumFunction<Double> cyFunction = new CyDatumFunction(webEngine);
 
 		EnteringSelection enter = updateSelection.enter();
 		if (enter != null) {
@@ -267,40 +272,5 @@ public class LineDemo extends AbstractDemoCase {
 	}
 
 	//#end region
-
-	//#region PRIVATE CLASSES
-
 	
-
-	public class CxDatumFunction implements DatumFunction<Double> {
-
-		@Override
-		public Double apply(Object context, Object value, int index) {
-			Value valueObj = (Value) value;
-
-			return valueObj.<CustomCoords> as().x();
-		}
-		
-		public Double apply(String context, String d, int index){
-			return null;
-		}
-	}
-
-	public class CyDatumFunction implements DatumFunction<Double> {
-
-		@Override
-		public Double apply(Object context, Object value, int index) {
-			Value valueObj = (Value) value;
-
-			return valueObj.<CustomCoords> as().y();
-		}
-		
-		public Double apply(String context, String d, int index){
-			return null;
-		}
-	}
-
-	
-
-	//#end region
 }

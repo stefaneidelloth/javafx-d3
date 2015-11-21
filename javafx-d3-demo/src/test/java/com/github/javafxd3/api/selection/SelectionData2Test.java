@@ -15,7 +15,7 @@ import com.github.javafxd3.api.selection.datumfunction.OddEvenDatumFunction;
 import com.github.javafxd3.api.selection.datumfunction.OddEvenElementDatumFunction;
 import com.github.javafxd3.api.selection.datumfunction.StringDatumFunction;
 import com.github.javafxd3.api.wrapper.Element;
-import com.github.javafxd3.demo.client.democases.svg.LabelFactory;
+import com.github.javafxd3.demo.client.democases.svg.text.LabelFactory;
 
 import netscape.javascript.JSObject;
 

@@ -14,13 +14,13 @@ import com.github.javafxd3.demo.client.democases.geom.MitchellBestCandidate;
 import com.github.javafxd3.demo.client.democases.geom.ShapeTweeningDemo;
 import com.github.javafxd3.demo.client.democases.geom.VoronoiTessellationDemo;
 import com.github.javafxd3.demo.client.democases.layout.ClusterDendogram;
-import com.github.javafxd3.demo.client.democases.svg.TextDemo;
 import com.github.javafxd3.demo.client.democases.svg.brush.BrushAsSliderDemo;
 import com.github.javafxd3.demo.client.democases.svg.brush.BrushTransitionsDemo;
 import com.github.javafxd3.demo.client.democases.svg.brush.OrdinalBrushingDemo;
 import com.github.javafxd3.demo.client.democases.svg.brush.ScatterplotMatrixDemo;
 import com.github.javafxd3.demo.client.democases.svg.line.LineDemo;
 import com.github.javafxd3.demo.client.democases.svg.symbol.SymbolDemo;
+import com.github.javafxd3.demo.client.democases.svg.text.TextDemo;
 
 import javafx.application.Application;
 import javafx.scene.Node;

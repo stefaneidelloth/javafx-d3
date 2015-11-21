@@ -6,6 +6,7 @@ import java.util.List;
 import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.functions.JsFunction;
+import com.github.javafxd3.api.wrapper.Inspector;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -84,6 +85,9 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 
 		// get and store JSObject
 		JSObject dataObj = data.getJsObject();
+		
+		//Inspector.inspect(dataObj);
+		
 		String memberName = createNewTemporaryInstanceName();
 		JSObject d3Obj = (JSObject) webEngine.executeScript("d3");
 		d3Obj.setMember(memberName, dataObj);

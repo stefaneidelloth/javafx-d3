@@ -6,7 +6,7 @@ import com.github.javafxd3.api.functions.ConstantDatumFunction;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.wrapper.D3NodeFactory;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
-import com.github.javafxd3.demo.client.democases.svg.LabelFactory;
+import com.github.javafxd3.demo.client.democases.svg.text.LabelFactory;
 
 @SuppressWarnings("javadoc")
 public class SelectionPropertyTest extends AbstractSelectionTest {

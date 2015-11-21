@@ -89,8 +89,8 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
 
         final RootNode<Point> quadtree = d3.geom().quadtree()
                 .extent(-1, -1, width + 1, height + 1)
-                .x(Coords.X_ACCESSOR)
-                .y(Coords.Y_ACCESSOR)
+                .x(Coords.getXAccessor(webEngine))
+                .y(Coords.getYAccessor(webEngine))
                 .apply(data);
 
         IdentityScale x = d3.scale().identity().domain(0, width);

@@ -1,4 +1,4 @@
-package com.github.javafxd3.demo.client.democases.svg.line;
+package com.github.javafxd3.api.coords;
 
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
@@ -6,7 +6,10 @@ import com.github.javafxd3.api.functions.DatumFunction;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-public class XAccessorDatumFunction implements DatumFunction<Double> {
+/**
+ * A DatumFunction that returns the y coordinate
+ */
+public class YAccessorDatumFunction implements DatumFunction<Double> {
 
 	//#region ATTRIBUTES
 
@@ -16,7 +19,7 @@ public class XAccessorDatumFunction implements DatumFunction<Double> {
 
 	//#region CONSTRUCTORS
 
-	public XAccessorDatumFunction(WebEngine webEngine) {
+	public YAccessorDatumFunction(WebEngine webEngine) {
 		this.webEngine = webEngine;
 	}
 
@@ -29,15 +32,10 @@ public class XAccessorDatumFunction implements DatumFunction<Double> {
 
 		JSObject datum = (JSObject) d;
 		Value value = new Value(webEngine, datum);
-
-		Double x = value.<CustomCoords> as(CustomCoords.class).x();
-		return x;
-
-	}
-
-	public Double apply(String context, String d, int index) {
-		return null;
+		Double result = value.asCoords().y();
+		return result;
 	}
 
 	//#end region
+
 }
