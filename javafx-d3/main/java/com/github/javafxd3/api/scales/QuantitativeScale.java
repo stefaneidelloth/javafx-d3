@@ -12,7 +12,7 @@ import netscape.javascript.JSObject;
  */
 public abstract class QuantitativeScale<S extends QuantitativeScale<S>> extends Scale<S> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -24,6 +24,6 @@ public abstract class QuantitativeScale<S extends QuantitativeScale<S>> extends 
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
 }

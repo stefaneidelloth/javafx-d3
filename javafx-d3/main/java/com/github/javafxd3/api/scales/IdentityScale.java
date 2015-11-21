@@ -22,7 +22,7 @@ import netscape.javascript.JSObject;
  */
 public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -35,9 +35,9 @@ public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	// =========== ticks ==========
 
@@ -94,7 +94,8 @@ public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 	 * @return a number format
 	 */
 	public Formatter tickFormat(int count) {
-		return this.tickFormat(count);
+		JSObject result = call("tickFormat", count);
+		return new Formatter(webEngine, result);		
 	}
 
 	/**
@@ -119,13 +120,14 @@ public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 	 * @return a number format
 	 */
 	public Formatter tickFormat(int count, String formatSpecifier) {
-		return this.tickFormat(count, formatSpecifier);
+		JSObject result = call("tickFormat", count, formatSpecifier);
+		return new Formatter(webEngine, result);			
 	}
 
 	@Override
-	protected IdentityScale createScale(WebEngine webEngine, JSObject result) {
+	public IdentityScale createScale(WebEngine webEngine, JSObject result) {
 		return new IdentityScale(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 }

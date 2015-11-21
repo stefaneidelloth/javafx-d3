@@ -13,7 +13,7 @@ import netscape.javascript.JSObject;
  */
 public class HierarchicalLayout extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -26,9 +26,9 @@ public class HierarchicalLayout extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Runs the tree layout, returning the array of nodes associated with the
@@ -94,7 +94,7 @@ public class HierarchicalLayout extends JavaScriptObject {
 	 */
 	public static class Node extends com.github.javafxd3.api.layout.Node {
 
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		/**
 		 * Constructor
@@ -106,9 +106,9 @@ public class HierarchicalLayout extends JavaScriptObject {
 			super(webEngine, wrappedJsObject);
 		}
 
-		// #end region
+		//#end region
 
-		// #region METHODS
+		//#region METHODS
 
 		/**
 		 * @return array of {@link Node} objects or null
@@ -134,6 +134,6 @@ public class HierarchicalLayout extends JavaScriptObject {
 			return result;
 		}
 
-		// #end region
+		//#end region
 	}
 }

@@ -25,7 +25,7 @@ import netscape.javascript.JSObject;
  */
 public class Quadtree extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -36,9 +36,9 @@ public class Quadtree extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Sets the x-coordinate accessor.
@@ -180,7 +180,7 @@ public class Quadtree extends JavaScriptObject {
 	 */
 	public static class Node<T> extends JavaScriptObject {
 
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 		/**
 		 * Constructor
 		 * 
@@ -201,9 +201,9 @@ public class Quadtree extends JavaScriptObject {
 			setJsObject(wrappedJsObject);
 		}
 
-		// #end region
+		//#end region
 
-		// #region METHODS
+		//#region METHODS
 
 		/**
 		 * @return the point associated with this node, if any (may apply to
@@ -248,7 +248,7 @@ public class Quadtree extends JavaScriptObject {
 			//return this.nodes;
 		}
 
-		// #end region
+		//#end region
 	}
 
 	/**
@@ -260,7 +260,7 @@ public class Quadtree extends JavaScriptObject {
 	 * @param <T>
 	 */
 	public static class RootNode<T> extends Node<T> {
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		/**
 		 * Constructor
@@ -273,9 +273,9 @@ public class Quadtree extends JavaScriptObject {
 
 		}
 
-		// #end region
+		//#end region
 
-		// #region METHODS
+		//#region METHODS
 
 		/**
 		 * Adds a new point to the previously-computed quadtree.

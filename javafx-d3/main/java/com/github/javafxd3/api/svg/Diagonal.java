@@ -21,7 +21,7 @@ import netscape.javascript.JSObject;
  */
 public class Diagonal extends PathDataGenerator {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -33,9 +33,9 @@ public class Diagonal extends PathDataGenerator {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * The projection converts the starting or ending point returned by the
@@ -78,7 +78,9 @@ public class Diagonal extends PathDataGenerator {
 	 *            datum function
 	 * @return this diagonal object
 	 */
-	public Diagonal projection(DatumFunction<?> df) {
+	public Diagonal projection(DatumFunction<?> function) {
+		
+		assertObjectIsNotAnonymous(function);
 
 		throw new IllegalStateException("not yet implemented");
 
@@ -159,7 +161,9 @@ public class Diagonal extends PathDataGenerator {
 	 *            source accessor function
 	 * @return the diagonal object
 	 */
-	public Diagonal source(DatumFunction<?> df) {
+	public Diagonal source(DatumFunction<?> function) {
+		
+		assertObjectIsNotAnonymous(function);
 
 		throw new IllegalStateException("not yet implemented");
 
@@ -184,7 +188,9 @@ public class Diagonal extends PathDataGenerator {
 	 *            target accessor function
 	 * @return the diagonal object
 	 */
-	public Diagonal target(DatumFunction<?> df) {
+	public Diagonal target(DatumFunction<?> function) {
+		
+		assertObjectIsNotAnonymous(function);
 
 		throw new IllegalStateException("not yet implemented");
 
@@ -197,5 +203,5 @@ public class Diagonal extends PathDataGenerator {
 		 */
 	}
 
-	// #end region
+	//#end region
 }

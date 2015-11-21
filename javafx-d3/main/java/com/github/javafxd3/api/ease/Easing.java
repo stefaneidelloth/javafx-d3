@@ -266,20 +266,20 @@ public class Easing {
 	}
 
 	private static  JavascriptEasingFunction ease(WebEngine webEngine, String type){
-		String command = "d3.ease(" + type +");";
+		String command = "d3.ease('" + type +"');";
 		JSObject result = (JSObject) webEngine.executeScript(command);
 		return new JavascriptEasingFunction(webEngine, result);
 		
 	}
 
 	private static  JavascriptEasingFunction ease(WebEngine webEngine, String type, double a){
-		String command = "d3.ease(" + type +","+a+");";
+		String command = "d3.ease('" + type +"',"+a+");";
 		JSObject result = (JSObject) webEngine.executeScript(command);
 		return new JavascriptEasingFunction(webEngine, result);		
 	}
 
 	private static  JavascriptEasingFunction ease(WebEngine webEngine, String type, double a, double b){
-		String command = "d3.ease(" + type +","+a+","+b+");";
+		String command = "d3.ease('" + type +"',"+a+","+b+");";
 		JSObject result = (JSObject) webEngine.executeScript(command);
 		return new JavascriptEasingFunction(webEngine, result);	
 	}

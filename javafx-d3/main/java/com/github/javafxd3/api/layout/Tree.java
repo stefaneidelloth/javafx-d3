@@ -3,6 +3,7 @@ package com.github.javafxd3.api.layout;
 
 import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.functions.DatumFunction;
+import com.github.javafxd3.api.functions.DelegatingDatumFunction;
 import com.github.javafxd3.api.wrapper.Sort;
 
 import javafx.scene.web.WebEngine;
@@ -23,7 +24,7 @@ import netscape.javascript.JSObject;
  */
 public class Tree extends HierarchicalLayout {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -35,9 +36,9 @@ public class Tree extends HierarchicalLayout {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Sets the available layout size to the specified two-element array of
@@ -142,11 +143,11 @@ public class Tree extends HierarchicalLayout {
 	 * @return this tree object
 	 */
 	public  Tree children(DatumFunction<Array<Node>> function) {		
-		String functionName = "children__function__name";
-		JSObject jsObject = getJsObject();
-		jsObject.setMember(functionName, function);
+		String functionName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(functionName, function);
 		
-		String command = "this.children(function(d) { return this."+functionName +".apply(this,{datum:d},0);})";
+		String command = "this.children(function(d) { return d3."+functionName +".apply(this,{datum:d},0);})";
 		JSObject result = evalForJsObject(command);
 		return new Tree(webEngine, result);		
 	}
@@ -164,11 +165,13 @@ public class Tree extends HierarchicalLayout {
 	 */
 	public  Tree value(DatumFunction<?> function) {
 		
-		String functionName = "value__function__name";
-		JSObject jsObject = getJsObject();
-		jsObject.setMember(functionName, function);
+		assertObjectIsNotAnonymous(function);
 		
-		String command = "this.value(function(d, i) { return this."+functionName+".apply(this,{datum:d},i);})";
+		String functionName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(functionName, function);
+		
+		String command = "this.value(function(d, i) { return d3."+functionName+".apply(this,{datum:d},i);})";
 		JSObject result = evalForJsObject(command);
 		return new Tree(webEngine, result);	     
 	}
@@ -181,13 +184,7 @@ public class Tree extends HierarchicalLayout {
 	 */
 	public DatumFunction<?> value() {
 		JSObject result = call("value");
-		return new DatumFunction<Object>(){
-
-			@Override
-			public Object apply(Object context, Object datum, int index) {				
-				Object applyResult = result.call("apply", datum, index);
-				return applyResult;				
-			}			
-		};		
+		DatumFunction<?> datumFunction = new DelegatingDatumFunction(result);
+		return datumFunction;		
 	}
 }

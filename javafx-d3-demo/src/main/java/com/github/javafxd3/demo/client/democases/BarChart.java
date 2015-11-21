@@ -23,11 +23,11 @@ import javafx.scene.layout.VBox;
 @SuppressWarnings("javadoc")
 public class BarChart extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	public BarChart(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
@@ -38,9 +38,9 @@ public class BarChart extends AbstractDemoCase {
 		// String bar();
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider

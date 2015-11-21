@@ -39,7 +39,7 @@ import netscape.javascript.JSObject;
  */
 public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -49,14 +49,14 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	// -- create
 
 	@Override
-	protected TimeScale createScale(WebEngine webEngine, JSObject result) {
+	public TimeScale createScale(WebEngine webEngine, JSObject result) {
 		return new TimeScale(webEngine, result);
 	}
 
@@ -243,6 +243,6 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 		return new Formatter(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 
 }

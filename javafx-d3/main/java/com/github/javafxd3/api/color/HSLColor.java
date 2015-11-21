@@ -8,7 +8,7 @@ import netscape.javascript.JSObject;
  */
 public class HSLColor extends Color {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -20,9 +20,9 @@ public class HSLColor extends Color {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * @return the hue component in the range [0;360]
@@ -108,6 +108,6 @@ public class HSLColor extends Color {
 		return new HSLColor(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 
 }

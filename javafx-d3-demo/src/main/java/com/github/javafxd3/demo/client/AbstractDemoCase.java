@@ -15,7 +15,7 @@ import javafx.scene.web.WebEngine;
  */
 public abstract class AbstractDemoCase implements DemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	/**
 	 * The d3 wrapper
@@ -32,9 +32,9 @@ public abstract class AbstractDemoCase implements DemoCase {
 	 */
 	protected VBox demoPreferenceBox;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -48,7 +48,7 @@ public abstract class AbstractDemoCase implements DemoCase {
 		this.demoPreferenceBox = demoPreferenceBox;
 	}
 	
-	// #end region
+	//#end region
 	
 	//#region METHODS
 	

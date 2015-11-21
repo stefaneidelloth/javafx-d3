@@ -1,30 +1,18 @@
 
 package com.github.javafxd3.api.color;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 
 /**
- * Tests the class RgbColor 
+ * Tests the class RgbColor
  */
 public class RgbColorTest extends AbstractTestCase {
 
-	
 	@Override
-	@Test
 	public void doTest() {
-		
-		Runnable testRunnable = ()->createRgbColor();
-		doOnJavaFXThread(testRunnable);
-	}
 
-	private void createRgbColor() {
 		Colors colors = new Colors(webEngine);
-		
+
 		RGBColor rgb = colors.rgb("#ff0000");
 		assertEquals(255, rgb.r());
 		assertEquals(0, rgb.g());

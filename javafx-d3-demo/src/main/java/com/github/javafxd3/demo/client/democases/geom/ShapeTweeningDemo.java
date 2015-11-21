@@ -25,15 +25,15 @@ import javafx.scene.layout.VBox;
  */
 public class ShapeTweeningDemo extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private Selection svg;
 	private Projection<?> projection;
 	private Selection path;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -48,9 +48,9 @@ public class ShapeTweeningDemo extends AbstractDemoCase {
 		// demo, intersection
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -185,5 +185,5 @@ public class ShapeTweeningDemo extends AbstractDemoCase {
 		return circleArray;
 	}
 
-	// #end region
+	//#end region
 }

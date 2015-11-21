@@ -1,8 +1,6 @@
 package com.github.javafxd3.api.scales;
 
 
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.arrays.Array;
@@ -12,8 +10,7 @@ public class QuantileScaleTest extends AbstractTestCase {
 	
 	private static final double DELTA = 0.001d;
 
-	@Override
-	@Test
+	@Override	
 	public void doTest() {
 		
 		D3 d3 = new D3(webEngine);

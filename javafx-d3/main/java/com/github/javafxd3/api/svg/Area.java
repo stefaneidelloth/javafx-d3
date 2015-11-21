@@ -35,7 +35,7 @@ import netscape.javascript.JSObject;
  */
 public class Area extends PathDataGenerator {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -47,9 +47,9 @@ public class Area extends PathDataGenerator {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Returns the current interpolation mode.
@@ -88,12 +88,14 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Area x(final DatumFunction<Double> callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
-		String memberName = "temp_x_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, callback);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3jsObj = getD3();
+		d3jsObj.setMember(memberName, callback);
 
-		String command = "this.x(function(d, i) { return this." + memberName + ".apply(this,{datum:d},i); });";
+		String command = "this.x(function(d, i) { return d3." + memberName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
 		return new Area(webEngine, result);
 	}
@@ -126,13 +128,15 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Area x0(final DatumFunction<Double> callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
-		String memberName = "temp_x0_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, callback);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3jsObj = getD3();
+		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.x0(function(d, i) { "//
-				+ "return this." + memberName + ".apply(this,{datum:d},i); "//
+				+ "return d3." + memberName + ".apply(this,{datum:d},i); "//
 				+ "});";
 		JSObject result = evalForJsObject(command);
 		return new Area(webEngine, result);
@@ -157,13 +161,15 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Area x1(final DatumFunction<Double> callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
-		String memberName = "temp_x1_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, callback);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3jsObj = getD3();
+		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.x1(function(d, i) { "//
-				+ "return this." + memberName + ".apply(this,{datum:d},i); "//
+				+ "return d3." + memberName + ".apply(this,{datum:d},i); "//
 				+ "});";
 		JSObject result = evalForJsObject(command);
 		return new Area(webEngine, result);
@@ -215,13 +221,15 @@ public class Area extends PathDataGenerator {
 	 * @return the current area
 	 */
 	public Area y(final DatumFunction<Double> callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
-		String memberName = "temp_y__callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, callback);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3jsObj = getD3();
+		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.y(function(d, i) { "//
-				+ "return this." + memberName + ".apply(this,{datum:d},i); "//
+				+ "return d3." + memberName + ".apply(this,{datum:d},i); "//
 				+ "});";
 		JSObject result = evalForJsObject(command);
 		return new Area(webEngine, result);
@@ -240,12 +248,14 @@ public class Area extends PathDataGenerator {
 	 * @return the current area
 	 */
 	public Area y0(final DatumFunction<Double> callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
-		String memberName = "temp_y0_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, callback);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3jsObj = getD3();
+		d3jsObj.setMember(memberName, callback);
 
-		String command = "this.y0(function(d, i) { return this." + memberName + ".apply(this,{datum:d},i); });";
+		String command = "this.y0(function(d, i) { return d3." + memberName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
 		return new Area(webEngine, result);
 	}
@@ -263,12 +273,14 @@ public class Area extends PathDataGenerator {
 	 * @return the current area
 	 */
 	public Area y1(final DatumFunction<Double> callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
-		String memberName = "temp_y1_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, callback);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3jsObj = getD3();
+		d3jsObj.setMember(memberName, callback);
 
-		String command = "this.y1(function(d, i) { return this." + memberName + ".apply(this,{datum:d},i); });";
+		String command = "this.y1(function(d, i) { return d3." + memberName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
 		return new Area(webEngine, result);
 
@@ -289,14 +301,16 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Line defined(final DatumFunction<Boolean> callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
-		String memberName = "temp_defined_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, callback);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3jsObj = getD3();
+		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.defined(function(d) { " //
 				+ "alert('yo'); " //
-				+ "var result = this." + memberName + ".apply(null,{datum:d}, 0); "//
+				+ "var result = d3." + memberName + ".apply(null,{datum:d}, 0); "//
 				+ "alert(result); "//
 				+ "return result; "//
 				+ "});";
@@ -352,7 +366,7 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public <T> String apply(T data) {
-		String result = callForString("this", data);
+		String result = callThisForString(data);
 		return result;
 	}
 
@@ -375,9 +389,9 @@ public class Area extends PathDataGenerator {
 		return result;
 	}
 
-	// #end region
+	//#end region
 
-	// #region ENUM
+	//#region ENUM
 
 	/**
 	 * Represents the mode of interpolation
@@ -385,7 +399,7 @@ public class Area extends PathDataGenerator {
 	 */
 	public static enum InterpolationMode {
 
-		// #region VALUES
+		//#region VALUES
 
 		/**
 		 * piecewise linear segments, as in a polyline.
@@ -432,23 +446,23 @@ public class Area extends PathDataGenerator {
 		 */
 		MONOTONE("monotone");
 
-		// #end region
+		//#end region
 
-		// #region ATTRIBUTES
+		//#region ATTRIBUTES
 
 		private final String value;
 
-		// #end region
+		//#end region
 
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		private InterpolationMode(final String value) {
 			this.value = value;
 		}
 
-		// #end region
+		//#end region
 
-		// #region METHODS
+		//#region METHODS
 
 		/**
 		 * @param value
@@ -458,9 +472,9 @@ public class Area extends PathDataGenerator {
 			return valueOf(value.toUpperCase().replace('-', '_'));
 		}
 
-		// #end region
+		//#end region
 
-		// #region ACCESSORS
+		//#region ACCESSORS
 
 		/**
 		 * @return the value
@@ -469,10 +483,10 @@ public class Area extends PathDataGenerator {
 			return value;
 		}
 
-		// #end region
+		//#end region
 
 	}
 
-	// #end region
+	//#end region
 
 }

@@ -42,7 +42,7 @@ import netscape.javascript.JSObject;
  */
 public class Symbol extends PathDataGenerator {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructs a new symbol generator with the default type- and
@@ -57,9 +57,9 @@ public class Symbol extends PathDataGenerator {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Shape of the symbol.
@@ -146,14 +146,20 @@ public class Symbol extends PathDataGenerator {
 	 */
 	public Symbol type(DatumFunction<Type> typeAccessorFunction) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .type(function(d, i) { var t =
-		 * typeAccessorFunction.@com.github.gwtd3.api.functions.DatumFunction::
-		 * apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/
-		 * Value;I)(this,{datum:d},i); return
-		 * t.@com.github.gwtd3.api.svg.Symbol.Type::getValue()(); });
-		 */
+		assertObjectIsNotAnonymous(typeAccessorFunction);
+
+		JSObject d3JsObject = getD3();
+		String accessorName = createNewTemporaryInstanceName();
+
+		d3JsObject.setMember(accessorName, typeAccessorFunction);
+
+		String command = "this.type(function(d, i) { " //
+				+ "var t = d3." + accessorName + ".apply(this,{datum:d},i);" //
+				+ " return t.getValue();" //
+				+ " });";
+		JSObject result = evalForJsObject(command);
+		return new Symbol(webEngine, result);
+
 	}
 
 	/**
@@ -181,14 +187,19 @@ public class Symbol extends PathDataGenerator {
 	 */
 	public Symbol size(DatumFunction<Integer> sizeAccessorFunction) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .size(function(d, i) { return
-		 * sizeAccessorFunction.@com.github.gwtd3.api.functions.DatumFunction::
-		 * apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/
-		 * Value;I)(this,{datum:d},i); });
-		 * 
-		 */
+		assertObjectIsNotAnonymous(sizeAccessorFunction);
+
+		JSObject d3JsObject = getD3();
+		String accessorName = createNewTemporaryInstanceName();
+
+		d3JsObject.setMember(accessorName, sizeAccessorFunction);
+
+		String command = "this.size(function(d, i) {" //
+				+ "return d3." + accessorName + ".apply(this,{datum:d},i);" //
+				+ " });";
+		JSObject result = evalForJsObject(command);
+		return new Symbol(webEngine, result);
+
 	}
 
 }

@@ -1,7 +1,5 @@
 package com.github.javafxd3.api.core;
 
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.coords.Coords;
@@ -15,14 +13,8 @@ import netscape.javascript.JSObject;
 public class ValueTest extends AbstractTestCase {
 
 	@Override
-	@Test
 	public void doTest() {
-		
-		doOnJavaFXThread(()->runTest());
 
-	}
-
-	private void runTest() {
 		// typeof
 		assertEquals("function", getFunction().typeof());
 		assertEquals("number", getInt().typeof());
@@ -137,38 +129,38 @@ public class ValueTest extends AbstractTestCase {
 		Value value = getNewNumber();
 		assertEquals(55, (int) value.asInt());
 		assertEquals(55, (byte) value.asByte());
-		assertEquals(55F, value.asFloat(),1e-6);
+		assertEquals(55F, value.asFloat(), 1e-6);
 		assertEquals(55, value.asLong());
-		assertEquals(55.0, value.asDouble(),1e-6);
+		assertEquals(55.0, value.asDouble(), 1e-6);
 		assertEquals(55, value.asChar());
 		assertEquals(55, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("55", value.asString());
-		//assertEquals(55D, value.asJsDate().getTime());
+		// assertEquals(55D, value.asJsDate().getTime());
 
 		value = getInt();
 		assertEquals(5, (int) value.asInt());
 		assertEquals(5, (byte) value.asByte());
-		assertEquals(5F, value.asFloat(),1e-6);
+		assertEquals(5F, value.asFloat(), 1e-6);
 		assertEquals(5, value.asLong());
-		assertEquals(5.0, value.asDouble(),1e-6);
+		assertEquals(5.0, value.asDouble(), 1e-6);
 		assertEquals(5, value.asChar());
 		assertEquals(5, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("5", value.asString());
-		//assertEquals(5D, value.asJsDate().getTime());
+		// assertEquals(5D, value.asJsDate().getTime());
 
 		value = getZero();
 		assertEquals(0, (int) value.asInt());
 		assertEquals(0, (byte) value.asByte());
-		assertEquals(0F, value.asFloat(),1e-6);
+		assertEquals(0F, value.asFloat(), 1e-6);
 		assertEquals(0, value.asLong());
-		assertEquals(0D, value.asDouble(),1e-6);
+		assertEquals(0D, value.asDouble(), 1e-6);
 		assertEquals(0, value.asChar());
 		assertEquals(0, (short) value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals("0", value.asString());
-		//assertEquals(0D, value.asJsDate().getTime());
+		// assertEquals(0D, value.asJsDate().getTime());
 
 		value = getNaN();
 		assertEquals(null, value.asInt());
@@ -180,46 +172,46 @@ public class ValueTest extends AbstractTestCase {
 		assertEquals(null, value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals("NaN", value.asString());
-		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
+		// assertTrue(Double.isNaN(value.asJsDate().getTime()));
 
 		value = getInfinityPlus();
 		// int n = (int) Double.POSITIVE_INFINITY;
 		// assertEquals(n, value.asInt());
 		// assertEquals(n, value.asByte());
-		assertEquals(Float.POSITIVE_INFINITY, value.asFloat(),1e-6);
+		assertEquals(Float.POSITIVE_INFINITY, value.asFloat(), 1e-6);
 		assertEquals(Long.MAX_VALUE, value.asLong());
-		assertEquals(Double.POSITIVE_INFINITY, value.asDouble(),1e-6);
+		assertEquals(Double.POSITIVE_INFINITY, value.asDouble(), 1e-6);
 		// assertEquals(n, value.asChar());
 		// assertEquals(n, value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("Infinity", value.asString());
-		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
+		// assertTrue(Double.isNaN(value.asJsDate().getTime()));
 
 		value = getDecimal();
 		int n = (int) value.asDouble();
 		assertEquals(n, (int) value.asInt());
 		assertEquals(n, (byte) value.asByte());
-		assertEquals(12.5F, value.asFloat(),1e-6);
+		assertEquals(12.5F, value.asFloat(), 1e-6);
 		assertEquals(12L, value.asLong());
-		assertEquals(12.5D, value.asDouble(),1e-6);
+		assertEquals(12.5D, value.asDouble(), 1e-6);
 		assertEquals(n, value.asChar());
 		assertEquals(n, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("12.5", value.asString());
-		//assertEquals(12.0D, value.asJsDate().getTime());
+		// assertEquals(12.0D, value.asJsDate().getTime());
 
 		// casting from null
 		value = getNull();
 		assertEquals(null, value.asInt());
 		assertEquals(0, (byte) value.asByte());
-		assertEquals(0F, value.asFloat(),1e-6);
+		assertEquals(0F, value.asFloat(), 1e-6);
 		assertEquals(0L, value.asLong());
-		assertEquals(0D, value.asDouble(),1e-6);
+		assertEquals(0D, value.asDouble(), 1e-6);
 		assertEquals(0, value.asChar());
 		assertEquals(null, value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals(null, value.asString());
-		//assertEquals(0D, value.asJsDate().getTime());
+		// assertEquals(0D, value.asJsDate().getTime());
 
 		// casting from undefined
 		value = getUndefined();
@@ -232,64 +224,64 @@ public class ValueTest extends AbstractTestCase {
 		assertEquals(null, value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals(null, value.asString());
-		//assertTrue(Double.isNaN(value.asJsDate().getTime()));
+		// assertTrue(Double.isNaN(value.asJsDate().getTime()));
 
 		// casting from boolean
 		value = getFalse();
 		assertEquals(0, (int) value.asInt());
 		assertEquals(0, (byte) value.asByte());
-		assertEquals(0F, value.asFloat(),1e-6);
+		assertEquals(0F, value.asFloat(), 1e-6);
 		assertEquals(0L, value.asLong());
-		assertEquals(0D, value.asDouble(),1e-6);
+		assertEquals(0D, value.asDouble(), 1e-6);
 		assertEquals(0, value.asChar());
 		assertEquals(0, (short) value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals("false", value.asString());
-		//assertEquals(0D, value.asJsDate().getTime());
+		// assertEquals(0D, value.asJsDate().getTime());
 
 		value = getNewBooleanFalse();
 		assertEquals(0, (int) value.asInt());
 		assertEquals(0, (byte) value.asByte());
-		assertEquals(0F, value.asFloat(),1e-6);
+		assertEquals(0F, value.asFloat(), 1e-6);
 		assertEquals(0L, value.asLong());
-		assertEquals(0D, value.asDouble(),1e-6);
+		assertEquals(0D, value.asDouble(), 1e-6);
 		assertEquals(0, value.asChar());
 		assertEquals(0, (short) value.asShort());
 		assertEquals(false, value.asBoolean());
 		assertEquals("false", value.asString());
-		//assertEquals(0D, value.asJsDate().getTime());
+		// assertEquals(0D, value.asJsDate().getTime());
 
 		value = getTrue();
 		assertEquals(1, (int) value.asInt());
 		assertEquals(1, (byte) value.asByte());
-		assertEquals(1F, value.asFloat(),1e-6);
+		assertEquals(1F, value.asFloat(), 1e-6);
 		assertEquals(1L, value.asLong());
-		assertEquals(1D, value.asDouble(),1e-6);
+		assertEquals(1D, value.asDouble(), 1e-6);
 		assertEquals(1, value.asChar());
 		assertEquals(1, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("true", value.asString());
-		//assertEquals(1D, value.asJsDate().getTime());
+		// assertEquals(1D, value.asJsDate().getTime());
 
 		value = getNewBooleanTrue();
 		assertEquals(1, (int) value.asInt());
 		assertEquals(1, (byte) value.asByte());
-		assertEquals(1F, value.asFloat(),1e-6);
+		assertEquals(1F, value.asFloat(), 1e-6);
 		assertEquals(1L, value.asLong());
-		assertEquals(1D, value.asDouble(),1e-6);
+		assertEquals(1D, value.asDouble(), 1e-6);
 		assertEquals(1, value.asChar());
 		assertEquals(1, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("true", value.asString());
-		//assertEquals(1D, value.asJsDate().getTime());
+		// assertEquals(1D, value.asJsDate().getTime());
 
 		// casting from string
 		value = getStringWithInt();
 		assertEquals(5, (int) value.asInt());
 		assertEquals(5, (byte) value.asByte());
-		assertEquals(5F, value.asFloat(),1e-6);
+		assertEquals(5F, value.asFloat(), 1e-6);
 		assertEquals(5, value.asLong());
-		assertEquals(5D, value.asDouble(),1e-6);
+		assertEquals(5D, value.asDouble(), 1e-6);
 		assertEquals(5, value.asChar());
 		assertEquals(5, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
@@ -299,17 +291,16 @@ public class ValueTest extends AbstractTestCase {
 		// assertTrue(Double.isNaN(value.asJsDate().getTime()));
 
 		value = getStringWithDate();
-		
-		assertEquals(0, value.asLong());
-		assertTrue(Double.isNaN(value.asDouble()));		
-		assertEquals("October 13, 1975 11:13:00", value.asString());	
 
-		value = getStringEmpty();		
-		assertEquals("", value.asString());	
-		value = getString();		
-		assertTrue(Double.isNaN(value.asDouble()));		
+		assertEquals(0, value.asLong());
+		assertTrue(Double.isNaN(value.asDouble()));
+		assertEquals("October 13, 1975 11:13:00", value.asString());
+
+		value = getStringEmpty();
+		assertEquals("", value.asString());
+		value = getString();
+		assertTrue(Double.isNaN(value.asDouble()));
 		assertEquals("foobar", value.asString());
-		
 
 		value = getStringWithFalse();
 		assertEquals(0, (int) value.asInt());
@@ -321,7 +312,6 @@ public class ValueTest extends AbstractTestCase {
 		assertEquals(0, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("false", value.asString());
-		
 
 		value = getStringWithTrue();
 		assertEquals(1, (int) value.asInt());
@@ -333,185 +323,177 @@ public class ValueTest extends AbstractTestCase {
 		assertEquals(1, (short) value.asShort());
 		assertEquals(true, value.asBoolean());
 		assertEquals("true", value.asString());
-		
 
 		// casting from function
-		value = getFunction();		
+		value = getFunction();
 		assertTrue(Double.isNaN(value.asDouble()));
-		assertEquals(0, value.asChar());	
+		assertEquals(0, value.asChar());
 		assertEquals(true, value.asBoolean());
 		assertTrue(value.asString().contains("function"));
-		
+
 		// object wrapper
-		value = Value.create(webEngine, getCoords(10, 12));		
+		value = Value.create(webEngine, getCoords(10, 12));
 		assertTrue(value.getProperty("x").isDefined());
 		assertEquals(10, (int) value.getProperty("x").asInt());
 		assertEquals(12, (int) value.getProperty("y").asInt());
-		
+
 		Value fake = value.getProperty("fake");
-		
+
 		assertTrue(fake.isUndefined());
 		assertFalse(value.getProperty("x").isBoolean());
 		assertFalse(value.getProperty("x").isString());
 		assertFalse(value.getProperty("x").isFunction());
+
 	}
 
-	private final Coords getCoords(final int x, final int y) {	
+	private final Coords getCoords(final int x, final int y) {
 		return new Coords(webEngine, x, y);
 	}
 
-	
-	//private static  boolean isFinite(JsDate date) {
-	//	return isFinite(date);
-	//}
+	// private static boolean isFinite(JsDate date) {
+	// return isFinite(date);
+	// }
 
 	// strings
-	private  Value getStringWithInt(){
-		String expression =  "{ datum : '5' };";
+	private Value getStringWithInt() {
+		String expression = "{ datum : '5' };";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getStringEmpty(){
+	private Value getStringEmpty() {
 		String expression = " {	datum : ''};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getString(){
+	private Value getString() {
 		String expression = " {	datum : 'foobar'};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getNewStringObject(){
+	private Value getNewStringObject() {
 		String expression = " {	datum : new String('foobar')};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getStringWithTrue(){
+	private Value getStringWithTrue() {
 		String expression = " {	datum : 'true'};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getStringWithFalse(){
+	private Value getStringWithFalse() {
 		String expression = " {	datum : 'false'	};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getStringWithDate(){
+	private Value getStringWithDate() {
 		String expression = " {	datum : \"October 13, 1975 11:13:00\"	};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
 	// function
-	private  Value getFunction(){
+	private Value getFunction() {
 		String expression = " {	datum : function() {	return;	} };";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
 	// numbers
-	private  Value getInt(){
+	private Value getInt() {
 		String expression = " {	datum : 5};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getZero(){
+	private Value getZero() {
 		String expression = " {	datum : 0};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getDecimal(){
+	private Value getDecimal() {
 		String expression = " {	datum : 12.5};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getInfinityPlus(){
+	private Value getInfinityPlus() {
 		String expression = " {	datum : Number.POSITIVE_INFINITY};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getInfinityMinus(){
+	private Value getInfinityMinus() {
 		String expression = " {	datum : Number.NEGATIVE_INFINITY};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getNaN(){
+	private Value getNaN() {
 		String expression = " {	datum : Number.NaN	};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getNewNumber(){
+	private Value getNewNumber() {
 		String expression = " {	datum : new Number(55)	};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
 	// null
-	private  Value getNull(){
+	private Value getNull() {
 		String expression = " {	datum : null	};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
 	// undefined
-	private  Value getUndefined(){
+	private Value getUndefined() {
 		String expression = " {	datum : undefined	};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
 	// boolean
-	private  Value getTrue(){
+	private Value getTrue() {
 		String expression = " {	datum : true	};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getFalse(){
+	private Value getFalse() {
 		String expression = " {	datum : false	};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getNewBooleanTrue(){
+	private Value getNewBooleanTrue() {
 		String expression = " {	datum : new Boolean(true)	};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	private  Value getNewBooleanFalse(){
+	private Value getNewBooleanFalse() {
 		String expression = " {	datum : new Boolean(false)	};";
 		Value result = createValueFromExpression(expression);
 		return result;
 	}
 
-	// various objects
-	private  Value getDate(){
-		String expression = " {	datum : new Date()	};";
-		Value result = createValueFromExpression(expression);
-		return result;
-	}
-	
 	private Value createValueFromExpression(String expression) {
 		D3 d3 = browser.getD3();
-		
+
 		String command = "var dummy_temp_var = " + expression;
 		d3.eval(command);
 		JSObject result = (JSObject) d3.eval("dummy_temp_var");
-		return new Value(webEngine, result);		
+		return new Value(webEngine, result);
 	}
-	
+
 	//#end region
 }

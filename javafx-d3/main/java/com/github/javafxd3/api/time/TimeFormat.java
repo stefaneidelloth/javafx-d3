@@ -49,15 +49,13 @@ public class TimeFormat extends JavaScriptObject {
      */
     public String apply(JsDate date) {
     	JSObject jsDateObj = date.getJsObject();
-    	JSObject jsObj = getJsObject();
-    	String varName = "dummyy_temp_var";
-    	jsObj.setMember(varName, jsDateObj);
     	
-    	String command = "this(this." + varName +")";
+    	String varName = createNewTemporaryInstanceName();
+    	JSObject d3JsObject = getD3();    	
+    	d3JsObject.setMember(varName, jsDateObj);
     	
-    	String result = (String) eval(command);
-    	
-    	jsObj.removeMember(varName);
+    	String command = "this(d3." + varName +")";    	
+    	String result = (String) eval(command);    	   
     	
 		return result;
     }

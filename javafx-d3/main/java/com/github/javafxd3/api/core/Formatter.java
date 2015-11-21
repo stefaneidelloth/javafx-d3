@@ -89,7 +89,7 @@ import netscape.javascript.JSObject;
  */
 public class Formatter extends JavaScriptObject implements JsFunction {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -100,9 +100,9 @@ public class Formatter extends JavaScriptObject implements JsFunction {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 	
 	/**
 	 * Create a new instance of {@link Formatter}.
@@ -125,8 +125,14 @@ public class Formatter extends JavaScriptObject implements JsFunction {
 	 * @return the formatted String representation of the number.
 	 */
 	public String format(double d){
-		String result = callForString("this(d)");
-		return result;
+		String command = "this("+ d + ")";
+		Object result = eval(command);
+		
+		if(result==null){
+			return null;
+		}
+		String resultString = result.toString();
+		return resultString;
 	}
 	
 	//#end region

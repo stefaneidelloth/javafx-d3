@@ -12,7 +12,7 @@ import netscape.javascript.JSObject;
  */
 public class Colors extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -26,9 +26,9 @@ public class Colors extends JavaScriptObject {
 		setJsObject(d3Obj);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Constructs a new RGB color with the specified r, g and b channel values.
@@ -136,5 +136,5 @@ public class Colors extends JavaScriptObject {
 		return new HSLColor(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 }

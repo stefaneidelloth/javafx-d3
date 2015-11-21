@@ -40,7 +40,7 @@ import netscape.javascript.JSObject;
  */
 public class Force extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -53,9 +53,9 @@ public class Force extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * @return the current size, which defaults to 1×1.
@@ -121,6 +121,8 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force linkDistance(DatumFunction<?> callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
 		throw new IllegalStateException("not yet implemented");
 		/*
@@ -166,6 +168,8 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force linkStrength(DatumFunction<?> callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
 		throw new IllegalStateException("not yet implemented");
 		/*
@@ -258,6 +262,8 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force charge(DatumFunction<?> callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
 		throw new IllegalStateException("not yet implemented");
 		/*
@@ -637,6 +643,8 @@ public class Force extends JavaScriptObject {
 	 * @return
 	 */
 	public Selection on(String name, DatumFunction<?> callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
 		throw new IllegalStateException("not yet implemented");
 		/*
@@ -695,9 +703,9 @@ public class Force extends JavaScriptObject {
 		return new Drag(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 
-	// #region CLASSES
+	//#region CLASSES
 
 	/**
 	 * A node in d3j's force layout, see <a href="https:Layout#nodes">d3 docs on
@@ -707,7 +715,7 @@ public class Force extends JavaScriptObject {
 	 */
 	public static class Node extends com.github.javafxd3.api.layout.Node {
 
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		/**
 		 * Constructor
@@ -719,9 +727,9 @@ public class Force extends JavaScriptObject {
 			super(webEngine, wrappedJsObject);
 		}
 
-		// #end region
+		//#end region
 
-		// #region METHODS
+		//#region METHODS
 
 		/**
 		 * @return the zero-based index of the node within the nodes array.
@@ -794,5 +802,5 @@ public class Force extends JavaScriptObject {
 		}
 	}
 
-	// #end region
+	//#end region
 }

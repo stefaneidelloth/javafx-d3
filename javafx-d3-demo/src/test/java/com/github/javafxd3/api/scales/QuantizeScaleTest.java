@@ -1,9 +1,5 @@
 package com.github.javafxd3.api.scales;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 
@@ -13,8 +9,7 @@ public class QuantizeScaleTest extends AbstractTestCase {
 	
 	private static final double DELTA = 0.001d;
 
-	@Override
-	@Test
+	@Override	
 	public void doTest() {
 		
 		D3 d3 = new D3(webEngine);
@@ -39,8 +34,8 @@ public class QuantizeScaleTest extends AbstractTestCase {
 		// domain: only 1st and last number are taken
 		quantize.domain(0.0, 1.0, 30.0);
 		// it takes only the first and last
-		assertEquals(0.0, quantize.domain().get(0, Double.class));
-		assertEquals(30.0, quantize.domain().get(1, Double.class));
+		assertEquals(0.0, quantize.domain().get(0, Double.class),TOLERANCE);
+		assertEquals(30.0, quantize.domain().get(1, Double.class),TOLERANCE);
 
 		assertEquals(0.0, quantize.apply(-10.0).asDouble(),DELTA);
 		assertEquals(0.0, quantize.apply(0.0).asDouble(),DELTA);
@@ -57,15 +52,15 @@ public class QuantizeScaleTest extends AbstractTestCase {
 		assertEquals(10.0, quantize.invertExtent(0.0).get(1, Double.class),DELTA);
 
 		// getters
-		assertEquals(0.0, quantize.range().get(0, Double.class));
-		assertEquals(1.0, quantize.range().get(1, Double.class));
-		assertEquals(100.0, quantize.range().get(2, Double.class));
+		assertEquals(0.0, quantize.range().get(0, Double.class),TOLERANCE);
+		assertEquals(1.0, quantize.range().get(1, Double.class),TOLERANCE);
+		assertEquals(100.0, quantize.range().get(2, Double.class),TOLERANCE);
 
 		// copy
 		quantize.copy().range(5, 6, 7);
-		assertEquals(0.0, quantize.range().get(0, Double.class));
-		assertEquals(1.0, quantize.range().get(1, Double.class));
-		assertEquals(100.0, quantize.range().get(2, Double.class));
+		assertEquals(0.0, quantize.range().get(0, Double.class),TOLERANCE);
+		assertEquals(1.0, quantize.range().get(1, Double.class),TOLERANCE);
+		assertEquals(100.0, quantize.range().get(2, Double.class),TOLERANCE);
 
 	}
 }

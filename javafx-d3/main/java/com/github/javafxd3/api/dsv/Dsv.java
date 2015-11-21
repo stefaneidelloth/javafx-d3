@@ -1,6 +1,7 @@
 package com.github.javafxd3.api.dsv;
 
 import com.github.javafxd3.api.arrays.Array;
+import com.github.javafxd3.api.wrapper.Inspector;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -8,7 +9,7 @@ import netscape.javascript.JSObject;
 
 public class Dsv<T> extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -19,9 +20,9 @@ public class Dsv<T> extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
      * Defines a callback to invoke on request response.
@@ -34,6 +35,9 @@ public class Dsv<T> extends JavaScriptObject {
      * @return the CSV module.
      */
     public  Dsv<T> get(DsvCallback<T> callback) {
+    	
+    	assertObjectIsNotAnonymous(callback);
+    	
     	throw new IllegalStateException("not yet implemented");
 		//return this
 		//		.get(function(error, rows) {
@@ -52,6 +56,8 @@ public class Dsv<T> extends JavaScriptObject {
      * @return the CSV module.
      */
     public  Dsv<T> row(DsvObjectAccessor<T> accessor) {
+    	
+    	assertObjectIsNotAnonymous(accessor);
     	
     	throw new IllegalStateException("not yet implemented");
 		/*
@@ -78,7 +84,17 @@ public class Dsv<T> extends JavaScriptObject {
 	 * @return the rows.
 	 */
 	public Array<DsvRow> parse(String csvContent) {
+		
+		
 		JSObject result = call("parse", csvContent);
+		
+		
+		Object child =  result.eval("this[0].Names");
+		
+		
+		if (result == null){
+			return null;
+		}
 		return new Array<DsvRow>(webEngine, result);		
 	}
 
@@ -96,13 +112,16 @@ public class Dsv<T> extends JavaScriptObject {
      *            the accessor.
      * @return the rows.
      */
-    public Array<T> parse(String csvContent, DsvObjectAccessor<T> accessor) {    	
-    	String accessorName = "temp_accessor";
-    	JSObject jsObject = getJsObject();
-    	jsObject.setMember(accessorName,  accessor);
+    public Array<T> parse(String csvContent, DsvObjectAccessor<T> accessor) {   
+    	
+    	assertObjectIsNotAnonymous(accessor);
+    	
+    	String accessorName = createNewTemporaryInstanceName();
+    	JSObject d3JsObject = getD3();
+    	d3JsObject.setMember(accessorName,  accessor);
     	
     	String command = "this.parse('" + csvContent + "', function(row, index) {"
-    			+ "return this." + accessorName + ".apply(row, index);" //
+    			+ "return d3." + accessorName + ".apply(row, index);" //
     			+ "})";
 		JSObject result = evalForJsObject(command);
 		return new Array<T>(webEngine, result);		
@@ -142,6 +161,8 @@ public class Dsv<T> extends JavaScriptObject {
      */
     public  T[] parseRows(String csvContent,
             DsvArrayAccessor<T> accessor) {
+    	
+    	assertObjectIsNotAnonymous(accessor);
     	
     	throw new IllegalStateException("not yet implemented");
 		/*

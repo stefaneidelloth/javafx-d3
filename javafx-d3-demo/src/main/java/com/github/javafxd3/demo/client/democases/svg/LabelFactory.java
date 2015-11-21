@@ -1,4 +1,4 @@
-package com.github.javafxd3.api.selection;
+package com.github.javafxd3.demo.client.democases.svg;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import com.github.javafxd3.api.wrapper.Style;
  * A d3 svg label factory
  *
  */
-public class Label implements D3NodeFactory {
+public class LabelFactory implements D3NodeFactory {
 	
 	//#region ATTRIBUTES
 	
@@ -21,11 +21,11 @@ public class Label implements D3NodeFactory {
 	
 	private Style style = new Style();
 	
-	private String styleClass = "";
-	
-	
+	private String styleClass = "";	
 	
 	Map<String, String> additionalAttributes = new HashMap<>();
+	
+	Selection labelSelection;
 	
 	
 	//#end region
@@ -35,7 +35,7 @@ public class Label implements D3NodeFactory {
 	/**
 	 * Constructor
 	 */
-	public Label(){
+	public LabelFactory(){
 		
 	}
 	
@@ -43,7 +43,7 @@ public class Label implements D3NodeFactory {
 	 * Constructor with text
 	 * @param text
 	 */
-	public Label(String text){
+	public LabelFactory(String text){
 		this.text = text;
 	}
 	
@@ -52,10 +52,11 @@ public class Label implements D3NodeFactory {
 	//#region METHODS
 
 	@Override
-	public Selection create(Selection selection) {
-		Selection label = selection.append("text")
-				.attr("innerHtml", innerHtml)
-				.attr("value", text)			
+	public Selection createInParentSelection(Selection selection) {
+		labelSelection = selection.append("text")
+				.text(text)	
+				.attr("innerText", text)
+				.attr("innerHtml", innerHtml)						
 				.attr("class", styleClass);
 		
 		
@@ -63,10 +64,10 @@ public class Label implements D3NodeFactory {
 		
 		for(String attr: additionalAttributes.keySet()){
 			String value = additionalAttributes.get(attr);
-			label = label.attr(attr, value);
+			labelSelection = labelSelection.attr(attr, value);
 		}
 		
-		return null;
+		return labelSelection;
 	}
 
 	@Override
@@ -83,6 +84,9 @@ public class Label implements D3NodeFactory {
 	 * @param styleClass
 	 */
 	public void setStyleClass(String styleClass){
+		if (labelSelection!=null){
+			labelSelection.classed(styleClass);
+		}
 		this.styleClass = styleClass;
 	}
 	
@@ -93,6 +97,9 @@ public class Label implements D3NodeFactory {
 	 * @param value
 	 */
 	public void setAttribute(String attr, String value) {
+		if (labelSelection!=null){
+			labelSelection = labelSelection.attr(attr, value);
+		}
 		additionalAttributes.put(attr, value);		
 	}
 
@@ -100,6 +107,9 @@ public class Label implements D3NodeFactory {
 	 * @param value
 	 */
 	public void setInnerHTML(String value) {
+		if (labelSelection!=null){
+			labelSelection = labelSelection.attr("innerHtml", value);
+		}
 		innerHtml = value;		
 	}
 	

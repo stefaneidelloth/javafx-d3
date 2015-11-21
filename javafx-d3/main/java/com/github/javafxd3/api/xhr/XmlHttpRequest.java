@@ -10,7 +10,7 @@ import netscape.javascript.JSObject;
  */
 public class XmlHttpRequest extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -23,9 +23,9 @@ public class XmlHttpRequest extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * @return
@@ -76,9 +76,9 @@ public class XmlHttpRequest extends JavaScriptObject {
 		 */
 	}
 
-	// #end region
+	//#end region
 
-	// #region ENUM
+	//#region ENUM
 
 	/**
 	 * 
@@ -122,6 +122,6 @@ public class XmlHttpRequest extends JavaScriptObject {
 		}
 	}
 
-	// #end region
+	//#end region
 
 }

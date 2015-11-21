@@ -11,11 +11,11 @@ import netscape.javascript.JSObject;
  * Data must be an array-like structure. the type of the array elements depends
  * on the x and y functions. the default x and y functions assumes that each
  * input element is a two-element array of numbers.
- * <p> 
+ * <p>
  */
 public class Line extends PathDataGenerator {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -27,9 +27,9 @@ public class Line extends PathDataGenerator {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Returns the current interpolation mode.
@@ -37,12 +37,11 @@ public class Line extends PathDataGenerator {
 	 * @return the current interpolation mode.
 	 */
 	public InterpolationMode interpolate() {
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * 
-		 * return @com.github.gwtd3.api.svg.Line.InterpolationMode::fromValue(
-		 * Ljava/lang/String;)(this.interpolate());
-		 */
+
+		String result = callForString("interpolate");
+		InterpolationMode interpolationMode = InterpolationMode.fromValue(result);
+		return interpolationMode;
+
 	}
 
 	/**
@@ -52,10 +51,10 @@ public class Line extends PathDataGenerator {
 	 *            the interpolation mode
 	 * @return the current line
 	 */
-	public Line interpolate(final InterpolationMode interpolationMode) {				
+	public Line interpolate(final InterpolationMode interpolationMode) {
 		String mode = interpolationMode.getValue();
 		JSObject result = call("interpolate", mode);
-		return new Line(webEngine, result);		
+		return new Line(webEngine, result);
 	}
 
 	/**
@@ -152,19 +151,19 @@ public class Line extends PathDataGenerator {
 		return new Line(webEngine, result);
 	}
 
-	private JSObject applyDatumFunction(String memberName, final DatumFunction<Double> callback) {
-		// get attribute
-		JSObject x = getMember(memberName);
+	private JSObject applyDatumFunction(String methodName, final DatumFunction<Double> callback) {
 
-		// save callback as member
-		x.setMember("callback", callback);
+		assertObjectIsNotAnonymous(callback);
 
-		// tell x to use the callback
-		String command = "this." + memberName + "(function(d,i) {return this.callback.apply(this, {datum:d}, i);})";
-		eval(command);
+		JSObject d3JsObject = getD3();
+		String callbackName = createNewTemporaryInstanceName();
 
-		// get modified JSObject and return it as new instance
-		JSObject result = evalForJsObject("this");
+		d3JsObject.setMember(callbackName, callback);
+
+		String command = "this." + methodName + "(function(d,i) {" //
+				+ "return d3." + callbackName + ".apply(this, {datum:d}, i);" //
+				+ "})";
+		JSObject result = evalForJsObject(command);
 		return result;
 	}
 
@@ -184,50 +183,36 @@ public class Line extends PathDataGenerator {
 	 */
 	public Line defined(final DatumFunction<Boolean> callback) {
 
-		
-		/*
-		 * 
-		 * return this .defined(function(d) { var result =
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * null,{datum:d}, 0); if (result == null) { return false; } else {
-		 * return result.@java.lang.Boolean::booleanValue()(); } });
-		 * 
-		 */
+		JSObject d3JsObject = getD3();
+		String callbackName = createNewTemporaryInstanceName();
+		d3JsObject.setMember(callbackName, callback);
 
-		// get attribute
-		String memberName = "defined";
-
-		JSObject x = getMember(memberName);
-
-		// save callback as member
-		x.setMember("callback", callback);
-
-		// tell x to use the callback
-		String command = "this." + memberName + "(function(d) {"
-				+ "  var result = this.callback.apply(null, {datum:d}, 0);" + "  if (result == null) { "
-				+ "       return false; " + "  } else {" + "       return result.booleanValue();" + "  }" + "});";
-		eval(command);
-
-		// get modified JSObject and return it as new instance
-		JSObject result = evalForJsObject("this");
+		String command = "this.defined(function(d) {" //
+				+ "  var result = d3." + callbackName + ".apply(null, {datum:d}, 0);" //
+				+ "  if (result == null) { " //
+				+ "       return false; " //
+				+ "  } else {" //
+				+ "       return result.booleanValue();"//
+				+ "  }"//
+				+ "});";
+		JSObject result = evalForJsObject(command);
 		return new Line(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 
-	// #regoin ENUM
+	//#regoin ENUM
 
 	/**
 	 * Interpolation mode to be specified in
 	 * {@link Line#interpolate(InterpolationMode)}.
 	 * <p>
 	 * The behavior of some of these interpolation modes may be further
-	 * customized by specifying a {@link Line#tension()}. 
+	 * customized by specifying a {@link Line#tension()}.
 	 */
 	public static enum InterpolationMode {
 
-		// #region VALUES
+		//#region VALUES
 
 		/**
 		 * piecewise linear segments, as in a polyline.
@@ -243,10 +228,11 @@ public class Line extends PathDataGenerator {
 		 * alternate between horizontal and vertical segments, as in a step
 		 * function
 		 */
-		STEP("step"), /**
-						 * alternate between vertical and horizontal segments,
-						 * as in a step function.
-						 */
+		STEP("step"),
+		/**
+		 * alternate between vertical and horizontal segments, as in a step
+		 * function.
+		 */
 		STEP_BEFORE("step-before"),
 
 		/**
@@ -258,53 +244,55 @@ public class Line extends PathDataGenerator {
 		/**
 		 * a B-spline, with control point duplication on the ends.
 		 */
-		BASIS("basis"), /**
-						 * an open B-spline; may not intersect the start or end.
-						 */
-		BASIS_OPEN("basis-open"), /**
-									 * a closed B-spline, as in a loop.
-									 */
-		BASIS_CLOSED("basis-closed"), /**
-										 * equivalent to basis, except the
-										 * tension parameter is used to
-										 * straighten the spline.
-										 */
-		BUNDLE("bundle"), /**
-							 * a Cardinal spline, with control point duplication
-							 * on the ends.
-							 */
-		CARDINAL("cardinal"), /**
-								 * an open Cardinal spline; may not intersect
-								 * the start or end, but will intersect other
-								 * control points.
-								 */
-		CARDINAL_OPEN(
-				"cardinal-open"), /**
-									 * a closed Cardinal spline, as in a loop.
-									 */
-		CARDINAL_CLOSED("cardinal-closed"), /**
-											 * cubic interpolation that
-											 * preserves monotonicity in y.
-											 */
+		BASIS("basis"),
+		/**
+		 * an open B-spline; may not intersect the start or end.
+		 */
+		BASIS_OPEN("basis-open"),
+		/**
+		 * a closed B-spline, as in a loop.
+		 */
+		BASIS_CLOSED("basis-closed"),
+		/**
+		 * equivalent to basis, except the tension parameter is used to
+		 * straighten the spline.
+		 */
+		BUNDLE("bundle"),
+		/**
+		 * a Cardinal spline, with control point duplication on the ends.
+		 */
+		CARDINAL("cardinal"),
+		/**
+		 * an open Cardinal spline; may not intersect the start or end, but will
+		 * intersect other control points.
+		 */
+		CARDINAL_OPEN("cardinal-open"),
+		/**
+		 * a closed Cardinal spline, as in a loop.
+		 */
+		CARDINAL_CLOSED("cardinal-closed"),
+		/**
+		 * cubic interpolation that preserves monotonicity in y.
+		 */
 		MONOTONE("monotone");
 
-		// #end region
+		//#end region
 
-		// #region ATTRIBUTES
+		//#region ATTRIBUTES
 
 		private final String value;
 
-		// #end region
+		//#end region
 
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		private InterpolationMode(final String value) {
 			this.value = value;
 		}
 
-		// #end region
+		//#end region
 
-		// #region METHODS
+		//#region METHODS
 
 		/**
 		 * @param value
@@ -314,9 +302,9 @@ public class Line extends PathDataGenerator {
 			return valueOf(value.toUpperCase().replace('-', '_'));
 		}
 
-		// #end region
+		//#end region
 
-		// #region ACCESSORS
+		//#region ACCESSORS
 
 		/**
 		 * @return the value
@@ -325,9 +313,9 @@ public class Line extends PathDataGenerator {
 			return value;
 		}
 
-		// #end region
+		//#end region
 
 	}
 
-	// #end region
+	//#end region
 }

@@ -26,14 +26,14 @@ import jdk.nashorn.internal.ir.RuntimeNode.Request;
  */
 public class ClusterDendogram extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private static final String JSON_URL = // GWT.getModuleBaseURL() +
 	"demo-data/flare.json";
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -47,9 +47,9 @@ public class ClusterDendogram extends AbstractDemoCase {
 		// link, node
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -152,6 +152,6 @@ public class ClusterDendogram extends AbstractDemoCase {
 
 	}
 
-	// #end region
+	//#end region
 
 }

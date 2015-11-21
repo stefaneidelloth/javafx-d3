@@ -13,7 +13,7 @@ import netscape.javascript.JSObject;
  */
 public class Chord extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -26,9 +26,9 @@ public class Chord extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * @param padding
@@ -63,7 +63,7 @@ public class Chord extends JavaScriptObject {
 	 */
 	public static class Group extends JavaScriptObject {
 
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		/**
 		 * Constructor
@@ -76,9 +76,9 @@ public class Chord extends JavaScriptObject {
 			setJsObject(wrappedJsObject);
 		}
 
-		// #end region
+		//#end region
 
-		// #region METHODS
+		//#region METHODS
 
 		/**
 		 * @return
@@ -112,7 +112,7 @@ public class Chord extends JavaScriptObject {
 			return result;
 		}
 
-		// #end region
+		//#end region
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class Chord extends JavaScriptObject {
 	 */
 	public static class ChordItem extends Value {
 		
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		/**
 		 * Constructor
@@ -133,9 +133,9 @@ public class Chord extends JavaScriptObject {
 			super(webEngine, wrappedJsObject);
 		}
 
-		// #end region
+		//#end region
 
-		// #region METHODS
+		//#region METHODS
 
 		/**
 		 * @return
@@ -153,8 +153,8 @@ public class Chord extends JavaScriptObject {
 			return new Group(webEngine, result);	
 		}
 
-		// #end region
+		//#end region
 	}
 
-	// #end region
+	//#end region
 }

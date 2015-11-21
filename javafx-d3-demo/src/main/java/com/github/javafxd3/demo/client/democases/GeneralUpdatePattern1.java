@@ -21,14 +21,14 @@ import javafx.scene.layout.VBox;
  */
 public class GeneralUpdatePattern1 extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private Timer timer;
 	private Selection svg;	
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -42,9 +42,9 @@ public class GeneralUpdatePattern1 extends AbstractDemoCase {
 		//gup1, updateD3Content, enter
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider

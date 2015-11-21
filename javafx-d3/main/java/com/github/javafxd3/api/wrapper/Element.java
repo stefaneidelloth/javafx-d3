@@ -10,7 +10,7 @@ import netscape.javascript.JSObject;
  */
 public class Element extends Node {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -20,12 +20,11 @@ public class Element extends Node {
 	 */
 	public Element(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);
-
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * @param b
@@ -56,9 +55,9 @@ public class Element extends Node {
 	 * @return
 	 */
 	public int getChildCount() {
-		String command = "var temp__dummy__var = 0; this.each(function() { ++temp__dummy__var; });";
-		eval(command);
-		int result = evalForInteger("temp__dummy__var");
+				
+		String countCommand = "this.childNodes.length";
+		int result = evalForInteger(countCommand);		
 		return result;
 	}
 
@@ -66,7 +65,12 @@ public class Element extends Node {
 	 * @return
 	 */
 	public Object getInnerText() {
-		String result = getMemberForString("text");
+		
+		String result = getMemberForString("textContent");
+		
+		if (result.equals("undefined")){
+			result = getMemberForString("text");
+		}
 		return result;
 	}
 
@@ -168,10 +172,14 @@ public class Element extends Node {
 		throw new IllegalStateException("not yet implemented");
 	}
 
-	public Object getParentElement() {
-		throw new IllegalStateException("not yet implemented");
+	public Element getParentElement() {
+		
+		String command = "this.parentNode";
+		JSObject result = evalForJsObject(command);
+		return new Element(webEngine, result);		
+		
 	}
 
-	// #end region
+	//#end region
 
 }

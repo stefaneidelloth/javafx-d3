@@ -18,7 +18,7 @@ import netscape.javascript.JSObject;
  */
 public class Transform extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -43,9 +43,9 @@ public class Transform extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Parses the given 2D affine transform string, as defined by SVG's
@@ -196,6 +196,6 @@ public class Transform extends JavaScriptObject {
 		return result;
 	}
 
-	// #end region
+	//#end region
 
 }

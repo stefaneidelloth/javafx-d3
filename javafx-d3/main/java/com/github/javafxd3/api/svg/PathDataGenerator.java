@@ -51,7 +51,7 @@ import netscape.javascript.JSObject;
  */
 public abstract class PathDataGenerator extends JavaScriptObject implements JsFunction {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -64,9 +64,9 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Generate the path data as String using the given data object in argument.
@@ -84,53 +84,16 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 
 		// get and store JSObject
 		JSObject dataObj = data.getJsObject();
-		String memberName = "temp__data";
+		String memberName = createNewTemporaryInstanceName();
 		JSObject d3Obj = (JSObject) webEngine.executeScript("d3");
 		d3Obj.setMember(memberName, dataObj);
 		
-		/*
-		
-		String functorCommand = "function d3_functor(v) {    return typeof v === \"function\" ? v : function() {      return v;    };  }";
-		eval(functorCommand);
-		
-		JSObject o = (JSObject) eval("this");
-		
-		eval("var data = d3." + memberName +";");
-		eval("var segments = [];");
-		eval("var points = [];");
-		eval("var i = -1;");
-		eval("var n = data.length;");
-		eval("var d;"); 
-		eval("var fx = d3_functor(this.x);");
-		eval("var fy = d3_functor(this.y);");    
-		eval("var segment = function() { segments.push(\"M\", this.interpolate(.projection(points), this.tension)); }");    
-
-	   String whileCommand = "while (++i < n) {   "+
-	   "if (this.defined.call(this, d = data[i], i)) { "+     
-	   "           points.push([ +fx.call(this, d, i), +fy.call(this, d, i) ]); "+
-	   "      } else if (points.length) {      "+
-	   "      segment();    "+    
-	   "      points = []; "+     
-	   "      }     "+
-	   " }    ";
-	   eval(whileCommand);
-
-	    eval("if (points.length) segment();");  
-
-	   Object result = eval("segments.length ? segments.join(\"\") : null;"); 
-	   
-	   */
-
 		// execute command to generate data
-		String command = "this([d3." + memberName + "])";
+		String command = "this(d3." + memberName + ")";
 		
 		String result = (String) eval(command);
-
-		// delete temporary member
-		d3Obj.removeMember(memberName);
-
-		// return result
 		return result;
+		
 	}
 
 	/**
@@ -158,16 +121,13 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 
 		// get and store JSObject
 		JSObject dataObj = data.getJsObject();
-		String memberName = "temp__data";
-		JSObject jsObj = this.getJsObject();
-		jsObj.setMember(memberName, dataObj);
+		String dataMemberName = createNewTemporaryInstanceName();		
+		JSObject d3JsObject = getD3();	
+		d3JsObject.setMember(dataMemberName, dataObj);
 
 		// execute command to generate data
-		String command = "this(this." + memberName + ", " + index + ")";
-		String result = evalForString(command);
-
-		// delete temporary member
-		jsObj.removeMember(memberName);
+		String command = "this(d3." + dataMemberName + ", " + index + ")";
+		String result = evalForString(command);	
 
 		return result;
 	}
@@ -180,7 +140,8 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 	 * @return generated path data
 	 */
 	public final String generate(final List<? extends JavaScriptObject> data) {
-		return generate(Array.fromList(webEngine, data));
+		Array<?> array = Array.fromList(webEngine, data);
+		return generate(array);
 	}	
 	
 	/**
@@ -208,5 +169,5 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 		return result;
 	}
 
-	// #end region
+	//#end region
 }

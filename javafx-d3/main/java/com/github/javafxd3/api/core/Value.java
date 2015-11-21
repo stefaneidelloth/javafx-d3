@@ -17,7 +17,7 @@ import netscape.javascript.JSObject;
  */
 public class Value extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -38,10 +38,12 @@ public class Value extends JavaScriptObject {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
 	}
+	
+	
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Wraps the given JavaScriptObject into a {@link Value}.
@@ -84,6 +86,8 @@ public class Value extends JavaScriptObject {
 	 * @return the value
 	 */
 	public static Value create(WebEngine webEngine, Object object) {
+			
+		
 		String dummyTempAttributeName = "dummy__object__attr";
 		String dummyTempVariableName = "dummy_temp_var";
 
@@ -135,7 +139,7 @@ public class Value extends JavaScriptObject {
 	 */
 	public static Value create(JavaScriptObject object, String propertyName) {
 		JSObject jsObject = object.getJsObject();
-		Object datum = jsObject.eval("this[" + propertyName + "]");
+		Object datum = jsObject.eval("this['" + propertyName + "']");
 		WebEngine webEngine = object.getWebEngine();
 		Value value = create(webEngine, datum);
 		return value;
@@ -286,6 +290,14 @@ public class Value extends JavaScriptObject {
 			return integerResult;
 		} catch (Exception exception){
 			double doubleResult = Double.parseDouble(resultString);
+			
+			if (doubleResult > Integer.MAX_VALUE){
+				String message = "The value " + doubleResult + " exceeds the maximum integer value " + 
+			Integer.MAX_VALUE + " and can not be returned as integer.";
+				throw new IllegalStateException(message);
+			}
+			
+			
 			int intResult = (int) doubleResult;
 			return intResult;
 		}
@@ -415,7 +427,7 @@ public class Value extends JavaScriptObject {
 	 * @return true if the value is undefined in the Javascript sense
 	 */
 	public boolean isUndefined() {			
-		String command = "typeof (this.datum) == 'undefined';";
+		String command = "this.datum == 'undefined';";
 		Boolean result = evalForBoolean(command);
 		return result;
 	}
@@ -496,5 +508,5 @@ public class Value extends JavaScriptObject {
 		return result;
 	}
 
-	// #end region
+	//#end region
 }

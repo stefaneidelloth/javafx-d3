@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
  */
 public class DragMultiples extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	/**
 	 * 
@@ -37,9 +37,9 @@ public class DragMultiples extends AbstractDemoCase {
 	 */
 	public static final int CIRCLE_RADIUS = 20;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -52,9 +52,9 @@ public class DragMultiples extends AbstractDemoCase {
 		init();
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -198,6 +198,6 @@ public class DragMultiples extends AbstractDemoCase {
 
 	}
 
-	// #end region
+	//#end region
 
 }

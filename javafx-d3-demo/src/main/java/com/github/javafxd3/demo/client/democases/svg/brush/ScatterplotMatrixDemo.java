@@ -34,7 +34,7 @@ import javafx.scene.layout.VBox;
  */
 public class ScatterplotMatrixDemo extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private Brush brush;
 
@@ -54,9 +54,9 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 
 	private Element brushCell;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -73,9 +73,9 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 		// this.addStyleName("spm");
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -405,6 +405,6 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 		return c;
 	}
 
-	// #end region
+	//#end region
 
 }

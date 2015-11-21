@@ -1,10 +1,6 @@
 package com.github.javafxd3.api.transition;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.Random;
-
-import org.junit.Test;
 
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
@@ -12,17 +8,15 @@ import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.ease.Easing;
 import com.github.javafxd3.api.ease.EasingFunction;
 import com.github.javafxd3.api.ease.Mode;
+import com.github.javafxd3.api.transition.function.CustomEasingFunction;
 
 @SuppressWarnings("javadoc")
 public class EasingTest extends AbstractTestCase {
 	
 	private static final double DELTA = 0.001d;
 		
-	@Override
-	@Test
-	public void doTest() {
-		
-		
+	@Override	
+	public void doTest() {		
 
 		// built in
 		testEasingFunction(Easing.back(webEngine, 4), Easing.back(webEngine,Mode.IN_OUT, 4));
@@ -37,12 +31,7 @@ public class EasingTest extends AbstractTestCase {
 		testEasingFunction(Easing.poly(webEngine,3), Easing.poly(webEngine,Mode.IN_OUT, 3));
 
 		// custom
-		EasingFunction f = new EasingFunction() {
-			@Override
-			public double ease(final double t) {
-				return t;
-			}
-		};
+		EasingFunction f = new CustomEasingFunction();
 		testEasingFunction(f, f);
 
 		// pass it
@@ -61,7 +50,7 @@ public class EasingTest extends AbstractTestCase {
 		
 		Random random = new Random();
 
-		Selection selection = d3.select("root").append("div");
+		Selection selection = d3.select("svg").append("div");
 		// pass it to Transition.ease1
 		//		d3.select(sandbox).append("div")
 		//		.attr("foo", "stuff")

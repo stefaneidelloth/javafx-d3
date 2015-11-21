@@ -30,7 +30,7 @@ import netscape.javascript.JSObject;
  */
 public class UpdateSelection extends Selection {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -42,9 +42,9 @@ public class UpdateSelection extends Selection {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Returns the {@link EnteringSelection}: placeholder nodes for each data
@@ -86,5 +86,5 @@ public class UpdateSelection extends Selection {
 		}
 	}
 
-	// #end region
+	//#end region
 }

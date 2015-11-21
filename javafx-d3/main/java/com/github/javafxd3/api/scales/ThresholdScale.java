@@ -37,7 +37,7 @@ import netscape.javascript.JSObject;
  */
 public class ThresholdScale extends DiscreteQuantitativeScale<ThresholdScale> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -49,12 +49,12 @@ public class ThresholdScale extends DiscreteQuantitativeScale<ThresholdScale> {
 		super(webEngine, wrappedJsObject);
 	}	
 
-	// #end region
+	//#end region
 	
 	//#region METHODS
 	
 	@Override
-	protected ThresholdScale createScale(WebEngine webEngine, JSObject result) {
+	public ThresholdScale createScale(WebEngine webEngine, JSObject result) {
 		return new ThresholdScale(webEngine, result);
 	}
 	

@@ -1,24 +1,21 @@
 package com.github.javafxd3.api.scales;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.core.Value;
 
 @SuppressWarnings("javadoc")
 public class OrdinalScaleTest extends AbstractTestCase {
 
-	@Override
-	@Test
+	@Override	
     public void doTest() {
     	
     	D3 d3 = new D3(webEngine);
 
         // new ordinal scale is undefined
-        assertTrue(d3.scale().ordinal().apply(10).isUndefined());
+    	Value value = d3.scale().ordinal().apply(10);
+    	boolean isUndefined = value.isUndefined();
+        assertTrue(isUndefined);
 
         testColorPalettes();
 
@@ -27,8 +24,8 @@ public class OrdinalScaleTest extends AbstractTestCase {
         ordinal.domain(1, 2);
         OrdinalScale copy = ordinal.copy();
         copy.domain(2, 3);
-        assertEquals(1.0, ordinal.domain().get(0, Double.class));
-        assertEquals(2.0, ordinal.domain().get(1, Double.class));
+        assertEquals(1.0, ordinal.domain().get(0, Double.class),TOLERANCE);
+        assertEquals(2.0, ordinal.domain().get(1, Double.class),TOLERANCE);
 
         OrdinalScale scale = d3.scale().ordinal();
         scale.domain((byte) 0, (byte) 10);

@@ -1,29 +1,33 @@
 package com.github.javafxd3.api.tsv;
 
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.arrays.Array;
-import com.github.javafxd3.api.dsv.DsvArrayAccessor;
-import com.github.javafxd3.api.dsv.DsvCallback;
-import com.github.javafxd3.api.dsv.DsvObjectAccessor;
 import com.github.javafxd3.api.dsv.DsvRow;
-import com.github.javafxd3.api.wrapper.JavaScriptObject;
+import com.github.javafxd3.api.tsv.person.Person;
+import com.github.javafxd3.api.tsv.person.PersonAccessor;
+import com.github.javafxd3.api.tsv.person.PersonArrayAccessor;
+import com.github.javafxd3.api.tsv.person.PersonCallback;
+import com.github.javafxd3.api.tsv.person.PersonRowCallback;
 
 /**
  * Tests the class Tsv
  */
 public class TsvTest extends AbstractTestCase {
+
+	private static final String COL_SEP = ",";
+	private static final String ROW_SEP = "\n";	
+
+	private static final String EXAMPLE_DATA = "Name" + COL_SEP + "Age" + ROW_SEP + //
+			"Paul" + COL_SEP + "25" + ROW_SEP + //
+			"John" + COL_SEP + "38" + ROW_SEP + //
+			"Jane" + COL_SEP + "15" + ROW_SEP + //
+			"Bruce" + COL_SEP + "48" + ROW_SEP + //
+			"Emma" + COL_SEP + "28" + ROW_SEP;
 	
 	
 
 	@Override
-	@Test
 	public void doTest() {
 		testTsvParse();
 		testTsvParseWithAccessor();
@@ -37,14 +41,10 @@ public class TsvTest extends AbstractTestCase {
 	private void testTsvParse() {
 		
 		D3 d3 = new D3(webEngine);
-		
-		Array<DsvRow> rows = d3.<DsvRow> tsv().parse( //
-				"Name\tAge\n" + //
-						"Paul\t25\n" + //
-						"John\t38\n" + //
-						"Jane\t15\n" + //
-						"Bruce\t48\n" + //
-						"Emma\t28\n");
+
+		Array<DsvRow> rows = d3.<DsvRow> tsv().parse(EXAMPLE_DATA);
+
+		assertNotNull("Could not parse rows", rows);
 
 		assertEquals(5, rows.length());
 		DsvRow jane = rows.get(2, DsvRow.class);
@@ -53,17 +53,10 @@ public class TsvTest extends AbstractTestCase {
 	}
 
 	private void testTsvParseWithAccessor() {
-		
+
 		D3 d3 = new D3(webEngine);
-		
-		Array<Person> rows = d3.<Person> tsv().parse( //
-				"Name\tAge\n" + //
-						"Paul\t25\n" + //
-						"John\t38\n" + //
-						"Jane\t15\n" + //
-						"Bruce\t48\n" + //
-						"Emma\t28\n",
-				new PersonAccessor());
+
+		Array<Person> rows = d3.<Person> tsv().parse(EXAMPLE_DATA, new PersonAccessor());
 		assertEquals(5, rows.length());
 		Person jane = rows.get(2, Person.class);
 		assertEquals("Jane", jane.getName());
@@ -71,15 +64,10 @@ public class TsvTest extends AbstractTestCase {
 	}
 
 	private void testTsvParseRows() {
-		
+
 		D3 d3 = new D3(webEngine);
-		
-		String[][] rows = d3.tsv().parseRows( //
-				"Paul\t25\n" + //
-						"John\t38\n" + //
-						"Jane\t15\n" + //
-						"Bruce\t48\n" + //
-						"Emma\t28\n");
+
+		String[][] rows = d3.tsv().parseRows(EXAMPLE_DATA);
 		assertEquals(5, rows.length);
 		String[] jane = rows[2];
 		assertEquals("Jane", jane[0]);
@@ -87,16 +75,10 @@ public class TsvTest extends AbstractTestCase {
 	}
 
 	private void testTsvParseRowsWithAccessor() {
-		
+
 		D3 d3 = new D3(webEngine);
-		
-		Person[] rows = d3.<Person> tsv().parseRows( //
-				"Paul\t25\n" + //
-						"John\t38\n" + //
-						"Jane\t15\n" + //
-						"Bruce\t48\n" + //
-						"Emma\t28\n",
-				new PersonArrayAccessor());
+
+		Person[] rows = d3.<Person> tsv().parseRows(EXAMPLE_DATA, new PersonArrayAccessor());
 		assertEquals(5, rows.length);
 		Person jane = rows[2];
 		assertEquals("Jane", jane.getName());
@@ -104,9 +86,9 @@ public class TsvTest extends AbstractTestCase {
 	}
 
 	private void testTsvWithAccessorAndCallback() {
-		
+
 		D3 d3 = new D3(webEngine);
-		
+
 		// FIXME : we are not really sure if accessor and callback are actually
 		// called
 		PersonAccessor accessor = new PersonAccessor();
@@ -115,18 +97,18 @@ public class TsvTest extends AbstractTestCase {
 	}
 
 	private void testTsvWithCallback() {
-		
+
 		D3 d3 = new D3(webEngine);
-		
+
 		// FIXME : we are not really sure if callback is actually called
 		PersonRowCallback callback = new PersonRowCallback();
 		d3.tsv("test-data/test.tsv", callback);
 	}
 
 	private void testTsvWithChainingAccessorAndCallback() {
-		
+
 		D3 d3 = new D3(webEngine);
-		
+
 		// FIXME : we are not really sure if accessor and callback are actually
 		// called
 		PersonAccessor accessor = new PersonAccessor();
@@ -135,62 +117,11 @@ public class TsvTest extends AbstractTestCase {
 	}
 }
 
-class Person {
-	private final String name;
 
-	private final int age;
 
-	public Person(final String name, final int age) {
-		this.name = name;
-		this.age = age;
-	}
 
-	public String getName() {
-		return name;
-	}
 
-	public int getAge() {
-		return age;
-	}
 
-	@Override
-	public String toString() {
-		return "Person [name=" + name + ", age=" + age + "]";
-	}
-}
 
-class PersonAccessor implements DsvObjectAccessor<Person> {
-	@Override
-	public Person apply(final DsvRow row, final int index) {
-		return new Person(row.get("Name").asString(), row.get("Age").asInt());
-	}
-}
 
-class PersonCallback implements DsvCallback<Person> {
-	@Override
-	public void get(final JavaScriptObject error, final Person[] rows) {
-		assertNull(error);
-		assertEquals(5, rows.length);
-		Person jane = rows[2];
-		assertEquals("Jane", jane.getName());
-		assertEquals(15, jane.getAge());
-	}
-}
 
-class PersonArrayAccessor implements DsvArrayAccessor<Person> {
-	@Override
-	public Person parse(final String[] row, final int index) {
-		return new Person(row[0], Integer.parseInt(row[1]));
-	}
-}
-
-class PersonRowCallback implements DsvCallback<DsvRow> {
-	@Override
-	public void get(final JavaScriptObject error, final DsvRow[] rows) {
-		assertNull(error);
-		assertEquals(5, rows.length);
-		DsvRow jane = rows[2];
-		assertEquals("Jane", jane.get("Name").asString());
-		assertEquals(15, (int) jane.get("Age").asInt());
-	}
-}

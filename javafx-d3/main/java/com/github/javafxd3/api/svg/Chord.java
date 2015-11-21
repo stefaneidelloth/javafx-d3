@@ -24,11 +24,11 @@ import netscape.javascript.JSObject;
  * so as to draw annular segments at the start and end of the chords. In
  * addition, the {@link com.github.javafxd3.api.layout.Chord} layout is useful
  * for generating objects that describe a set of grouped chords from a matrix,
- * compatible with the default accessors. 
+ * compatible with the default accessors.
  */
 public class Chord extends PathDataGenerator {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -41,9 +41,9 @@ public class Chord extends PathDataGenerator {
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Set the source accessor.
@@ -69,13 +69,19 @@ public class Chord extends PathDataGenerator {
 	 */
 	public Chord source(final DatumFunction<?> accessor) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .source(function(d, i) { return
-		 * accessor.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 */
+		assertObjectIsNotAnonymous(accessor);
+
+		JSObject d3JsObject = getD3();
+		String accessorName = createNewTemporaryInstanceName();
+		d3JsObject.setMember(accessorName, accessor);
+
+		String command = "this.source(function(d, i) { " //
+				+ "return d3." + accessorName + ".apply(this,{datum:d},i);"//
+				+ " });";
+		
+		JSObject result = evalForJsObject(command);
+		return new Chord(webEngine, result);
+
 	}
 
 	/**
@@ -102,13 +108,18 @@ public class Chord extends PathDataGenerator {
 	 */
 	public Chord target(final DatumFunction<?> accessor) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .target(function(d, i) { return
-		 * accessor.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 */
+		assertObjectIsNotAnonymous(accessor);
+
+		JSObject d3JsObject = getD3();
+		String accessorName = createNewTemporaryInstanceName();
+		d3JsObject.setMember(accessorName, accessor);
+
+		String command = "this.target(function(d, i) { " //
+				+ "return d3." + accessorName + ".apply(this,{datum:d},i);"//
+				+ " });";
+		
+		JSObject result = evalForJsObject(command);
+		return new Chord(webEngine, result);
 	}
 
 	/**
@@ -125,13 +136,18 @@ public class Chord extends PathDataGenerator {
 	 */
 	public Chord radius(final DatumFunction<Double> accessor) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .radius(function(d, i) { return
-		 * accessor.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 */
+		assertObjectIsNotAnonymous(accessor);
+
+		JSObject d3JsObject = getD3();
+		String accessorName = createNewTemporaryInstanceName();
+		d3JsObject.setMember(accessorName, accessor);
+
+		String command = "this.radius(function(d, i) { " //
+				+ "return d3." + accessorName + ".apply(this,{datum:d},i);"//
+				+ " });";
+		
+		JSObject result = evalForJsObject(command);
+		return new Chord(webEngine, result);
 	}
 
 	/**
@@ -143,7 +159,8 @@ public class Chord extends PathDataGenerator {
 	 * @return the current chord generator
 	 */
 	public Chord radius(final double radius) {
-		return this.radius(radius);
+		JSObject result = call("radius", radius);
+		return new Chord(webEngine, result);
 	}
 
 	/**
@@ -163,13 +180,19 @@ public class Chord extends PathDataGenerator {
 	 */
 	public Chord startAngle(final DatumFunction<Double> accessor) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .startAngle(function(d, i) { return
-		 * accessor.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 */
+		assertObjectIsNotAnonymous(accessor);
+
+		JSObject d3JsObject = getD3();
+		String accessorName = createNewTemporaryInstanceName();
+		d3JsObject.setMember(accessorName, accessor);
+
+		String command = "this.startAngle(function(d, i) { " //
+				+ "return d3." + accessorName + ".apply(this,{datum:d},i);"//
+				+ " });";
+		
+		JSObject result = evalForJsObject(command);
+		return new Chord(webEngine, result);
+		
 	}
 
 	/**
@@ -183,7 +206,8 @@ public class Chord extends PathDataGenerator {
 	 * @return the current chord generator
 	 */
 	public Chord startAngle(final double startAngle) {
-		return this.startAngle(startAngle);
+		JSObject result = call("startAngle", startAngle);
+		return new Chord(webEngine, result);
 	}
 
 	/**
@@ -203,13 +227,18 @@ public class Chord extends PathDataGenerator {
 	 */
 	public Chord endAngle(final DatumFunction<Double> accessor) {
 
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this .endAngle(function(d, i) { return
-		 * accessor.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
-		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
-		 * this,{datum:d},i); });
-		 */
+		assertObjectIsNotAnonymous(accessor);
+
+		JSObject d3JsObject = getD3();
+		String accessorName = createNewTemporaryInstanceName();
+		d3JsObject.setMember(accessorName, accessor);
+
+		String command = "this.endAngle(function(d, i) { " //
+				+ "return d3." + accessorName + ".apply(this,{datum:d},i);"//
+				+ " });";
+		
+		JSObject result = evalForJsObject(command);
+		return new Chord(webEngine, result);
 	}
 
 	/**
@@ -223,8 +252,9 @@ public class Chord extends PathDataGenerator {
 	 * @return the current chord generator
 	 */
 	public Chord endAngle(final double endAngle) {
-		return this.endAngle(endAngle);
+		JSObject result = call("endAngle", endAngle);
+		return new Chord(webEngine, result);
 	}
-	
+
 	//#end region
 }

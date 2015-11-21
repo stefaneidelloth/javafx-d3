@@ -10,7 +10,7 @@ import netscape.javascript.JSObject;
  */
 public class SVG extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -23,9 +23,9 @@ public class SVG extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Create a new arc generator with default accessor functions. See
@@ -110,7 +110,8 @@ public class SVG extends JavaScriptObject {
 	 * @return the {@link RadialLine}.
 	 */
 	public RadialLine radialLine() {
-		JSObject result = call("line.radial");
+		String command = "this.line.radial()";
+		JSObject result = evalForJsObject(command);
 		return new RadialLine(webEngine, result);
 	}
 
@@ -134,5 +135,5 @@ public class SVG extends JavaScriptObject {
 		return this.diagonal();
 	}
 
-	// #end region
+	//#end region
 }

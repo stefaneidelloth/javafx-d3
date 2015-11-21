@@ -35,7 +35,7 @@ import netscape.javascript.JSObject;
  */
 public class Zoom extends JavaScriptObject implements JsFunction {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -46,9 +46,9 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Type of scroll event to listen to.
@@ -96,13 +96,13 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 */
 	public Zoom on(ZoomEventType type, DatumFunction<Void> listener) {
 
-		String listenerName = "listener_callback";
-		JSObject jsObject = getJsObject();
-		jsObject.setMember(listenerName, listener);
+		String listenerName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(listenerName, listener);
 
 		String eventName = type.name().toLowerCase();
 
-		String command = "this.on('" + eventName + "', " + "function(d, index) { this." + listenerName
+		String command = "this.on('" + eventName + "', " + "function(d, index) { d3." + listenerName
 				+ ".apply(this,{datum:d},index); });";
 		JSObject result = evalForJsObject(command);
 		return new Zoom(webEngine, result);
@@ -363,7 +363,7 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 */
 	public static class ZoomEvent extends JavaScriptObject {
 
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		/**
 		 * Constructor
@@ -376,9 +376,9 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 			setJsObject(wrappedJsObject);
 		}
 
-		// #end region
+		//#end region
 
-		// #region METHODS
+		//#region METHODS
 
 		/**
 		 * The scale of the zoom
@@ -425,9 +425,9 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 			return result;
 		}
 
-		// #end region
+		//#end region
 	}
 
-	// #end region
+	//#end region
 
 }

@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 @SuppressWarnings("javadoc")
 public class LorenzSystem extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private boolean stopped = false;
 	private final int n = 30;
@@ -34,9 +34,9 @@ public class LorenzSystem extends AbstractDemoCase {
 	private LinearScale color;
 	private TimerFunction timerFunction;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -98,11 +98,11 @@ public class LorenzSystem extends AbstractDemoCase {
 
 	}
 
-	// #end region
+	//#end region
 	
 	
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.core.Value;
+import com.github.javafxd3.api.wrapper.Inspector;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -19,7 +21,7 @@ import netscape.javascript.JSObject;
  */
 public class Array<T> extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -32,14 +34,16 @@ public class Array<T> extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
-	// #region CREATE
+	//#region CREATE
 
 	/**
-	 * Creates a one-dimensional Array from the given list of objects
+	 * Creates a one-dimensional Array from the given list of objects. If the
+	 * objects are JavaScriptObjects the wrapped JSObjects are extracted and
+	 * used instead.
 	 * 
 	 * @param <L>
 	 * @param webEngine
@@ -50,24 +54,30 @@ public class Array<T> extends JavaScriptObject {
 
 		// store data as temporary array
 		JSObject d3Obj = (JSObject) webEngine.executeScript("d3");
-		String varName = "data__temp__var";
+		String varName = createNewTemporaryInstanceName();
+
+		//initialize temporary array
 		int length = data.size();
 		String command = "d3." + varName + " = new Array(" + length + ");";
 		d3Obj.eval(command);
-		JSObject var = (JSObject) d3Obj.getMember(varName);
+		JSObject tempArray = (JSObject) d3Obj.getMember(varName);
+
+		//fill temporary array
 		for (int index = 0; index < length; index++) {
 			Object value = data.get(index);
-			var.setSlot(index, value);
+
+			boolean isJavaScriptObject = value instanceof JavaScriptObject;
+			if (isJavaScriptObject) {
+				JavaScriptObject javaScriptObject = (JavaScriptObject) value;
+				JSObject wrappedJsObject = javaScriptObject.getJsObject();
+				tempArray.setSlot(index, wrappedJsObject);
+			} else {
+				tempArray.setSlot(index, value);
+			}
 		}
 
-		// get result
-		JSObject result = (JSObject) d3Obj.getMember(varName);
-
-		// delete temp var
-		d3Obj.removeMember(varName);
-
 		// return result as array
-		return new Array<L>(webEngine, result);
+		return new Array<L>(webEngine, tempArray);
 	}
 
 	/**
@@ -79,17 +89,13 @@ public class Array<T> extends JavaScriptObject {
 	 */
 	public static Array<Double> fromDoubles(WebEngine webEngine, Double[] data) {
 
-		// convert Double array to string command
-		List<String> dataList = new ArrayList<>();
-		for (Double value : data) {
-			dataList.add("" + value);
-		}
-		String listString = String.join(",", dataList);
-		String command = "var temp__var = [" + listString + "];";
+		String varName = createNewTemporaryInstanceName();
+		String arrayString = ArrayUtils.createArrayString(data);
+		String command = "var " + varName + " = " + arrayString + ";";
 		webEngine.executeScript(command);
 
 		// execute command and return result as Array
-		JSObject result = (JSObject) webEngine.executeScript("temp__var");
+		JSObject result = (JSObject) webEngine.executeScript(varName);
 		return new Array<Double>(webEngine, result);
 
 	}
@@ -102,17 +108,16 @@ public class Array<T> extends JavaScriptObject {
 	 * @param second
 	 * @return
 	 */
-	public static Array<JSObject> fromJavaScriptObjects(WebEngine webEngine, JSObject first,
-			JSObject second) {
+	public static Array<JSObject> fromJavaScriptObjects(WebEngine webEngine, JSObject first, JSObject second) {
 		D3 d3 = new D3(webEngine);
 		JSObject d3Obj = d3.getJsObject();
-		String firstVarName = "temp__var__1";
-		String secondVarName = "temp__var__2";
+		String firstVarName = createNewTemporaryInstanceName();
+		String secondVarName = createNewTemporaryInstanceName();
 
 		d3Obj.setMember(firstVarName, first);
 		d3Obj.setMember(secondVarName, second);
 
-		String command = "[this." + firstVarName + ",this." + secondVarName + "]";
+		String command = "[d3." + firstVarName + ",d3." + secondVarName + "]";
 		JSObject result = d3.evalForJsObject(command);
 
 		d3Obj.removeMember(firstVarName);
@@ -122,9 +127,9 @@ public class Array<T> extends JavaScriptObject {
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region RETRIEVE INFO
+	//#region RETRIEVE INFO
 
 	/**
 	 * Returns the size of the first dimension of the array
@@ -240,38 +245,89 @@ public class Array<T> extends JavaScriptObject {
 		return 2;
 	}
 
-	// #end region
+	//#end region
 
-	// #region RETRIVE ITEMS
+	//#region RETRIVE ITEMS
 
 	public <D> D get(int index, Class<D> classObj) {
 		Object resultObj = getAsObject(index);
+		
+		
+		
 		if (resultObj == null) {
 			return null;
 		}
-		
-		boolean isJavaScriptObject = classObj.getSuperclass().equals(JavaScriptObject.class);
-		if (isJavaScriptObject){
-			
+
+		boolean targetIsValue = classObj.equals(Value.class);
+		if (targetIsValue) {
+			boolean resultObjIsValue = resultObj instanceof Value;
+			if (resultObjIsValue) {
+				D result = classObj.cast(resultObj);
+				return result;
+			} else {
+				Value value = Value.create(webEngine, resultObj);
+				D result = classObj.cast(value);
+				return result;
+			}
+		}
+
+		boolean targetIsJavaScriptObject = classObj.getSuperclass().equals(JavaScriptObject.class);
+		if (targetIsJavaScriptObject) {
+
+			Class<?> resultObjClass = resultObj.getClass();
 			Constructor<D> constructor;
-			try {
-				constructor = classObj.getConstructor(new Class<?>[]{WebEngine.class, JSObject.class});
-			} catch (Exception exception) {
-				String message = "Could not get constructor for JavaScriptObject";
-				throw new IllegalStateException(message, exception);				
-			} 
-			
+
+			boolean resultIsJsObject = resultObj instanceof JSObject;
+			if (resultIsJsObject) {
+				
+				JSObject resultJsObject = (JSObject) resultObj;
+				Inspector.inspect(resultJsObject);
+				
+				try {
+					constructor = classObj.getConstructor(new Class<?>[] { WebEngine.class, JSObject.class });
+				} catch (Exception exception) {
+					String message = "Could not get constructor for JavaScriptObject of " + "type '"
+							+ classObj.getName() + "' with parameters of type WebEngine and '"
+							+ resultObjClass.getName() + "'.";
+					throw new IllegalStateException(message, exception);
+				}
+
+			} else {
+
+				try {
+					constructor = classObj.getConstructor(new Class<?>[] { WebEngine.class, resultObjClass });
+				} catch (Exception exception) {
+					String message = "Could not get constructor for JavaScriptObject of " + "type '"
+							+ classObj.getName() + "' with parameters of type WebEngine and '"
+							+ resultObjClass.getName() + "'.";
+					throw new IllegalStateException(message, exception);
+				}
+			}
+
 			D newJavaScriptObject;
 			try {
 				newJavaScriptObject = constructor.newInstance(webEngine, resultObj);
 			} catch (Exception exception) {
-				String message = "Could not construct new instance of JavaScriptObject";
+				String message = "Could not construct new instance of type '" + classObj.getName() + "' with "
+						+ "object of type " + resultObj.getClass().getName();
 				throw new IllegalStateException(message, exception);
-			} 
-			return newJavaScriptObject;			
+			}
+			return newJavaScriptObject;
 		}
 
-		try {			
+		boolean targetIsString = classObj.equals(String.class);
+		if (targetIsString) {
+			try {
+				String stringResult = resultObj.toString();
+				D result = classObj.cast(stringResult);
+				return result;
+			} catch (Exception exception) {
+				String message = "Could not convert item of type " + resultObj.getClass().getName() + " to String.";
+				throw new IllegalStateException(message, exception);
+			}
+		}
+
+		try {
 			D result = classObj.cast(resultObj);
 			return result;
 		} catch (Exception exception) {
@@ -284,24 +340,25 @@ public class Array<T> extends JavaScriptObject {
 					return result;
 				} catch (Exception numberCastException) {
 					String message = "Could not cast item of type " + resultObj.getClass().getName()
-							+ " to required type.";
+							+ " to required type " + classObj.getName();
 					throw new IllegalStateException(message, exception);
 				}
 			}
 
-			String message = "Could not cast item of type " + resultObj.getClass().getName() + " to required type.";
+			String message = "Could not cast item of type '" + resultObj.getClass().getName() + "' to required type '"
+					+ classObj.getName() + "'";
 			throw new IllegalStateException(message, exception);
 		}
 
 	}
-	
+
 	public <D> D get(int rowIndex, int columnIndex, Class<D> classObj) {
 		Object resultObj = getAsObject(rowIndex, columnIndex);
 		if (resultObj == null) {
 			return null;
 		}
 
-		try {			
+		try {
 			D result = classObj.cast(resultObj);
 			return result;
 		} catch (Exception exception) {
@@ -321,35 +378,33 @@ public class Array<T> extends JavaScriptObject {
 
 			String message = "Could not cast item of type " + resultObj.getClass().getName() + " to required type.";
 			throw new IllegalStateException(message, exception);
-		}		
+		}
 	}
 
 	private Object getAsObject(int index) {
 		JSObject jsObject = getJsObject();
-		Object resultObj = jsObject.getSlot(index);	
+		Object resultObj = jsObject.getSlot(index);
 		return resultObj;
 	}
-	
+
 	private Object getAsObject(int rowIndex, int columnIndex) {
-		String command = "this["+rowIndex+"]["+columnIndex+"]";
-		Object resultObj = eval(command);		
+		String command = "this[" + rowIndex + "][" + columnIndex + "]";
+		Object resultObj = eval(command);
 		return resultObj;
 	}
 
 	public List<T> asList(Class<T> classObj) {
 		int size = length();
 		List<T> list = new ArrayList<>();
-		for(int index=0;index<size;index++){
+		for (int index = 0; index < size; index++) {
 			T element = this.get(index, classObj);
 			list.add(element);
 		}
-		return list;		
+		return list;
 	}
 
-	
+	//#end region
 
-	// #end region
-
-	// #end region
+	//#end region
 
 }

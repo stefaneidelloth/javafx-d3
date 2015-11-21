@@ -1,9 +1,5 @@
 package com.github.javafxd3.api.core;
 
-
-
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 
 /**
@@ -13,15 +9,10 @@ import com.github.javafxd3.api.AbstractTestCase;
 public class TransformTest extends AbstractTestCase {
 
 	@Override
-	@Test
 	public void doTest() {
-		
-		doOnJavaFXThread(()->runTest());
-	}
 
-	private void runTest() {
 		Transform transform = new Transform(webEngine);
-		
+
 		// empty
 		Transform tr = transform.parse("");
 		assertEquals("translate(0,0)rotate(0)skewX(0)scale(1,1)", tr.toString());
@@ -63,7 +54,7 @@ public class TransformTest extends AbstractTestCase {
 		assertEquals(47d, tr.skew(), 0.0001d);
 		assertEquals(24d, tr.rotate(), 0.0001d);
 		assertEquals(30d, tr.translate().get(0, Double.class), 0.0001d);
-		assertEquals(50d, tr.translate().get(1, Double.class),0.0001d);
+		assertEquals(50d, tr.translate().get(1, Double.class), 0.0001d);
 		assertEquals(12d, tr.scale().get(0, Double.class), 0.0001d);
 		assertEquals(16d, tr.scale().get(1, Double.class), 0.0001d);
 	}

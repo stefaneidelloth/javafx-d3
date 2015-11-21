@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
 @SuppressWarnings("javadoc")
 public class MitchellBestCandidate extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private boolean done = false;
 
@@ -35,9 +35,9 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 	double n = 2500; // remaining number of circles to add
 	private TimerFunction timerFunction;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUTORS
+	//#region CONSTRUTORS
 
 	/**
 	 * Constructor
@@ -49,9 +49,9 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 		super(d3, demoPreferenceBox);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -133,16 +133,16 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 
 		return new CircleGenerator() {
 
-			// #region ATTRIBUTES
+			//#region ATTRIBUTES
 
 			private double minDistance;
 			double searchRadius = maxRadius * 2;
 			double maxRadius2 = maxRadius * maxRadius;
 			double bestX, bestY, bestDistance = 0;
 
-			// #end region
+			//#end region
 
-			// #region METHODS
+			//#region METHODS
 
 			@Override
 			public Circle generate(final double k) {
@@ -201,11 +201,11 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 				return best;
 			}
 
-			// #end region
+			//#end region
 		};
 	}
 
-	// #end region CLASSES & INTERFACES
+	//#end region CLASSES & INTERFACES
 
 	private static interface CircleGenerator {
 		public Circle generate(double k);
@@ -223,6 +223,6 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 
 	}
 
-	// #end region
+	//#end region
 
 }

@@ -11,7 +11,7 @@ import netscape.javascript.JSObject;
 
 public class JsDate extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -128,6 +128,6 @@ public class JsDate extends JavaScriptObject {
 		return valueString;
 	}
 
-	// #end region
+	//#end region
 
 }

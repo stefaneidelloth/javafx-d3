@@ -12,7 +12,7 @@ import netscape.javascript.JSObject;
 public class Polygon extends Array<Array<Double>> {
 
 	
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -22,9 +22,9 @@ public class Polygon extends Array<Array<Double>> {
 		super(webEngine, wrappedJsObject);		
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Returns the signed area of this polygon.

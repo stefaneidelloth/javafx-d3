@@ -25,7 +25,7 @@ import netscape.javascript.JSObject;
  */
 public class Color extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -38,9 +38,9 @@ public class Color extends JavaScriptObject {
 		setJsObject(wrappingJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Converts to a RGB hexadecimal string, such as "#f7eaba".
@@ -52,6 +52,6 @@ public class Color extends JavaScriptObject {
 		return result;
 	}
 
-	// #end region
+	//#end region
 
 }

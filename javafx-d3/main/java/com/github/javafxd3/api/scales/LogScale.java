@@ -23,11 +23,11 @@ import netscape.javascript.JSObject;
  * <p>
  * As with {@link LinearScale}s, log scales can also accept more than two values
  * for the domain and range, thus resulting in polylog scale.
- * <p> 
+ * <p>
  */
 public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -39,9 +39,9 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	// =========== ticks ==========
 
@@ -62,7 +62,7 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 */
 	public <T> Array<T> ticks() {
 		JSObject result = call("ticks");
-		return new Array<T>(webEngine, result);	
+		return new Array<T>(webEngine, result);
 	}
 
 	// =========== tickFormat ==========
@@ -76,7 +76,8 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * @return the number format
 	 */
 	public Formatter tickFormat() {
-		return this.tickFormat();
+		JSObject result = call("tickFormat");
+		return new Formatter(webEngine, result);
 	}
 
 	/**
@@ -97,7 +98,8 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * @return a number format
 	 */
 	public Formatter tickFormat(int count) {
-		return this.tickFormat(count);
+		JSObject result = call("tickFormat", count);
+		return new Formatter(webEngine, result);
 	}
 
 	/**
@@ -127,7 +129,8 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * @return a number format
 	 */
 	public Formatter tickFormat(int count, String formatSpecifier) {
-		return this.tickFormat(count, formatSpecifier);
+		JSObject result = call("tickFormat", count, formatSpecifier);
+		return new Formatter(webEngine, result);
 	}
 
 	/**
@@ -155,17 +158,23 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 *            the function used to format the tick label
 	 * @return a number format
 	 */
-	public Formatter tickFormat(int count, DatumFunction<String> function) {
+	public synchronized Formatter tickFormat(int count, DatumFunction<String> function) {
+
+		String functionName = "temp__tickformat__function";
+		JSObject d3 = (JSObject) webEngine.executeScript("d3");
 		
-		String functionName = "format__function";
-		JSObject jsObject = getJsObject();
-		jsObject.setMember(functionName, function);
+		d3.setMember(functionName, function);
+
+		String command = "this.tickFormat( " + count + ", function(d) { " //				
+				+ "return d3." + functionName + ".apply(null,{datum:d},0); " //
+				+ "});";
+
+		Object result = eval(command);
 		
-		String command = "this.tickFormat( "+count+", function(d) { "
-				+ "return this."+functionName+".apply(null,{datum:d},0); });";
+		JSObject formatteJsResult = (JSObject) result;
 		
-		JSObject result = evalForJsObject(command);
-		return new Formatter(webEngine, result);
+		
+		return new Formatter(webEngine, formatteJsResult);
 	}
 
 	// =========== nice ==========
@@ -189,7 +198,8 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * @return the current scale
 	 */
 	public LogScale nice() {
-		return this.nice();
+		JSObject result = call("nice");
+		return new LogScale(webEngine, result);		
 	}
 
 	// =========== base ==========
@@ -199,7 +209,8 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * @return the current base
 	 */
 	public int base() {
-		return this.base();
+		int result = callForInteger("base");
+		return result;
 	}
 
 	/**
@@ -208,14 +219,15 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * @return the current scale
 	 */
 	public LogScale base(int b) {
-		return this.base(b);
+		JSObject result = call("base", b);
+		return new LogScale(webEngine, result);	
 	}
 
 	@Override
-	protected LogScale createScale(WebEngine webEngine, JSObject result) {
+	public LogScale createScale(WebEngine webEngine, JSObject result) {
 		return new LogScale(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 
 }

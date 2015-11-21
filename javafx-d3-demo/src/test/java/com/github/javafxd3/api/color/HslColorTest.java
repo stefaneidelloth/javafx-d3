@@ -1,28 +1,16 @@
 package com.github.javafxd3.api.color;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 
 /**
- * Tests the class HslColor 
+ * Tests the class HslColor
  */
 public class HslColorTest extends AbstractTestCase {
 
-	
 	@Override
-	@Test
 	public void doTest() {
-		Runnable testRunnable = ()->createHslColor();
-		doOnJavaFXThread(testRunnable);
-	}
-
-	private void createHslColor() {
 		Colors colors = new Colors(webEngine);
-		
+
 		HSLColor hsl = colors.hsl("red");
 		assertEquals(0.0, hsl.h(), 1e-6);
 		assertEquals(1.0, hsl.s(), 1e-6);
@@ -30,7 +18,7 @@ public class HslColorTest extends AbstractTestCase {
 		hsl = hsl.darker();
 		assertTrue(hsl.h() < 255);
 		hsl = hsl.brighter();
-		assertEquals(0.0, hsl.h());
+		assertEquals(0.0, hsl.h(), TOLERANCE);
 		RGBColor rgb = hsl.rgb();
 		assertEquals(255, rgb.r());
 		assertEquals(0, rgb.g());
@@ -43,5 +31,6 @@ public class HslColorTest extends AbstractTestCase {
 		assertEquals(0.0, hsl3.h(), 1e-6);
 		assertEquals(1.0, hsl3.s(), 1e-6);
 		assertEquals(0.5, hsl3.l(), 1e-6);
-	}	
+	}
+
 }

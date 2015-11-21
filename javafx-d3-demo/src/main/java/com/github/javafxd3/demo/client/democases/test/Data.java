@@ -8,16 +8,16 @@ import java.util.Date;
  */
 public class Data {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 	private final String symbol;
 
 	private final Date date;
 
 	private final double price;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -33,18 +33,18 @@ public class Data {
 		this.price = price;
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	@Override
 	public String toString() {
 		return "Data [date=" + date.getTime() + ", price=" + price + "]";
 	}
 
-	// #end region
+	//#end region
 
-	// #region ACCESSORS
+	//#region ACCESSORS
 
 	/**
 	 * @return
@@ -67,5 +67,5 @@ public class Data {
 		return price;
 	}
 
-	// #end region
+	//#end region
 }

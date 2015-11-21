@@ -33,9 +33,9 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
     private Selection svg;
     private Selection point;
     
- // #end region
+ //#end region
 
- 	// #region CONSTRUCTORS
+ 	//#region CONSTRUCTORS
 
  	/**
  	 * @param d3
@@ -47,9 +47,9 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
  		// bt, point, selected, brush
  	}
 
- 	// #end region
+ 	//#end region
 
- 	// #region METHODS
+ 	//#region METHODS
 
  	 /**
  	  * Factory provider

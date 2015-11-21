@@ -27,7 +27,7 @@ import javafx.scene.layout.VBox;
  */
 public class ZoomDemo extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private Selection svg;
 	private Selection scaleLabel;
@@ -41,9 +41,9 @@ public class ZoomDemo extends AbstractDemoCase {
 	final int width = 960 - margin.left - margin.right;
 	final int height = 500 - margin.top - margin.bottom;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -56,9 +56,9 @@ public class ZoomDemo extends AbstractDemoCase {
 		init();
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -156,6 +156,6 @@ public class ZoomDemo extends AbstractDemoCase {
 
 	}
 
-	// #end region
+	//#end region
 
 }

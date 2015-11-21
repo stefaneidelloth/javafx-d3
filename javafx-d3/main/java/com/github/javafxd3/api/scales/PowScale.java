@@ -27,7 +27,7 @@ import netscape.javascript.JSObject;
  */
 public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -40,9 +40,9 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	// =========== base ==========
 	/**
@@ -51,7 +51,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return the current exponent
 	 */
 	public  double exponent(){
-		return this.exponent();
+		double result = callForDouble("exponent");
+		return result;		
 	}
 
 	/**
@@ -60,7 +61,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return the current scale
 	 */
 	public  PowScale exponent(double e){
-		return this.exponent(e);
+		JSObject result = call("exponent", e);
+		return new PowScale(webEngine, result);	
 	}
 
 	// =========== nice ==========
@@ -85,7 +87,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return the current scale
 	 */
 	public  PowScale nice(){
-		return this.nice();
+		JSObject result = call("nice");
+		return new PowScale(webEngine, result);	
 	}
 
 	/**
@@ -99,7 +102,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return the current scale
 	 */
 	public  PowScale nice(int count){
-		return this.nice(count);
+		JSObject result = call("nice", count);
+		return new PowScale(webEngine, result);	
 	}
 
 	// =========== ticks ==========
@@ -146,7 +150,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return the number format
 	 */
 	public  Formatter tickFormat(){
-		return this.tickFormat();
+		JSObject result = call("tickFormat");
+		return new Formatter(webEngine, result);	
 	}
 
 	/**
@@ -166,7 +171,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return a number format
 	 */
 	public  Formatter tickFormat(int count){
-		return this.tickFormat(count);
+		JSObject result = call("tickFormat", count);
+		return new Formatter(webEngine, result);
 	}
 
 	/**
@@ -191,11 +197,12 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return a number format
 	 */
 	public  Formatter tickFormat(int count, String formatSpecifier){
-		return this.tickFormat(count, formatSpecifier);
+		JSObject result = call("tickFormat", count, formatSpecifier);
+		return new Formatter(webEngine, result);
 	}
 
 	@Override
-	protected PowScale createScale(WebEngine webEngine, JSObject result) {
+	public PowScale createScale(WebEngine webEngine, JSObject result) {
 		return new PowScale(webEngine, result);	
 	}
 

@@ -60,6 +60,62 @@ public class ArrayUtils {
 	 * @param numbers
 	 * @return
 	 */
+	public static String createArrayString(long[] numbers) {
+		List<String> list = new java.util.ArrayList<>();
+    	for (Object number: numbers){
+    		list.add(""+number);
+    	}
+    	String arrayString = "[" + String.join(",", list) + "]";
+		return arrayString;
+	}
+	
+	/**
+	 * Creates a string that contains the given values as array in square brackets
+	 * @param chars
+	 * @return
+	 */
+	public static String createArrayString(char[] chars) {
+		List<String> list = new java.util.ArrayList<>();
+    	for (Object character: chars){
+    		list.add("'"+character+"'");
+    	}
+    	String arrayString = "[" + String.join(",", list) + "]";
+		return arrayString;
+	}
+	
+	/**
+	 * Creates a string that contains the given values as array in square brackets
+	 * @param numbers
+	 * @return
+	 */
+	public static String createArrayString(int[] numbers) {
+		List<String> list = new java.util.ArrayList<>();
+    	for (Object number: numbers){
+    		list.add(""+number);
+    	}
+    	String arrayString = "[" + String.join(",", list) + "]";
+		return arrayString;
+	}
+	
+	/**
+	 * Creates a string that contains the given values as array in square brackets
+	 * @param numbers
+	 * @return
+	 */
+	public static String createArrayString(short[] numbers) {
+		List<String> list = new java.util.ArrayList<>();
+    	for (Object number: numbers){
+    		list.add(""+number);
+    	}
+    	String arrayString = "[" + String.join(",", list) + "]";
+		return arrayString;
+	}
+	
+	/**
+	 * Creates a string that contains the given values as array in square brackets
+	 * @param numbers
+	 * @return
+	 */
 	public static String createArrayString(int[][] numbers) {
 		List<String> list = new java.util.ArrayList<>();
     	for (int[] numberRow: numbers){
@@ -69,6 +125,20 @@ public class ArrayUtils {
         	}
     		String rowString = "[" + String.join(",", rowList) + "]";    		
     		list.add(rowString);
+    	}
+    	String arrayString = "[" + String.join(",", list) + "]";
+		return arrayString;
+	}
+	
+	/**
+	 * Creates a string that contains the given values as array in square brackets
+	 * @param numbers
+	 * @return
+	 */
+	public static String createArrayString(byte... numbers) {
+		List<String> list = new java.util.ArrayList<>();
+    	for (Object number: numbers){
+    		list.add(""+number);
     	}
     	String arrayString = "[" + String.join(",", list) + "]";
 		return arrayString;
@@ -126,10 +196,24 @@ public class ArrayUtils {
 	 * @param numbers
 	 * @return
 	 */
-	public static String createArrayString(final String... numbers) {
+	public static String createArrayString(float... numbers) {
 		List<String> list = new java.util.ArrayList<>();
     	for (Object number: numbers){
     		list.add(""+number);
+    	}
+    	String arrayString = "[" + String.join(",", list) + "]";
+		return arrayString;
+	}
+	
+	/**
+	 * Creates a string that contains the given values as array in square brackets
+	 * @param numbers
+	 * @return
+	 */
+	public static String createArrayString(final String... strings) {
+		List<String> list = new java.util.ArrayList<>();
+    	for (String string: strings){
+    		list.add("'"+string + "'");
     	}
     	String arrayString = "[" + String.join(",", list) + "]";
 		return arrayString;

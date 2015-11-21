@@ -3,8 +3,6 @@ package com.github.javafxd3.api.dsv;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.arrays.Array;
@@ -16,30 +14,27 @@ import com.github.javafxd3.api.wrapper.JavaScriptObject;
  */
 public class DsvTest extends AbstractTestCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private D3 d3;
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	@Override
-	@Test
 	public void doTest() {
 
-		Runnable testRunnable = () -> {
-			d3 = new D3(webEngine);
+		d3 = new D3(webEngine);
 
-			testCsvParse();
-			testCsvParseWithAccessor();
-			testCsvParseRows();
-			testCsvParseRowsWithAccessor();
-			testCsvWithAccessorAndCallback();
-			testCsvWithCallback();
-			testCsvWithChainingAccessorAndCallback();
-		};
-		doOnJavaFXThread(testRunnable);
+		testCsvParse();
+		testCsvParseWithAccessor();
+		testCsvParseRows();
+		testCsvParseRowsWithAccessor();
+		testCsvWithAccessorAndCallback();
+		testCsvWithCallback();
+		testCsvWithChainingAccessorAndCallback();
+
 	}
 
 	private void testCsvParse() {
@@ -129,39 +124,39 @@ public class DsvTest extends AbstractTestCase {
 	}
 }
 
-// #end region
+//#end region
 
-// #region CLASSES
+//#region CLASSES
 
 class Person {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private final String name;
 
 	private final int age;
 
-	// #ene region
+	//#ene region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	public Person(final String name, final int age) {
 		this.name = name;
 		this.age = age;
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	@Override
 	public String toString() {
 		return "Person [name=" + name + ", age=" + age + "]";
 	}
 
-	// #end region
+	//#end region
 
-	// #region ACCESSORS
+	//#region ACCESSORS
 
 	public String getName() {
 		return name;
@@ -171,7 +166,7 @@ class Person {
 		return age;
 	}
 
-	// #end region
+	//#end region
 
 }
 
@@ -215,4 +210,4 @@ class PersonRowCallback implements DsvCallback<DsvRow> {
 	}
 }
 
-// #end region
+//#end region

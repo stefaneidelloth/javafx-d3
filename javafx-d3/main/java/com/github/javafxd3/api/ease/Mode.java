@@ -6,7 +6,7 @@ package com.github.javafxd3.api.ease;
  */
 public enum Mode {
 
-	// #region VALUES
+	//#region VALUES
 
 	/**
 	 * The identity function
@@ -28,23 +28,23 @@ public enum Mode {
 	 */
 	OUT_IN("out-in");
 
-	// #end region
+	//#end region
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private String value;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	private Mode(final String value) {
 		this.value = value;
 	}
 
-	// #end region
+	//#end region
 
-	// #region ACCESSORS
+	//#region ACCESSORS
 
 	/**
 	 * @return
@@ -53,5 +53,5 @@ public enum Mode {
 		return value;
 	}
 
-	// #end region
+	//#end region
 }

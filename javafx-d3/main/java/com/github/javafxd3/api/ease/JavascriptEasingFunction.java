@@ -7,14 +7,10 @@ import netscape.javascript.JSObject;
 
 /**
  * JSNI easing functions.
- * <p>
- * 
- * 
- *
  */
 public class JavascriptEasingFunction extends JavaScriptObject implements EasingFunction {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -26,15 +22,17 @@ public class JavascriptEasingFunction extends JavaScriptObject implements Easing
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	
 	@Override
 	public  double ease(double t){
 		String command = "this("+t+")";
-		Double result = evalForDouble(command);
+		Object resultObj = eval(command);
+		String stringValue = resultObj.toString();
+		Double result = Double.parseDouble(stringValue);
 		return result;
 	}
 	

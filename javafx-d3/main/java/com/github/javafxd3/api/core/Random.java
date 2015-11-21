@@ -16,7 +16,7 @@ import netscape.javascript.JSObject;
  */
 public class Random extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 	/**
 	 * Constructor
 	 * 
@@ -39,9 +39,9 @@ public class Random extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Returns a function for generating random number with a
@@ -166,6 +166,6 @@ public class Random extends JavaScriptObject {
 		return result;		
 	}
 	
-	// #end region
+	//#end region
 
 }

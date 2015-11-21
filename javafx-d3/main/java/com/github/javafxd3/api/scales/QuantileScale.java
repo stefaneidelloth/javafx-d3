@@ -44,7 +44,7 @@ import netscape.javascript.JSObject;
  */
 public class QuantileScale extends DiscreteQuantitativeScale<QuantileScale> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -57,9 +57,9 @@ public class QuantileScale extends DiscreteQuantitativeScale<QuantileScale> {
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Returns the quantile thresholds.
@@ -81,7 +81,7 @@ public class QuantileScale extends DiscreteQuantitativeScale<QuantileScale> {
 	}
 
 	@Override
-	protected QuantileScale createScale(WebEngine webEngine, JSObject result) {
+	public QuantileScale createScale(WebEngine webEngine, JSObject result) {
 		return new QuantileScale(webEngine, result);
 	}
 }

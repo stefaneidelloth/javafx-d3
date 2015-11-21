@@ -23,7 +23,7 @@ public class PropertyValueFunction<T> implements DatumFunction<T> {
 	
 	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -35,9 +35,9 @@ public class PropertyValueFunction<T> implements DatumFunction<T> {
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 	
 	/**
 	 * Create a {@link PropertyValueFunction} which returns the value of the
@@ -61,13 +61,13 @@ public class PropertyValueFunction<T> implements DatumFunction<T> {
 		
 		String varName = "temp_object_var";
 		D3 d3 = new D3(webEngine);
-		JSObject jsObject = d3.getJsObject();
-		jsObject.setMember(varName, valueObj);
+		JSObject d3JsObject = d3.getJsObject();
+		d3JsObject.setMember(varName, valueObj);
 		
-		String command = "{datum:this." +varName +".datum['"+ propName+ "']};";
+		String command = "{datum:d3." +varName +".datum['"+ propName+ "']};";
 		JSObject result = d3.evalForJsObject(command);
 		return new Value(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 }

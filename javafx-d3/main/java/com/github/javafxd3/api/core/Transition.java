@@ -63,7 +63,7 @@ import netscape.javascript.JSObject;
  */
 public class Transition extends JavaScriptObject {
 
-	// #region CONSTUCTORS
+	//#region CONSTUCTORS
 
 	/**
 	 * Constructor
@@ -85,9 +85,9 @@ public class Transition extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	// ================ creating transitions ================================
 
@@ -102,7 +102,8 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition delay(int milliseconds) {
-		return this.delay(milliseconds);
+		JSObject result = call("delay", milliseconds);
+		return new Transition(webEngine, result);
 	}
 
 	/**
@@ -136,21 +137,19 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition delay(DatumFunction<Integer> func) {
+		
+		assertObjectIsNotAnonymous(func);
 
-		String memberName = "temp_delay_function";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, func);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, func);
 
 		String command = "this.delay(function(d, i) { " //
-				+ "return this." + memberName + ".apply(this,{datum:d},i);"//
+				+ "return d3." + memberName + ".apply(this,{datum:d},i);"//
 				+ " });";
 
 		JSObject result = evalForJsObject(command);
-
-		jsObj.removeMember(memberName);
-
 		return new Transition(webEngine, result);
-
 	}
 
 	/**
@@ -162,7 +161,8 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition duration(int milliseconds) {
-		return this.duration(milliseconds);
+		JSObject result = call("duration", milliseconds);
+		return new Transition(webEngine, result);
 	}
 
 	/**
@@ -174,21 +174,19 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition duration(DatumFunction<Integer> func) {
+		
+		assertObjectIsNotAnonymous(func);
 
-		String memberName = "temp_duration_function";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, func);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, func);
 
 		String command = "this.duration(function(d, i) { " //
-				+ "return this." + memberName + ".apply(this,{datum:d},i);"//
+				+ "return d3." + memberName + ".apply(this,{datum:d},i);"//
 				+ " });";
 
 		JSObject result = evalForJsObject(command);
-
-		jsObj.removeMember(memberName);
-
 		return new Transition(webEngine, result);
-
 	}
 
 	/**
@@ -208,23 +206,19 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition ease(EasingFunction callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
-		String memberName = "temp_ease_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, callback);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, callback);
 
-		String command = "var r = this.ease(" //
-				+ "function(t) { " //
-				+ " this." + memberName + ".ease(t);" //
-				+ "}"//
-				+ "):" + "return r;";
+		String command = "this.ease(function(t) { " //
+				+ "    d3." + memberName + ".ease(t);" //
+				+ "  })";
 
 		JSObject result = evalForJsObject(command);
-
-		jsObj.removeMember(memberName);
-
 		return new Transition(webEngine, result);
-
 	}
 
 	// ==================== attr =================================
@@ -254,8 +248,9 @@ public class Transition extends JavaScriptObject {
 	 *            the new value to transition to, must not be null
 	 * @return the current transition
 	 */
-	public <T> Transition attr(final String name, String value) {
-		return this.attr(name, value);
+	public Transition attr(final String name, String value) {
+		JSObject result = call("attr", name, value);
+		return new Transition(webEngine, result);
 	}
 
 	/**
@@ -270,7 +265,8 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition attr(final String name, double value) {
-		return this.attr(name, value);
+		JSObject result = call("attr", name, value);
+		return new Transition(webEngine, result);
 	}
 
 	/**
@@ -303,20 +299,18 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition attr(final String name, final DatumFunction<?> callback) {
 
-		String memberName = "temp_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, callback);
+		assertObjectIsNotAnonymous(callback);
+
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, callback);
 
 		String command = "this.attr('" + name + "', function(d, i) {" //
-				+ "return this." + memberName + ".apply(this,{datum:d},i);" //
+				+ "return d3." + memberName + ".apply(this,{datum:d},i);" //
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
-
-		jsObj.removeMember(memberName);
-
 		return new Transition(webEngine, result);
-
 	}
 
 	/**
@@ -338,8 +332,10 @@ public class Transition extends JavaScriptObject {
 	 *            the new value to assign
 	 * @return the current transition
 	 */
-	public Transition attr(final String name, PathDataGenerator value) {
-		return this.attr(name, value);
+	public Transition attr(final String name, PathDataGenerator pathDataGenerator) {
+		JSObject generator = pathDataGenerator.getJsObject();
+		JSObject result = call("duration", generator);
+		return new Transition(webEngine, result);
 	}
 
 	/**
@@ -363,18 +359,17 @@ public class Transition extends JavaScriptObject {
 	 *            the function used to create an interpolator
 	 */
 	public Transition attrTween(String name, TweenFunction<?> tweenFunction) {
+		
+		assertObjectIsNotAnonymous(tweenFunction);
 
-		String memberName = "temp_tween_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, tweenFunction);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, tweenFunction);
 
-		String command = "this.attrTween('" + name + "', function(d, i, a) { " + "var interpolator = this." + memberName
+		String command = "this.attrTween('" + name + "', function(d, i, a) { " + "var interpolator = d3." + memberName
 				+ ".apply(this,{datum:d},i,{datum:a});" + "return interpolator;" + "});";
 
 		JSObject result = evalForJsObject(command);
-
-		jsObj.removeMember(memberName);
-
 		return new Transition(webEngine, result);
 
 	}
@@ -417,7 +412,8 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition style(String name, String value) {
-		return this.style(name, value);
+		JSObject result = call("style", name, value);
+		return new Transition(webEngine, result);
 	}
 
 	/**
@@ -430,7 +426,8 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition style(String name, double value) {
-		return this.style(name, value);
+		JSObject result = call("style", name, value);
+		return new Transition(webEngine, result);
 	}
 
 	/**
@@ -444,34 +441,39 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition style(String name, DatumFunction<?> callback) {
 
-		String memberName = "temp_style_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, callback);
+		assertObjectIsNotAnonymous(callback);
 
-		String command = "try { " //
-				+ "          return this.style('" + name + "', function(d, i) {" //
-				+ "             try { "//
-				+ "               var r = this." + memberName + ".apply(this,{datum:d},i);" //
-				+ "               return r;" //
-				+ "             } catch (e) {"//
-				+ "               alert(e); "//
-				+ "               return null; "//
-				+ "             }"//
-				+ "          });"//
-				+ "       } catch (e) { "//
-				+ "         alert(e); "//
-				+ "         return null; " + "       }";
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, callback);
+		
+		try{
+			String command = "this.style('" + name + "', function(d, i) {" //
+					+ "             try { "//
+					+ "               var r = d3." + memberName + ".apply(this,{datum:d},i);" //
+					+ "               return r;" //
+					+ "             } catch (e) {"//
+					+ "               alert(e); "//
+					+ "               return null; "//
+					+ "             }"//
+					+ "          });";
 
-		JSObject result = evalForJsObject(command);
+			JSObject result = evalForJsObject(command);
+			
+			if (result == null) {
+				return null;
+			}
 
-		jsObj.removeMember(memberName);
-
-		if (result == null) {
+			return new Transition(webEngine, result);
+			
+		} catch (Exception exception){
+			System.out.println("Could call style in Transition:\n" + exception.getMessage());
 			return null;
 		}
 
-		return new Transition(webEngine, result);
+		
 
+		
 	}
 
 	/**
@@ -519,28 +521,29 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Selection style(String name, DatumFunction<?> callback, boolean important) {
 
-		String memberName = "temp_style_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, callback);
+		assertObjectIsNotAnonymous(callback);
 
-		String command = "var imp = " + important + " ? 'important' : null;"//
-				+ "return this.style('" + name + "'," //
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, callback);
+
+		String impCommand = "var imp = " + important + " ? 'important' : null;";
+		eval(impCommand);
+
+		String command = "this.style('" + name + "'," //
 				+ "  function(d, i) { "//
-				+ "    var r = this." + memberName + ".apply(this,{datum:d},i); "//
-				+ "    return r?r.toString():null;"//
+				+ "    var r = d3." + memberName + ".apply(this,{datum:d},i); "//
+				+ "    return r ? r.toString() : null;"//
 				+ "  },"//
 				+ "imp);";
 
 		JSObject result = evalForJsObject(command);
-
-		jsObj.removeMember(memberName);
 
 		if (result == null) {
 			return null;
 		}
 
 		return new Selection(webEngine, result);
-
 	}
 
 	/**
@@ -568,22 +571,24 @@ public class Transition extends JavaScriptObject {
 	 * @return the current selection
 	 */
 	public Selection styleTween(String name, TweenFunction<?> tweenFunction, boolean important) {
+		
+		assertObjectIsNotAnonymous(tweenFunction);
 
-		String memberName = "temp_style_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, tweenFunction);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, tweenFunction);
 
-		String command = "var imp = " + important + " ? 'important' : null;" //
-				+ "return this.styleTween('" + name + "', " //
+		String impCommand = "var imp = " + important + " ? 'important' : null;";
+		eval(impCommand);
+
+		String command ="this.styleTween('" + name + "', " //
 				+ "  function(d, i, a) {" //
-				+ "    var interpolator = this." + memberName + ".apply(this,{datum:d},i,{datum:a});" //
+				+ "    var interpolator = d3." + memberName + ".apply(this,{datum:d},i,{datum:a});" //
 				+ "    return interpolator;" //
 				+ "  }, " //
 				+ "imp);";
 
 		JSObject result = evalForJsObject(command);
-
-		jsObj.removeMember(memberName);
 
 		if (result == null) {
 			return null;
@@ -607,7 +612,8 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public <T> Transition text(String value) {
-		return this.text(value);
+		JSObject result = call("text", value);
+		return new Transition(webEngine, result);
 	}
 
 	/**
@@ -632,18 +638,18 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition text(final DatumFunction<String> callback) {
+		
+		assertObjectIsNotAnonymous(callback);
 
-		String memberName = "temp_text_callback";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, callback);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, callback);
 
 		String command = "this.text(function(d, i) { " //
-				+ "return this." + memberName + ".apply(this,{datum:d},i);"//
+				+ "return d3." + memberName + ".apply(this,{datum:d},i);"//
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
-
-		jsObj.removeMember(memberName);
 
 		if (result == null) {
 			return null;
@@ -671,18 +677,18 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition tween(String name, DatumFunction<Interpolator<?>> factory) {
+		
+		assertObjectIsNotAnonymous(factory);
 
-		String memberName = "temp_tween_factory";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, factory);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, factory);
 
 		String command = "this.tween('" + name + "', function(d, i) { " //
-				+ "return this." + memberName + ".apply(this,{datum:d},i);" //
+				+ "return d3." + memberName + ".apply(this,{datum:d},i);" //
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
-
-		jsObj.removeMember(memberName);
 
 		if (result == null) {
 			return null;
@@ -703,7 +709,8 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition remove() {
-		return this.remove();
+		JSObject result = call("remove");
+		return new Transition(webEngine, result);
 	}
 
 	// ====================== subtransition ====================
@@ -734,7 +741,8 @@ public class Transition extends JavaScriptObject {
 	 *         inheriting duration, delay and ease from the current transition
 	 */
 	public Transition select(String selector) {
-		return this.select(selector);
+		JSObject result = call("select", selector);
+		return new Transition(webEngine, result);
 	}
 
 	/**
@@ -760,7 +768,8 @@ public class Transition extends JavaScriptObject {
 	 * @return the sub transition, inheriting
 	 */
 	public Transition selectAll(String selector) {
-		return this.selectAll(selector);
+		JSObject result = call("selectAll", selector);
+		return new Transition(webEngine, result);
 	}
 
 	// ================ filter ======================
@@ -781,7 +790,8 @@ public class Transition extends JavaScriptObject {
 	 * @return a new transition containing the filtered elements
 	 */
 	public Transition filter(String selector) {
-		return this.filter(selector);
+		JSObject result = call("filter", selector);
+		return new Transition(webEngine, result);
 	}
 
 	/**
@@ -801,25 +811,24 @@ public class Transition extends JavaScriptObject {
 	 * @return a new transition containing the filtered elements
 	 */
 	public Transition filter(final DatumFunction<Element> datumFunction) {
+		
+		assertObjectIsNotAnonymous(datumFunction);
 
-		String memberName = "temp_filter_function";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, datumFunction);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, datumFunction);
 
 		String command = "this.filter(function(d, i) { " //
-				+ "return this." + memberName + ".apply(this,{datum:d},i);" //
+				+ "return d3." + memberName + ".apply(this,{datum:d},i);" //
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
-
-		jsObj.removeMember(memberName);
 
 		if (result == null) {
 			return null;
 		}
 
 		return new Transition(webEngine, result);
-
 	}
 
 	/**
@@ -832,7 +841,8 @@ public class Transition extends JavaScriptObject {
 	 * @return the new transition
 	 */
 	public Transition transition() {
-		return this.transition();
+		JSObject result = call("transition");
+		return new Transition(webEngine, result);
 	}
 
 	/**
@@ -842,7 +852,8 @@ public class Transition extends JavaScriptObject {
 	 * @return true if the transition is empty, false otherwise.
 	 */
 	public boolean empty() {
-		return this.empty();
+		Boolean result = callForBoolean("empty");
+		return result;
 	}
 
 	/**
@@ -853,22 +864,21 @@ public class Transition extends JavaScriptObject {
 	 *         the selection is empty.
 	 */
 	public Element node() {
-		return this.node();
+		JSObject result = call("node");
+		return new Element(webEngine, result);
 	}
 
 	/**
 	 * @return the total number of elements in the current transition.
 	 */
 	public int size() {
-		return this.size();
+		int result = callForInteger("size");
+		return result;
 	}
 
 	/**
 	 * Type of transition event.
-	 * <p>
-	 * 
-	 * 
-	 * 
+	 * <p> 
 	 */
 	public static enum EventType {
 		START, END;
@@ -912,15 +922,17 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition each(EventType type, DatumFunction<Void> listener) {
+		
+		assertObjectIsNotAnonymous(listener);
 
 		String typeString = type.getType();
 
-		String memberName = "temp_filter_function";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, listener);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, listener);
 
 		String command = "this.each('" + typeString + "', function(d, i) {" //
-				+ "this." + memberName + ".apply(this,{datum:d},i);"//
+				+ "d3." + memberName + ".apply(this,{datum:d},i);"//
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
@@ -952,13 +964,15 @@ public class Transition extends JavaScriptObject {
 	 * @return
 	 */
 	public Transition each(DatumFunction<Void> listener) {
+		
+		assertObjectIsNotAnonymous(listener);
 
-		String memberName = "temp_filter_function";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, listener);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, listener);
 
 		String command = "this.each(function(d, i) {" //
-				+ "this." + memberName + ".apply(this,{datum:d},i);" //
+				+ "d3." + memberName + ".apply(this,{datum:d},i);" //
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
@@ -966,9 +980,7 @@ public class Transition extends JavaScriptObject {
 		if (result == null) {
 			return null;
 		}
-
 		return new Transition(webEngine, result);
-
 	}
 
 	/**
@@ -980,17 +992,19 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition call(JsFunction jsFunction) {
 		
+		assertObjectIsNotAnonymous(jsFunction);
+
 		boolean isJavaScriptObject = jsFunction instanceof JavaScriptObject;
-		if(!isJavaScriptObject){
+		if (!isJavaScriptObject) {
 			String message = "The interface JsFunction must only by implemented "
 					+ "by JavaScriptObjects. However its type is" + jsFunction.getClass().getName();
 			throw new IllegalStateException(message);
 		}
 		JavaScriptObject javaScriptObject = (JavaScriptObject) jsFunction;
-		JSObject functionJsObject = javaScriptObject.getJsObject();		
+		JSObject functionJsObject = javaScriptObject.getJsObject();
 		JSObject result = call("call", functionJsObject);
-		return new Transition(webEngine, result);			
+		return new Transition(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 }

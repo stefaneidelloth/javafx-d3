@@ -42,7 +42,7 @@ import netscape.javascript.JSObject;
  */
 public class QuantizeScale extends DiscreteQuantitativeScale<QuantizeScale> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -54,12 +54,12 @@ public class QuantizeScale extends DiscreteQuantitativeScale<QuantizeScale> {
 		super(webEngine, wrappedJsObject);
 	}	
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 	
 	@Override
-	protected QuantizeScale createScale(WebEngine webEngine, JSObject result) {		
+	public QuantizeScale createScale(WebEngine webEngine, JSObject result) {		
 		return new QuantizeScale(webEngine, result);
 	}
 	

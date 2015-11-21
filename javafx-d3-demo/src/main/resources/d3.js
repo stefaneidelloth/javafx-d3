@@ -844,7 +844,7 @@
       var i, n = group.length, m = groupData.length, n0 = Math.min(n, m), updateNodes = new Array(m), enterNodes = new Array(m), exitNodes = new Array(n), node, nodeData;
       if (key) {
         var nodeByKeyValue = new d3_Map(), keyValues = new Array(n), keyValue;
-        for (i = -1; ++i < n; ) {
+        for (i = -1; ++i < n; ) {        	
           if (nodeByKeyValue.has(keyValue = key.call(node = group[i], node.__data__, i))) {
             exitNodes[i] = node;
           } else {

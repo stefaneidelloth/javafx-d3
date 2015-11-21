@@ -25,15 +25,15 @@ import javafx.scene.layout.VBox;
  */
 public class BrushAsSliderDemo extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private Brush brush;
 	private LinearScale x;
 	private Selection handle;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param d3
@@ -45,9 +45,9 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 		// axis, domain, slider, handle, halo
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -148,6 +148,6 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 
 	}
 
-	// #end region
+	//#end region
 
 }

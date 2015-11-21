@@ -25,7 +25,7 @@ import javafx.scene.layout.VBox;
  */
 public class ArcTween extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private static final String INTRO_TEXT = "This demonstrate the SVG Arc API with Transition API: here, a complex transition is constructed from a custom interpolator. "
 			+ "Moreover, the centroid() method of Arc is illustrated to show how easy it is to display labels in a donut chart.";
@@ -34,9 +34,9 @@ public class ArcTween extends AbstractDemoCase {
 	private Arc arc;
 	private Selection centroidText;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -49,9 +49,9 @@ public class ArcTween extends AbstractDemoCase {
 		// this.add(new Label(INTRO_TEXT));
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -185,6 +185,6 @@ public class ArcTween extends AbstractDemoCase {
 
 	}
 
-	// #end region
+	//#end region
 
 }

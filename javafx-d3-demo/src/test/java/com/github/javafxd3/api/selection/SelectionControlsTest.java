@@ -1,21 +1,13 @@
 package com.github.javafxd3.api.selection;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import org.junit.Test;
-
 import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.wrapper.Element;
+import com.github.javafxd3.api.selection.datumfunction.StringBuilderFunction;
+import com.github.javafxd3.demo.client.democases.svg.LabelFactory;
 
 @SuppressWarnings("javadoc")
 public class SelectionControlsTest extends AbstractSelectionTest {
 
-	
 	@Override
-	@Test
 	public void doTest() {
 		testEmpty();// 1
 		testNode();// 2
@@ -26,8 +18,7 @@ public class SelectionControlsTest extends AbstractSelectionTest {
 	}
 
 	private void testInterrupt() {
-		Selection selection = givenAMultipleSelection(new Label("1"),
-				new Label("2"));
+		Selection selection = givenAMultipleSelection(new LabelFactory("1"), new LabelFactory("2"));
 		selection.interrupt();
 	}
 
@@ -45,30 +36,18 @@ public class SelectionControlsTest extends AbstractSelectionTest {
 	 * 
 	 */
 	private void testEach() {
-		Selection selection = givenAMultipleSelection(new Label("1"),
-				new Label("2"));
-		final StringBuilder sb = new StringBuilder();
-		selection.each(new DatumFunction<Void>() {
-			@Override
-			public Void apply(final Object context, final Object d,
-					final int index) {
-				
-				Value datum = (Value) d;						
-				Element element =(Element) context;
-				
-				sb.append(element.getInnerText());
-				return null;
-			}
-		});
-		assertEquals("12", sb.toString());
+		Selection selection = givenAMultipleSelection(new LabelFactory("1"), new LabelFactory("2"));
+		final StringBuilder stringBuilder = new StringBuilder();
+		
+		selection.each(new StringBuilderFunction(webEngine, stringBuilder));
+		assertEquals("12", stringBuilder.toString());
 	}
 
 	/**
 	 * 
 	 */
 	private void testCount() {
-		Selection selection = givenAMultipleSelection(new Label("1"),
-				new Label("2"));
+		Selection selection = givenAMultipleSelection(new LabelFactory("1"), new LabelFactory("2"));
 		assertEquals(2, selection.size());
 	}
 
@@ -76,15 +55,14 @@ public class SelectionControlsTest extends AbstractSelectionTest {
 	 * 
 	 */
 	private void testNode() {
-		Selection selection = givenAMultipleSelection(new Label("1"),
-				new Label("2"));
+		Selection selection = givenAMultipleSelection(new LabelFactory("1"), new LabelFactory("2"));
 		assertEquals("1", selection.node().getInnerText());
 		selection = selection.selectAll("unknown");
 		assertNull(selection.node());
 	}
 
 	protected void testEmpty() {
-		Selection selection = d3.select("root");
+		Selection selection = d3.select("svg");
 
 		selection.append("myelement");
 

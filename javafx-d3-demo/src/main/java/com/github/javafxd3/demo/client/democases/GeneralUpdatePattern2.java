@@ -13,6 +13,7 @@ import com.github.javafxd3.demo.client.DemoFactory;
 import com.sun.glass.ui.Timer;
 
 import javafx.scene.layout.VBox;
+import netscape.javascript.JSObject;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
@@ -22,14 +23,14 @@ import javafx.scene.layout.VBox;
  */
 public class GeneralUpdatePattern2 extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private Timer timer;
 	private Selection svg;	
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -43,9 +44,9 @@ public class GeneralUpdatePattern2 extends AbstractDemoCase {
 		//gup2 updateD3Content enter
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -101,8 +102,12 @@ public class GeneralUpdatePattern2 extends AbstractDemoCase {
 		// Join new data with old elements, if any.
 		UpdateSelection selection = svg.selectAll("text").data(data, new KeyFunction<Integer>() {
 			@Override
-			public Integer map(final Element context, final Object[] newDataArray, final Value datum, final int index) {
-				return datum.asInt();
+			public Integer call(final Object context, final Object newDataArray, final Object datum, final int index) {
+				
+				JSObject jsObject = (JSObject) datum;
+				Value value = new Value(webEngine, jsObject);
+				
+				return value.asInt();
 			}
 		});
 

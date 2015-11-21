@@ -1,7 +1,5 @@
 package com.github.javafxd3.api.scales;
 
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.arrays.Array;
@@ -12,8 +10,7 @@ public class ThresholdScaleTest extends AbstractTestCase {
 	
 	private static final double DELTA = 0.001d;
 
-	@Override
-	@Test
+	@Override	
 	public void doTest() {
 		
 		D3 d3 = new D3(webEngine);
@@ -22,12 +19,12 @@ public class ThresholdScaleTest extends AbstractTestCase {
 		ThresholdScale threshold = d3.scale().threshold();
 		Array<Value> domain = threshold.domain();
 		assertEquals(1, domain.length());
-		assertEquals(0.5, domain.get(0, Double.class));
+		assertEquals(0.5, domain.get(0, Double.class),TOLERANCE);
 
 		Array<Double> range = threshold.range();
 		assertEquals(2, range.length());
-		assertEquals(0d, range.get(0, Double.class));
-		assertEquals(1d, range.get(1, Double.class));
+		assertEquals(0d, range.get(0, Double.class),TOLERANCE);
+		assertEquals(1d, range.get(1, Double.class),TOLERANCE);
 
 		assertEquals(0d, threshold.apply(0.49d).asDouble(),DELTA);
 		assertEquals(1d, threshold.apply(0.51d).asDouble(),DELTA);

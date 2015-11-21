@@ -57,13 +57,13 @@ import netscape.javascript.JSObject;
  */
 public class D3 extends JavaScriptObject {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -76,9 +76,9 @@ public class D3 extends JavaScriptObject {
 		setJsObject(d3);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * @return the version of the d3 API
@@ -704,8 +704,8 @@ public class D3 extends JavaScriptObject {
 	public <T> Dsv<T> csv(String url, DsvObjectAccessor<T> accessor, DsvCallback<T> callback) {
 
 		
-		String accessorMemberName = "temp_accessor_callback";
-		String dsvMemberName = "temp_dsv_callback";
+		String accessorMemberName = createNewTemporaryInstanceName();
+		String dsvMemberName = createNewTemporaryInstanceName();
 		
 		JSObject jsObj = getJsObject();
 		jsObj.setMember(accessorMemberName, accessor);
@@ -767,7 +767,7 @@ public class D3 extends JavaScriptObject {
 	 * @return the TSV module
 	 */
 	public <T> Dsv<T> tsv() {
-		JSObject result = call("tsv");
+		JSObject result = getMember("tsv");
 		return new Dsv<T>(webEngine, result);
 	};
 

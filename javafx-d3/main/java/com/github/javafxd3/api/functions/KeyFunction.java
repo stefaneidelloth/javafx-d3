@@ -49,5 +49,5 @@ public interface KeyFunction<T> {
 	 * 
      * @return a key to be used to map new datum to existing elements.
      */
-	public T map(Element context, Object[] newDataArray, Value datum, int index);
+	public T call(Object context, Object newDataArray, Object datum, int index);
 }

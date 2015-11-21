@@ -30,7 +30,7 @@ public class HullDemo extends AbstractDemoCase {
 
 	
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private Selection svg;
 	private Selection hull;
@@ -41,7 +41,7 @@ public class HullDemo extends AbstractDemoCase {
 	private static int width = 960;
 	private static int height = 500;
 
-	// #end region
+	//#end region
 	
 	//#region CONSTRUCTORS
 

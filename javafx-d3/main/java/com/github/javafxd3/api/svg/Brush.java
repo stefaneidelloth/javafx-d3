@@ -22,7 +22,7 @@ import netscape.javascript.JSObject;
  */
 public class Brush extends JavaScriptObject implements JsFunction {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -35,9 +35,9 @@ public class Brush extends JavaScriptObject implements JsFunction {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Set the brushâ€™s x-scale.
@@ -317,12 +317,12 @@ public class Brush extends JavaScriptObject implements JsFunction {
 
 		String eventString = event.getValue();
 
-		String memberName = "temp_listener";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(memberName, listener);
+		String memberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(memberName, listener);
 
 		String command = "this.on('" + eventString + "', function(d, i) {" //
-				+ "this." + memberName + ".apply(this,{datum:d},i);" //
+				+ "d3." + memberName + ".apply(this,{datum:d},i);" //
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
@@ -463,16 +463,16 @@ public class Brush extends JavaScriptObject implements JsFunction {
 		return !!this.empty();
 	}
 
-	// #end region
+	//#end region
 
-	// #region ENUM
+	//#region ENUM
 
 	/**
 	 * 
 	 */
 	public static enum BrushEvent {
 
-		// #region VALUES
+		//#region VALUES
 		/**
 		 * on mousedown.
 		 */
@@ -488,23 +488,23 @@ public class Brush extends JavaScriptObject implements JsFunction {
 		 */
 		BRUSH_END("brushend");
 
-		// #end region
+		//#end region
 
-		// #region ATTRIBUTES
+		//#region ATTRIBUTES
 
 		private final String value;
 
-		// #end region
+		//#end region
 
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		private BrushEvent(final String value) {
 			this.value = value;
 		}
 
-		// #end region
+		//#end region
 
-		// #region ACCESSORS
+		//#region ACCESSORS
 
 		/**
 		 * @return the value
@@ -513,9 +513,9 @@ public class Brush extends JavaScriptObject implements JsFunction {
 			return value;
 		}
 
-		// #end region
+		//#end region
 	}
 
-	// #end region
+	//#end region
 
 }

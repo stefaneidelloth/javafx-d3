@@ -12,7 +12,7 @@ import netscape.javascript.JSObject;
  */
 public class JavaScriptObject {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	/**
 	 * The JavaFx web engine
@@ -24,9 +24,11 @@ public class JavaScriptObject {
 	 */
 	private JSObject jsObject;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
+
+	
 
 	/**
 	 * Constructor
@@ -37,11 +39,11 @@ public class JavaScriptObject {
 		this.webEngine = webEngine;
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
-	// #region CALL
+	//#region CALL
 
 	/**
 	 * Invokes the method with the given name and arguments and returns the
@@ -166,6 +168,11 @@ public class JavaScriptObject {
 	 */
 	protected JSObject call(String methodName, Object... args) {
 		Object resultObj = jsObject.call(methodName, args);
+		
+		if (resultObj==null){
+			return null;
+		}
+		
 		boolean isJsObject = resultObj instanceof JSObject;
 		if (isJsObject) {
 			JSObject result = (JSObject) resultObj;
@@ -193,24 +200,23 @@ public class JavaScriptObject {
 	}
 
 	protected Object callThis(Object... args) {
-		String varNamePrefix = "temp__var__";
 
+		JSObject d3JsObj = getD3();
+		
 		// store args as member and create variable name list
 		List<String> varNames = new ArrayList<>();
+		List<String> fullVarNames = new ArrayList<>();
+
 		for (int index = 0; index < args.length; index++) {
-			String varName = varNamePrefix + index;
+			String varName = createNewTemporaryInstanceName();
 			varNames.add(varName);
-			jsObject.setMember(varName, args[index]);
+			fullVarNames.add("d3." + varName);
+			d3JsObj.setMember(varName, args[index]);
 		}
 
 		// eval command
-		String command = "this(" + String.join(",", varNames) + ");";
+		String command = "this(" + String.join(",", fullVarNames) + ");";
 		Object result = eval(command);
-
-		// remove temporary members
-		for (String varName : varNames) {
-			jsObject.removeMember(varName);
-		}
 
 		return result;
 	}
@@ -237,12 +243,28 @@ public class JavaScriptObject {
 
 	protected JSObject callThisForJsObject(Object... args) {
 		Object result = callThis(args);
-		return (JSObject) result;
+		if (result==null){
+			return null;
+		}
+		
+		boolean isJsObject = result instanceof JSObject;
+		if(isJsObject){
+			return (JSObject) result;			
+		} else{
+			boolean isUndefined = result.equals("undefined");
+			if(isUndefined){
+				return null;
+			} else {
+				String message = "Not yet implemented for result " + result.toString();
+				throw new IllegalStateException(message);
+			}
+			
+		}
 	}
 
-	// #end region
+	//#end region
 
-	// #region GET MEMBER
+	//#region GET MEMBER
 
 	/**
 	 * Gets the member with the given name
@@ -251,7 +273,14 @@ public class JavaScriptObject {
 	 * @return
 	 */
 	public JSObject getMember(String name) {
-		JSObject result = (JSObject) jsObject.getMember(name);
+		Object resultObj = jsObject.getMember(name);
+		if (resultObj == null) {
+			return null;
+		}
+		if (resultObj.equals("undefined")) {
+			return null;
+		}
+		JSObject result = (JSObject) resultObj;
 		return result;
 	}
 
@@ -290,16 +319,16 @@ public class JavaScriptObject {
 			Double result = (Double) resultObj;
 			return result;
 		}
-		
+
 		boolean isNumber = resultObj instanceof Number;
-		if (isNumber){
+		if (isNumber) {
 			Double result = Double.parseDouble("" + resultObj);
 			return result;
 		}
-		
-		String message = "Could not retrieve value of type " + resultObj.getClass().getName() +" as double.";
+
+		String message = "Could not retrieve value of type " + resultObj.getClass().getName() + " as double.";
 		throw new IllegalStateException(message);
-		
+
 	}
 
 	/**
@@ -320,13 +349,17 @@ public class JavaScriptObject {
 	 * @return
 	 */
 	protected String getMemberForString(String name) {
-		String result = (String) jsObject.getMember(name);
+		Object resultObj = jsObject.getMember(name);
+		if (resultObj == null) {
+			return null;
+		}
+		String result = (String) resultObj;
 		return result;
 	}
 
-	// #end region
+	//#end region
 
-	// #region EVAL
+	//#region EVAL
 
 	/**
 	 * Evaluates the given java script command and returns the result as Object
@@ -397,9 +430,9 @@ public class JavaScriptObject {
 		return result;
 	};
 
-	// #end region
+	//#end region
 
-	// #region CAST
+	//#region CAST
 
 	/**
 	 * @return
@@ -408,11 +441,77 @@ public class JavaScriptObject {
 		throw new IllegalStateException("not yet implemented");
 	}
 
-	// #end region
+	//#end region
+	
+	//#region EQUALS
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((jsObject == null) ? 0 : jsObject.hashCode());
+		result = prime * result + ((webEngine == null) ? 0 : webEngine.hashCode());
+		return result;
+	}
 
-	// #end region
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		JavaScriptObject other = (JavaScriptObject) obj;
+		if (jsObject == null) {
+			if (other.jsObject != null)
+				return false;
+		} else if (!jsObject.equals(other.jsObject))
+			return false;
+		if (webEngine == null) {
+			if (other.webEngine != null)
+				return false;
+		} else if (!webEngine.equals(other.webEngine))
+			return false;
+		return true;
+	}
+	
+	//#end region
+	
+	//#region UTILS
+	
+	/**
+	 * Creates a unique callback name (includes the current time in ms and a random number)
+	 * @return
+	 */
+	protected static String createNewTemporaryInstanceName() {
+		double random = Math.random(); 
+		String randomString = ("" + random).substring(2);
+		String name =  "temp__instance__" + System.currentTimeMillis() + "_" + randomString;
+		return name;
+	}
+	
+	
+	protected JSObject getD3() {
+		JSObject d3jsObj = (JSObject) webEngine.executeScript("d3");
+		return d3jsObj;
+	}
+	
+	protected void assertObjectIsNotAnonymous(final Object callback) {
+		Class<?> callbackClass = callback.getClass();
+		boolean isAnonymeous = callbackClass.isAnonymousClass();
+		if (isAnonymeous) {
+			String message = "Anonymous callback implementations are not supported. "
+					+ "Please create a named class for '" + callbackClass.getName() + "'";
+			throw new IllegalArgumentException(message);
+		}
+	}
+	
+	//#end region
 
-	// #region ACCESSORS
+	//#end region
+
+	//#region ACCESSORS
 
 	/**
 	 * Returns the wrapped JSObject
@@ -439,6 +538,6 @@ public class JavaScriptObject {
 		return webEngine;
 	}
 
-	// #end region
+	//#end region
 
 }

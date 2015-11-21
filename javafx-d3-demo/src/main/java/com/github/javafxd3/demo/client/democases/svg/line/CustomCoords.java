@@ -7,13 +7,13 @@ import javafx.scene.web.WebEngine;
 
 public  class CustomCoords extends Coords {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	boolean defined;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -29,9 +29,9 @@ public  class CustomCoords extends Coords {
 		this.defined = defined;
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	public static DatumFunction<Double> xAccessor() {
 		return new XAccessorDatumFunction();
@@ -45,14 +45,14 @@ public  class CustomCoords extends Coords {
 		return new DefinedDatumFunction();
 	}
 
-	// #end region
+	//#end region
 
-	// #region CLASSES
+	//#region CLASSES
 	
 	
 
 	
 
-	// #end region
+	//#end region
 
 }

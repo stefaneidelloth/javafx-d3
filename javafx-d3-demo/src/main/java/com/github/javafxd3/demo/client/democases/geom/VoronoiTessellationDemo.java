@@ -16,6 +16,7 @@ import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
 
 import javafx.scene.layout.VBox;
+import netscape.javascript.JSObject;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
@@ -25,15 +26,15 @@ import javafx.scene.layout.VBox;
  */
 public class VoronoiTessellationDemo extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private Selection path;
 	private Voronoi voronoi;
 	private Double[][] vertices;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -47,9 +48,9 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 		// vt
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -114,8 +115,12 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 	private void redraw() {
 		UpdateSelection upd = this.path.data(voronoi.apply(vertices), new KeyFunction<String>() {
 			@Override
-			public String map(final Element context, final Object[] newDataArray, final Value datum, final int index) {
-				String polygon = polygon(datum);
+			public String call(final Object context, final Object newDataArray, final Object datum, final int index) {
+				
+				JSObject jsObject = (JSObject) datum;
+				Value value = new Value(webEngine, jsObject);
+				
+				String polygon = polygon(value);
 				return polygon;
 			}
 		});
@@ -160,5 +165,5 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 	public void stop() {
 	}
 
-	// #end region
+	//#end region
 }

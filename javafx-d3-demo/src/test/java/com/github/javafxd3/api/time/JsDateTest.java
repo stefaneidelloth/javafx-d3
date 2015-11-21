@@ -1,19 +1,13 @@
 package com.github.javafxd3.api.time;
 
 import java.util.Date;
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
 
 import com.github.javafxd3.api.AbstractTestCase;
 
 public class JsDateTest extends AbstractTestCase {
 
-	@Override
-	@Test
+	@Override	
 	public void doTest() {
-
-		Runnable testRunnable = () -> {
 		
 			long time = 283906800000L; 
 
@@ -54,10 +48,7 @@ public class JsDateTest extends AbstractTestCase {
 			//millisecond
 			//int expectedMilliSeconds = date.getMilliseconds();
 			//int milliSeconds = jsDate.getMilliseconds();			
-			//assertEquals("Month", expectedMilliSeconds, milliSeconds);
-
-		};
-		doOnJavaFXThread(testRunnable);
+			//assertEquals("Month", expectedMilliSeconds, milliSeconds);		
 
 	}
 

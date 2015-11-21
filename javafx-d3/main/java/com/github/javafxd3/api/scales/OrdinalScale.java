@@ -46,7 +46,7 @@ import netscape.javascript.JSObject;
  */
 public class OrdinalScale extends Scale<OrdinalScale> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -58,9 +58,9 @@ public class OrdinalScale extends Scale<OrdinalScale> {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	// ============ rangePoints ============
 	/**
@@ -375,7 +375,7 @@ public class OrdinalScale extends Scale<OrdinalScale> {
 	}
 
 	@Override
-	protected OrdinalScale createScale(WebEngine webEngine, JSObject result) {
+	public OrdinalScale createScale(WebEngine webEngine, JSObject result) {
 		return new OrdinalScale(webEngine, result);		
 	}
 	

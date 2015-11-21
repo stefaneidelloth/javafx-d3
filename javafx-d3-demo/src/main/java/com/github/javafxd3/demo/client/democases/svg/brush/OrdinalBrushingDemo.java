@@ -26,15 +26,15 @@ import javafx.scene.layout.VBox;
  */
 public class OrdinalBrushingDemo extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private Selection svg;
 	private Selection symbol;
 	private OrdinalScale x;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -50,9 +50,9 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 		//this.addStyleName("ob");
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -161,5 +161,5 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 		svg.classed("selecting", !(d3.event().getEventTarget().<Brush> cast()).empty());
 	}
 
-	// #end region
+	//#end region
 }

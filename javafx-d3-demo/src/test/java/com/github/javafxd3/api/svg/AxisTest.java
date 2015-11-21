@@ -1,16 +1,16 @@
 package com.github.javafxd3.api.svg;
 
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.scales.LinearScale;
+import com.github.javafxd3.api.scales.LogScale;
 import com.github.javafxd3.api.scales.OrdinalScale;
+import com.github.javafxd3.api.selection.datumfunction.PrefixPlusIndexDatumFunction;
 import com.github.javafxd3.api.svg.Axis.Orientation;
-import com.github.javafxd3.api.wrapper.Element;
+import com.github.javafxd3.api.svg.datumfunction.TickTestDatumFunction;
 
 @SuppressWarnings("javadoc")
 public class AxisTest extends AbstractTestCase {
@@ -18,8 +18,7 @@ public class AxisTest extends AbstractTestCase {
 	
 	
 
-	@Override
-	@Test
+	@Override	
     public void doTest() {
     	
     	D3 d3 = new D3(webEngine);
@@ -38,7 +37,8 @@ public class AxisTest extends AbstractTestCase {
         assertEquals(Orientation.TOP, axis.orient());
 
         // set scale
-        axis.scale(d3.scale().log());
+        LogScale logScale = d3.scale().log();
+        axis.scale(logScale);
 
         // ticks
         assertEquals(1, axis.ticks().length());
@@ -57,15 +57,11 @@ public class AxisTest extends AbstractTestCase {
       //  assertEquals(10, axis.ticks()[1].asInt());
 
         // FIXME: smoke test to be cross checked
-        DatumFunction<String> f = new DatumFunction<String>() {
-            @Override
-            public String apply(final Object context, final Object d, final int index) {
-                return "index" + index;
-            }
-        };
+        DatumFunction<String> f = new PrefixPlusIndexDatumFunction(webEngine, "index");
+        
         axis.ticks(8, f);
         assertEquals(8, (int) axis.ticks().get(0,  Value.class).asInt());
-        assertEquals(f, (int) axis.ticks().get(1,  Value.class).as());
+        assertEquals(f, axis.ticks().get(1,  Value.class).as());
 
         // tick values
         assertNull(axis.tickValues());
@@ -105,34 +101,25 @@ public class AxisTest extends AbstractTestCase {
         // index in tick format
         OrdinalScale s2 = d3.scale().ordinal();
         axis = d3.svg().axis().scale(s2);
+        
         s2.domain(5, 15, 20, 100);
         s2.range(1, 2, 3, 4);
         final StringBuffer counter = new StringBuffer();
-        axis.tickFormat(new DatumFunction<String>() {
-
-            @Override
-            public String apply(final Object context, final Object d, final int index) {
-            	
-            	Value datum = (Value) d;						
-				Element element =(Element) context;
-				
-                System.out.println("INDEX " + index + " " + datum.as());
-                assertTrue(index >= 0 && index < 4);
-                counter.append("x");
-                if (index % 2 == 0) {
-                    return "";
-                }
-                return "" + index;
-            }
-        });
+        axis.tickFormat(new TickTestDatumFunction(webEngine, counter));
+        
         // apply
-        Selection svg = d3.select("root").append("svg").attr("width", 100)
+        Selection svg = d3.select("svg").attr("width", 100)
                 .attr("height", 100).append("g")
                 .attr("transform", "translate(32,50)");
+        
+       
 
         axis.apply(svg);
-        assertEquals(4, counter.length());
+        int counterLength = counter.length();
+        assertEquals(4, counterLength);
 
-        Axis axis2 = d3.svg().axis().apply(svg);
+        Axis axis2 = d3.svg().axis();
+        svg.call(axis2);
+        
     }
 }

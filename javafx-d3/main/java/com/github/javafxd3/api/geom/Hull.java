@@ -18,7 +18,7 @@ import netscape.javascript.JSObject;
  */
 public class Hull extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -29,9 +29,9 @@ public class Hull extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Sets the x-coordinate accessor.
@@ -45,12 +45,12 @@ public class Hull extends JavaScriptObject {
 	 */
 	public Hull x(DatumFunction<Double> xAccessor) {
 
-		String accessorName = "temp_xAccessor_callback";
+		String accessorName = createNewTemporaryInstanceName();
 
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(accessorName, xAccessor);
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(accessorName, xAccessor);
 
-		String command = "this.x(function(d, i) { return this." + accessorName + ".apply(this,{datum:d},i); });";
+		String command = "this.x(function(d, i) { return d3." + accessorName + ".apply(this,{datum:d},i); });";
 
 		JSObject result = evalForJsObject(command);
 		return new Hull(webEngine, result);
@@ -70,12 +70,12 @@ public class Hull extends JavaScriptObject {
 
 	public Hull y(DatumFunction<Double> yAccessor) {
 		
-		String accessorName = "temp_yAccessor_callback";
+		String accessorName = createNewTemporaryInstanceName();
 
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(accessorName, yAccessor);
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(accessorName, yAccessor);
 
-		String command = "this.y(function(d, i) { return this." + accessorName + ".apply(this,{datum:d},i); });";
+		String command = "this.y(function(d, i) { return d3." + accessorName + ".apply(this,{datum:d},i); });";
 
 		JSObject result = evalForJsObject(command);
 		return new Hull(webEngine, result);
@@ -97,13 +97,16 @@ public class Hull extends JavaScriptObject {
 	 */
 	public <T> Array<T> apply(Array<T> vertices) {
 		JSObject arrayObj = vertices.getJsObject();
-		String tempVarName = "temp__var";
-		JSObject jsObj = getJsObject();
-		jsObj.setMember(tempVarName, arrayObj);
-		String command = "this(this." + tempVarName + ")";
+		
+		String tempVarName = createNewTemporaryInstanceName();
+		
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(tempVarName, arrayObj);
+		
+		String command = "this(d3." + tempVarName + ")";
 		JSObject result = evalForJsObject(command);
 		
-		jsObj.removeMember(tempVarName);
+		
 		
 		return new Array<T>(webEngine, result);
 		

@@ -34,11 +34,11 @@ import javafx.scene.web.WebEngine;
 @SuppressWarnings("javadoc")
 public class AxisComponent extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * 
@@ -53,9 +53,9 @@ public class AxisComponent extends AbstractDemoCase {
 		// area axis x y line svg
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -235,13 +235,13 @@ public class AxisComponent extends AbstractDemoCase {
 	public void stop() {
 	}
 
-	// #end region
+	//#end region
 
-	// #region CLASSES
+	//#region CLASSES
 
 	private static class Data extends JavaScriptObject {
 
-		// #region ATTRIBUTES
+		//#region ATTRIBUTES
 
 		private final String symbol;
 
@@ -249,9 +249,9 @@ public class AxisComponent extends AbstractDemoCase {
 
 		private final double price;
 
-		// #end region
+		//#end region
 
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		/**
 		 * Constructor
@@ -267,18 +267,18 @@ public class AxisComponent extends AbstractDemoCase {
 			this.price = price;
 		}
 
-		// #end region
+		//#end region
 
-		// #region METHODS
+		//#region METHODS
 
 		@Override
 		public String toString() {
 			return "Data [date=" + date.getTime() + ", price=" + price + "]";
 		}
 		
-		// #end region
+		//#end region
 
-		// #region ACCESSORS
+		//#region ACCESSORS
 
 		/**
 		 * @return
@@ -301,9 +301,9 @@ public class AxisComponent extends AbstractDemoCase {
 			return price;
 		}
 
-		// #end region
+		//#end region
 	}
 
-	// #end region
+	//#end region
 
 }

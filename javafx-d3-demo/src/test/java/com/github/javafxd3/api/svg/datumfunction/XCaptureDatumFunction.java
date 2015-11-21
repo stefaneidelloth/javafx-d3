@@ -1,0 +1,52 @@
+package com.github.javafxd3.api.svg.datumfunction;
+
+import java.util.List;
+
+import com.github.javafxd3.api.core.Value;
+import com.github.javafxd3.api.functions.DatumFunction;
+
+import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
+
+/**
+ * A datum function that returns the x coordinate as double
+ *  
+ */
+public class XCaptureDatumFunction implements DatumFunction<Double> {
+	
+	//#region ATTRIBUTES
+	
+	private WebEngine webEngine;
+	
+	private List<Double> xList;
+	
+	//#end region
+	
+	//#region CONSTRUCTORS
+	
+	/**
+	 * @param webEngine
+	 */
+	public XCaptureDatumFunction(WebEngine webEngine,  List<Double> xList){
+		this.webEngine=webEngine;
+		this.xList = xList;
+	}
+	
+	//#end region
+	
+	//#region METHODS
+
+	@Override
+	public Double apply(Object context, Object datum, int index) {
+		
+		JSObject jsObject = (JSObject) datum;
+		Value value = new Value(webEngine, jsObject);					
+	
+		Double x = value.asCoords().x();
+		xList.add(x);
+		return x;
+	}
+	
+	//#end region
+
+}

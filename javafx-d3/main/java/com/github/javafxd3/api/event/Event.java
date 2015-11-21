@@ -20,7 +20,7 @@ public class Event<T> extends JavaScriptObject implements JsFunction {
 	
 	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 	
 	/**
 	 * @param webEngine
@@ -38,7 +38,7 @@ public class Event<T> extends JavaScriptObject implements JsFunction {
 		setJsObject(wrappedJsObject);
 	}
 		
-	// #end region
+	//#end region
 	
 	//#region ACCESSORS
 	

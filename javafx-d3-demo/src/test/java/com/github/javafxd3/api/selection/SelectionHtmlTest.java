@@ -1,48 +1,31 @@
 package com.github.javafxd3.api.selection;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
+import com.github.javafxd3.api.selection.datumfunction.PrefixPlusIndexDatumFunction;
 import com.github.javafxd3.api.wrapper.D3NodeFactory;
-import com.github.javafxd3.api.wrapper.Element;
-
+import com.github.javafxd3.demo.client.democases.svg.LabelFactory;
 
 @SuppressWarnings("javadoc")
 public class SelectionHtmlTest extends AbstractSelectionTest {
 
 	@Override
-	@Test
 	public void doTest() {
 		testGetter();
 		testSetterConstantString();
 		testSetterFunction();
-
 	}
 
 	protected void testSetterFunction() {
 		// works with single selection
-		Selection selection = givenASimpleSelection(new Label());
+		Selection selection = givenASimpleSelection(new LabelFactory());
 		final String value = "<div name=\"test\" style=\"background-color:red;\"></div>";
-		selection.html(new DatumFunction<String>() {
-			@Override
-			public String apply(final Object context, final Object datum, final int index) {
-				return value + index;
-			}
-		});
+		selection.html(new PrefixPlusIndexDatumFunction(webEngine, value));
 		assertEquals(value + "0", getElementInnerHtml(0));
 
 		// works with multiple selection
-		selection = givenAMultipleSelection(new Label(), new Label(), new Label());
-		selection.html(new DatumFunction<String>() {
-			@Override
-			public String apply(final Object context, final Object datum, final int index) {
-				return value + index;
-			}
-		});
+		selection = givenAMultipleSelection(new LabelFactory(), new LabelFactory(), new LabelFactory());
+		selection.html(new PrefixPlusIndexDatumFunction(webEngine, value));
 		assertEquals(value + "0", getElementInnerHtml(0));
 		assertEquals(value + "1", getElementInnerHtml(1));
 		assertEquals(value + "2", getElementInnerHtml(2));
@@ -51,13 +34,13 @@ public class SelectionHtmlTest extends AbstractSelectionTest {
 
 	protected void testSetterConstantString() {
 		// works with single selection
-		Selection selection = givenASimpleSelection(new Label());
+		Selection selection = givenASimpleSelection(new LabelFactory());
 		final String value = "<div name=\"test\" style=\"background-color:red;\"></div>";
 		selection.html(value);
 		assertEquals(value, getElementInnerHtml(0));
 
 		// works with multiple selection
-		selection = givenAMultipleSelection(new Label(), new Label(), new Label());
+		selection = givenAMultipleSelection(new LabelFactory(), new LabelFactory(), new LabelFactory());
 		selection.html(value);
 		assertEquals(value, getElementInnerHtml(0));
 		assertEquals(value, getElementInnerHtml(1));
@@ -67,7 +50,7 @@ public class SelectionHtmlTest extends AbstractSelectionTest {
 
 	protected void testGetter() {
 		// with single selection
-		Label label = new Label();
+		LabelFactory label = new LabelFactory();
 		final String value = "<div name=\"test\" style=\"background-color:red;\"></div>";
 		label.setInnerHTML(value);
 		Selection selection = givenASimpleSelection(label);
@@ -79,7 +62,7 @@ public class SelectionHtmlTest extends AbstractSelectionTest {
 	}
 
 	private D3NodeFactory createLabel(final String textValue) {
-		Label label = new Label();
+		LabelFactory label = new LabelFactory();
 		label.setInnerHTML(textValue);
 		return label;
 	}

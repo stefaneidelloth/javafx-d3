@@ -12,7 +12,7 @@ public interface D3NodeFactory {
 	 * @param selection
 	 * @return 
 	 */
-	Selection create(Selection selection);
+	Selection createInParentSelection(Selection selection);
 	
 	/**
 	 * Removes a d3 node, using the given selection as a parent

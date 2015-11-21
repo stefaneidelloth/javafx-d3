@@ -3,21 +3,15 @@ package com.github.javafxd3.api.arrays;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import netscape.javascript.JSObject;
 
 public class ArrayTest extends AbstractTestCase {
 
-	@Override
-	@Test
-	public void doTest() {
-		
-		Runnable testRunnable = ()->{
+	@Override	
+	public void doTest() {	
 
 		D3 d3 = browser.getD3();
 
@@ -28,9 +22,7 @@ public class ArrayTest extends AbstractTestCase {
 		testFromList(d3);
 		testFromDoubles(d3);
 		testFromJavaScriptObjects(d3);
-		};
 		
-		doOnJavaFXThread(testRunnable);
 	}
 
 	private void testEmptyArray(D3 d3) {
@@ -102,8 +94,8 @@ public class ArrayTest extends AbstractTestCase {
 		assertEquals("number of columns", 2, (int) sizes.get(1));
 		assertEquals("dimensions", 1, doubleArray.dimension());
 		
-		assertEquals("first value", 3.0, doubleArray.get(0, Double.class));
-		assertEquals("second value", 4.0, doubleArray.get(1, Double.class));
+		assertEquals("first value", 3.0, doubleArray.get(0, Double.class),TOLERANCE);
+		assertEquals("second value", 4.0, doubleArray.get(1, Double.class),TOLERANCE);
 
 	}
 

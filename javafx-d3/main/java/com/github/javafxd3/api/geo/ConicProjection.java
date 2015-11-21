@@ -9,7 +9,7 @@ import netscape.javascript.JSObject;
  */
 public class ConicProjection extends Projection<ConicProjection> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -19,9 +19,9 @@ public class ConicProjection extends Projection<ConicProjection> {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
-	// #end region
+	//#end region
 }

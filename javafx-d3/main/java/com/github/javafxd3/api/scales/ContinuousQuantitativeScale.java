@@ -1,6 +1,7 @@
 package com.github.javafxd3.api.scales;
 
 
+import com.github.javafxd3.api.arrays.ArrayUtils;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.time.TimeScale;
 
@@ -24,7 +25,7 @@ import netscape.javascript.JSObject;
 public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitativeScale<S>>
 		extends QuantitativeScale<S> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -36,9 +37,9 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	// =========== rangeRound ==========
 	/**
@@ -56,9 +57,9 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 	 * @param callingScale 
 	 * @return the current scale for chaining
 	 */
-	public S rangeRound(JSObject values, ContinuousQuantitativeScale<S> callingScale) {		
+	public S rangeRound(JSObject values) {		
 		JSObject result = call("rangeRound", values);
-		S resultScale = callingScale.createScale(webEngine, result);
+		S resultScale = createScale(webEngine, result);
 		return resultScale;		
 	}
 
@@ -68,7 +69,7 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 	 * @param result
 	 * @return
 	 */
-	protected abstract S createScale(WebEngine webEngine, JSObject result); 
+	public abstract S createScale(WebEngine webEngine, JSObject result); 
 
 	/**
 	 * See #rangeRound(JSObject).
@@ -77,20 +78,26 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 	 * @return the current scale for chaining
 	 */
 	public final S rangeRound(final double... numbers) {
-		throw new IllegalStateException("not yet implemented");
-		//return this.rangeRound(JsArrayUtils.readOnlyJsArray(numbers));
+		String arrayString = ArrayUtils.createArrayString(numbers);
+		String command = "this.rangeRound(" + arrayString + ")";
+		JSObject result = evalForJsObject(command);
+		S resultScale = createScale(webEngine, result);
+		return resultScale;	
+		
 		
 	}
 
 	/**
 	 * See #rangeRound(JavaScriptObject).
 	 * 
-	 * @param numbers
 	 * @return the current scale for chaining
 	 */
-	public final S rangeRound(final String... numbers) {
-		throw new IllegalStateException("not yet implemented");
-		//return this.rangeRound(Array.fromObjects(numbers));
+	public final S rangeRound(final String... strings) {
+		String arrayString = ArrayUtils.createArrayString(strings);
+		String command = "this.rangeRound(" + arrayString + ")";
+		JSObject result = evalForJsObject(command);
+		S resultScale = createScale(webEngine, result);
+		return resultScale;
 	}
 
 	// =========== invert ==========
@@ -120,8 +127,14 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 	 * @return
 	 */
 	public  Value invert(double d){
-		JSObject result = call("invert", d);
-		return new Value(webEngine, result);		
+		String command = "this.invert(" + d + ")";
+		Object result = eval(command);
+		if (result==null){
+			return null;
+		}
+		Value value = Value.create(webEngine, result);
+		
+		return value;		
 	}
 
 	// =========== clamp ==========
@@ -155,9 +168,10 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 	 * 
 	 * @return the current scale for chaining
 	 */
-	public S clamp(boolean clamping) {
-		throw new IllegalStateException("not yet implemented");
-		//return this.clamp(clamping);
+	public S clamp(boolean clamping) {		
+		JSObject result = call("clamp", clamping);
+		S resultScale = createScale(webEngine, result);
+		return resultScale;		
 	}
 
 	// ======== interpolate ========
@@ -199,6 +213,6 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 	// return this.interpolate(factory);
 	// }
 
-	// #end region
+	//#end region
 
 }

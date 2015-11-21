@@ -40,7 +40,7 @@ import netscape.javascript.JSObject;
  */
 public class EnteringSelection extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -63,9 +63,9 @@ public class EnteringSelection extends JavaScriptObject {
 		setJsObject(wrappedJSObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Appends a new element with the specified name as the last child of each
@@ -148,11 +148,11 @@ public class EnteringSelection extends JavaScriptObject {
 	 */
 	public Selection select(DatumFunction<Element> func) {
 		
-		String funcName = "listener_callback";
-		JSObject jsObject = getJsObject();
-		jsObject.setMember(funcName, func);
+		String funcName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(funcName, func);
 
-		String command = "this.select(function(d, i) { return this." + funcName + ".apply(this,{datum:d},i); });";
+		String command = "this.select(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
 		return new Selection(webEngine, result);		
 	}
@@ -280,5 +280,5 @@ public class EnteringSelection extends JavaScriptObject {
 		return this.cast();
 	}
 
-	// #end region
+	//#end region
 }

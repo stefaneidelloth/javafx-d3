@@ -39,7 +39,7 @@ import netscape.javascript.JSObject;
  */
 public class Arc extends PathDataGenerator {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -51,9 +51,9 @@ public class Arc extends PathDataGenerator {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * @return the inner radius of the arc.
@@ -151,15 +151,15 @@ public class Arc extends PathDataGenerator {
 	 * @return
 	 */
 	public Arc setOrInvokeSetter(String propName, double value) {
-		String isFunctionCommand = "typeof this[" + propName + "] === 'function'";
+		String isFunctionCommand = "typeof this['" + propName + "'] === 'function'";
 		Boolean isFunction = evalForBoolean(isFunctionCommand);
 
 		if (isFunction) {
-			String retrieveCommand = "this[" + propName + "](" + value + ");";
+			String retrieveCommand = "this['" + propName + "'](" + value + ");";
 			JSObject result = evalForJsObject(retrieveCommand);
 			return new Arc(webEngine, result);
 		} else {
-			String assignCommand = "this[" + propName + "] = " + value + ";";
+			String assignCommand = "this['" + propName + "'] = " + value + ";";
 			eval(assignCommand);
 			JSObject result = evalForJsObject("this");
 			return new Arc(webEngine, result);
@@ -219,7 +219,12 @@ public class Arc extends PathDataGenerator {
 		return new Arc(webEngine, result);
 		
 	}
+	
+	public String toString(){
+		String valueString = getJsObject().call("toString").toString();
+		return valueString;
+	}
 
-	// #end region
+	//#end region
 
 }

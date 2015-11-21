@@ -14,6 +14,7 @@ import com.github.javafxd3.demo.client.democases.geom.MitchellBestCandidate;
 import com.github.javafxd3.demo.client.democases.geom.ShapeTweeningDemo;
 import com.github.javafxd3.demo.client.democases.geom.VoronoiTessellationDemo;
 import com.github.javafxd3.demo.client.democases.layout.ClusterDendogram;
+import com.github.javafxd3.demo.client.democases.svg.TextDemo;
 import com.github.javafxd3.demo.client.democases.svg.brush.BrushAsSliderDemo;
 import com.github.javafxd3.demo.client.democases.svg.brush.BrushTransitionsDemo;
 import com.github.javafxd3.demo.client.democases.svg.brush.OrdinalBrushingDemo;
@@ -36,7 +37,7 @@ import javafx.stage.Stage;
  */
 public class JavaFxD3DemoSuite extends Application {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	/**
 	 * The JavaFx main scene
@@ -60,9 +61,9 @@ public class JavaFxD3DemoSuite extends Application {
 	
 	private final static int DEMO_BUTTON_WIDTH = 180;
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Main
@@ -138,8 +139,11 @@ public class JavaFxD3DemoSuite extends Application {
 		
 		//HELLO WORLD
 		menuChildren.add(new DemoMenuButton("Hello World", HelloWorldDemo.factory(d3, prefBox)));
+		
+		
 
 		// SVG
+		menuChildren.add( new DemoMenuButton("Text Demo", TextDemo.factory(d3,  prefBox)));
 		menuChildren.add(new DemoMenuButton("Symbol Demo", SymbolDemo.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Line Demo", LineDemo.factory(d3, prefBox)));
 		//menuChildren.add(new DemoMenuButton("Arc", ArcDemo.factory(d3, prefBox)));
@@ -200,16 +204,16 @@ public class JavaFxD3DemoSuite extends Application {
 		return root;
 	}
 
-	// #end region
+	//#end region
 
-	// #region DEMO MENU BUTTON CLASS
+	//#region DEMO MENU BUTTON CLASS
 
 	/**
 	 * A button that starts a corresponding demo
 	 */
 	public class DemoMenuButton extends Button {
 
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		/**
 		 * Constructor
@@ -226,9 +230,9 @@ public class JavaFxD3DemoSuite extends Application {
 			});
 		}
 
-		// #end region
+		//#end region
 
-		// #region METHODS
+		//#region METHODS
 
 		private void stopCurrentDemo() {
 			if (currentDemo != null) {
@@ -245,9 +249,9 @@ public class JavaFxD3DemoSuite extends Application {
 			demo.start();
 		}
 
-		// #end region
+		//#end region
 	}
 
-	// #end region
+	//#end region
 
 }

@@ -10,7 +10,7 @@ import netscape.javascript.JSObject;
  */
 public class Geography extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -22,9 +22,9 @@ public class Geography extends JavaScriptObject {
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * An alias for {@link #conicEqualArea()}, with USA-centric defaults:
@@ -66,5 +66,5 @@ public class Geography extends JavaScriptObject {
 		return new ConicProjection(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 }

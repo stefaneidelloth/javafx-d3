@@ -2,22 +2,18 @@ package com.github.javafxd3.api.time;
 
 import java.util.Date;
 
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 
 public class TimeFormatTest extends AbstractTestCase {
 
-	@Override
-	@Test
+	@Override	
 	public void doTest() {
-		Runnable testRunnable = () -> {
+		
 			parse();
 			format();
 			utc();
 			iso();
-		};
-		doOnJavaFXThread(testRunnable);
+		
 	}
 
 	private int getTimeZoneOffset(double time) {

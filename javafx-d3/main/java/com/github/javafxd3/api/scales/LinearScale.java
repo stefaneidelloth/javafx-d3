@@ -63,7 +63,7 @@ import netscape.javascript.JSObject;
  */
 public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -76,9 +76,9 @@ public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	// =========== ticks ==========
 
@@ -205,10 +205,10 @@ public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 	}
 
 	@Override
-	protected LinearScale createScale(WebEngine webEngine, JSObject result) {
+	public LinearScale createScale(WebEngine webEngine, JSObject result) {
 		return new LinearScale(webEngine, result);		
 	}
 
-	// #end region
+	//#end region
 
 }

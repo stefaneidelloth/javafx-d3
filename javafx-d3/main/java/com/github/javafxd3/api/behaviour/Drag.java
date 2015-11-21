@@ -25,7 +25,7 @@ import netscape.javascript.JSObject;
  */
 public class Drag extends JavaScriptObject implements JsFunction {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -36,9 +36,9 @@ public class Drag extends JavaScriptObject implements JsFunction {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Type of drag event to listen to.
@@ -76,13 +76,13 @@ public class Drag extends JavaScriptObject implements JsFunction {
 	 */
 	public Drag on(DragEventType type, DatumFunction<Void> listener) {
 
-		String listenerName = "listener_callback";
-		JSObject jsObject = getJsObject();
-		jsObject.setMember(listenerName, listener);
+		String listenerName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(listenerName, listener);
 
 		String eventName = type.name().toLowerCase();
 
-		String command = "this.on('" + eventName + "', " + "function(d, index) { this." + listenerName
+		String command = "this.on('" + eventName + "', " + "function(d, index) { d3." + listenerName
 				+ ".apply(this,{datum:d},index); });";
 		JSObject result = evalForJsObject(command);
 		return new Drag(webEngine, result);
@@ -153,11 +153,11 @@ public class Drag extends JavaScriptObject implements JsFunction {
 	 */
 	public Drag origin(DatumFunction<Coords> originAccesor) {
 
-		String originAccesorName = "listener_callback";
-		JSObject jsObject = getJsObject();
-		jsObject.setMember(originAccesorName, originAccesor);
+		String originAccesorName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(originAccesorName, originAccesor);
 
-		String command = "this.origin(function(d, i) { return this." + originAccesorName
+		String command = "this.origin(function(d, i) { return d3." + originAccesorName
 				+ ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
 		return new Drag(webEngine, result);
@@ -175,7 +175,7 @@ public class Drag extends JavaScriptObject implements JsFunction {
 	 */
 	public static class DragEvent extends JavaScriptObject {
 
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		/**
 		 * Constructor
@@ -188,9 +188,9 @@ public class Drag extends JavaScriptObject implements JsFunction {
 			setJsObject(wrappedJsObject);
 		}
 
-		// #end region
+		//#end region
 
-		// #region METHODS
+		//#region METHODS
 
 		/**
 		 * @return the element’s x coordinate relative to its position at the
@@ -212,9 +212,9 @@ public class Drag extends JavaScriptObject implements JsFunction {
 			return result;
 		}
 
-		// #end region
+		//#end region
 	}
 
-	// #end region
+	//#end region
 
 }

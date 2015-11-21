@@ -1,17 +1,12 @@
 package com.github.javafxd3.api.functions;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 
 import netscape.javascript.JSObject;
 
 public class DatumFunctionTest extends AbstractTestCase {
 
-	@Override
-	@Test
+	@Override	
 	public void doTest() {
 		
 		JSObject d3Obj = d3.getJsObject();

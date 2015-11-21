@@ -22,7 +22,7 @@ import netscape.javascript.JSObject;
  */
 public class Prefix extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -34,9 +34,9 @@ public class Prefix extends JavaScriptObject {
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Returns the prefix symbol, such as "M" for millions.
@@ -62,5 +62,5 @@ public class Prefix extends JavaScriptObject {
 		return result;
 	}
 
-	// #end region
+	//#end region
 }

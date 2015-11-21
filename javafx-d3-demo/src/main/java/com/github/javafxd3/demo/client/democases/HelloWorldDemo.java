@@ -44,8 +44,8 @@ public class HelloWorldDemo extends AbstractDemoCase {
 	@Override
     public void start() {
 		
-		Selection root = getSvg();		
-		Selection text = root.append("text") //
+		Selection svg = getSvg();		
+		Selection text = svg.append("text") //
 				.attr("x", "0")
 				.attr("y", "15")				
 				.text("Hello World");	

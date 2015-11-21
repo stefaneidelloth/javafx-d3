@@ -13,11 +13,11 @@ import javafx.scene.layout.VBox;
 @SuppressWarnings("javadoc")
 public class FocusAndContext extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -31,9 +31,9 @@ public class FocusAndContext extends AbstractDemoCase {
 		// fac brush axis
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Factory provider
@@ -175,21 +175,21 @@ public class FocusAndContext extends AbstractDemoCase {
 		return result;		
 	}
 
-	// #end region
+	//#end region
 
-	// #region CLASSES
+	//#region CLASSES
 
 	private static class Data {
 
-		// #region ATTRIOBUTES
+		//#region ATTRIOBUTES
 
 		private final Date date;
 
 		private final double price;
 
-		// #end region
+		//#end region
 
-		// #region CONSTRUCTORS
+		//#region CONSTRUCTORS
 
 		/**
 		 * Constructor
@@ -203,9 +203,9 @@ public class FocusAndContext extends AbstractDemoCase {
 			this.price = price;
 		}
 
-		// #end region
+		//#end region
 
-		// #region ACCESSORS
+		//#region ACCESSORS
 
 		public Date getDate() {
 			return date;
@@ -215,9 +215,9 @@ public class FocusAndContext extends AbstractDemoCase {
 			return price;
 		}
 
-		// #end region
+		//#end region
 	}
 
-	// #end region
+	//#end region
 
 }

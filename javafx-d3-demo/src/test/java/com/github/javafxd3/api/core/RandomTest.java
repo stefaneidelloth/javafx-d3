@@ -1,7 +1,5 @@
 package com.github.javafxd3.api.core;
 
-import org.junit.Test;
-
 import com.github.javafxd3.api.AbstractTestCase;
 
 /**
@@ -10,24 +8,18 @@ import com.github.javafxd3.api.AbstractTestCase;
 public class RandomTest extends AbstractTestCase {
 
 	@Override
-	@Test
 	public void doTest() {
-		
-		doOnJavaFXThread(()->generateRandom());
-	}
-
-	private void generateRandom() {
 		Random random = new Random(webEngine);
-		
+
 		random.normal().generate();
 		random.normal(1000).generate();
 		random.normal(1000, 40).generate();
 
 		random.logNormal().generate();
 		random.logNormal(1000).generate();
-		random.logNormal(1000,40).generate();
+		random.logNormal(1000, 40).generate();
 
 		random.irwinHall(456).generate();
 	}
-	
+
 }

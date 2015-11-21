@@ -12,15 +12,15 @@ import netscape.javascript.JSObject;
  */
 public class Coords extends JavaScriptObject {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	private Double x;
 
 	private Double y;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -69,9 +69,9 @@ public class Coords extends JavaScriptObject {
 		this.y = getMemberForDouble("y");
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Convenient {@link DatumFunction} that return the x component of a
@@ -147,5 +147,5 @@ public class Coords extends JavaScriptObject {
 		return this.x + "," + this.y;
 	}
 
-	// #end region
+	//#end region
 }

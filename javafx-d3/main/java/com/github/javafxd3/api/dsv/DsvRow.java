@@ -1,6 +1,7 @@
 package com.github.javafxd3.api.dsv;
 
 import com.github.javafxd3.api.core.Value;
+import com.github.javafxd3.api.wrapper.Inspector;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -14,7 +15,7 @@ import netscape.javascript.JSObject;
  */
 public class DsvRow extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -25,9 +26,9 @@ public class DsvRow extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Generic method to get the value of a named field.
@@ -35,7 +36,10 @@ public class DsvRow extends JavaScriptObject {
 	 * @param field
 	 * @return
 	 */
-	public Value get(String field) {		
+	public Value get(String field) {
+		
+		Inspector.inspect(this);
+		
 		String command = "this['" + field + "']";
 		Object resultObj = eval(command);		
 		Value entryValue =  Value.create(webEngine, resultObj);

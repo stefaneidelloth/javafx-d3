@@ -12,7 +12,7 @@ import netscape.javascript.JSObject;
  */
 public abstract class DiscreteQuantitativeScale<S extends DiscreteQuantitativeScale<S>> extends QuantitativeScale<S> {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -24,7 +24,7 @@ public abstract class DiscreteQuantitativeScale<S extends DiscreteQuantitativeSc
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
 	/**
 	 * Returns the extent of values in the input domain [x0, x1] for the

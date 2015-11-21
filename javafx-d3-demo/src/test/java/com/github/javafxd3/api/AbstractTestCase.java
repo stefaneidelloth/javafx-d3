@@ -4,6 +4,9 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.swing.SwingUtilities;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.time.JsDate;
 import com.github.javafxd3.demo.client.JavaFxD3Browser;
@@ -11,17 +14,18 @@ import com.github.javafxd3.demo.client.JavaFxD3Browser;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.web.WebEngine;
-import junit.framework.Assert;
+
 
 /**
- * Abstract parent class for all test cases
- * 
+ * Abstract parent class for all test cases 
  */
 public abstract class AbstractTestCase extends Assert {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	protected static JavaFxD3Browser browser = null;
+	
+	protected static double TOLERANCE = 1e-6; 
 
 	protected WebEngine webEngine;
 	
@@ -31,9 +35,9 @@ public abstract class AbstractTestCase extends Assert {
 
 	private boolean jfxIsSetup;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -44,9 +48,15 @@ public abstract class AbstractTestCase extends Assert {
 		}
 	}	
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
+	
+	@Test
+	public void doTestOnJavaFxApplicationThread(){
+		Runnable testRunnable = ()->doTest();
+		doOnJavaFXThread(testRunnable);
+	}
 	
 	private void initializeJavaFxD3Browser() {
 		Runnable postLoadingFinishedHook = () -> {
@@ -142,9 +152,9 @@ public abstract class AbstractTestCase extends Assert {
 			JsDate expectedDate = JsDate.create(webEngine, expected);
 			JsDate actualDate = JsDate.create(webEngine, actual);			
 			
-			failNotEquals(message, expectedDate, actualDate);
+			assertEquals(message, expectedDate, actualDate);
 		}
 	}
 
-	// #end region
+	//#end region
 }

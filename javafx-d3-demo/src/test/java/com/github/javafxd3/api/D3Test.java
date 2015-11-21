@@ -1,12 +1,9 @@
 package com.github.javafxd3.api;
 
-import static org.junit.Assert.fail;
-
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Test;
 
 
 @SuppressWarnings("javadoc")
@@ -25,8 +22,7 @@ public class D3Test extends AbstractTestCase {
 	}
 
 	
-	@Override
-	@Test
+	@Override	
 	public void doTest() {
 		// version
 		version();
@@ -85,8 +81,6 @@ public class D3Test extends AbstractTestCase {
 		fail("shuffle did not work");
 	}
 
-	
-	
 
 	/**
 	 * 

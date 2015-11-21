@@ -22,7 +22,7 @@ import netscape.javascript.JSObject;
  */
 public class Time extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -35,9 +35,9 @@ public class Time extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	// ========== scales =============
 	/**
@@ -1585,5 +1585,5 @@ public class Time extends JavaScriptObject {
 		return this.saturdayOfYear(JsDate.create(webEngine, date));
 	}
 
-	// #end region
+	//#end region
 }

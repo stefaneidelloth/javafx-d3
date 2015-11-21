@@ -10,7 +10,7 @@ import netscape.javascript.JSObject;
  */
 public class RGBColor extends Color {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -22,9 +22,9 @@ public class RGBColor extends Color {
 		super(webEngine, wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * @return the red component in the range [0;255]
@@ -110,6 +110,6 @@ public class RGBColor extends Color {
 		return new RGBColor(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 
 }

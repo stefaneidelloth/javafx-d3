@@ -1,28 +1,22 @@
 package com.github.javafxd3.api.selection;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
-
 import com.github.javafxd3.api.core.Selection;
+import com.github.javafxd3.demo.client.democases.svg.LabelFactory;
 
 @SuppressWarnings("javadoc")
 public class SelectionContentsTest extends AbstractSelectionTest {
 
 	@Override
-	@Test
 	public void doTest() {
 		testRemove();
 		testInsert();
 		testAppend();
 	}
 
-	
 	private void testRemove() {
 		clearSvg();
-		Selection selection = givenAMultipleSelection(new Label(), new Label(), new Label());
-		
+		Selection selection = givenAMultipleSelection(new LabelFactory(), new LabelFactory(), new LabelFactory());
+
 		// we gonna insert sub elements into the divs
 		Selection insertedElements = selection.insert("blah", "*");
 		assertEquals(3, insertedElements.size());
@@ -35,13 +29,13 @@ public class SelectionContentsTest extends AbstractSelectionTest {
 		// GIVEN 3 divs, the last div is a blahblah class
 		clearSvg();
 		for (int i = 0; i < 3; i++) {
-			selection = d3.select("#root").append("div");
+			selection = d3.select("#svg").append("div");
 		}
 		selection.classed("blahblah", true);
 		assertEquals(1, selection.size());
 		assertEquals(3, getSvg().node().getChildCount());
 		// WHEN I remove the blahblah div from the selection
-		selection = d3.select("#root").selectAll(".blahblah");
+		selection = d3.select("#svg").selectAll(".blahblah");
 		selection.remove();
 		// THEN it remove from the DOM
 		assertEquals(2, getSvg().node().getChildCount());
@@ -49,12 +43,11 @@ public class SelectionContentsTest extends AbstractSelectionTest {
 		assertEquals(1, selection.size());
 	}
 
-	
 	private void testInsert() {
-		Selection selection = givenAMultipleSelection(new Label());
+		Selection selection = givenAMultipleSelection(new LabelFactory());
 		assertEquals(1, selection.size());
 		assertEquals(0, selection.node().getChildCount());
-		assertEquals("div", selection.node().getTagName().toLowerCase());
+		assertEquals("text", selection.node().getTagName().toLowerCase());
 		Selection insertedElements = selection.insert("blah", "*");
 		assertEquals(1, insertedElements.size());
 		// the inserted blah nodes has been inserted into the labels div
@@ -67,9 +60,8 @@ public class SelectionContentsTest extends AbstractSelectionTest {
 		assertEquals(2, selection.node().getChildCount());
 	}
 
-	
 	private void testAppend() {
-		Selection selection = givenAMultipleSelection(new Label(), new Label());
+		Selection selection = givenAMultipleSelection(new LabelFactory(), new LabelFactory());
 		assertEquals(2, selection.size());
 		assertEquals(getSvg().node(), selection.node().getParentElement());
 		Selection selection2 = selection.append("div");
@@ -77,7 +69,8 @@ public class SelectionContentsTest extends AbstractSelectionTest {
 		assertNotNull(selection.node());
 		assertNotNull(selection2.node());
 		assertEquals(selection.node(), selection2.node().getParentElement());
-		assertEquals(2, selection2.size());// returned selection contains only the appended nodes
+		assertEquals(2, selection2.size());// returned selection contains only
+											// the appended nodes
 		//
 		assertEquals("div", selection2.node().getTagName().toLowerCase());
 

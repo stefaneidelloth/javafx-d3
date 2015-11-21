@@ -20,7 +20,7 @@ import netscape.javascript.JSObject;
  */
 public class Cluster extends HierarchicalLayout {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -32,9 +32,9 @@ public class Cluster extends HierarchicalLayout {
 		super(webEngine, wrappedJsObject);
 	}
 	
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * @param width
@@ -47,6 +47,6 @@ public class Cluster extends HierarchicalLayout {
 		return new Cluster(webEngine, result);
 	};
 
-	// #end region
+	//#end region
 
 }

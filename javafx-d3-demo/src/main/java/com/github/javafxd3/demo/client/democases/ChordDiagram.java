@@ -17,11 +17,11 @@ import javafx.scene.web.WebEngine;
 @SuppressWarnings("javadoc")
 public class ChordDiagram extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -35,9 +35,9 @@ public class ChordDiagram extends AbstractDemoCase {
 		// chord
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
@@ -200,9 +200,9 @@ public class ChordDiagram extends AbstractDemoCase {
 	public void stop() {
 	}
 
-	// #end region
+	//#end region
 
-	// #region CLASSES
+	//#region CLASSES
 
 	private static class GroupTick extends JavaScriptObject {
 		
@@ -233,6 +233,6 @@ public class ChordDiagram extends AbstractDemoCase {
 
 	}
 
-	// #end region
+	//#end region
 
 }

@@ -1,15 +1,10 @@
 package com.github.javafxd3.api.selection;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.functions.DatumFunction;
+import com.github.javafxd3.api.functions.ConstantDatumFunction;
+import com.github.javafxd3.api.functions.EvenIndexDatumFunction;
 import com.github.javafxd3.api.wrapper.D3NodeFactory;
-import com.github.javafxd3.api.wrapper.Element;
-
+import com.github.javafxd3.demo.client.democases.svg.LabelFactory;
 
 /**
  * Testing
@@ -20,7 +15,6 @@ import com.github.javafxd3.api.wrapper.Element;
 public class SelectionClassedTest extends AbstractSelectionTest {
 
 	@Override
-	@Test
 	public void doTest() {
 		testGetter();
 		testSetterConstantString();
@@ -32,22 +26,18 @@ public class SelectionClassedTest extends AbstractSelectionTest {
 		// 1. add
 		// works with single selection
 		Selection selection = givenASimpleSelection(createLabelFactory(""));
-		selection.classed("foo bar", new DatumFunction<Boolean>() {
-			@Override
-			public Boolean apply(final Object context, final Object datum, final int index) {
-				return true;
-			}
-		});
+		
+		
+		selection.classed("foo bar", new ConstantDatumFunction<Boolean>(true));
+		
 		assertEquals("foo bar", getElementClassAttribute(0));
 
 		// works with multiple selection
 		selection = givenAMultipleSelection(createLabelFactory(""), createLabelFactory(""), createLabelFactory(""));
-		selection.classed("foo bar", new DatumFunction<Boolean>() {
-			@Override
-			public Boolean apply(final Object context, final Object datum, final int index) {
-				return (index % 2) == 0;
-			}
-		});
+		
+		
+		selection.classed("foo bar", new EvenIndexDatumFunction());
+		
 		assertEquals("foo bar", getElementClassAttribute(0));
 		assertEquals("", getElementClassAttribute(1));
 		assertEquals("foo bar", getElementClassAttribute(2));
@@ -97,7 +87,8 @@ public class SelectionClassedTest extends AbstractSelectionTest {
 		assertEquals(true, selection.classed("bar foo"));
 		assertEquals(false, selection.classed("bary"));
 
-		Selection multipleSelection = givenAMultipleSelection(createLabelFactory("bary doe"), createLabelFactory("foo bar"));
+		Selection multipleSelection = givenAMultipleSelection(createLabelFactory("bary doe"),
+				createLabelFactory("foo bar"));
 		assertEquals(true, multipleSelection.classed("doe"));
 		assertEquals(true, multipleSelection.classed("bary"));
 		assertEquals(true, multipleSelection.classed("doe bary"));
@@ -107,7 +98,7 @@ public class SelectionClassedTest extends AbstractSelectionTest {
 	}
 
 	private D3NodeFactory createLabelFactory(final String className) {
-		Label labelFactory = new Label();
+		LabelFactory labelFactory = new LabelFactory();
 		labelFactory.setStyleClass(className);
 		return labelFactory;
 	}

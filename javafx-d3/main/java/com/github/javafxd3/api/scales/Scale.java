@@ -28,7 +28,7 @@ import netscape.javascript.JSObject;
  */
 public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -50,9 +50,9 @@ public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 	
 	 /**
 	  * Abstract factory method
@@ -60,7 +60,7 @@ public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
 	 * @param result
 	 * @return
 	 */
-	protected abstract S createScale(WebEngine webEngine, JSObject result);
+	public abstract S createScale(WebEngine webEngine, JSObject result);
 
     // ==================== domain ====================
 
@@ -118,6 +118,9 @@ public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
      */
     public  <T> Array<Value> domain(){
     	JSObject result = call("domain");
+    	if(result==null){
+    		return null;
+    	}
     	return new Array<Value>(webEngine, result);
     }
 
@@ -240,8 +243,16 @@ public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
      * @return the output value
      */
     public  Value apply(double d){
-    	JSObject result = call("this", d);
-    	return new Value(webEngine, result);
+    	String command = "this(" + d + ")";
+    	Object result = eval(command);
+    	
+    	if (result == null){
+    		return null;
+    	}
+    	
+    	Value value = Value.create(webEngine, result);
+    	
+    	return value;
     }
 
     /**
@@ -262,7 +273,11 @@ public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
      * @return the output value
      */
     public  Value apply(String d){
-    	JSObject result = call("this", d);
-    	return new Value(webEngine, result);
+    	String command = "this('" + d + "')";
+    	Object result = eval(command);
+    	
+    	Value value = Value.create(webEngine,  result);
+    	return value;
+    	
     }
 }

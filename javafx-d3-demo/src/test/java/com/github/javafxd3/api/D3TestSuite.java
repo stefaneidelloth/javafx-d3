@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.github.javafxd3.api.behaviors.ZoomTest;
 import com.github.javafxd3.api.color.HslColorTest;
+import com.github.javafxd3.api.core.FormatTest;
 import com.github.javafxd3.api.core.TransformTest;
 import com.github.javafxd3.api.core.ValueTest;
 import com.github.javafxd3.api.dsv.DsvTest;

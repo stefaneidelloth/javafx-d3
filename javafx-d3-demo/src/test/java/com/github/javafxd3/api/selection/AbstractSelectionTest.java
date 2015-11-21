@@ -1,10 +1,14 @@
 
 package com.github.javafxd3.api.selection;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.wrapper.D3NodeFactory;
+import com.github.javafxd3.api.wrapper.Inspector;
 
 import netscape.javascript.JSObject;
 
@@ -22,34 +26,40 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 * @return the selection containing only the given widget
 	 */
 	protected Selection givenASimpleSelection(D3NodeFactory nodeFactory) {
-		Selection root = clearSvg();				
-		Selection newNode = nodeFactory.create(root);		
+		Selection svg = clearSvg();
+		Selection newNode = nodeFactory.createInParentSelection(svg);
 		return newNode;
 	}
 
 	/**
-	 * Clear the root node, add nodes using all the given factories and return a selection containing
-	 * all the created nodes.
+	 * Clear the root node, add nodes using all the given factories and return a
+	 * selection containing all the created nodes.
 	 * 
 	 * @param widgets
 	 * @return
 	 */
 	protected Selection givenAMultipleSelection(final D3NodeFactory... nodeFactories) {
-		Selection root = clearSvg();	
+		Selection svg = clearSvg();
 		for (D3NodeFactory nodeFactory : nodeFactories) {
-			nodeFactory.create(root);
+			nodeFactory.createInParentSelection(svg);
 		}
-		return root.selectAll("*");
+		return svg.selectAll("*");
 	}
-	
-		
+
 	/**
-	 * Returns the selection child element with the given index as Selection
+	 * Returns the selection child element with the given index as Selection.
+	 * (Apply get(0) on the result to select the first element of the
+	 * selection.)
+	 * 
 	 * @param index
 	 * @return
 	 */
 	public Selection getElement(final int index) {
-		return getSvg().get(index);
+		Selection children = getSvg().selectAll("*").get(0);
+		Inspector.inspect(children);
+		Selection child = children.get(index);
+
+		return child;
 	}
 
 	/**
@@ -58,9 +68,48 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 * @return
 	 */
 	public String getElementAttribute(final int index, final String attribute) {
-		Object member = getElement(index).getMember(attribute);
-		String result = (String) member;
-		return result;
+		Selection element = getElement(index);
+
+		if (element == null) {
+			String message = "Could not retrieve element with index " + index;
+			throw new IllegalArgumentException(message);
+		}
+
+		//Inspector.inspect(element);
+
+		String attributeValue = getAttributeFromElement(element, attribute);
+		return attributeValue;
+
+	}
+
+	protected String getAttributeFromElement(Selection element, final String attribute) {
+		Map<String, String> attributeMap = getDomAttributes(element);
+		if (attributeMap.containsKey(attribute)) {
+			String result = attributeMap.get(attribute);
+			return result;
+		}
+		return null;
+	}
+
+	private Map<String, String> getDomAttributes(Selection element) {
+		Map<String, String> attributeMap = new HashMap<>();
+		JSObject attributes = element.getMember("attributes");
+		int length = (int) attributes.getMember("length");
+		for (int attributeIndex = 0; attributeIndex < length; attributeIndex++) {
+			JSObject attributeObj = (JSObject) attributes.getMember("" + attributeIndex);
+			String attributeName = attributeObj.getMember("name").toString();
+			Object attributeValue = attributeObj.getMember("value");
+
+			String valueString = attributeValue.toString();
+			boolean isJsObject = attributeValue instanceof JSObject;
+			if (isJsObject) {
+				JSObject attributeJsValue = (JSObject) attributeValue;
+				valueString = attributeJsValue.call("toString").toString();
+			}
+
+			attributeMap.put(attributeName, valueString);
+		}
+		return attributeMap;
 	}
 
 	/**
@@ -68,10 +117,15 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 * @return
 	 */
 	public String getElementInnerText(final int index) {
-		Object member = getElement(index).getMember("text");
-		String result = (String) member;
+		Selection element = getElement(index);
+		if (element == null) {
+			String message = "Could not retrieve element with index " + index;
+			throw new IllegalArgumentException(message);
+		}
+
+		String result = getAttributeFromElement(element, "text");
 		return result;
-		
+
 	}
 
 	/**
@@ -79,8 +133,13 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 * @return
 	 */
 	public String getElementInnerHtml(final int index) {
-		Object member = getElement(index).getMember("html");
-		String result = (String) member;
+		Selection element = getElement(index);
+		if (element == null) {
+			String message = "Could not retrieve element with index " + index;
+			throw new IllegalArgumentException(message);
+		}
+
+		String result = getAttributeFromElement(element, "innerHtml");
 		return result;
 	}
 
@@ -89,8 +148,13 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 * @return
 	 */
 	public String getElementClassAttribute(final int index) {
-		Object member = getElement(index).getMember("class");
-		String result = (String) member;
+		Selection element = getElement(index);
+		if (element == null) {
+			String message = "Could not retrieve element with index " + index;
+			throw new IllegalArgumentException(message);
+		}
+
+		String result = getAttributeFromElement(element, "class");
 		return result;
 	}
 
@@ -100,8 +164,13 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 * @return
 	 */
 	public String getElementStyle(final int index, final String style) {
-		Object member = getElement(index).getMember("style");
-		String result = (String) member;
+		Selection element = getElement(index);
+		if (element == null) {
+			String message = "Could not retrieve element with index " + index;
+			throw new IllegalArgumentException(message);
+		}
+
+		String result = getAttributeFromElement(element, "style");
 		return result;
 	}
 

@@ -1,22 +1,14 @@
 package com.github.javafxd3.api.selection;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.functions.DatumFunction;
+import com.github.javafxd3.api.selection.datumfunction.PrefixPlusIndexDatumFunction;
 import com.github.javafxd3.api.wrapper.D3NodeFactory;
-import com.github.javafxd3.api.wrapper.Element;
-
-
+import com.github.javafxd3.demo.client.democases.svg.LabelFactory;
 
 @SuppressWarnings("javadoc")
 public class SelectionTextTest extends AbstractSelectionTest {
 
 	@Override
-	@Test
 	public void doTest() {
 		testGetter();
 		testSetterConstantString();
@@ -26,24 +18,14 @@ public class SelectionTextTest extends AbstractSelectionTest {
 
 	protected void testSetterFunction() {
 		// works with single selection
-		Selection selection = givenASimpleSelection(new Label());
+		Selection selection = givenASimpleSelection(new LabelFactory());
 		final String value = "foo bar";
-		selection.text(new DatumFunction<String>() {
-			@Override
-			public String apply(final Object context, final Object datum, final int index) {
-				return value + index;
-			}
-		});
+		selection.text(new PrefixPlusIndexDatumFunction(webEngine, value));
 		assertEquals(value + "0", getElementInnerText(0));
 
 		// works with multiple selection
-		selection = givenAMultipleSelection(new Label(), new Label(), new Label());
-		selection.text(new DatumFunction<String>() {
-			@Override
-			public String apply(final Object context, final Object datum, final int index) {
-				return value + index;
-			}
-		});
+		selection = givenAMultipleSelection(new LabelFactory(), new LabelFactory(), new LabelFactory());
+		selection.text(new PrefixPlusIndexDatumFunction(webEngine, value));
 		assertEquals(value + "0", getElementInnerText(0));
 		assertEquals(value + "1", getElementInnerText(1));
 		assertEquals(value + "2", getElementInnerText(2));
@@ -52,13 +34,13 @@ public class SelectionTextTest extends AbstractSelectionTest {
 
 	protected void testSetterConstantString() {
 		// works with single selection
-		Selection selection = givenASimpleSelection(new Label());
+		Selection selection = givenASimpleSelection(new LabelFactory());
 		String value = "foo bar";
 		selection.text(value);
 		assertEquals(value, getElementInnerText(0));
 
 		// works with multiple selection
-		selection = givenAMultipleSelection(new Label(), new Label(), new Label());
+		selection = givenAMultipleSelection(new LabelFactory(), new LabelFactory(), new LabelFactory());
 		selection.text(value);
 		assertEquals(value, getElementInnerText(0));
 		assertEquals(value, getElementInnerText(1));
@@ -68,7 +50,7 @@ public class SelectionTextTest extends AbstractSelectionTest {
 
 	protected void testGetter() {
 		// with single selection
-		Label label = new Label();
+		LabelFactory label = new LabelFactory();
 		String value = "foo";
 		label.setInnerText(value);
 		Selection selection = givenASimpleSelection(label);
@@ -80,7 +62,7 @@ public class SelectionTextTest extends AbstractSelectionTest {
 	}
 
 	private D3NodeFactory createLabel(final String textValue) {
-		Label l = new Label();
+		LabelFactory l = new LabelFactory();
 		l.setInnerText(textValue);
 		return l;
 	}

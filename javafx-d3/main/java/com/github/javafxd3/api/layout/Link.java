@@ -17,7 +17,7 @@ import netscape.javascript.JSObject;
  */
 public class Link extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -30,9 +30,9 @@ public class Link extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Create a basic link object starting at one coordinate and ending at
@@ -51,11 +51,11 @@ public class Link extends JavaScriptObject {
 		D3 d3 = new D3(webEngine);
 		JSObject d3Obj = d3.getJsObject();
 		
-		String sourceVarName = "temp__source_var";
-		String targetVarName = "temp__target_var";
+		String sourceVarName = createNewTemporaryInstanceName();
+		String targetVarName = createNewTemporaryInstanceName();
 		d3Obj.setMember(sourceVarName, sourceObj);
 		d3Obj.setMember(targetVarName, targetObj);
-		String command = "{ source : this."+ sourceVarName +", target : this."+ targetVarName +" }";
+		String command = "{ source : d3."+ sourceVarName +", target : d3."+ targetVarName +" }";
 		JSObject result = d3.evalForJsObject(command);
 		
 		d3Obj.removeMember(sourceVarName);

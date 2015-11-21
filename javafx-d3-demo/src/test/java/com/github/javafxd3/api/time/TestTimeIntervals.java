@@ -9,8 +9,7 @@ import com.github.javafxd3.api.D3;
 
 public class TestTimeIntervals extends AbstractTestCase {
 
-	@Override
-	@Test
+	@Override	
 	public void doTest() {
 
 		D3 d3 = browser.getD3();
@@ -47,15 +46,12 @@ public class TestTimeIntervals extends AbstractTestCase {
 
 	private void test(Interval interval, String givenDateStr, String expectedFloorDateStr, String expectedCeilDateStr,
 			String expectedRoundDateStr, String expectedOffset3DateStr) {
-
-		Runnable testRunnable = () -> {
+		
 			testLocalTime(interval, givenDateStr, expectedFloorDateStr, expectedCeilDateStr, expectedRoundDateStr,
 					expectedOffset3DateStr);
 			// testUTC(interval, givenDateStr, expectedFloorDateStr,
 			// expectedCeilDateStr, expectedRoundDateStr,
-			// expectedOffset3DateStr);
-		};
-		doOnJavaFXThread(testRunnable);
+			// expectedOffset3DateStr);	
 
 	}
 
@@ -180,19 +176,12 @@ public class TestTimeIntervals extends AbstractTestCase {
 	 */
 
 	private double parseDate(String dateString) {
-
-		// final List<Double> resultWrapper = new ArrayList<>();
-
-		// Runnable runnable = ()->{
+		
 		double d = JsDate.parse(webEngine, dateString);
 		if (Double.isNaN(d)) {
 			throw new IllegalArgumentException("Invalid date : " + dateString);
 		}
-		// resultWrapper.add(d);
-		// };
-		// doOnJavaFXThread(runnable);
-
-		// double result = resultWrapper.get(0);
+		
 		return d;
 
 	}

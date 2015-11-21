@@ -32,7 +32,7 @@ import netscape.javascript.JSObject;
  */
 public class Scales extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -54,9 +54,9 @@ public class Scales extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 	
 	/**
 	 * @param webEngine 
@@ -287,6 +287,6 @@ public class Scales extends JavaScriptObject {
 		return new OrdinalScale(webEngine, result);
 	}	
 
-	// #end region
+	//#end region
 
 }

@@ -11,7 +11,7 @@ import netscape.javascript.JSObject;
  */
 public class Projection<P extends Projection<?>> extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -22,9 +22,9 @@ public class Projection<P extends Projection<?>> extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * @param longitude
@@ -59,5 +59,5 @@ public class Projection<P extends Projection<?>> extends JavaScriptObject {
 		return (P) new Projection<P>(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 }

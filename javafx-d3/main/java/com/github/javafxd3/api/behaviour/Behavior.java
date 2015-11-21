@@ -11,7 +11,7 @@ import netscape.javascript.JSObject;
  */
 public class Behavior extends JavaScriptObject {
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * @param webEngine
@@ -22,9 +22,9 @@ public class Behavior extends JavaScriptObject {
 		setJsObject(wrappedJsObject);
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Create a new {@link Drag} behavior, that you will configure and apply to
@@ -48,6 +48,6 @@ public class Behavior extends JavaScriptObject {
 		return new Zoom(webEngine, result);
 	}
 
-	// #end region
+	//#end region
 
 }

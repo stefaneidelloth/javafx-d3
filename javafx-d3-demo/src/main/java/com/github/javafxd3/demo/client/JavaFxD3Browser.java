@@ -11,6 +11,7 @@ import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.scales.LinearScale;
 
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.concurrent.Worker;
 import javafx.concurrent.Worker.State;
@@ -28,7 +29,7 @@ import javafx.scene.web.WebView;
  */
 public class JavaFxD3Browser extends Region {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	/**
 	 * A JavaFx WebView (= "browser") that shows the html content that is
@@ -53,9 +54,9 @@ public class JavaFxD3Browser extends Region {
 	 */
 	private Runnable postLoadingFinishedHook;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -69,9 +70,9 @@ public class JavaFxD3Browser extends Region {
 		initialize();
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	private void initialize() {
 
@@ -128,10 +129,13 @@ public class JavaFxD3Browser extends Region {
 	 * @param message
 	 */
 	public void showAlert(String message) {
+		Runnable alertRunnable = ()->{
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Alert");
 		alert.setHeaderText(message);
 		alert.showAndWait();
+		};
+		Platform.runLater(alertRunnable);
 	}
 
 	/**
@@ -142,8 +146,8 @@ public class JavaFxD3Browser extends Region {
 	 */
 	private String createInitialBrowserContent() {
 		String htmlContent = "<!DOCTYPE html>\n" + 
-							 "<meta charset=\"utf-8\">\n" + 							
-							 "<svg id=\"svg\" class=\"svg\"></svg>\n";
+							 "<meta charset=\"utf-8\">\n" +
+							 "<svg id=\"svg\" class=\"svg\"></svg>\n";	
 		return htmlContent;
 	}
 
@@ -154,6 +158,9 @@ public class JavaFxD3Browser extends Region {
 		webEngine.executeScript(d3Content);
 		
 		// inject firebug, see https://stackoverflow.com/questions/9398879/html-javascript-debugging-in-javafx-webview
+		//
+		// https://getfirebug.com/firebug-lite.js#startOpened
+		//
 		String fireBugCommand = "if (!document.getElementById('FirebugLite')){"
 				+ "E = document['createElement' + 'NS'] && "
 				+ "document.documentElement.namespaceURI;E = E ? "
@@ -164,7 +171,7 @@ public class JavaFxD3Browser extends Region {
 				+ "E['setAttribute']('FirebugLite', '4');"
 				+ "(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);"
 				+ "E = new Image;"
-				+ "E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');"
+				+ "E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');"				
 				+ "}";
 		
 		webEngine.executeScript(fireBugCommand);
@@ -237,9 +244,9 @@ public class JavaFxD3Browser extends Region {
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region ACCESSORS
+	//#region ACCESSORS
 
 	/**
 	 * 
@@ -254,6 +261,6 @@ public class JavaFxD3Browser extends Region {
 		return d3;
 	}
 
-	// #end region
+	//#end region
 
 }

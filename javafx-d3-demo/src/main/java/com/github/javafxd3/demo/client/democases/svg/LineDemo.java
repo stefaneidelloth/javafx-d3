@@ -36,7 +36,7 @@ import javafx.scene.layout.VBox;
  */
 public class LineDemo extends AbstractDemoCase {
 
-	// #region ATTRIBUTES
+	//#region ATTRIBUTES
 
 	// @Source("LineDemo.css")
 	// public MyResources css;
@@ -58,9 +58,9 @@ public class LineDemo extends AbstractDemoCase {
 
 	protected double tension;
 
-	// #end region
+	//#end region
 
-	// #region CONSTRUCTORS
+	//#region CONSTRUCTORS
 
 	/**
 	 * Constructor
@@ -75,9 +75,9 @@ public class LineDemo extends AbstractDemoCase {
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region METHODS
+	//#region METHODS
 
 	/**
 	 * Provides a factory for this demo case
@@ -269,9 +269,9 @@ public class LineDemo extends AbstractDemoCase {
 
 	}
 
-	// #end region
+	//#end region
 
-	// #region PRIVATE CLASSES
+	//#region PRIVATE CLASSES
 
 	
 
@@ -305,5 +305,5 @@ public class LineDemo extends AbstractDemoCase {
 
 	
 
-	// #end region
+	//#end region
 }
