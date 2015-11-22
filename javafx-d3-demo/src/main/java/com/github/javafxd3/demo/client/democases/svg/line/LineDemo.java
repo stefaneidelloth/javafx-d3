@@ -38,9 +38,6 @@ public class LineDemo extends AbstractDemoCase {
 
 	//#region ATTRIBUTES
 
-	
-	private String cssPath = "LineDemo.css";
-
 	private boolean showPoints = true;
 
 	private final Stack<Coords> points = new Stack<>();
@@ -70,12 +67,7 @@ public class LineDemo extends AbstractDemoCase {
 	 */
 	public LineDemo(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
-
-		String filePath = "D:/javafx-d3/javafx-d3-demo/src/main/java/com/github/javafxd3/demo/client/democases/svg/line/LineDemo.css";
-		loadCss(filePath);
-		
-
-	}
+	}	
 
 	//#end region
 

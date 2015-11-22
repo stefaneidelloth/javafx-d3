@@ -45,6 +45,8 @@ public class Hull extends JavaScriptObject {
 	 */
 	public Hull x(DatumFunction<Double> xAccessor) {
 
+		assertObjectIsNotAnonymous(xAccessor);
+
 		String accessorName = createNewTemporaryInstanceName();
 
 		JSObject d3JsObject = getD3();
@@ -54,7 +56,6 @@ public class Hull extends JavaScriptObject {
 
 		JSObject result = evalForJsObject(command);
 		return new Hull(webEngine, result);
-
 	}
 
 	/**
@@ -69,7 +70,9 @@ public class Hull extends JavaScriptObject {
 	 */
 
 	public Hull y(DatumFunction<Double> yAccessor) {
-		
+
+		assertObjectIsNotAnonymous(yAccessor);
+
 		String accessorName = createNewTemporaryInstanceName();
 
 		JSObject d3JsObject = getD3();
@@ -79,7 +82,6 @@ public class Hull extends JavaScriptObject {
 
 		JSObject result = evalForJsObject(command);
 		return new Hull(webEngine, result);
-		
 	}
 
 	/**
@@ -97,19 +99,16 @@ public class Hull extends JavaScriptObject {
 	 */
 	public <T> Array<T> apply(Array<T> vertices) {
 		JSObject arrayObj = vertices.getJsObject();
-		
+
 		String tempVarName = createNewTemporaryInstanceName();
-		
+
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(tempVarName, arrayObj);
-		
+
 		String command = "this(d3." + tempVarName + ")";
 		JSObject result = evalForJsObject(command);
-		
-		
-		
+
 		return new Array<T>(webEngine, result);
-		
 	}
 
 	/**
@@ -125,7 +124,7 @@ public class Hull extends JavaScriptObject {
 	 *            the array of vertices
 	 * @return the convex hull as an array of vertices
 	 */
-	public final <T> Array<T> apply(List<T> vertices) {		
+	public final <T> Array<T> apply(List<T> vertices) {
 		return this.apply(Array.fromList(webEngine, vertices));
 	}
 

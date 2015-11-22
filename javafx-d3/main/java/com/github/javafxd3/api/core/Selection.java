@@ -1599,6 +1599,83 @@ public class Selection extends EnteringSelection {
 
 	// ================================ datum functions ========
 
+	
+
+	/**
+	 * Sets the bound data to the specified value on all selected elements.
+	 * <p>
+	 * Unlike the {@link #data} methods, this method does not compute a join
+	 * (and thus does not compute enter and exit selections). This method is
+	 * implemented on top of {@link #property(String)}.
+	 * <p>
+	 * All elements in the selection are given the same data.
+	 * <p>
+	 * A null value will delete the bound data. This operator has no effect on
+	 * the index.
+	 * <p>
+	 * See <a href="https:datum">datum </a>
+	 *
+	 * @param object
+	 *            the datum
+	 * @return the current selection
+	 */
+	public Selection datum(JSObject object) {
+
+		String dataName = createNewTemporaryInstanceName();
+
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(dataName, object);
+		String command = "this.datum(d3." + dataName + ")";
+		JSObject result = evalForJsObject(command);
+		return new Selection(webEngine, result);
+
+	}
+	
+	public Selection datum(JavaScriptObject object) {
+
+		JSObject datumObj = object.getJsObject();
+		String dataName = createNewTemporaryInstanceName();
+
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(dataName, datumObj);
+		String command = "this.datum(d3." + dataName + ")";
+		JSObject result = evalForJsObject(command);
+		return new Selection(webEngine, result);
+
+	}
+	
+	public Selection datum(String object) {
+
+		String dataName = createNewTemporaryInstanceName();
+
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(dataName, object);
+		String command = "this.datum(d3." + dataName + ")";
+		JSObject result = evalForJsObject(command);
+		return new Selection(webEngine, result);
+
+	}
+	
+	public Selection datum(Array<? extends JavaScriptObject> array) {
+		
+		List<? extends JSObject> list = array.asList(JSObject.class);		
+		
+		JSObject d3JsObject = getD3();
+		List<String> fullVarNames = new ArrayList<>();
+		
+		for(JSObject jsObject: list){
+			String varName = createNewTemporaryInstanceName();			
+			d3JsObject.setMember(varName, jsObject);
+			fullVarNames.add("d3." + varName);
+		}
+		
+		String command = "this.datum([" + String.join(",", fullVarNames) + "])";		
+		JSObject result = evalForJsObject(command);
+		return new UpdateSelection(webEngine, result);
+
+	}
+	
+	
 	/**
 	 * Sets the bound data to the specified value on all selected elements.
 	 * <p>
@@ -1640,36 +1717,6 @@ public class Selection extends EnteringSelection {
 		eval(command);
 		JSObject result = evalForJsObject(varName);
 
-		return new Selection(webEngine, result);
-
-	}
-
-	/**
-	 * Sets the bound data to the specified value on all selected elements.
-	 * <p>
-	 * Unlike the {@link #data} methods, this method does not compute a join
-	 * (and thus does not compute enter and exit selections). This method is
-	 * implemented on top of {@link #property(String)}.
-	 * <p>
-	 * All elements in the selection are given the same data.
-	 * <p>
-	 * A null value will delete the bound data. This operator has no effect on
-	 * the index.
-	 * <p>
-	 * See <a href="https:datum">datum </a>
-	 *
-	 * @param object
-	 *            the datum
-	 * @return the current selection
-	 */
-	public Selection datum(Object object) {
-
-		String dataName = createNewTemporaryInstanceName();
-
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(dataName, object);
-		String command = "this.datum(d3." + dataName + ")";
-		JSObject result = evalForJsObject(command);
 		return new Selection(webEngine, result);
 
 	}
@@ -1836,7 +1883,7 @@ public class Selection extends EnteringSelection {
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(listenerName, listener);
 
-		String command = "var listenerObj = d3." + listenerName + " == null ? null : " + "function(d, i) {" //
+		String command = "var listenerObj = d3." + listenerName + " == null ? null : " + "function(d, i) {" //		      
 				+ "d3." + listenerName + ".apply(this,{datum:d},i);" //
 				+ " }; ";
 

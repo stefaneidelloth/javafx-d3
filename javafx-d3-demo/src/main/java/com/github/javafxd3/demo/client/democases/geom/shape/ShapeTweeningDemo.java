@@ -1,4 +1,4 @@
-package com.github.javafxd3.demo.client.democases.geom;
+package com.github.javafxd3.demo.client.democases.geom.shape;
 
 import java.util.ArrayList;
 import java.util.List;

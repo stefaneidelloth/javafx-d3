@@ -1,5 +1,7 @@
 package com.github.javafxd3.demo.client;
 
+import java.net.URL;
+
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Selection;
 
@@ -46,6 +48,7 @@ public abstract class AbstractDemoCase implements DemoCase {
 		this.d3 = d3;
 		this.webEngine = d3.getWebEngine();
 		this.demoPreferenceBox = demoPreferenceBox;
+		loadCssForThisClass();
 	}
 	
 	//#end region
@@ -83,23 +86,27 @@ public abstract class AbstractDemoCase implements DemoCase {
 		return svg;
 	}
 	
-	public void loadCss(String filepath){
+	/**
+	 * If a css file exists that has the same name as the java/class file and
+	 * is located next to that file, the css file is loaded with this method. 
+	 */
+	private void loadCssForThisClass() {
+		String className = getClass().getName();
+		String cssPath = className.replace(".", "/") + ".css";		
+		URL cssUrl = getClass().getClassLoader().getResource(cssPath);		
+		loadCss(cssUrl);
+	}
+	
+	public void loadCss(URL cssUrl){
 		
-		String command = "var cssId = 'myCss';" //
-		+ "if (!document.getElementById(cssId))" //
-		+ "{" //
-		+ "    var head  = document.getElementsByTagName('head')[0];" //
-		+ "    var link  = document.createElement('link');" //
-		+ "    link.id   = cssId;" //
+		String command = "var head  = document.getElementsByTagName('head')[0];" //
+		+ "    var link  = document.createElement('link');" //		
 		+ "    link.rel  = 'stylesheet';" //
 		+ "    link.type = 'text/css';" //
-		+ "    link.href = 'file:///"+ filepath + "';" //
+		+ "    link.href = '"+ cssUrl + "';" //
 		+ "    link.media = 'all';" //
-		+ "    head.appendChild(link);" //
-		+ "}";
-		
-		webEngine.executeScript(command);
-		
+		+ "    head.appendChild(link);";		
+		webEngine.executeScript(command);		
 	}
 	
 	

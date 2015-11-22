@@ -27,10 +27,10 @@ import com.github.javafxd3.api.geom.Geometry;
 import com.github.javafxd3.api.interpolators.Interpolators;
 import com.github.javafxd3.api.layout.Layout;
 import com.github.javafxd3.api.scales.Scales;
-import com.github.javafxd3.api.svg.Area;
 import com.github.javafxd3.api.svg.SVG;
 import com.github.javafxd3.api.time.Time;
 import com.github.javafxd3.api.wrapper.Element;
+import com.github.javafxd3.api.wrapper.Inspector;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 import com.github.javafxd3.api.wrapper.JsArrayMixed;
 import com.github.javafxd3.api.wrapper.Node;
@@ -590,7 +590,8 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public Coords mouseAsCoords(Node container) {
-		JSObject coordObj = call("mouse", container);
+		JSObject containerObject = container.getJsObject();
+		JSObject coordObj = call("mouse", containerObject);
 		Double x = (Double) coordObj.call("m", 0);
 		Double y = (Double) coordObj.call("m", 1);
 		return new Coords(webEngine, x, y);
@@ -606,8 +607,13 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public double mouseX(Node container) {
-		JSObject coordObj = call("mouse", container);
-		Double x = (Double) coordObj.call("m", 0);
+		JSObject containerObject = container.getJsObject();
+		JSObject coordObj = call("mouse", containerObject);
+		Inspector.inspect(coordObj);
+		
+		Object result = coordObj.getMember("0");
+		
+		Double x = Double.parseDouble("" + result);
 		return x;
 	};
 
@@ -621,8 +627,10 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public double mouseY(Node container) {
-		JSObject coordObj = call("mouse", container);
-		Double y = (Double) coordObj.call("m", 1);
+		JSObject containerObject = container.getJsObject();
+		JSObject coordObj = call("mouse", containerObject);
+		Object result = coordObj.getMember("1");
+		Double y = Double.parseDouble("" + result);
 		return y;
 	};
 
@@ -643,7 +651,8 @@ public class D3 extends JavaScriptObject {
 	 * @return an array of array of 2 elements.
 	 */
 	public JsArrayMixed touches(Node container) {
-		JSObject result = call("touches", container);
+		JSObject containerObject = container.getJsObject();
+		JSObject result = call("touches", containerObject);
 		return new JsArrayMixed(webEngine, result);
 	};
 
@@ -702,7 +711,7 @@ public class D3 extends JavaScriptObject {
 	 * @return 
 	 */
 	public <T> Dsv<T> csv(String url, DsvObjectAccessor<T> accessor, DsvCallback<T> callback) {
-
+	
 		
 		String accessorMemberName = createNewTemporaryInstanceName();
 		String dsvMemberName = createNewTemporaryInstanceName();

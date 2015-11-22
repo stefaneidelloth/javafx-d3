@@ -110,7 +110,8 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// THEN all data has a datum of "blah"
 		selection.each(new AssertStringDatumFunction(webEngine, "blah"));
 		// WHEN I call selection.datum() with a constant NULL
-		selection.datum(null);
+		String datum = null;
+		selection.datum(datum);
 		// THEN all elements has a null data
 		selection.each(new AssertNullStringDatumFunction(webEngine));
 	}

@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.wrapper.Inspector;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -396,15 +395,17 @@ public class Array<T> extends JavaScriptObject {
 		return resultObj;
 	}
 
-	public List<T> asList(Class<T> classObj) {
+	public <D> List<? extends D> asList(Class<D> classObj) {
 		int size = length();
-		List<T> list = new ArrayList<>();
+		List<D> list = new ArrayList<>();
 		for (int index = 0; index < size; index++) {
-			T element = this.get(index, classObj);
+			D element = (D) this.get(index, classObj);
 			list.add(element);
 		}
 		return list;
 	}
+
+	
 
 	//#end region
 

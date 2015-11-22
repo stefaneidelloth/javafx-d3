@@ -1,5 +1,6 @@
-package com.github.javafxd3.demo.client.democases;
+package com.github.javafxd3.demo.client.democases.axis;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,18 +27,14 @@ import com.github.javafxd3.api.xhr.XmlHttpRequest;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
-import netscape.javascript.JSObject;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
 
 @SuppressWarnings("javadoc")
 public class AxisComponent extends AbstractDemoCase {
-
-	//#region ATTRIBUTES
-
-	//#end region
-
+	
 	//#region CONSTRUCTORS
 
 	/**
@@ -48,9 +45,7 @@ public class AxisComponent extends AbstractDemoCase {
 	 * @param demoPreferenceBox
 	 */
 	public AxisComponent(D3 d3, VBox demoPreferenceBox) {
-		super(d3, demoPreferenceBox);
-		// @Source("AxisComponentStyles.css")
-		// area axis x y line svg
+		super(d3, demoPreferenceBox);		
 	}
 
 	//#end region
@@ -95,47 +90,22 @@ public class AxisComponent extends AbstractDemoCase {
 		// An area generator, for the light fill.
 		final Area area = d3.svg().area().interpolate(Area.InterpolationMode.MONOTONE)
 				// .x(function(d) { return x(d.date); })
-				.x(new DatumFunction<Double>() {
-					@Override
-					public Double apply(final Object context, final Object d, final int index) {
-						Value data = (Value) d;
-
-						return x.apply(((JsDate) data.as()).getDate()).asDouble();
-					}
-				}).y0(h)
+				.x(new XAxisDatumFunction(webEngine, x)).y0(h)
 				// .y1(function(d) { return y(d.price); });
-				.y1(new DatumFunction<Double>() {
-					@Override
-					public Double apply(final Object context, final Object d, final int index) {
-						Value data = (Value) d;
-
-						return y.apply(((Data) data.as()).getPrice()).asDouble();
-					}
-				});
+				.y1(new YAxisDatumFunction(webEngine, y));
 
 		// A line generator, for the dark stroke.
 		final Line line = d3.svg().line().interpolate(Line.InterpolationMode.MONOTONE)
 				// .x(function(d) { return x(d.date); })
-				.x(new DatumFunction<Double>() {
-					@Override
-					public Double apply(final Object context, final Object d, final int index) {
-
-						Value data = (Value) d;
-
-						return x.apply(((JsDate) data.as()).getDate()).asDouble();
-					}
-				})
+				.x(new XAxisDatumFunction(webEngine, x))
 				// // .y(function(d) { return y(d.price); });
-				.y(new DatumFunction<Double>() {
-					@Override
-					public Double apply(final Object context, final Object d, final int index) {
+				.y(new YAxisDatumFunction(webEngine, y));
+		
+		String relativeUrl = "readme.csv";
+		
+		URL url = getClass().getClassLoader().getResource(relativeUrl);
 
-						Value data = (Value) d;
-						return y.apply(data.<Data> as().getPrice()).asDouble();
-					}
-				});
-
-		d3.csv("demo-data/readme.csv", new DsvObjectAccessor<Data>() {
+		d3.csv(url.toString(), new DsvObjectAccessor<Data>() {
 			@Override
 			public Data apply(final DsvRow d, final int index) {
 				Value value = d.get("symbol");

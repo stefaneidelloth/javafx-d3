@@ -62,10 +62,10 @@ public class Geometry extends JavaScriptObject {
      *
      * @return the convex hull as a list of vertices
      */
-    public final <T> List<T> hull(final List<T> vertices, Class<T> classObj) {
+    public final <T> List<? extends T> hull(final List<T> vertices, Class<T> classObj) {
     	Array<T> array = Array.fromList(webEngine, vertices);    	
     	Array<T> hullArray = this.hull(array);
-    	List<T> hullList = hullArray.asList(classObj);
+    	List<? extends T> hullList = hullArray.asList(classObj);
     	return hullList;
     }
 
