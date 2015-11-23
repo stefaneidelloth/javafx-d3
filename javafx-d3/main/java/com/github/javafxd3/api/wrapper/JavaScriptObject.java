@@ -368,8 +368,14 @@ public class JavaScriptObject {
 	 * @return
 	 */
 	public Object eval(String command) {
-		Object result = jsObject.eval(command);
-		return result;
+		try{
+			Object result = jsObject.eval(command);
+			return result;
+		} catch (Exception exception){
+			String message = "Could not eval command " + command;
+			throw new IllegalStateException(message, exception);
+		}
+		
 	};
 
 	/**
@@ -486,7 +492,7 @@ public class JavaScriptObject {
 	 */
 	protected static String createNewTemporaryInstanceName() {
 		double random = Math.random(); 
-		String randomString = ("" + random).substring(2);
+		String randomString = ("" + random).substring(2,5);
 		String name =  "temp__instance__" + System.currentTimeMillis() + "_" + randomString;
 		return name;
 	}

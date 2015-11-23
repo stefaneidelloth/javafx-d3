@@ -405,6 +405,10 @@ public class Value extends JavaScriptObject {
 		String command = "this.datum";
 		Object resultObj = eval(command);
 		
+		if (resultObj==null){
+			return null;
+		}
+		
 		boolean isUndefined = resultObj.equals("undefined");
 		if (isUndefined){
 			return null;

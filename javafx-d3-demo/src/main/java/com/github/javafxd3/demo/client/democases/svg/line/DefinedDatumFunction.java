@@ -29,7 +29,7 @@ public class DefinedDatumFunction implements DatumFunction<Boolean> {
 	public Boolean apply(Object context, Object d, int index) {
 		
 		JSObject datum = (JSObject) d;
-		Inspector.inspect(datum);
+		//Inspector.inspect(datum);
 		Value value = new Value(webEngine, datum);
 		
 		CustomCoords coords = value.<CustomCoords> as(CustomCoords.class);

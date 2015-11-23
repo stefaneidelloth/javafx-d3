@@ -59,8 +59,6 @@ public class D3 extends JavaScriptObject {
 
 	//#region ATTRIBUTES
 
-	
-
 	//#end region
 
 	//#region CONSTRUCTORS
@@ -87,13 +85,14 @@ public class D3 extends JavaScriptObject {
 		String result = callForString("version");
 		return result;
 	};
-	
+
 	/**
 	 * The scale factory module.
-	 * @return 
+	 * 
+	 * @return
 	 */
-	public Scales scale(){
-		JSObject result  = getMember("scale"); 
+	public Scales scale() {
+		JSObject result = getMember("scale");
 		return new Scales(webEngine, result);
 	};
 
@@ -185,7 +184,7 @@ public class D3 extends JavaScriptObject {
 		JSObject result = call("selectAll", (Object[]) nodes);
 		return new Selection(webEngine, result);
 	};
-	
+
 	/**
 	 * Selects the specified elementMatrices.
 	 *
@@ -199,7 +198,6 @@ public class D3 extends JavaScriptObject {
 		//return new Selection(webEngine, result);
 	};
 
-	
 	/**
 	 * Selects the specified collection of elements.
 	 *
@@ -273,8 +271,6 @@ public class D3 extends JavaScriptObject {
 	// };
 
 	// =========== Math ==============
-	
-		
 
 	// =========== shuffle ==============
 
@@ -287,7 +283,7 @@ public class D3 extends JavaScriptObject {
 	 *            the list to shuffle
 	 */
 	public void shuffle(final List<?> objects) {
-		Random random = new Random();		
+		Random random = new Random();
 		for (int i = objects.size(); i > 1; i--) {
 			swap(objects, i - 1, random.nextInt(i));
 		}
@@ -303,9 +299,9 @@ public class D3 extends JavaScriptObject {
 	 * @param input
 	 */
 	public void shuffle(final int[] input) {
-		 //Shuffle by exchanging each element randomly
+		//Shuffle by exchanging each element randomly
 		Random random = new Random();
-	
+
 		for (int i = 0; i < input.length; i++) {
 			int randomPosition = random.nextInt(input.length);
 			int temp = input[i];
@@ -318,9 +314,9 @@ public class D3 extends JavaScriptObject {
 	 * @param input
 	 */
 	public void shuffle(final char[] input) {
-		 //Shuffle by exchanging each element randomly
+		//Shuffle by exchanging each element randomly
 		Random random = new Random();
-		
+
 		for (int i = 0; i < input.length; i++) {
 			int randomPosition = random.nextInt(input.length);
 			char temp = input[i];
@@ -378,17 +374,26 @@ public class D3 extends JavaScriptObject {
 	 * @param command
 	 *            the command to be executed until it returns true.
 	 */
-	public void timer(TimerFunction command) {
+	public void timer(TimerFunction timerFunction) {
 
-		throw new IllegalStateException("not yet implemented");
+		assertObjectIsNotAnonymous(timerFunction);
 
-		/*
-		 * 
-		 * JSObject result = call($wnd.d3 .timer(function() { return
-		 * command.@com.github.gwtd3.api.functions.TimerFunction::execute()();
-		 * });
-		 * 
-		 */
+		String methodName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		
+		Object method = timerFunction;
+		boolean isJavaScriptObject = timerFunction instanceof JavaScriptObject;
+		if(isJavaScriptObject){
+			JavaScriptObject javaScriptObject = (JavaScriptObject) timerFunction;
+			method = javaScriptObject.getJsObject();
+		}
+				
+		d3JsObject.setMember(methodName, method);
+
+		String command = "d3.timer(function() { " //
+				+ "return d3." + methodName + ".execute();" //
+				+ "});";
+		eval(command);
 	};
 
 	/**
@@ -529,7 +534,7 @@ public class D3 extends JavaScriptObject {
 	 * @return the instance of {@link Event}
 	 */
 	public <T extends Event<T>> T event() {
-		
+
 		throw new IllegalStateException("not yet implemented");
 		//JSObject result = call("event");
 		//return (T) new Event<T>(webEngine, result);
@@ -576,7 +581,7 @@ public class D3 extends JavaScriptObject {
 	public Double[] mouse(Node container) {
 		throw new IllegalStateException("not yet implemented");
 		//JSObject result = call("mouse", container);
-		
+
 		//return new JsArrayNumber(webEngine, result);
 	};
 
@@ -609,10 +614,10 @@ public class D3 extends JavaScriptObject {
 	public double mouseX(Node container) {
 		JSObject containerObject = container.getJsObject();
 		JSObject coordObj = call("mouse", containerObject);
-		Inspector.inspect(coordObj);
-		
+		//Inspector.inspect(coordObj);
+
 		Object result = coordObj.getMember("0");
-		
+
 		Double x = Double.parseDouble("" + result);
 		return x;
 	};
@@ -676,9 +681,10 @@ public class D3 extends JavaScriptObject {
 	 * the CSV data is available, the specified callback will be invoked with
 	 * the parsed rows as the argument. If an error occurs, the callback
 	 * function will instead be invoked with null.
-	 * @param url 
-	 * @param callback 
-	 * @return 
+	 * 
+	 * @param url
+	 * @param callback
+	 * @return
 	 */
 	public <T> Dsv<T> csv(String url, DsvCallback<T> callback) {
 
@@ -705,26 +711,27 @@ public class D3 extends JavaScriptObject {
 	 * function will instead be invoked with null. The accessor may be
 	 * specified, which is then passed to d3.csv.parse; the accessor may also be
 	 * specified by using the return request object’s row function.
-	 * @param url 
-	 * @param accessor 
-	 * @param callback 
-	 * @return 
+	 * 
+	 * @param url
+	 * @param accessor
+	 * @param callback
+	 * @return
 	 */
 	public <T> Dsv<T> csv(String url, DsvObjectAccessor<T> accessor, DsvCallback<T> callback) {
-	
-		
+
 		String accessorMemberName = createNewTemporaryInstanceName();
 		String dsvMemberName = createNewTemporaryInstanceName();
-		
+
 		JSObject jsObj = getJsObject();
 		jsObj.setMember(accessorMemberName, accessor);
 		jsObj.setMember(dsvMemberName, callback);
-		
-		String command = "this.csv('"+ url + "', function(row, index) { return this." + accessorMemberName + ".apply(row, index); }, "+
-				  "function(error, rows) { this." + dsvMemberName + ".get(error, rows); });";
+
+		String command = "this.csv('" + url + "', function(row, index) { return this." + accessorMemberName
+				+ ".apply(row, index); }, " + "function(error, rows) { this." + dsvMemberName
+				+ ".get(error, rows); });";
 		JSObject result = evalForJsObject(command);
-		return new Dsv<T>(webEngine, result);		  
-		 
+		return new Dsv<T>(webEngine, result);
+
 	};
 
 	/**
@@ -739,9 +746,10 @@ public class D3 extends JavaScriptObject {
 	 * function will instead be invoked with null. The accessor may be
 	 * specified, which is then passed to d3.csv.parse; the accessor may also be
 	 * specified by using the return request object’s row function.
-	 * @param url 
-	 * @param accessor 
-	 * @return 
+	 * 
+	 * @param url
+	 * @param accessor
+	 * @return
 	 */
 	public <T> Dsv<T> csv(String url, DsvObjectAccessor<T> accessor) {
 
@@ -757,18 +765,20 @@ public class D3 extends JavaScriptObject {
 	};
 
 	/**
-     * Issues an HTTP GET request for the comma-separated values (CSV) file at
-     * the specified url.
-     * <p>
-     * The file contents are assumed to be RFC4180-compliant. The mime type of the request will be "text/csv". The
-     * request is processed asynchronously, such that this method returns immediately after opening the request.
-	 * @param url 
-	 * @return 
-     */
-    public  <T> Dsv<T> csv(String url){
+	 * Issues an HTTP GET request for the comma-separated values (CSV) file at
+	 * the specified url.
+	 * <p>
+	 * The file contents are assumed to be RFC4180-compliant. The mime type of
+	 * the request will be "text/csv". The request is processed asynchronously,
+	 * such that this method returns immediately after opening the request.
+	 * 
+	 * @param url
+	 * @return
+	 */
+	public <T> Dsv<T> csv(String url) {
 		JSObject result = call("csv", url);
 		return new Dsv<T>(webEngine, result);
-    };
+	};
 
 	// =========== tsv ==============
 
@@ -790,9 +800,10 @@ public class D3 extends JavaScriptObject {
 	 * the TSV data is available, the specified callback will be invoked with
 	 * the parsed rows as the argument. If an error occurs, the callback
 	 * function will instead be invoked with null.
-	 * @param url 
-	 * @param callback 
-	 * @return 
+	 * 
+	 * @param url
+	 * @param callback
+	 * @return
 	 */
 	public <T> Dsv<T> tsv(String url, DsvCallback<T> callback) {
 
@@ -819,10 +830,11 @@ public class D3 extends JavaScriptObject {
 	 * function will instead be invoked with null. The accessor may be
 	 * specified, which is then passed to d3.tsv.parse; the accessor may also be
 	 * specified by using the return request object’s row function.
-	 * @param url 
-	 * @param accessor 
-	 * @param callback 
-	 * @return 
+	 * 
+	 * @param url
+	 * @param accessor
+	 * @param callback
+	 * @return
 	 */
 	public <T> Dsv<T> tsv(String url, DsvObjectAccessor<T> accessor, DsvCallback<T> callback) {
 
@@ -852,9 +864,10 @@ public class D3 extends JavaScriptObject {
 	 * function will instead be invoked with null. The accessor may be
 	 * specified, which is then passed to d3.tsv.parse; the accessor may also be
 	 * specified by using the return request object’s row function.
-	 * @param url 
-	 * @param accessor 
-	 * @return 
+	 * 
+	 * @param url
+	 * @param accessor
+	 * @return
 	 */
 	public <T> Dsv<T> tsv(String url, DsvObjectAccessor<T> accessor) {
 
@@ -876,8 +889,9 @@ public class D3 extends JavaScriptObject {
 	 * The file contents are assumed to be RFC4180-compliant. The mime type of
 	 * the request will be "text/tsv". The request is processed asynchronously,
 	 * such that this method returns immediately after opening the request.
-	 * @param url 
-	 * @return 
+	 * 
+	 * @param url
+	 * @return
 	 */
 	public <T> Dsv<T> tsv(String url) {
 		JSObject result = call("tsv", url);
@@ -911,9 +925,7 @@ public class D3 extends JavaScriptObject {
 	 * string representing the formatted number. Please see {@link Formatter}
 	 * javadoc for the specifier specification.
 	 *
-	 * @see <a href=
-	 *      "https:d3_format">D3.
-	 *      js official documentation</a>
+	 * @see <a href= "https:d3_format">D3. js official documentation</a>
 	 * @param specifier
 	 *            the given string specifier.
 	 * @return the format function.
@@ -969,17 +981,16 @@ public class D3 extends JavaScriptObject {
 		String result = callForString("requote", string);
 		return result;
 	};
-	
-	
+
 	// =========== range ===================
-	
+
 	/**
 	 * @param stop
 	 * @return
 	 */
 	public Selection range(double stop) {
 		JSObject result = call("range", stop);
-		return new Selection(webEngine, result);		
+		return new Selection(webEngine, result);
 	}
 
 	// =========== behaviours ==============
@@ -1001,7 +1012,7 @@ public class D3 extends JavaScriptObject {
 	public final ZoomEvent zoomEvent() {
 
 		throw new IllegalStateException("not yet implemented");
-		
+
 		//return event().cast();
 
 	}
@@ -1016,66 +1027,68 @@ public class D3 extends JavaScriptObject {
 	public final DragEvent dragEvent() {
 
 		throw new IllegalStateException("not yet implemented");
-		
+
 		//return event().cast();
 
 	}
 
 	// =========== misc ==========
 	/**
-     * Return the identity function:
-     * <p>
-     * <code>function(d) { return d; }</code>
-     *
-     * @return the identity function
-     */
-    public  JSObject identity(){
-    	
-    	throw new IllegalStateException("not yet implemented");
-    	
+	 * Return the identity function:
+	 * <p>
+	 * <code>function(d) { return d; }</code>
+	 *
+	 * @return the identity function
+	 */
+	public JSObject identity() {
+
+		throw new IllegalStateException("not yet implemented");
+
 		//JSObject result = call(function(d) {
 		//	return d;
 		//};
 		//return result;
-    }
-    
-    /**
-     * Creates a new variable in the JavaScript space and applies the
-     * given JSObject to assign a corresponding value
-     * @param variableName
-     * @param value
-     */
-    public void createJsVariable(String variableName, JavaScriptObject value){
-    	JSObject valueObject = value.getJsObject();
-    	createJsVariable(variableName, valueObject);    	
-    }
-    
-    /**
-     * Creates a new variable in the JavaScript space and applies the
-     * given JSObject to assign a corresponding value
-     * @param variableName
-     * @param value
-     */
-    public void createJsVariable(String variableName, JSObject value){
-    	//store value in temporary dummy attribute
-    	String tempAttributeName = "tempDummyStorageAttribute";
-    	JSObject window = (JSObject) webEngine.executeScript("window");
-    	window.setMember(tempAttributeName, value);
-    	
-    	//create new variable and assign value to it    	
-    	String createCommand = "var " + variableName + " = window.tempDummyStorageAttribute;";
-    	eval(createCommand);
-    	
-    	//delete temporary dummy attribute
-    	window.removeMember(tempAttributeName);
-    	
-    	//Object val = eval(variableName);
-    	//boolean isOk = val.equals(value);
-    }
-    
-    //#end region
-    
-    //#region ACCESSORS
+	}
+
+	/**
+	 * Creates a new variable in the JavaScript space and applies the given
+	 * JSObject to assign a corresponding value
+	 * 
+	 * @param variableName
+	 * @param value
+	 */
+	public void createJsVariable(String variableName, JavaScriptObject value) {
+		JSObject valueObject = value.getJsObject();
+		createJsVariable(variableName, valueObject);
+	}
+
+	/**
+	 * Creates a new variable in the JavaScript space and applies the given
+	 * JSObject to assign a corresponding value
+	 * 
+	 * @param variableName
+	 * @param value
+	 */
+	public void createJsVariable(String variableName, JSObject value) {
+		//store value in temporary dummy attribute
+		String tempAttributeName = "tempDummyStorageAttribute";
+		JSObject window = (JSObject) webEngine.executeScript("window");
+		window.setMember(tempAttributeName, value);
+
+		//create new variable and assign value to it    	
+		String createCommand = "var " + variableName + " = window.tempDummyStorageAttribute;";
+		eval(createCommand);
+
+		//delete temporary dummy attribute
+		window.removeMember(tempAttributeName);
+
+		//Object val = eval(variableName);
+		//boolean isOk = val.equals(value);
+	}
+
+	//#end region
+
+	//#region ACCESSORS
 
 	/**
 	 * @return
@@ -1084,10 +1097,6 @@ public class D3 extends JavaScriptObject {
 		return webEngine;
 	}
 
-	
-	
 	//#end region
 
-	
-	
 }

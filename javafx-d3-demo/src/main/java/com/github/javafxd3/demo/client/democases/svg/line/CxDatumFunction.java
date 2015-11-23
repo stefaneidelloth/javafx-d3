@@ -27,7 +27,7 @@ public class CxDatumFunction implements DatumFunction<Double> {
 	public Double apply(Object context, Object value, int index) {
 
 		JSObject datum = (JSObject) value;
-		Inspector.inspect(datum);
+		//Inspector.inspect(datum);
 		Value valueObj = new Value(webEngine, datum);
 		
 		CustomCoords coords = valueObj.<CustomCoords> as(CustomCoords.class);

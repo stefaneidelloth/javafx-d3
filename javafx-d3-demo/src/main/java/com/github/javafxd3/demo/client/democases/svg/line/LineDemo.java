@@ -262,7 +262,7 @@ public class LineDemo extends AbstractDemoCase {
 		if (enter != null) {
 			Selection result = enter.append("circle").attr("cx", cxFunction).attr("cy", cyFunction).attr("r", 10);
 						
-			Inspector.inspect(result);
+			//Inspector.inspect(result);
 			updateSelection.exit().remove();
 		}
 
