@@ -56,11 +56,12 @@ public class UpdateSelection extends Selection {
 	 */
 	public EnteringSelection enter() {
 		JSObject result = call("enter");
-		if (result != null) {
-			return new EnteringSelection(webEngine, result);
-		} else {
+		if (result == null) {
 			return null;
 		}
+		
+		return new EnteringSelection(webEngine, result);
+		
 	}
 
 	/**
@@ -79,11 +80,12 @@ public class UpdateSelection extends Selection {
 	 */
 	public Selection exit() {
 		JSObject result = call("exit");
-		if (result != null) {
-			return new Selection(webEngine, result);
-		} else {
+		if (result == null) {
 			return null;
 		}
+		
+		return new Selection(webEngine, result);
+		
 	}
 
 	//#end region

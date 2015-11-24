@@ -8,15 +8,13 @@ import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.UpdateSelection;
 import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.functions.KeyFunction;
 import com.github.javafxd3.api.geom.Voronoi;
-import com.github.javafxd3.api.wrapper.Element;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
 
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
 /**
@@ -41,12 +39,32 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 	 * @param demoPreferenceBox
 	 */
 	public VoronoiTessellationDemo(D3 d3, VBox demoPreferenceBox) {
-		super(d3, demoPreferenceBox);		
+		super(d3, demoPreferenceBox);
 	}
 
 	//#end region
 
 	//#region METHODS
+	
+    public static String polygon(WebEngine webEngine, Value datum) {
+		
+		JSObject jsDatum = datum.as();
+		Array<String> strings = new Array<String>(webEngine, jsDatum);
+		
+		List<String> stringList = new ArrayList<>();
+		
+		int size = strings.sizes().get(0);
+		
+		for(int index = 0; index < size; index++){
+			String string = strings.get(index, String.class);
+			stringList.add(string);
+		}
+		
+		String dataString = String.join("L", stringList);
+		String result = "M" + dataString + "Z";
+		
+		return result;
+	}
 
 	/**
 	 * Factory provider
@@ -77,41 +95,24 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 		voronoi = d3.geom() //
 				.voronoi() //
 				.clipExtent(0, 0, width, height);
-		
+
 		Selection svg = d3.select("svg") //
 				.classed("vt", true) //
 				.attr("width", width) //
 				.attr("height", height) //
-				.on("mousemove", new DatumFunction<Void>() {
-
-					@Override
-					public Void apply(final Object context, final Object d, final int index) {
-						
-						Element element = (Element) context;
-											
-						vertices[0] = d3.mouse(element);
-						redraw();
-						return null;
-					}
-				});
+				.on("mousemove", new MouseMoveDatumFunction(webEngine, d3, vertices, () -> redraw()));
 
 		path = svg.append("g") //
 				.selectAll("path");
 
+		
+		
 		svg.selectAll("circle") //
-		.data(vertices[1]) //
-		.enter() //
-		.append("circle") //
-		.attr("transform", new DatumFunction<String>() {
-					@Override
-					public String apply(final Object context, final Object d, final int index) {
-						
-						
-						Value datum = (Value) d;
-						
-						return "translate(" + datum.asString() + ")";
-					}
-				}).attr("r", 1.5);
+				.data(vertices) //
+				.enter() //
+				.append("circle") //
+				.attr("transform", new TransformDatumFunction(webEngine)) //
+				.attr("r", 1.5);
 
 		redraw();
 
@@ -119,56 +120,23 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 
 	private void redraw() {
 		Array<Double> polygons = voronoi.apply(vertices);
-		UpdateSelection upd = this.path.data(polygons, new KeyFunction<String>() {
-			@Override
-			public String call(final Object context, final Object newDataArray, final Object datum, final int index) {
-				
-				JSObject jsObject = (JSObject) datum;
-				Value value = new Value(webEngine, jsObject);
-				
-				String polygon = polygon(value);
-				return polygon;
-			}
-		});
+		UpdateSelection upd = this.path.data(polygons, new PolygonKeyFunction(webEngine));
 
-		upd.exit().remove();
+		upd.exit() //
+				.remove();
 
-		upd.enter().append("path").attr("class", new DatumFunction<String>() {
-			@Override
-			public String apply(final Object context, final Object d, final int index) {
-				return "q" + index % 9 + "-9";
-			}
-		}).attr("d", new DatumFunction<String>() {
-			@Override
-			public String apply(final Object context, final Object d, final int index) {
-				
-				
-				Value datum = (Value) d;
-				
-				return polygon(datum);
-			}
-		});
+		upd.enter() //
+				.append("path") //
+				.attr("class", new ClassDatumFunction()) //
+				.attr("d", new PolygonDatumFunction(webEngine));
 
 		upd.order();
 		this.path = upd;
 	}
 
-	private String polygon(final Value datum) {
-		
-		String[] strings = datum.<String[]> as();
-		List<String> stringList = new ArrayList<>();
-		for(String string: strings){
-			stringList.add(string);
-		}
-		
-		String dataString = String.join("L", stringList);
-		String result = "M" + dataString + "Z";
-		
-		return result;
-	}
-
 	@Override
 	public void stop() {
+		
 	}
 
 	//#end region

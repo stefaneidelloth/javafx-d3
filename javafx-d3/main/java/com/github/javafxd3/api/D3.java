@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.behaviour.Behavior;
 import com.github.javafxd3.api.behaviour.Drag;
 import com.github.javafxd3.api.behaviour.Drag.DragEvent;
@@ -30,7 +31,6 @@ import com.github.javafxd3.api.scales.Scales;
 import com.github.javafxd3.api.svg.SVG;
 import com.github.javafxd3.api.time.Time;
 import com.github.javafxd3.api.wrapper.Element;
-import com.github.javafxd3.api.wrapper.Inspector;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 import com.github.javafxd3.api.wrapper.JsArrayMixed;
 import com.github.javafxd3.api.wrapper.Node;
@@ -547,11 +547,9 @@ public class D3 extends JavaScriptObject {
 	 *
 	 * @return the current event as a Coords object
 	 */
-	public Coords eventAsCoords() {
-
-		throw new IllegalStateException("not yet implemented");
-		// JSObject result = call("event");
-		// return new Coords(webEngine, result);
+	public Coords eventAsCoords() {		
+		JSObject result = call("event");
+		return new Coords(webEngine, result);
 	};
 
 	/**
@@ -578,11 +576,10 @@ public class D3 extends JavaScriptObject {
 	 * @param container
 	 * @return
 	 */
-	public Double[] mouse(Node container) {
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call("mouse", container);
-
-		//return new JsArrayNumber(webEngine, result);
+	public Array<Double> mouse(Node container) {
+		JSObject jsContainer = container.getJsObject();
+		JSObject result = call("mouse", jsContainer);
+		return new Array<Double>(webEngine, result);	
 	};
 
 	/**

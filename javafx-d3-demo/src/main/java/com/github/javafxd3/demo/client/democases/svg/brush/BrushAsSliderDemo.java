@@ -133,7 +133,7 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 
 		if (d3.<D3Event> event().sourceEvent() != null) { // not a programmatic
 															// event
-			value = x.invert(d3.mouse(context)[0].doubleValue()).asDouble();
+			value = x.invert(d3.mouse(context).get(0, Double.class)).asDouble();
 			brush.extent(value, value);
 		}
 

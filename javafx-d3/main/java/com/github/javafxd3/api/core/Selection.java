@@ -1108,14 +1108,17 @@ public class Selection extends EnteringSelection {
 		JSObject arrayJsObject = array.getJsObject();
 		d3JsObject.setMember(arrayName, arrayJsObject);
 
-		String command = "this.data( d3." + arrayName + ", function(d, i) {" + "var ctxEl, newDataArray = null; " //
-				+ "if (this == d3." + arrayName + ") {" //
-				+ " newDataArray = this; " //
-				+ "} else { " //
-				+ "ctxEl = this; " //
-				+ "} " //
-				+ "return d3." + methodName + ".map(ctxEl,newDataArray,{datum:d},i);" //
-				+ " });";
+		String command = "this.data( d3." + arrayName + ", "
+				+ "function(d, i) {" //
+				+ "  var ctxEl = null;"
+				+ "  var newDataArray = null;" //
+				+ "  if (this == d3." + arrayName + ") {" //
+				+ "     newDataArray = this; " //
+				+ "  } else { " //
+				+ "    ctxEl = this; " //
+				+ "  } " //
+				+ "  return d3." + methodName + ".call(ctxEl,newDataArray,{datum:d},i);" //
+				+ "});";
 
 		JSObject result = evalForJsObject(command);
 

@@ -109,7 +109,7 @@ public class Voronoi extends JavaScriptObject {
     
     public  Array<Double> apply(Double[][] vertices){
     	String arrayString = ArrayUtils.createArrayString(vertices);
-    	String command = "this.(" + arrayString + ")";
+    	String command = "this(" + arrayString + ")";
     	JSObject result = evalForJsObject(command);
     	return new Array<Double>(webEngine, result);    	
     }
