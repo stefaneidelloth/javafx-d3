@@ -3,24 +3,29 @@ package com.github.javafxd3.demo.client.democases.geom.mitchell;
 import com.github.javafxd3.api.geom.Quadtree.Callback;
 import com.github.javafxd3.api.geom.Quadtree.Node;
 
+import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
+
 public class MitchellVisitCallback implements Callback<Circle> {
 
 	//#region ATTRIBUTES
 
-	MitchellCircleGenerator parent;
-	double x;
-	double y;
+	private WebEngine webEngine;
+	private MitchellCircleGenerator parent;
+	private double x;
+	private double y;
 
-	double rx1;
-	double rx2;
-	double ry1;
-	double ry2;
+	private double rx1;
+	private double rx2;
+	private double ry1;
+	private double ry2;
 
 	//#end region
 
 	//#region CONSTRUCTORS
 
-	public MitchellVisitCallback(MitchellCircleGenerator parent, Double x, Double y) {
+	public MitchellVisitCallback(WebEngine webEngine, MitchellCircleGenerator parent, Double x, Double y) {
+		this.webEngine = webEngine;
 		this.parent = parent;
 		this.x = x;
 		this.y=y;
@@ -38,12 +43,18 @@ public class MitchellVisitCallback implements Callback<Circle> {
 	//#region METHODS
 
 	@Override
-	public boolean visit(final Node<Circle> quad, final double x1, final double y1, final double x2, final double y2) {
+	public boolean visit(final Object quadObj, final double x1, final double y1, final double x2, final double y2) {
 		
-		if (quad==null){
+		if (quadObj==null){
 			return false;
 		}
-		Circle p = quad.point();
+		
+		JSObject jsQuad = (JSObject) quadObj;
+		//Inspector.inspect(jsQuad);
+		
+		Node<Circle> quad = new Node<Circle>(webEngine, jsQuad);
+		
+		Circle p = quad.point(Circle.class);
 		if (p != null) {
 			double dx = x - p.x;
 			double dy = y - p.y;
@@ -62,7 +73,8 @@ public class MitchellVisitCallback implements Callback<Circle> {
 		// outside
 		// search
 		// radius
-		return (parent.getMinDistance() == 0) || (x1 > rx2) || (x2 < rx1) || (y1 > ry2) || (y2 < ry1); // or
+		boolean result = (parent.getMinDistance() == 0) || (x1 > rx2) || (x2 < rx1) || (y1 > ry2) || (y2 < ry1); // or
+		return result;
 	}
 
 	//#end region

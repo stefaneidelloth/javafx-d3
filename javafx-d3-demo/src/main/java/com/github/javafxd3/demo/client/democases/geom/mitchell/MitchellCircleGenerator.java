@@ -2,10 +2,13 @@ package com.github.javafxd3.demo.client.democases.geom.mitchell;
 
 import com.github.javafxd3.api.geom.Quadtree.RootNode;
 
+import javafx.scene.web.WebEngine;
+
 public class MitchellCircleGenerator implements CircleGenerator {
 	
 	//#region ATTRIBUTES
 
+	private WebEngine webEngine;
 	private double minDistance;
 	double searchRadius;			
 	double bestX;
@@ -23,7 +26,8 @@ public class MitchellCircleGenerator implements CircleGenerator {
 	
 	//#region CONSTRUCTORS
 	
-	public MitchellCircleGenerator(RootNode<Circle> quadtree, double maxRadius, double width, double height, double padding){
+	public MitchellCircleGenerator(WebEngine webEngine, RootNode<Circle> quadtree, double maxRadius, double width, double height, double padding){
+		this.webEngine = webEngine;
 		this.quadtree = quadtree;
 		this.width = width;
 		this.height = height;
@@ -37,7 +41,7 @@ public class MitchellCircleGenerator implements CircleGenerator {
 	//#region METHODS
 
 	@Override
-	public Circle generate(final double k) {
+	public Circle generate(double k) {
 		bestX = bestY = bestDistance = 0;
 
 		for (int i = 0; (i < k) || (bestDistance < padding); ++i) {
@@ -49,7 +53,7 @@ public class MitchellCircleGenerator implements CircleGenerator {
 			minDistance = maxRadius; // minimum distance for this
 										// candidate
 
-			quadtree.visit(new MitchellVisitCallback(this,x,y));
+			quadtree.visit(new MitchellVisitCallback(webEngine, this,x,y));
 
 			if (minDistance > bestDistance) {
 				bestX = x;

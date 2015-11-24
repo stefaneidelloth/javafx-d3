@@ -144,7 +144,13 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 	}
 
 	private void brushmove() {
-		final Array<Double> extent = d3.event().getEventTarget().<Brush> cast().extent();
+		Selection target = d3.event().getEventTarget();
+		
+		throw new IllegalStateException("not yet implemented");
+		
+		/*
+		
+		final Array<Double> extent = target.<Brush> cast().extent();
 		symbol.classed("selected", new DatumFunction<Boolean>() {
 			@Override
 			public Boolean apply(final Object context, final Object d, final int index) {
@@ -155,10 +161,18 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 				return extent.get(0, Double.class) <= value && value <= extent.get(1, Double.class);
 			}
 		});
+		
+		*/
 	}
 
 	private void brushend() {
+		
+throw new IllegalStateException("not yet implemented");
+		
+		/*
 		svg.classed("selecting", !(d3.event().getEventTarget().<Brush> cast()).empty());
+		
+		*/
 	}
 
 	//#end region

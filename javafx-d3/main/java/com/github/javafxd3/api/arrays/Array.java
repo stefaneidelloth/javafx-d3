@@ -253,134 +253,14 @@ public class Array<T> extends JavaScriptObject {
 
 	public <D> D get(int index, Class<D> classObj) {
 		Object resultObj = getAsObject(index);
-		
-		
-		
-		if (resultObj == null) {
-			return null;
-		}
-
-		boolean targetIsValue = classObj.equals(Value.class);
-		if (targetIsValue) {
-			boolean resultObjIsValue = resultObj instanceof Value;
-			if (resultObjIsValue) {
-				D result = classObj.cast(resultObj);
-				return result;
-			} else {
-				Value value = Value.create(webEngine, resultObj);
-				D result = classObj.cast(value);
-				return result;
-			}
-		}
-
-		boolean targetIsJavaScriptObject = classObj.getSuperclass().equals(JavaScriptObject.class);
-		if (targetIsJavaScriptObject) {
-
-			Class<?> resultObjClass = resultObj.getClass();
-			Constructor<D> constructor;
-
-			boolean resultIsJsObject = resultObj instanceof JSObject;
-			if (resultIsJsObject) {
-				
-				JSObject resultJsObject = (JSObject) resultObj;
-				//Inspector.inspect(resultJsObject);
-				
-				try {
-					constructor = classObj.getConstructor(new Class<?>[] { WebEngine.class, JSObject.class });
-				} catch (Exception exception) {
-					String message = "Could not get constructor for JavaScriptObject of " + "type '"
-							+ classObj.getName() + "' with parameters of type WebEngine and '"
-							+ resultObjClass.getName() + "'.";
-					throw new IllegalStateException(message, exception);
-				}
-
-			} else {
-
-				try {
-					constructor = classObj.getConstructor(new Class<?>[] { WebEngine.class, resultObjClass });
-				} catch (Exception exception) {
-					String message = "Could not get constructor for JavaScriptObject of " + "type '"
-							+ classObj.getName() + "' with parameters of type WebEngine and '"
-							+ resultObjClass.getName() + "'.";
-					throw new IllegalStateException(message, exception);
-				}
-			}
-
-			D newJavaScriptObject;
-			try {
-				newJavaScriptObject = constructor.newInstance(webEngine, resultObj);
-			} catch (Exception exception) {
-				String message = "Could not construct new instance of type '" + classObj.getName() + "' with "
-						+ "object of type " + resultObj.getClass().getName();
-				throw new IllegalStateException(message, exception);
-			}
-			return newJavaScriptObject;
-		}
-
-		boolean targetIsString = classObj.equals(String.class);
-		if (targetIsString) {
-			try {
-				String stringResult = resultObj.toString();
-				D result = classObj.cast(stringResult);
-				return result;
-			} catch (Exception exception) {
-				String message = "Could not convert item of type " + resultObj.getClass().getName() + " to String.";
-				throw new IllegalStateException(message, exception);
-			}
-		}
-
-		try {
-			D result = classObj.cast(resultObj);
-			return result;
-		} catch (Exception exception) {
-			boolean isNumber = resultObj instanceof Number;
-			if (isNumber) {
-				Number number = (Number) resultObj;
-				Object doubleValue = number.doubleValue();
-				try {
-					D result = classObj.cast(doubleValue);
-					return result;
-				} catch (Exception numberCastException) {
-					String message = "Could not cast item of type " + resultObj.getClass().getName()
-							+ " to required type " + classObj.getName();
-					throw new IllegalStateException(message, exception);
-				}
-			}
-
-			String message = "Could not cast item of type '" + resultObj.getClass().getName() + "' to required type '"
-					+ classObj.getName() + "'";
-			throw new IllegalStateException(message, exception);
-		}
-
+		D result = convertObjectTo(resultObj, classObj);
+		return result;
 	}
 
 	public <D> D get(int rowIndex, int columnIndex, Class<D> classObj) {
 		Object resultObj = getAsObject(rowIndex, columnIndex);
-		if (resultObj == null) {
-			return null;
-		}
-
-		try {
-			D result = classObj.cast(resultObj);
-			return result;
-		} catch (Exception exception) {
-			boolean isNumber = resultObj instanceof Number;
-			if (isNumber) {
-				Number number = (Number) resultObj;
-				Object doubleValue = number.doubleValue();
-				try {
-					D result = classObj.cast(doubleValue);
-					return result;
-				} catch (Exception numberCastException) {
-					String message = "Could not cast item of type " + resultObj.getClass().getName()
-							+ " to required type.";
-					throw new IllegalStateException(message, exception);
-				}
-			}
-
-			String message = "Could not cast item of type " + resultObj.getClass().getName() + " to required type.";
-			throw new IllegalStateException(message, exception);
-		}
+		D result = convertObjectTo(resultObj, classObj);
+		return result;
 	}
 
 	private Object getAsObject(int index) {

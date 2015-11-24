@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.UpdateSelection;
 import com.github.javafxd3.api.core.Value;
@@ -20,9 +21,6 @@ import netscape.javascript.JSObject;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
- *
- * 
- *
  */
 public class VoronoiTessellationDemo extends AbstractDemoCase {
 
@@ -43,9 +41,7 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 	 * @param demoPreferenceBox
 	 */
 	public VoronoiTessellationDemo(D3 d3, VBox demoPreferenceBox) {
-		super(d3, demoPreferenceBox);
-		// @Source("VoronoiTessellationDemo.css")
-		// vt
+		super(d3, demoPreferenceBox);		
 	}
 
 	//#end region
@@ -78,30 +74,39 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 			vertices[index] = vertice;
 		}
 
-		voronoi = d3.geom().voronoi().clipExtent(0, 0, width, height);
-		Selection svg = d3.select("root").append("svg").classed("vt", true).attr("width", width).attr("height", height)
-				.on("MOUSEMOVE", new DatumFunction<Void>() {
+		voronoi = d3.geom() //
+				.voronoi() //
+				.clipExtent(0, 0, width, height);
+		
+		Selection svg = d3.select("svg") //
+				.classed("vt", true) //
+				.attr("width", width) //
+				.attr("height", height) //
+				.on("mousemove", new DatumFunction<Void>() {
 
 					@Override
 					public Void apply(final Object context, final Object d, final int index) {
 						
 						Element element = (Element) context;
-						Value datum = (Value) d;
-						
+											
 						vertices[0] = d3.mouse(element);
 						redraw();
 						return null;
 					}
 				});
 
-		path = svg.append("g").selectAll("path");
+		path = svg.append("g") //
+				.selectAll("path");
 
-		svg.selectAll("circle").data(vertices[1]).enter().append("circle")
-				.attr("transform", new DatumFunction<String>() {
+		svg.selectAll("circle") //
+		.data(vertices[1]) //
+		.enter() //
+		.append("circle") //
+		.attr("transform", new DatumFunction<String>() {
 					@Override
 					public String apply(final Object context, final Object d, final int index) {
 						
-						Element element = (Element) context;
+						
 						Value datum = (Value) d;
 						
 						return "translate(" + datum.asString() + ")";
@@ -113,7 +118,8 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 	}
 
 	private void redraw() {
-		UpdateSelection upd = this.path.data(voronoi.apply(vertices), new KeyFunction<String>() {
+		Array<Double> polygons = voronoi.apply(vertices);
+		UpdateSelection upd = this.path.data(polygons, new KeyFunction<String>() {
 			@Override
 			public String call(final Object context, final Object newDataArray, final Object datum, final int index) {
 				
@@ -136,7 +142,7 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 			@Override
 			public String apply(final Object context, final Object d, final int index) {
 				
-				Element element = (Element) context;
+				
 				Value datum = (Value) d;
 				
 				return polygon(datum);

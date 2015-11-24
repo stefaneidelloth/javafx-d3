@@ -185,9 +185,13 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
             final double y3) {
         quadtreeRoot.visit(new Callback<Point>() {
             @Override
-            public boolean visit(final Node<Point> node, final double x1, final double y1, final double x2,
+            public boolean visit(final Object nodeObj, final double x1, final double y1, final double x2,
                     final double y2) {
-                Point p = node.point();
+            	
+            	JSObject jsNodeObj = (JSObject) nodeObj;
+            	RootNode<Point> node = new RootNode<Point>(webEngine, jsNodeObj);
+                Point p = node.point(Point.class);
+                
                 if (p != null) {
                     p.setSelected((p.x() >= x0) && (p.x() < x3) && (p.y() >= y0) && (p.y() < y3));
                 }

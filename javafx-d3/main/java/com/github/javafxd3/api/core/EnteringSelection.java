@@ -3,6 +3,7 @@ package com.github.javafxd3.api.core;
 import java.util.Objects;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.functions.JsFunction;
 import com.github.javafxd3.api.wrapper.Element;
@@ -267,7 +268,9 @@ public class EnteringSelection extends JavaScriptObject {
 	 * @return the number of groups
 	 */
 	public final int groupCount() {
-		return asElementArray().length;
+		Array<JSObject> array = asElementArray();
+		int size = array.sizes().get(1);
+		return size;		
 	}
 
 	/**
@@ -276,8 +279,9 @@ public class EnteringSelection extends JavaScriptObject {
 	 * 
 	 * @return this selection as an array of array of elements
 	 */
-	public final Element[][] asElementArray() {
-		return this.cast();
+	public final Array<JSObject> asElementArray() { //equivalent to Array<Element> but not wrapped
+		JSObject result = call("cast");
+		return new Array<JSObject>(webEngine, result);
 	}
 
 	//#end region

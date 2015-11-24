@@ -2,7 +2,6 @@ package com.github.javafxd3.demo.client.democases.geom.mitchell;
 
 import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.wrapper.Inspector;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

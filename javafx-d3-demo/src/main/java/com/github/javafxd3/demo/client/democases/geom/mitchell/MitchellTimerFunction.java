@@ -7,9 +7,9 @@ public class MitchellTimerFunction implements TimerFunction {
 
 	//#region ATTRIBUTES
 
-	private double numberOfCandidatesPerCircle = 1; // initial number of candidates to consider per circle
-	private double numberOfCirclesPerFrame = 10; // initial number of circles to add per frame
-	private double remainingNumberOfCircles = 2500; // remaining number of circles to add
+	private double numberOfCandidatesPerCircle = 1; //k initial number of candidates to consider per circle
+	private double numberOfCirclesPerFrame = 10; //m initial number of circles to add per frame
+	private double remainingNumberOfCircles = 2500; //n remaining number of circles to add
 
 	private CircleGenerator circleGenerator;
 	private Selection svg;
@@ -36,8 +36,13 @@ public class MitchellTimerFunction implements TimerFunction {
 		for (int i = 0; (i < numberOfCirclesPerFrame) && (--remainingNumberOfCircles >= 0); ++i) {
 			Circle circle = circleGenerator.generate(numberOfCandidatesPerCircle);
 
-			svg.append("circle").attr("cx", circle.x).attr("cy", circle.y).attr("r", 0)
-					.style("fill-opacity", (Math.random() + .5) / 2).transition().attr("r", circle.r);
+			svg.append("circle") //
+					.attr("cx", circle.x) //
+					.attr("cy", circle.y) //
+					.attr("r", 0) //
+					.style("fill-opacity", (Math.random() + .5) / 2) //
+					.transition() //
+					.attr("r", circle.r);
 
 			// As we add more circles, generate more candidates per
 			// circle.

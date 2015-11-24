@@ -175,9 +175,9 @@ public class ChordDiagram extends AbstractDemoCase {
 
 				Selection selection = svg.selectAll("." + "chord" + " path");
 
-				ChordItem[] chordItems = selection.<ChordItem[]> cast();
+				//ChordItem[] chordItems = selection.<ChordItem[]> cast();
 
-				ChordItem[] filteredChordItems = chordItems;
+				//ChordItem[] filteredChordItems = chordItems;
 
 				/*
 				 * chordItems.filter(new ForEachCallback<Boolean>() {

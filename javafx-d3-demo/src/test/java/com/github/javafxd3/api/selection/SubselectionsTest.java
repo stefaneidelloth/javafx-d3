@@ -7,6 +7,8 @@ import com.github.javafxd3.api.functions.CountFunction;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.wrapper.Element;
 
+import netscape.javascript.JSObject;
+
 /**
  * Testing the internal structure of the selections and sub selections.
  */
@@ -81,8 +83,8 @@ public class SubselectionsTest extends AbstractSelectionTest {
 		// internal structure
 		assertEquals(3, blahs.size());
 		assertEquals(1, blahs.groupCount());
-		assertEquals(1, blahs.asElementArray().length);
-		assertEquals(3, blahs.asElementArray()[0].length);
+		assertEquals(1, (int) blahs.asElementArray().sizes().get(1));
+		assertEquals(3, blahs.asElementArray().get(0, Object[].class).length);
 
 		// parentNode
 		assertParentNodeIsRootHtml(blahs);
@@ -91,8 +93,8 @@ public class SubselectionsTest extends AbstractSelectionTest {
 		Selection barfoos = blahs.append("barfoo");
 		assertEquals(3, barfoos.size());
 		assertEquals(1, barfoos.groupCount());
-		assertEquals(1, barfoos.asElementArray().length);
-		assertEquals(3, barfoos.asElementArray()[0].length);
+		assertEquals(1, (int) barfoos.asElementArray().sizes().get(1));
+		assertEquals(3, blahs.asElementArray().get(0, Object[].class).length);
 		assertParentNodeIsRootHtml(barfoos);
 
 		// also test variant of selectAll
@@ -125,9 +127,9 @@ public class SubselectionsTest extends AbstractSelectionTest {
 		assertEquals(1, firstZorgs.size());
 		assertEquals(1, firstZorgs.groupCount());
 		assertParentNodeIsRootHtml(firstZorgs);
-		Element[][] array = firstZorgs.asElementArray();
-		assertEquals(1, array.length);
-		assertEquals(1, array[0].length);
+		Array<JSObject> array = firstZorgs.asElementArray();
+		assertEquals(1, (int) array.sizes().get(1));
+		assertEquals(1, array.get(0, Object[].class).length);
 		// if multiple elements match the selector, only the first matching
 		// element in document traversal order will be
 		// selected.
@@ -156,9 +158,13 @@ public class SubselectionsTest extends AbstractSelectionTest {
 		getSvg().node().setInnerHtml("<div><zorg>foo</zorg><zorg>foo2</zorg></div>"
 				+ "<div><zorg>bar</zorg><zorg>bar2</zorg></div>" + "<div><zorg>zing</zorg><zorg>zing2</zorg></div>");
 		divs = d3.select("root").selectAll("div");
-		divs.asElementArray()[0][0].setPropertyInt(Selection.DATA_PROPERTY, 6);
+		
+		/*
+		divs.asElementArray().get(0, Node.class)[0].setPropertyInt(Selection.DATA_PROPERTY, 6);
 		divs.asElementArray()[0][1].setPropertyInt(Selection.DATA_PROPERTY, 2);
 		divs.asElementArray()[0][2].setPropertyInt(Selection.DATA_PROPERTY, 4);
+		*/
+		
 		Selection select = divs.select("zorg");
 		Array<Object> data = select.data();
 		assertEquals(6.0, data.get(0, Double.class), TOLERANCE);

@@ -56,8 +56,8 @@ public class Quadtree extends JavaScriptObject {
 
 		assertObjectIsNotAnonymous(xAccessor);
 
-		JSObject d3JsObject = getD3();
 		String methodName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();		
 		d3JsObject.setMember(methodName, xAccessor);
 
 		String command = "this.x(function(d, i) { " //
@@ -115,8 +115,12 @@ public class Quadtree extends JavaScriptObject {
 
 		JSObject d3JsObject = getD3();
 		List<String> fullVarNames = new ArrayList<>();
-
+		
 		for (T pointObj : points) {
+			
+			if (pointObj==null){
+				continue;
+			}
 			String varName = createNewTemporaryInstanceName();
 
 			Object point = pointObj;
@@ -129,6 +133,7 @@ public class Quadtree extends JavaScriptObject {
 			d3JsObject.setMember(varName, point);
 			fullVarNames.add("d3." + varName);
 		}
+		
 
 		String command = "this([" + String.join(",", fullVarNames) + "])";
 		JSObject result = evalForJsObject(command);
@@ -260,9 +265,13 @@ public class Quadtree extends JavaScriptObject {
 		 * @return the point associated with this node, if any (may apply to
 		 *         either internal or leaf nodes)
 		 */
-		public T point() {
-			throw new IllegalStateException("not yet implemented");
-			//return this.point;
+		public T point(Class<T> classObj) {			
+			Object resultObj = eval("this.point");
+			if(resultObj==null){
+				return null;
+			}
+			T result = convertObjectTo(resultObj, classObj);
+			return result;			
 		}
 
 		/**
@@ -271,7 +280,6 @@ public class Quadtree extends JavaScriptObject {
 		public Double x() {
 			Double result = getMemberForDouble("x");
 			return result;
-
 		}
 
 		/**
@@ -294,9 +302,9 @@ public class Quadtree extends JavaScriptObject {
 		 * @return a sparse array of the four child nodes in order: top-left,
 		 *         top-right, bottom-left, bottom-right
 		 */
-		public Node<T>[] nodes() {
-			throw new IllegalStateException("not yet implemented");
-			//return this.nodes;
+		public Array<JSObject> nodes() { //equivalent to Array<Node<T>>, but not wrapped
+			JSObject result = getMember("nodes");
+			return new Array<JSObject>(webEngine, result);			
 		}
 
 		//#end region
@@ -369,8 +377,8 @@ public class Quadtree extends JavaScriptObject {
 			String methodName = createNewTemporaryInstanceName();
 			d3JsObject.setMember(methodName, callback);
 
-			String command = "this.visit(function(n, x1, y1, x2, y2) { " //
-					+ "return d3." + methodName + ".visit(n,x1,y1,x2,y2);" //
+			String command = "this.visit(function(node, x1, y1, x2, y2) { " //
+					+ "return d3." + methodName + ".visit(node,x1,y1,x2,y2);" //
 					+ " });";
 
 			Object result = eval(command);
@@ -418,7 +426,7 @@ public class Quadtree extends JavaScriptObject {
 		 *            the bottom right y coordinate
 		 * @return false if children should be visited, true otherwise
 		 */
-		public boolean visit(Node<T> node, double x1, double y1, double x2, double y2);
+		public boolean visit(Object node, double x1, double y1, double x2, double y2);
 
 	}
 }

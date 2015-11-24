@@ -107,11 +107,11 @@ public class Voronoi extends JavaScriptObject {
     	return new Array<T>(webEngine, result);    	
     }
     
-    public  Array<Array<Double>> apply(Double[][] vertices){
+    public  Array<Double> apply(Double[][] vertices){
     	String arrayString = ArrayUtils.createArrayString(vertices);
     	String command = "this.(" + arrayString + ")";
     	JSObject result = evalForJsObject(command);
-    	return new Array<Array<Double>>(webEngine, result);    	
+    	return new Array<Double>(webEngine, result);    	
     }
 
     /**

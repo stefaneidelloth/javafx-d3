@@ -123,7 +123,7 @@ public class AxisComponent extends AbstractDemoCase {
 			public void get(final JavaScriptObject error, final Data[] values) {
 
 				if (error != null) {
-					XmlHttpRequest xhrError = error.cast();
+					XmlHttpRequest xhrError = error.convertToJavaScriptObject(error, XmlHttpRequest.class);
 					String message = xhrError.status() + " (" + xhrError.statusText() + ")";
 					System.err.println(message);
 					throw new RuntimeException(message);

@@ -65,7 +65,7 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 	@Override
 	public void start() {
 
-		final CircleGenerator newCircle = createBestCircleGenerator(maxRadius, padding);
+		final CircleGenerator circleGenerator = createBestCircleGenerator(maxRadius, padding);
 
 		svg = d3.select("svg") //				
 				.attr("width", width) //
@@ -73,7 +73,7 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 				.append("g") //
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-		timerFunction = new MitchellTimerFunction(newCircle, svg, this);
+		timerFunction = new MitchellTimerFunction(circleGenerator, svg, this);
 		done = false;
 		d3.timer(timerFunction);
 
@@ -89,11 +89,11 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 		final RootNode<Circle> quadtree = d3.geom() //
 				.quadtree() //
 				.x(new XDatumFunction(webEngine)) //
-				.y(new XDatumFunction(webEngine)) //
+				.y(new YDatumFunction(webEngine)) //
 				.extent(0, 0, width, height) //
 				.apply(new Circle[1]);
 
-		return new MitchellCircleGenerator(quadtree, maxRadius, width, height, padding) ;
+		return new MitchellCircleGenerator(webEngine, quadtree, maxRadius, width, height, padding) ;
 	}
 	
 	//#end region
