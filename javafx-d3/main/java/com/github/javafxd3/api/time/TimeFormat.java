@@ -55,7 +55,9 @@ public class TimeFormat extends JavaScriptObject {
     	d3JsObject.setMember(varName, jsDateObj);
     	
     	String command = "this(d3." + varName +")";    	
-    	String result = (String) eval(command);    	   
+    	String result = (String) eval(command);    	 
+    	
+    	d3JsObject.removeMember(varName);
     	
 		return result;
     }

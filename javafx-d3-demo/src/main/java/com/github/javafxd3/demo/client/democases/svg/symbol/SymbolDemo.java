@@ -77,7 +77,10 @@ public class SymbolDemo extends AbstractDemoCase {
 	@Override
 	public void start() {
 		symbols = d3.svg().symbol();
+		
 		// create the things
+		
+		deleteOldPreferenceChildren();
 		createButton("Add symbol", (event) -> addSymbol());
 
 		svg = d3.select("svg").attr("width", width).attr("height", height).append("g");

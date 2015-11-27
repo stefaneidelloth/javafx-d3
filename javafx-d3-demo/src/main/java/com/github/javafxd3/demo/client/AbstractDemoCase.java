@@ -67,16 +67,11 @@ public abstract class AbstractDemoCase implements DemoCase {
 		demoPreferenceBox.getChildren().add(button);
 	}
 	
-	/**
-	 * Clears the content of the svg element and returns
-	 * the svg as Selection
-	 * @return 
-	 */
-	public Selection clearSvg(){			
-		Selection root = getSvg();
-		root.selectAll("*").remove();
-		return root;
+	protected void deleteOldPreferenceChildren(){
+		demoPreferenceBox.getChildren().clear();		
 	}
+	
+
 
 	/**
 	 * @return

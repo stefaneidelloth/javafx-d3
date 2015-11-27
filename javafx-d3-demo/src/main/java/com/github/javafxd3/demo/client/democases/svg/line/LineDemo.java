@@ -105,6 +105,8 @@ public class LineDemo extends AbstractDemoCase {
 
 		String cssClassName = "linedemo";
 		path = svg.append("path").classed(cssClassName, true);
+		
+		deleteOldPreferenceChildren();
 
 		// create preferences and buttons
 		createButton("Add point", (event) -> {

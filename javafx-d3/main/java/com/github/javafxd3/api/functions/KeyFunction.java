@@ -3,8 +3,6 @@ package com.github.javafxd3.api.functions;
 
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.UpdateSelection;
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.wrapper.Element;
 
 
 /**

@@ -228,6 +228,10 @@ public class JavaScriptObject {
 		// eval command
 		String command = "this(" + String.join(",", fullVarNames) + ");";
 		Object result = eval(command);
+		
+		for(String varName: varNames){
+			d3JsObj.removeMember(varName);
+		}
 
 		return result;
 	}

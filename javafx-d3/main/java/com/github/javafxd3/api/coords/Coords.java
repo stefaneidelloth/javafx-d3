@@ -41,6 +41,9 @@ public class Coords extends JavaScriptObject {
 		d3.eval(command);
 		Object resultObj = d3.eval(varName);
 		JSObject result = (JSObject) resultObj;
+		
+		d3.eval(varName + " = null;");
+		
 		setJsObject(result);
 	}
 

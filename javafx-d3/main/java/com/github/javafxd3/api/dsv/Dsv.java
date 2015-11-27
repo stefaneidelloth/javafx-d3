@@ -1,7 +1,6 @@
 package com.github.javafxd3.api.dsv;
 
 import com.github.javafxd3.api.arrays.Array;
-import com.github.javafxd3.api.wrapper.Inspector;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -124,6 +123,9 @@ public class Dsv<T> extends JavaScriptObject {
     			+ "return d3." + accessorName + ".apply(row, index);" //
     			+ "})";
 		JSObject result = evalForJsObject(command);
+		
+		d3JsObject.removeMember(accessorName);
+		
 		return new Array<T>(webEngine, result);		
     }
 

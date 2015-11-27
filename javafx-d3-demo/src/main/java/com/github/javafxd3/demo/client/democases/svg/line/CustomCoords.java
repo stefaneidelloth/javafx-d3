@@ -38,6 +38,8 @@ public  class CustomCoords extends Coords {
 		Object resultObj = d3.eval(varName);
 		JSObject result = (JSObject) resultObj;
 		
+		d3.eval(varName + " = null;");
+		
 		//Inspector.inspect(result);
 		
 		setJsObject(result);

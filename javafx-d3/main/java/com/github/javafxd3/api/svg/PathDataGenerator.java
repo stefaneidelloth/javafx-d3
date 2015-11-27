@@ -6,7 +6,6 @@ import java.util.List;
 import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.functions.JsFunction;
-import com.github.javafxd3.api.wrapper.Inspector;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -89,13 +88,16 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 		//Inspector.inspect(dataObj);
 		
 		String memberName = createNewTemporaryInstanceName();
-		JSObject d3Obj = (JSObject) webEngine.executeScript("d3");
-		d3Obj.setMember(memberName, dataObj);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(memberName, dataObj);
 		
 		// execute command to generate data
 		String command = "this(d3." + memberName + ")";
 		
 		String result = (String) eval(command);
+		
+		d3JsObj.removeMember(memberName);
+		
 		return result;
 		
 	}
@@ -132,6 +134,8 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 		// execute command to generate data
 		String command = "this(d3." + dataMemberName + ", " + index + ")";
 		String result = evalForString(command);	
+		
+		d3JsObject.removeMember(dataMemberName);
 
 		return result;
 	}

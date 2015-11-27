@@ -164,6 +164,9 @@ public class Line extends PathDataGenerator {
 				+ "return d3." + callbackName + ".apply(this, {datum:d}, i);" //
 				+ "})";
 		JSObject result = evalForJsObject(command);
+		
+		
+				
 		return result;
 	}
 

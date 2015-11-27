@@ -155,6 +155,9 @@ public class EnteringSelection extends JavaScriptObject {
 
 		String command = "this.select(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
+		
+		d3JsObject.removeMember(funcName);
+		
 		return new Selection(webEngine, result);		
 	}
 

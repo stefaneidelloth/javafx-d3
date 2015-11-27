@@ -182,6 +182,11 @@ public class JavaFxD3DemoSuite extends Application {
 	 * @return
 	 */
 	public Selection clearContent() {
+		
+		
+		
+		
+		
 		D3 d3 = browser.getD3();
 		d3.selectAll("svg").remove();
 		d3.select("#root").selectAll("*").remove();

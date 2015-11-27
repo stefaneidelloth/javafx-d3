@@ -28,8 +28,7 @@ public class ZoomDemo extends AbstractDemoCase {
 
 	private Selection svg;
 	private Selection scaleLabel;
-	private Selection translateLabel;
-	private Selection g;
+	private Selection translateLabel;	
 	private Axis xAxis;
 	private Axis yAxis;
 

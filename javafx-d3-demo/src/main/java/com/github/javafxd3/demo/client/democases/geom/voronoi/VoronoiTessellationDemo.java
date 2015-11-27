@@ -45,26 +45,6 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 	//#end region
 
 	//#region METHODS
-	
-    public static String polygon(WebEngine webEngine, Value datum) {
-		
-		JSObject jsDatum = datum.as();
-		Array<String> strings = new Array<String>(webEngine, jsDatum);
-		
-		List<String> stringList = new ArrayList<>();
-		
-		int size = strings.sizes().get(0);
-		
-		for(int index = 0; index < size; index++){
-			String string = strings.get(index, String.class);
-			stringList.add(string);
-		}
-		
-		String dataString = String.join("L", stringList);
-		String result = "M" + dataString + "Z";
-		
-		return result;
-	}
 
 	/**
 	 * Factory provider
@@ -105,8 +85,6 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 		path = svg.append("g") //
 				.selectAll("path");
 
-		
-		
 		svg.selectAll("circle") //
 				.data(vertices) //
 				.enter() //
@@ -134,9 +112,29 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 		this.path = upd;
 	}
 
+	public static String polygon(WebEngine webEngine, Value datum) {
+
+		JSObject jsDatum = datum.as();
+		Array<String> strings = new Array<String>(webEngine, jsDatum);
+
+		List<String> stringList = new ArrayList<>();
+
+		int size = strings.sizes().get(0);
+
+		for (int index = 0; index < size; index++) {
+			String string = strings.get(index, String.class);
+			stringList.add(string);
+		}
+
+		String dataString = String.join("L", stringList);
+		String result = "M" + dataString + "Z";
+
+		return result;
+	}
+
 	@Override
 	public void stop() {
-		
+
 	}
 
 	//#end region

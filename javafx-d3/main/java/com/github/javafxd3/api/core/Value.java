@@ -1,7 +1,6 @@
 package com.github.javafxd3.api.core;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 import com.github.javafxd3.api.coords.Coords;
 import com.github.javafxd3.api.time.JsDate;
@@ -73,6 +72,7 @@ public class Value extends JavaScriptObject {
 		JSObject result = (JSObject) d3.eval(dummyTempVariableName);
 
 		d3.removeMember(dummyTempAttributeName);
+		d3.eval(dummyTempVariableName + "= null;");
 
 		return new Value(webEngine, result);
 

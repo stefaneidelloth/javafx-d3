@@ -149,6 +149,9 @@ public class Transition extends JavaScriptObject {
 				+ " });";
 
 		JSObject result = evalForJsObject(command);
+		
+		d3JsObject.removeMember(memberName);
+		
 		return new Transition(webEngine, result);
 	}
 
@@ -186,6 +189,9 @@ public class Transition extends JavaScriptObject {
 				+ " });";
 
 		JSObject result = evalForJsObject(command);
+		
+		d3JsObject.removeMember(memberName);
+		
 		return new Transition(webEngine, result);
 	}
 
@@ -218,6 +224,9 @@ public class Transition extends JavaScriptObject {
 				+ "  })";
 
 		JSObject result = evalForJsObject(command);
+		
+		d3JsObject.removeMember(memberName);
+		
 		return new Transition(webEngine, result);
 	}
 
@@ -823,6 +832,8 @@ public class Transition extends JavaScriptObject {
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
+		
+		d3JsObject.removeMember(memberName);
 
 		if (result == null) {
 			return null;

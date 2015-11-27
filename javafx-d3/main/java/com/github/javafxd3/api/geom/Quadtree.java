@@ -115,6 +115,7 @@ public class Quadtree extends JavaScriptObject {
 
 		JSObject d3JsObject = getD3();
 		List<String> fullVarNames = new ArrayList<>();
+		List<String> varNames = new ArrayList<>();
 		
 		for (T pointObj : points) {
 			
@@ -132,11 +133,21 @@ public class Quadtree extends JavaScriptObject {
 
 			d3JsObject.setMember(varName, point);
 			fullVarNames.add("d3." + varName);
+			varNames.add(varName);
 		}
 		
 
 		String command = "this([" + String.join(",", fullVarNames) + "])";
 		JSObject result = evalForJsObject(command);
+		
+		for(String varName:varNames){
+			d3JsObject.removeMember(varName);
+		}
+		
+		if (result==null){
+			return null;
+		}
+		
 		return new RootNode<T>(webEngine, result);
 
 	}
@@ -154,6 +165,7 @@ public class Quadtree extends JavaScriptObject {
 
 		JSObject d3JsObject = getD3();
 		List<String> fullVarNames = new ArrayList<>();
+		List<String> varNames = new ArrayList<>();
 
 		for (T pointObj : points) {
 			String varName = createNewTemporaryInstanceName();
@@ -167,10 +179,20 @@ public class Quadtree extends JavaScriptObject {
 
 			d3JsObject.setMember(varName, point);
 			fullVarNames.add("d3." + varName);
+			varNames.add(varName);
 		}
 
 		String command = "this.apply([" + String.join(",", fullVarNames) + "])";
 		JSObject result = evalForJsObject(command);
+		
+		for(String varName:varNames){
+			d3JsObject.removeMember(varName);
+		}
+		
+		if (result==null){
+			return null;
+		}
+		
 		return new RootNode<T>(webEngine, result);
 	}
 
@@ -382,6 +404,9 @@ public class Quadtree extends JavaScriptObject {
 					+ " });";
 
 			Object result = eval(command);
+			
+			d3JsObject.removeMember(methodName);
+			
 			if (result==null){
 				return null;
 			}
@@ -389,7 +414,7 @@ public class Quadtree extends JavaScriptObject {
 				return null;
 			}
 			JSObject jsResult = (JSObject) result;
-			
+						
 			
 			return new RootNode<T>(webEngine, jsResult);
 			

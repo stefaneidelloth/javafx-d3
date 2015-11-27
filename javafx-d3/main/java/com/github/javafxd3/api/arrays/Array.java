@@ -78,6 +78,9 @@ public class Array<T> extends JavaScriptObject {
 				tempArray.setSlot(index, value);
 			}
 		}
+		
+		//remove temp var
+		d3Obj.removeMember(varName);
 
 		// return result as array
 		return new Array<L>(webEngine, tempArray);
@@ -99,6 +102,9 @@ public class Array<T> extends JavaScriptObject {
 
 		// execute command and return result as Array
 		JSObject result = (JSObject) webEngine.executeScript(varName);
+		
+		webEngine.executeScript(varName +" = null;");
+		
 		return new Array<Double>(webEngine, result);
 
 	}
