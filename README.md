@@ -12,7 +12,7 @@ for JavaFx desktop applications.
 
 ## Current state
 
-* The code from gwt-d3 has been transformed in large parts and compile errors have been resolved.
+* Most code from gwt-d3 has been transformed.
 * The code regions that have not yet been translated throw "not yet implemented" exceptions.
 * There might also be some bugs left...
 
@@ -31,7 +31,8 @@ for Java desktop applications to produce neat visualizations [[5]](https://githu
 * Get the source code 
 * You can use the main folder as an Eclipse workspace including two projects.
 * Import the two Eclipse Maven projects **javafx-d3** and **javafx-d3-demo**
-* Run the demo com.github.javafxd3.demo.client.JavaFxD3SingleDemo 
+* Build the maven projects
+* Run the demo suite com.github.javafxd3.demo.client.JavaFxD3DemoSuite 
 * If you do not get javafx-d3 up and running please create an issue ticket. 
 
 ## License ##
