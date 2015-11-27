@@ -1238,7 +1238,7 @@ public class Selection extends EnteringSelection {
 		List<String> fullVarNames = new ArrayList<>();
 
 		for (Object object : array) {
-			String varName = this.createNewTemporaryInstanceName();
+			String varName = JavaScriptObject.createNewTemporaryInstanceName();
 			d3JsObject.setMember(varName, object);
 			fullVarNames.add("d3." + varName);
 		}

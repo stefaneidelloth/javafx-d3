@@ -1,6 +1,9 @@
-package com.github.javafxd3.demo.client.democases;
+package com.github.javafxd3.demo.client.democases.barchart;
+
+import java.util.List;
 
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.core.Formatter;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
@@ -17,8 +20,10 @@ import com.github.javafxd3.api.wrapper.JavaScriptObject;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
+import com.github.javafxd3.demo.client.democases.Margin;
 
 import javafx.scene.layout.VBox;
+import netscape.javascript.JSObject;
 
 @SuppressWarnings("javadoc")
 public class BarChart extends AbstractDemoCase {
@@ -31,11 +36,6 @@ public class BarChart extends AbstractDemoCase {
 
 	public BarChart(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
-		// Bundle.INSTANCE.css().ensureInjected();@Source("BarChartStyles.css")
-		// String axis();
-		// String x();
-		// String y();
-		// String bar();
 	}
 
 	//#end region
@@ -44,6 +44,7 @@ public class BarChart extends AbstractDemoCase {
 
 	/**
 	 * Factory provider
+	 * 
 	 * @param d3
 	 * @param demoPreferenceBox
 	 * @return
@@ -74,78 +75,91 @@ public class BarChart extends AbstractDemoCase {
 
 		final Axis yAxis = d3.svg().axis().scale(y).orient(Orientation.LEFT).tickFormat(formatPercent);
 
-		final Selection svg = d3.select("root").append("svg").attr("width", width + margin.left + margin.right)
-				.attr("height", height + margin.top + margin.bottom).append("g")
+		final Selection svg = d3.select("svg") //
+				.attr("width", width + margin.left + margin.right) //
+				.attr("height", height + margin.top + margin.bottom) //
+				.append("g") //
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 		d3.tsv("demo-data/data.tsv", new DsvObjectAccessor<Data>() {
 			@Override
-			public Data apply(final DsvRow row, final int index) {
-				return new Data(row.get("letter").asString(), row.get("frequency").asDouble());
+			public Data apply(final Object row, final int index) {
+
+				JSObject jsRow = (JSObject) row;
+				DsvRow dsvRow = new DsvRow(webEngine, jsRow);
+
+				return new Data(dsvRow.get("letter").asString(), dsvRow.get("frequency").asDouble());
 			}
 		}, new DsvCallback<Data>() {
 			@Override
-			public void get(final JavaScriptObject error, final Data[] data) {
-				
-				String[] stringArray = new String[data.length];	
-				
-				double maxFrequency=data[0].getFrequency();
-				for(int index=0;index<data.length;index++){
-					Data dataEntry = data[index];
-					stringArray[index]= dataEntry.getLetter();
-					Double frequency=dataEntry.getFrequency();
-					if (frequency>maxFrequency){
-						maxFrequency=frequency;
+			public void get(final Object error, final Object dataArray) {
+
+				JSObject jsDsvDataArray = (JSObject) dataArray;
+				Array<Data> values = new Array<Data>(webEngine, jsDsvDataArray);
+				List<? extends Data> valueList = values.asList(Data.class);
+
+				String[] stringArray = new String[valueList.size()];
+
+				double maxFrequency = valueList.get(0).getFrequency();
+				for (int index = 0; index < valueList.size(); index++) {
+					Data dataEntry = valueList.get(index);
+					stringArray[index] = dataEntry.getLetter();
+					Double frequency = dataEntry.getFrequency();
+					if (frequency > maxFrequency) {
+						maxFrequency = frequency;
 					}
-				}								
-				
+				}
+
 				x.domain(stringArray);
-				
+
 				int maxFreq = (int) maxFrequency;
 				double[] frequencies = new double[maxFreq];
-				for(int index=0;index<maxFreq;index++){
+				for (int index = 0; index < maxFreq; index++) {
 					frequencies[index] = (double) index;
-				}				
+				}
 
 				y.domain(frequencies);
-				
 
-				svg.append("g").attr("class", "x" + " " + "axis")
-						.attr("transform", "translate(0," + height + ")").call(xAxis);
+				svg.append("g").attr("class", "x" + " " + "axis").attr("transform", "translate(0," + height + ")")
+						.call(xAxis);
 
 				svg.append("g").attr("class", "y" + " " + "axis").call(yAxis).append("text")
 						.attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style("text-anchor", "end")
 						.text("Frequency");
 
-				svg.selectAll("." + "bar").data(data).enter().append("rect").attr("class", "bar")
-						.attr("x", new DatumFunction<Double>() {
-					@Override
-					public Double apply(final Object context, final Object d, final int index) {
-						
-						Value datum = (Value) d;						
-						Element element =(Element) context;
-						
-						return x.apply(datum.<Data> as().getLetter()).asDouble();
-					}
-				}).attr("width", x.rangeBand()).attr("y", new DatumFunction<Double>() {
-					@Override
-					public Double apply(final Object context, final Object d, final int index) {
-						
-						Value datum = (Value) d;						
-						Element element =(Element) context;
-						
-						return y.apply(datum.<Data> as().getFrequency()).asDouble();
-					}
-				}).attr("height", new DatumFunction<Double>() {
-					@Override
-					public Double apply(final Object context, final Object d, final int index) {
-						
-						Value datum = (Value) d;						
-						Element element =(Element) context;
-						
-						return height - y.apply(datum.<Data> as().getFrequency()).asDouble();
-					}
-				});
+				/*
+				 * 
+				 * svg.selectAll("." +
+				 * "bar").data(valueList).enter().append("rect").attr("class",
+				 * "bar") .attr("x", new DatumFunction<Double>() {
+				 * 
+				 * @Override public Double apply(final Object context, final
+				 * Object d, final int index) {
+				 * 
+				 * Value datum = (Value) d; Element element =(Element) context;
+				 * 
+				 * return x.apply(datum.<Data> as().getLetter()).asDouble(); }
+				 * }).attr("width", x.rangeBand()).attr("y", new
+				 * DatumFunction<Double>() {
+				 * 
+				 * @Override public Double apply(final Object context, final
+				 * Object d, final int index) {
+				 * 
+				 * Value datum = (Value) d; Element element =(Element) context;
+				 * 
+				 * return y.apply(datum.<Data> as().getFrequency()).asDouble();
+				 * } }).attr("height", new DatumFunction<Double>() {
+				 * 
+				 * @Override public Double apply(final Object context, final
+				 * Object d, final int index) {
+				 * 
+				 * Value datum = (Value) d; Element element =(Element) context;
+				 * 
+				 * return height - y.apply(datum.<Data>
+				 * as().getFrequency()).asDouble(); } });
+				 * 
+				 */
+
 			}
 
 		});
@@ -154,9 +168,9 @@ public class BarChart extends AbstractDemoCase {
 	@Override
 	public void stop() {
 	}
-	
+
 	//#end region
-	
+
 	//#region CLASSES
 
 	private static class Data {
@@ -178,7 +192,7 @@ public class BarChart extends AbstractDemoCase {
 			return frequency;
 		}
 	}
-	
+
 	//#end region
 
 }

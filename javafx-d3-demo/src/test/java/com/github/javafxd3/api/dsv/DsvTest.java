@@ -3,10 +3,14 @@ package com.github.javafxd3.api.dsv;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.List;
+
 import com.github.javafxd3.api.AbstractTestCase;
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.arrays.Array;
-import com.github.javafxd3.api.wrapper.JavaScriptObject;
+
+import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
 
 /**
  * Tests the class Dsv
@@ -61,7 +65,7 @@ public class DsvTest extends AbstractTestCase {
 						"Jane,15\n" + //
 						"Bruce,48\n" + //
 						"Emma,28\n",
-				new PersonAccessor());
+				new PersonAccessor(webEngine));
 
 		assertEquals(5, rows.length());
 		Person jane = rows.get(2, Person.class);
@@ -102,15 +106,15 @@ public class DsvTest extends AbstractTestCase {
 
 		// FIXME : we are not really sure if accessor and callback are actually
 		// called
-		PersonAccessor accessor = new PersonAccessor();
-		PersonCallback callback = new PersonCallback();
+		PersonAccessor accessor = new PersonAccessor(webEngine);
+		PersonCallback callback = new PersonCallback(webEngine);
 		d3.csv("test-data/test.csv", accessor, callback);
 	}
 
 	private void testCsvWithCallback() {
 
 		// FIXME : we are not really sure if callback is actually called
-		PersonRowCallback callback = new PersonRowCallback();
+		PersonRowCallback callback = new PersonRowCallback(webEngine);
 		d3.csv("test-data/test.csv", callback);
 	}
 
@@ -118,8 +122,8 @@ public class DsvTest extends AbstractTestCase {
 
 		// FIXME : we are not really sure if accessor and callback are actually
 		// called
-		PersonAccessor accessor = new PersonAccessor();
-		PersonCallback callback = new PersonCallback();
+		PersonAccessor accessor = new PersonAccessor(webEngine);
+		PersonCallback callback = new PersonCallback(webEngine);
 		d3.<Person> csv("test-data/test.csv").row(accessor).get(callback);
 	}
 }
@@ -172,19 +176,40 @@ class Person {
 
 class PersonAccessor implements DsvObjectAccessor<Person> {
 
+	private WebEngine webEngine;
+
+	public PersonAccessor(WebEngine webEngine) {
+		this.webEngine = webEngine;
+	}
+
 	@Override
-	public Person apply(final DsvRow row, final int index) {
-		return new Person(row.get("Name").asString(), row.get("Age").asInt());
+	public Person apply(final Object row, final int index) {
+
+		JSObject jsRow = (JSObject) row;
+		DsvRow dsvRow = new DsvRow(webEngine, jsRow);
+
+		return new Person(dsvRow.get("Name").asString(), dsvRow.get("Age").asInt());
 	}
 }
 
 class PersonCallback implements DsvCallback<Person> {
 
+	private WebEngine webEngine;
+
+	public PersonCallback(WebEngine webEngine) {
+		this.webEngine = webEngine;
+	}
+
 	@Override
-	public void get(final JavaScriptObject error, final Person[] rows) {
+	public void get(final Object error, final Object personArray) {
+
+		JSObject jsDsvDataArray = (JSObject) personArray;
+		Array<Person> values = new Array<Person>(webEngine, jsDsvDataArray);
+		List<? extends Person> valueList = values.asList(Person.class);
+
 		assertNull(error);
-		assertEquals(5, rows.length);
-		Person jane = rows[2];
+		assertEquals(5, valueList.size());
+		Person jane = valueList.get(2);
 		assertEquals("Jane", jane.getName());
 		assertEquals(15, jane.getAge());
 	}
@@ -199,12 +224,23 @@ class PersonArrayAccessor implements DsvArrayAccessor<Person> {
 }
 
 class PersonRowCallback implements DsvCallback<DsvRow> {
+	
+	private WebEngine webEngine;
+
+	public PersonRowCallback(WebEngine webEngine) {
+		this.webEngine = webEngine;
+	}
 
 	@Override
-	public void get(final JavaScriptObject error, final DsvRow[] rows) {
+	public void get(final Object error, final Object dsvRowArray) {
+
+		JSObject jsDsvDataArray = (JSObject) dsvRowArray;
+		Array<DsvRow> values = new Array<DsvRow>(webEngine, jsDsvDataArray);
+		List<? extends DsvRow> valueList = values.asList(DsvRow.class);
+
 		assertNull(error);
-		assertEquals(5, rows.length);
-		DsvRow jane = rows[2];
+		assertEquals(5, valueList.size());
+		DsvRow jane = valueList.get(2);
 		assertEquals("Jane", jane.get("Name").asString());
 		assertEquals(15, (int) jane.get("Age").asInt());
 	}

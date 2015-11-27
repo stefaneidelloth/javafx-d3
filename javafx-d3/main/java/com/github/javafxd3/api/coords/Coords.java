@@ -1,6 +1,5 @@
 package com.github.javafxd3.api.coords;
 
-import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.functions.DatumFunction;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
@@ -38,7 +37,7 @@ public class Coords extends JavaScriptObject {
 		JSObject d3 = (JSObject) webEngine.executeScript("d3");
 		String varName = createNewTemporaryInstanceName();
 		
-		String command = "var " + varName +" = {x_:" + x + ",y_:" + y + "};";
+		String command = "var " + varName +" = {x:" + x + ",y:" + y + "};";
 		d3.eval(command);
 		Object resultObj = d3.eval(varName);
 		JSObject result = (JSObject) resultObj;
@@ -66,9 +65,10 @@ public class Coords extends JavaScriptObject {
 	 */
 	public Coords(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
+				
 		setJsObject(wrappedJsObject);
-		this.x = getMemberForDouble("x_");
-		this.y = getMemberForDouble("y_");
+		this.x = getMemberForDouble("x");
+		this.y = getMemberForDouble("y");
 	}
 
 	//#end region

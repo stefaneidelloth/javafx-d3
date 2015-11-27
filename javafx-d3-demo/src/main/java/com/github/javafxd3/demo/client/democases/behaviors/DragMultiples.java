@@ -1,14 +1,16 @@
 package com.github.javafxd3.demo.client.democases.behaviors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.github.javafxd3.api.D3;
+import com.github.javafxd3.api.arrays.Array;
 import com.github.javafxd3.api.arrays.ForEachCallback;
 import com.github.javafxd3.api.behaviour.Drag;
 import com.github.javafxd3.api.behaviour.Drag.DragEventType;
 import com.github.javafxd3.api.coords.Coords;
 import com.github.javafxd3.api.core.Selection;
 import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.wrapper.Element;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
 
@@ -25,13 +27,13 @@ public class DragMultiples extends AbstractDemoCase {
 	/**
 	 * 
 	 */
-	public static final int SQUARE_WIDTH = 238;
-	
+	public static final int SQUARE_WIDTH = 220;
+
 	/**
 	 * 
 	 */
-	public static final int SQUARE_HEIGHT = 123;
-	
+	public static final int SQUARE_HEIGHT = 80;
+
 	/**
 	 * 
 	 */
@@ -58,8 +60,9 @@ public class DragMultiples extends AbstractDemoCase {
 
 	/**
 	 * Factory provider
-	 * @param d3 
-	 * @param demoPreferenceBox 
+	 * 
+	 * @param d3
+	 * @param demoPreferenceBox
 	 * @return
 	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
@@ -79,102 +82,41 @@ public class DragMultiples extends AbstractDemoCase {
 		Drag drag = d3.behavior().drag()
 				// the origin will be set with the data of svg
 				// on mousedown
-				.origin(d3.identity()).on(Drag.DragEventType.DRAG, new OnDragMove())
-				.on(DragEventType.DRAGSTART, new OnDragStart()).on(DragEventType.DRAGEND, new OnDragEnd());
-		
-		
-		
-		ForEachCallback<Coords> callback = new ForEachCallback<Coords>() {
-			@Override
-			public Coords forEach(final Object thisArg, final Value element, final int index,
-					final Object[] array) {
-				return new Coords(webEngine, SQUARE_WIDTH / 2, SQUARE_HEIGHT / 2);
-			}
-		};
-		
-		//Double[] data = Arrays.range(16).map(callback);
-		
-		Double[] data = new Double[]{1.0, 2.0, 3.0};
-		
-		Selection svg = d3.select("root").selectAll("svg")
-				// set the data as the center of the squares
-				.data(data).enter().append("svg").attr("width", SQUARE_WIDTH).attr("height", SQUARE_HEIGHT)
-				.style("float", "left").style("border", "solid 1px #aaa");
+				.origin(d3.identity()) //			
+				.on(Drag.DragEventType.DRAG, new OnDragMove(webEngine, d3)) //
+				.on(DragEventType.DRAGSTART, new OnDragStart(webEngine, d3)) //
+				.on(DragEventType.DRAGEND, new OnDragEnd(webEngine, d3));
 
-		svg.append("circle").attr("r", CIRCLE_RADIUS).attr("cx", new DatumFunction<Double>() {
-			@Override
-			public Double apply(final Object context, final Object d, final int index) {
-				
-				Value datum = (Value) d;						
-				Element element =(Element) context;
-				
-				return datum.as(Coords.class).x();
-			}
-		}).attr("cy", new DatumFunction<Double>() {
-			@Override
-			public Double apply(final Object context, final Object d, final int index) {
-				
-				Value datum = (Value) d;						
-				Element element =(Element) context;
-				
-				return datum.as(Coords.class).y();
-			}
-		}).style("cursor", "pointer")
+		//Double[] data = Arrays.range(16).map(callback);
+		List<Coords> coordsList = new ArrayList<>();
+		for(int index=0;index<16;index++){
+			Coords coords = new Coords(webEngine, SQUARE_WIDTH / 2, SQUARE_HEIGHT / 2);
+			coordsList.add(coords);
+		}
+		
+		Selection svg = d3.selectAll("svg") //
+				.attr("width", 1)
+				.attr("height", 1)
+				// set the data as the center of the squares
+				.data(coordsList) //
+				.enter() //
+				.append("svg") //
+				.attr("width", SQUARE_WIDTH) //
+				.attr("height", SQUARE_HEIGHT) //
+				.style("float", "left") //
+				.style("border", "solid 1px #aaa");
+
+		svg.append("circle") //
+				.attr("r", CIRCLE_RADIUS) //
+				.attr("cx", new XDatumFunction(webEngine)) //
+				.attr("cy", new YDatumFunction(webEngine)) //
+				.style("cursor", "pointer")
 				// listeners are registered
 				.call(drag);
 
 	}
 
-	private class OnDragMove implements DatumFunction<Void> {
-		@Override
-		public Void apply(final Object context, final Object d, final int index) {
-			
-			Value dat = (Value) d;						
-			Element element =(Element) context;
-			
-			// change color of the element being dragged
-			d3.select(element).attr("fill", "green");
-			Coords datum = dat.as();
-			// compute the new x and y using the mouse position
-			// note: the mouse position has been adjusted to the drag 'origin'
-			double newX = Math.max(CIRCLE_RADIUS, Math.min(SQUARE_WIDTH - CIRCLE_RADIUS, d3.eventAsCoords().x()));
-			double newY = Math.max(CIRCLE_RADIUS, Math.min(SQUARE_HEIGHT - CIRCLE_RADIUS, d3.eventAsCoords().y()));
-			// update the datum itself, to adjust the origin
-			datum.x(newX).y(newY);
-			// update the position of the circle
-			d3.select(element).attr("cx", datum.x()).attr("cy", datum.y());
-			return null;
-		}
-	}
-
-	public class OnDragEnd implements DatumFunction<Void> {
-
-		@Override
-		public Void apply(final Object context, final Object d, final int index) {
-			
-			Value datum = (Value) d;						
-			Element element =(Element) context;
-			
-			// remove fill attributes
-			d3.select(element).attr("fill", "");
-			return null;
-		}
-
-	}
-
-	public class OnDragStart implements DatumFunction<Void> {
-
-		@Override
-		public Void apply(final Object context, final Object d, final int index) {
-			
-			Value datum = (Value) d;						
-			Element element =(Element) context;
-			
-			d3.select(element).attr("fill", "red");
-			return null;
-		}
-
-	}
+		
 
 	/*
 	 * (non-Javadoc)

@@ -147,15 +147,25 @@ public class JavaFxD3Browser extends Region {
 	private String createInitialBrowserContent() {
 		String htmlContent = "<!DOCTYPE html>\n" + 
 							 "<meta charset=\"utf-8\">\n" +
-							 "<svg id=\"svg\" class=\"svg\"></svg>\n";	
+							 "<div id = \"root\">\n" +
+							 "<svg id=\"svg\" class=\"svg\"></svg>\n" +
+							 "</div>";	
 		return htmlContent;
 	}
 
 	private void executeInitalJavaScriptToSetUpD3Wrapper() {
 
 		// inject d3 into web engine
-		String d3Content = getD3ContentFromFile("d3.js");
+		String d3Content = getJavaScriptLibraryFromFile("d3.js");
 		webEngine.executeScript(d3Content);
+		
+		//inject function plotter into web engine
+		String functionPlotterContent = getJavaScriptLibraryFromFile("function-plot.js");
+		webEngine.executeScript(functionPlotterContent);
+		
+		//inject nvd3 into web engine
+		//String nvd3Content = getJavaScriptLibraryFromFile("nv.d3.js");
+		//webEngine.executeScript(nvd3Content);
 		
 		// inject firebug, see https://stackoverflow.com/questions/9398879/html-javascript-debugging-in-javafx-webview
 		//
@@ -223,24 +233,23 @@ public class JavaFxD3Browser extends Region {
 		return 500;
 	}
 
-	private String getD3ContentFromFile(String fileName) {
+	private String getJavaScriptLibraryFromFile(String fileName) {
 
-		StringBuilder d3Contents = new StringBuilder();		
+		StringBuilder libraryContents = new StringBuilder();		
 		
-		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);
-		
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName);		
 
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF8"));
 			String line = reader.readLine();
 			while (line != null) {
-				d3Contents.append(line);
+				libraryContents.append(line);
 				line = reader.readLine();
 			}
 		} catch (IOException exception) {
 			return null;
 		}
-		return d3Contents.toString();
+		return libraryContents.toString();
 
 	}
 

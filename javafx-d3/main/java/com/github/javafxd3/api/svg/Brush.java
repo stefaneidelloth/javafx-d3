@@ -359,10 +359,9 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 *
 	 * @return a function object to pass to {@link Selection#call(JsFunction)}
 	 */
-	public JsFunction event() {
-		
+	public JsFunction event() {		
 		JSObject result = getMember("event");
-		return new D3Event<Brush>(webEngine, result);
+		return new D3Event(webEngine, result);
 
 	}
 

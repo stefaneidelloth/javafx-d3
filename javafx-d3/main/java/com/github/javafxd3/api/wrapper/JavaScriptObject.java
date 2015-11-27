@@ -31,8 +31,6 @@ public class JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	
-
 	/**
 	 * Constructor
 	 * 
@@ -40,6 +38,16 @@ public class JavaScriptObject {
 	 */
 	public JavaScriptObject(WebEngine webEngine) {
 		this.webEngine = webEngine;
+	}
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param webEngine
+	 */
+	public JavaScriptObject(WebEngine webEngine, JSObject wrappedJsObject) {
+		this.webEngine = webEngine;
+		this.jsObject = wrappedJsObject;
 	}
 
 	//#end region
@@ -360,6 +368,14 @@ public class JavaScriptObject {
 		return result;
 	}
 
+	//#end region
+	
+	//#region SET MEMBER
+	
+	protected void setMember(String name, Object value) {
+		jsObject.setMember(name, value);		
+	}
+	
 	//#end region
 
 	//#region EVAL

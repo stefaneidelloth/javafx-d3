@@ -1,6 +1,7 @@
 package com.github.javafxd3.demo.client.democases.svg.brush;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.github.javafxd3.api.D3;
@@ -23,8 +24,10 @@ import com.github.javafxd3.api.wrapper.JavaScriptObject;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
+import com.github.javafxd3.demo.client.democases.axis.DsvData;
 
 import javafx.scene.layout.VBox;
+import netscape.javascript.JSObject;
 
 /**
  * FIXME find another Slider component
@@ -112,13 +115,20 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 		d3.csv("demo-data/flowers.csv", new DsvCallback<DsvRow>() {
 
 			@Override
-			public void get(final JavaScriptObject error, final DsvRow[] data) {
+			public void get(final Object error, final Object dsvRowArray) {
+				
 				if (error != null) {
 					System.out.println("Cannot load flowers.csv: " + error);
 					return;
 				}
+				
 				domainByTrait = new HashMap<String, JavaScriptObject>();
-				String[] traits = d3.keys(data[0]);
+				
+				JSObject jsDsvDataArray = (JSObject) dsvRowArray;
+				Array<DsvRow> values = new Array<DsvRow>(webEngine, jsDsvDataArray);
+				List<? extends DsvRow> valueList = values.asList(DsvRow.class);
+				
+				String[] traits = d3.keys(valueList.get(0));
 						
 						
 				//String filteredTraits = traits.filter(new ForEachCallback<Boolean>() {
@@ -247,7 +257,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 						Value datum = (Value) d;						
 						Element element =(Element) context;
 						
-						plot(element, datum.<Point> as(), data);
+						plot(element, datum.<Point> as(), valueList);
 						return null;
 					}
 				});
@@ -287,7 +297,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 
 	}
 
-	private void plot(final Element context, final Point p, final DsvRow[] data) {
+	private void plot(final Element context, final Point p, final List<? extends DsvRow> data) {
 		Selection cell = d3.select(context);
 
 		x.domain(domainByTrait.get(p.x));

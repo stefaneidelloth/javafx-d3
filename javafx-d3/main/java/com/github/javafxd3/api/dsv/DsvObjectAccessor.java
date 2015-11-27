@@ -7,4 +7,4 @@ import com.github.javafxd3.api.core.ObjectAccessor;
  *  
  * @param <T>
  */
-public interface DsvObjectAccessor<T> extends ObjectAccessor<DsvRow, T> {}
+public interface DsvObjectAccessor<T> extends ObjectAccessor<Object, T> {}

@@ -56,7 +56,7 @@ public class TsvTest extends AbstractTestCase {
 
 		D3 d3 = new D3(webEngine);
 
-		Array<Person> rows = d3.<Person> tsv().parse(EXAMPLE_DATA, new PersonAccessor());
+		Array<Person> rows = d3.<Person> tsv().parse(EXAMPLE_DATA, new PersonAccessor(webEngine));
 		assertEquals(5, rows.length());
 		Person jane = rows.get(2, Person.class);
 		assertEquals("Jane", jane.getName());
@@ -91,8 +91,8 @@ public class TsvTest extends AbstractTestCase {
 
 		// FIXME : we are not really sure if accessor and callback are actually
 		// called
-		PersonAccessor accessor = new PersonAccessor();
-		PersonCallback callback = new PersonCallback();
+		PersonAccessor accessor = new PersonAccessor(webEngine);
+		PersonCallback callback = new PersonCallback(webEngine);
 		d3.tsv("test-data/test.tsv", accessor, callback);
 	}
 
@@ -101,7 +101,7 @@ public class TsvTest extends AbstractTestCase {
 		D3 d3 = new D3(webEngine);
 
 		// FIXME : we are not really sure if callback is actually called
-		PersonRowCallback callback = new PersonRowCallback();
+		PersonRowCallback callback = new PersonRowCallback(webEngine);
 		d3.tsv("test-data/test.tsv", callback);
 	}
 
@@ -111,8 +111,8 @@ public class TsvTest extends AbstractTestCase {
 
 		// FIXME : we are not really sure if accessor and callback are actually
 		// called
-		PersonAccessor accessor = new PersonAccessor();
-		PersonCallback callback = new PersonCallback();
+		PersonAccessor accessor = new PersonAccessor(webEngine);
+		PersonCallback callback = new PersonCallback(webEngine);
 		d3.<Person> tsv("test-data/test.tsv").row(accessor).get(callback);
 	}
 }

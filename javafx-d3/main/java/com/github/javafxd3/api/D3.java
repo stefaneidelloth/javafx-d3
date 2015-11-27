@@ -128,7 +128,8 @@ public class D3 extends JavaScriptObject {
 	 * @return the {@link Selection}
 	 */
 	public Selection select(Element element) {
-		JSObject result = call("select", element);
+		JSObject jsElement = element.getJsObject();
+		JSObject result = call("select", jsElement);
 		return new Selection(webEngine, result);
 	};
 
@@ -181,8 +182,9 @@ public class D3 extends JavaScriptObject {
 	 * @return the selection
 	 */
 	public Selection selectAll(Element... nodes) {
-		JSObject result = call("selectAll", (Object[]) nodes);
-		return new Selection(webEngine, result);
+		throw new IllegalStateException("not yet implemented");
+		//JSObject result = call("selectAll", (Object[]) nodes);
+		//return new Selection(webEngine, result);
 	};
 
 	/**
@@ -380,14 +382,14 @@ public class D3 extends JavaScriptObject {
 
 		String methodName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
-		
+
 		Object method = timerFunction;
 		boolean isJavaScriptObject = timerFunction instanceof JavaScriptObject;
-		if(isJavaScriptObject){
+		if (isJavaScriptObject) {
 			JavaScriptObject javaScriptObject = (JavaScriptObject) timerFunction;
 			method = javaScriptObject.getJsObject();
 		}
-				
+
 		d3JsObject.setMember(methodName, method);
 
 		String command = "d3.timer(function() { " //
@@ -533,11 +535,9 @@ public class D3 extends JavaScriptObject {
 	 *
 	 * @return the instance of {@link Event}
 	 */
-	public <T extends Event<T>> T event() {
-
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call("event");
-		//return (T) new Event<T>(webEngine, result);
+	public Event event() {		
+		JSObject result = getMember("event");
+		return new Event(webEngine, result);
 	};
 
 	/**
@@ -547,9 +547,14 @@ public class D3 extends JavaScriptObject {
 	 *
 	 * @return the current event as a Coords object
 	 */
-	public Coords eventAsCoords() {		
-		JSObject result = call("event");
-		return new Coords(webEngine, result);
+	public Coords eventAsCoords() {
+								
+		Object xObj =  eval("d3.event.x");
+		Object yObj =  eval("d3.event.y");
+		Double x = Double.parseDouble(xObj.toString());
+		Double y = Double.parseDouble(yObj.toString());
+		
+		return new Coords(webEngine, x,y);
 	};
 
 	/**
@@ -579,7 +584,7 @@ public class D3 extends JavaScriptObject {
 	public Array<Double> mouse(Node container) {
 		JSObject jsContainer = container.getJsObject();
 		JSObject result = call("mouse", jsContainer);
-		return new Array<Double>(webEngine, result);	
+		return new Array<Double>(webEngine, result);
 	};
 
 	/**
@@ -685,6 +690,8 @@ public class D3 extends JavaScriptObject {
 	 */
 	public <T> Dsv<T> csv(String url, DsvCallback<T> callback) {
 
+		assertObjectIsNotAnonymous(callback);
+
 		throw new IllegalStateException("not yet implemented");
 
 		/*
@@ -716,16 +723,20 @@ public class D3 extends JavaScriptObject {
 	 */
 	public <T> Dsv<T> csv(String url, DsvObjectAccessor<T> accessor, DsvCallback<T> callback) {
 
+		assertObjectIsNotAnonymous(callback);
+
 		String accessorMemberName = createNewTemporaryInstanceName();
-		String dsvMemberName = createNewTemporaryInstanceName();
+		String callbackName = createNewTemporaryInstanceName();
 
 		JSObject jsObj = getJsObject();
 		jsObj.setMember(accessorMemberName, accessor);
-		jsObj.setMember(dsvMemberName, callback);
+		jsObj.setMember(callbackName, callback);
 
-		String command = "this.csv('" + url + "', function(row, index) { return this." + accessorMemberName
-				+ ".apply(row, index); }, " + "function(error, rows) { this." + dsvMemberName
-				+ ".get(error, rows); });";
+		String command = "this.csv('" + url + "', function(row, index) { " //
+				+ "  return this." + accessorMemberName + ".apply(row, index);" //
+				+ " }, " + "function(error, rows) { " //
+				+ "  this." + callbackName + ".get(error, rows); " //
+				+ "});";
 		JSObject result = evalForJsObject(command);
 		return new Dsv<T>(webEngine, result);
 
@@ -749,6 +760,8 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public <T> Dsv<T> csv(String url, DsvObjectAccessor<T> accessor) {
+
+		assertObjectIsNotAnonymous(accessor);
 
 		throw new IllegalStateException("not yet implemented");
 
@@ -804,6 +817,8 @@ public class D3 extends JavaScriptObject {
 	 */
 	public <T> Dsv<T> tsv(String url, DsvCallback<T> callback) {
 
+		assertObjectIsNotAnonymous(callback);
+
 		throw new IllegalStateException("not yet implemented");
 
 		/*
@@ -834,6 +849,8 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public <T> Dsv<T> tsv(String url, DsvObjectAccessor<T> accessor, DsvCallback<T> callback) {
+
+		assertObjectIsNotAnonymous(callback);
 
 		throw new IllegalStateException("not yet implemented");
 
@@ -867,6 +884,8 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public <T> Dsv<T> tsv(String url, DsvObjectAccessor<T> accessor) {
+
+		assertObjectIsNotAnonymous(accessor);
 
 		throw new IllegalStateException("not yet implemented");
 
@@ -1007,11 +1026,15 @@ public class D3 extends JavaScriptObject {
 	 */
 
 	public final ZoomEvent zoomEvent() {
+		
+		Event event = event();
+		if (event==null){
+			return null;
+		}		
+		
+		JSObject jsEvent = event.getJsObject();
 
-		throw new IllegalStateException("not yet implemented");
-
-		//return event().cast();
-
+		return new ZoomEvent(webEngine, jsEvent);		
 	}
 
 	/**
@@ -1023,9 +1046,14 @@ public class D3 extends JavaScriptObject {
 
 	public final DragEvent dragEvent() {
 
-		throw new IllegalStateException("not yet implemented");
+		Event event = event();
+		if (event==null){
+			return null;
+		}		
+		
+		JSObject jsEvent = event.getJsObject();
 
-		//return event().cast();
+		return new DragEvent(webEngine, jsEvent);
 
 	}
 
@@ -1039,12 +1067,10 @@ public class D3 extends JavaScriptObject {
 	 */
 	public JSObject identity() {
 
-		throw new IllegalStateException("not yet implemented");
-
-		//JSObject result = call(function(d) {
-		//	return d;
-		//};
-		//return result;
+		String command = "var identity = function(d) { return d; }";
+		eval(command);
+		JSObject result = evalForJsObject("identity");		
+		return result;
 	}
 
 	/**

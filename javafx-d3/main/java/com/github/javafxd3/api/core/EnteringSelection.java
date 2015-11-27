@@ -218,6 +218,8 @@ public class EnteringSelection extends JavaScriptObject {
 		}
 		JavaScriptObject javaScriptObject = (JavaScriptObject) jsFunction;
 		JSObject functionJsObject = javaScriptObject.getJsObject();		
+		
+		
 		JSObject result = call("call", functionJsObject);
 		return new Selection(webEngine, result);
 	}

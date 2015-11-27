@@ -33,7 +33,7 @@ public  class CustomCoords extends Coords {
 		JSObject d3 = (JSObject) webEngine.executeScript("d3");
 		String varName = createNewTemporaryInstanceName();
 		
-		String command = "var " + varName +" = {x_:" + x + ",y_:" + y + ", defined_:" + defined + "};";
+		String command = "var " + varName +" = {x:" + x + ",y:" + y + ", defined:" + defined + "};";
 		d3.eval(command);
 		Object resultObj = d3.eval(varName);
 		JSObject result = (JSObject) resultObj;
@@ -53,7 +53,7 @@ public  class CustomCoords extends Coords {
 	 */
 	public CustomCoords(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);		
-		this.defined = getMemberForBoolean("defined_");
+		this.defined = getMemberForBoolean("defined");
 		
 	}
 

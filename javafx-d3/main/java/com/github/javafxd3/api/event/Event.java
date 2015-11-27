@@ -12,13 +12,9 @@ import netscape.javascript.JSObject;
  * @param <T> 
  *
  */
-public class Event<T> extends JavaScriptObject implements JsFunction {
+public class Event extends JavaScriptObject implements JsFunction {
 	
-	//#region ATTRIBUTES	
-
-	protected T sourceEvent;    
 	
-	//#end region
 
 	//#region CONSTRUCTORS
 	

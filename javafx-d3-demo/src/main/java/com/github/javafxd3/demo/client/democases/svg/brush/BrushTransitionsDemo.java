@@ -131,17 +131,18 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
                 .on(BrushEvent.BRUSH_END, new DatumFunction<Void>() {
                     @Override
                     public Void apply(final Object context, final Object d, final int index) {
-                        if (d3.<D3Event> event().sourceEvent() == null) {
+                       // if (d3.<D3Event> event().sourceEvent() == null) {
                             return null; // only transition after input
-                        }
+                       // }
                         
-                        Element element = (Element) context;
-                        
+                       // Element element = (Element) context;
+                        /*
                         d3.select(element).transition()
                         .duration(brush.empty() ? 0 : 750)
                         .call(brush.extent(defaultExtent))
                         .call(brush.event());
                         return null;
+                        */
                     }
                 });
 

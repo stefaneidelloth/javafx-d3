@@ -95,15 +95,19 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return the current zoom instance
 	 */
 	public Zoom on(ZoomEventType type, DatumFunction<Void> listener) {
+		
+		assertObjectIsNotAnonymous(listener);
 
 		String listenerName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(listenerName, listener);
 
 		String eventName = type.name().toLowerCase();
-
-		String command = "this.on('" + eventName + "', " + "function(d, index) { d3." + listenerName
-				+ ".apply(this,{datum:d},index); });";
+		
+		String command = "this.on('" + eventName + "', " + "function(d, index) { " //				
+				+ "d3." + listenerName + ".apply(this,{datum:d},index);" //
+				+ " });";		
+		
 		JSObject result = evalForJsObject(command);
 		return new Zoom(webEngine, result);
 	}
@@ -132,7 +136,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return Zoom the current Zoom object
 	 */
 	public Zoom x(QuantitativeScale<?> scale) {
-		JSObject result = call("x", scale);
+		JSObject jsScale = scale.getJsObject();
+		JSObject result = call("x", jsScale);
 		return new Zoom(webEngine, result);
 	}
 
@@ -161,7 +166,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return the current zoom object
 	 */
 	public Zoom y(QuantitativeScale<?> scale) {
-		JSObject result = call("y", scale);
+		JSObject jsScale = scale.getJsObject();
+		JSObject result = call("y", jsScale);
 		return new Zoom(webEngine, result);
 	}
 
@@ -226,7 +232,7 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 */
 	public Array<Double> center() {
 		JSObject result = call("center");
-		if (result == null){
+		if (result == null) {
 			return null;
 		}
 		return new Array<Double>(webEngine, result);

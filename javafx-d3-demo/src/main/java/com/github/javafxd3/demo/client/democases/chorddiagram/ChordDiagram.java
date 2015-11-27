@@ -1,4 +1,4 @@
-package com.github.javafxd3.demo.client.democases;
+package com.github.javafxd3.demo.client.democases.chorddiagram;
 
 import com.github.javafxd3.api.D3;
 import com.github.javafxd3.api.core.Selection;

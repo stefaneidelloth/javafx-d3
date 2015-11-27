@@ -1,11 +1,9 @@
 package com.github.javafxd3.api.arrays;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.core.Value;
 import com.github.javafxd3.api.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -22,6 +20,7 @@ public class Array<T> extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
+	
 	/**
 	 * Constructor
 	 * 
@@ -32,6 +31,8 @@ public class Array<T> extends JavaScriptObject {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
 	}
+	
+	
 
 	//#end region
 
@@ -285,8 +286,23 @@ public class Array<T> extends JavaScriptObject {
 		return list;
 	}
 
+	//#end region
 	
-
+	//#region TO STRING
+	
+	public String toString(){
+				
+		int size = length();
+		List<String> stringList = new ArrayList<>();
+		for (int index = 0; index < size; index++) {
+			Object element = this.get(index, Object.class);
+			stringList.add(element.toString());			
+		}
+		String displayString = "[" + String.join(",", stringList) + "]";
+		return displayString;
+		
+	}
+	
 	//#end region
 
 	//#end region

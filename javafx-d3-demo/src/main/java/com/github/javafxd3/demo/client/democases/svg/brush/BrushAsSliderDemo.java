@@ -131,11 +131,11 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 	private void brushed(final Element context) {
 		double value = brush.<Double> extent().get(0, Double.class);
 
-		if (d3.<D3Event> event().sourceEvent() != null) { // not a programmatic
+		//if (d3.<D3Event> event().sourceEvent() != null) { // not a programmatic
 															// event
-			value = x.invert(d3.mouse(context).get(0, Double.class)).asDouble();
-			brush.extent(value, value);
-		}
+		//	value = x.invert(d3.mouse(context).get(0, Double.class)).asDouble();
+		//	brush.extent(value, value);
+		//}
 
 		Colors colors = new Colors(webEngine);
 

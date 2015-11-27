@@ -13,6 +13,7 @@
 				<directory>src/main/java</directory>
 				<includes>
 					<include>**/*.css</include>
+					<include>**/*.csv</include>
 				</includes>
 				<excludes>
 					<exclude>**/*.java</exclude>

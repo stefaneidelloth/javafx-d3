@@ -1,7 +1,5 @@
 package com.github.javafxd3.api.dsv;
 
-import com.github.javafxd3.api.wrapper.JavaScriptObject;
-
 /**
  * When the CSV data is available, the specified callback will be invoked with
  * the parsed rows as the argument. If an error occurs, the callback function
@@ -24,5 +22,5 @@ public interface DsvCallback<T> {
 	 * @param data 
 	 * @param rows the rows values, or null if an error occurs.
 	 */
-	void get(JavaScriptObject error, T[] data);
+	void get(Object error, Object data);
 }
