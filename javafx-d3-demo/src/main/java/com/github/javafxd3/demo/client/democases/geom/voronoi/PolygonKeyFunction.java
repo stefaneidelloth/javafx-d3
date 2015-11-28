@@ -1,7 +1,7 @@
 package com.github.javafxd3.demo.client.democases.geom.voronoi;
 
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.functions.KeyFunction;
+import com.github.javafxd3.d3.core.Value;
+import com.github.javafxd3.d3.functions.KeyFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

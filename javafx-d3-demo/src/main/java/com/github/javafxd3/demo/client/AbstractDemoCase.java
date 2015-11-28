@@ -2,8 +2,8 @@ package com.github.javafxd3.demo.client;
 
 import java.net.URL;
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.core.Selection;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.core.Selection;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

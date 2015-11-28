@@ -1,15 +1,15 @@
 package com.github.javafxd3.demo.client.democases;
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.core.Transition;
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.interpolators.CallableInterpolator;
-import com.github.javafxd3.api.interpolators.Interpolator;
-import com.github.javafxd3.api.interpolators.Interpolators;
-import com.github.javafxd3.api.svg.Arc;
-import com.github.javafxd3.api.tweens.TweenFunction;
-import com.github.javafxd3.api.wrapper.Element;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.core.Transition;
+import com.github.javafxd3.d3.core.Value;
+import com.github.javafxd3.d3.interpolators.CallableInterpolator;
+import com.github.javafxd3.d3.interpolators.Interpolator;
+import com.github.javafxd3.d3.interpolators.Interpolators;
+import com.github.javafxd3.d3.svg.Arc;
+import com.github.javafxd3.d3.tweens.TweenFunction;
+import com.github.javafxd3.d3.wrapper.Element;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;

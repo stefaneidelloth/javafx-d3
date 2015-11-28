@@ -1,6 +1,6 @@
 package com.github.javafxd3.functionplot;
 
-import com.github.javafxd3.api.wrapper.JavaScriptObject;
+import com.github.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

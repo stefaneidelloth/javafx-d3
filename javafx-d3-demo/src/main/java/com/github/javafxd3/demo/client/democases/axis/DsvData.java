@@ -1,7 +1,7 @@
 package com.github.javafxd3.demo.client.democases.axis;
 
-import com.github.javafxd3.api.time.JsDate;
-import com.github.javafxd3.api.wrapper.JavaScriptObject;
+import com.github.javafxd3.d3.time.JsDate;
+import com.github.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

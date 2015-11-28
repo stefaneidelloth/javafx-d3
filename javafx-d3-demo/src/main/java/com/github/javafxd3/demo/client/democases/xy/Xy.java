@@ -1,10 +1,10 @@
 package com.github.javafxd3.demo.client.democases.xy;
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.scales.LinearScale;
-import com.github.javafxd3.api.svg.Axis;
-import com.github.javafxd3.api.svg.Axis.Orientation;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.scales.LinearScale;
+import com.github.javafxd3.d3.svg.Axis;
+import com.github.javafxd3.d3.svg.Axis.Orientation;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;

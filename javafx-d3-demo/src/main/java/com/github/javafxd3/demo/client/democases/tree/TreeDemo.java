@@ -3,11 +3,11 @@ package com.github.javafxd3.demo.client.democases.tree;
 
 
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.layout.Tree;
-import com.github.javafxd3.api.svg.Diagonal;
-import com.github.javafxd3.api.wrapper.Node;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.layout.Tree;
+import com.github.javafxd3.d3.svg.Diagonal;
+import com.github.javafxd3.d3.wrapper.Node;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.arrays.Array;
-import com.github.javafxd3.api.coords.Coords;
-import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.core.UpdateSelection;
-import com.github.javafxd3.api.geom.Hull;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.arrays.Array;
+import com.github.javafxd3.d3.coords.Coords;
+import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.core.UpdateSelection;
+import com.github.javafxd3.d3.geom.Hull;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;

@@ -2,14 +2,14 @@ package com.github.javafxd3.demo.client.democases.axis;
 
 import java.util.List;
 
-import com.github.javafxd3.api.arrays.Array;
-import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.core.Transition;
-import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.svg.Area;
-import com.github.javafxd3.api.svg.Axis;
-import com.github.javafxd3.api.svg.Line;
-import com.github.javafxd3.api.time.TimeScale;
+import com.github.javafxd3.d3.arrays.Array;
+import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.core.Transition;
+import com.github.javafxd3.d3.functions.DatumFunction;
+import com.github.javafxd3.d3.svg.Area;
+import com.github.javafxd3.d3.svg.Axis;
+import com.github.javafxd3.d3.svg.Line;
+import com.github.javafxd3.d3.time.TimeScale;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

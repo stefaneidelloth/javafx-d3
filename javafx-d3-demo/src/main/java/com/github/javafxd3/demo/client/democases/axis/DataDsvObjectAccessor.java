@@ -1,10 +1,10 @@
 package com.github.javafxd3.demo.client.democases.axis;
 
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.dsv.DsvObjectAccessor;
-import com.github.javafxd3.api.dsv.DsvRow;
-import com.github.javafxd3.api.time.JsDate;
-import com.github.javafxd3.api.time.TimeFormat;
+import com.github.javafxd3.d3.core.Value;
+import com.github.javafxd3.d3.dsv.DsvObjectAccessor;
+import com.github.javafxd3.d3.dsv.DsvRow;
+import com.github.javafxd3.d3.time.JsDate;
+import com.github.javafxd3.d3.time.TimeFormat;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

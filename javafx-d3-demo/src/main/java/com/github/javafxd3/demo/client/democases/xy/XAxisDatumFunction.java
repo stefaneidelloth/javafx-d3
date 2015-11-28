@@ -1,8 +1,8 @@
 package com.github.javafxd3.demo.client.democases.xy;
 
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.scales.LinearScale;
+import com.github.javafxd3.d3.core.Value;
+import com.github.javafxd3.d3.functions.DatumFunction;
+import com.github.javafxd3.d3.scales.LinearScale;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

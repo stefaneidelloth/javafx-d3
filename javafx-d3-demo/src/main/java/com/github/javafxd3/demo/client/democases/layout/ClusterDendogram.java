@@ -4,16 +4,16 @@ import java.awt.Window;
 
 import javax.xml.ws.Response;
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.functions.PropertyValueFunction;
-import com.github.javafxd3.api.layout.Cluster;
-import com.github.javafxd3.api.layout.HierarchicalLayout.Node;
-import com.github.javafxd3.api.layout.Link;
-import com.github.javafxd3.api.svg.Diagonal;
-import com.github.javafxd3.api.wrapper.Element;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.core.Value;
+import com.github.javafxd3.d3.functions.DatumFunction;
+import com.github.javafxd3.d3.functions.PropertyValueFunction;
+import com.github.javafxd3.d3.layout.Cluster;
+import com.github.javafxd3.d3.layout.Link;
+import com.github.javafxd3.d3.layout.HierarchicalLayout.Node;
+import com.github.javafxd3.d3.svg.Diagonal;
+import com.github.javafxd3.d3.wrapper.Element;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;

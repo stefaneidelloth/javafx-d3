@@ -3,9 +3,9 @@ package com.github.javafxd3.demo.client.democases.svg.text;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.wrapper.D3NodeFactory;
-import com.github.javafxd3.api.wrapper.Style;
+import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.wrapper.D3NodeFactory;
+import com.github.javafxd3.d3.wrapper.Style;
 
 /**
  * A d3 svg label factory

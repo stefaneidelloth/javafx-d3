@@ -1,7 +1,7 @@
 package com.github.javafxd3.demo.client.democases.svg.line;
 
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.functions.DatumFunction;
+import com.github.javafxd3.d3.core.Value;
+import com.github.javafxd3.d3.functions.DatumFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

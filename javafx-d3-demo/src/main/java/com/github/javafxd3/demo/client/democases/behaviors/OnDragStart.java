@@ -1,8 +1,8 @@
 package com.github.javafxd3.demo.client.democases.behaviors;
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.wrapper.Element;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.functions.DatumFunction;
+import com.github.javafxd3.d3.wrapper.Element;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

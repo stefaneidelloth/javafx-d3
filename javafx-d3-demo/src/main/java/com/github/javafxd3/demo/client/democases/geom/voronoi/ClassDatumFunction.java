@@ -1,6 +1,6 @@
 package com.github.javafxd3.demo.client.democases.geom.voronoi;
 
-import com.github.javafxd3.api.functions.DatumFunction;
+import com.github.javafxd3.d3.functions.DatumFunction;
 
 public class ClassDatumFunction implements DatumFunction<String> {
 	

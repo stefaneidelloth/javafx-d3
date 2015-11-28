@@ -3,11 +3,11 @@ package com.github.javafxd3.demo.client.democases.behaviors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.behaviour.Drag;
-import com.github.javafxd3.api.behaviour.Drag.DragEventType;
-import com.github.javafxd3.api.coords.Coords;
-import com.github.javafxd3.api.core.Selection;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.behaviour.Drag;
+import com.github.javafxd3.d3.behaviour.Drag.DragEventType;
+import com.github.javafxd3.d3.coords.Coords;
+import com.github.javafxd3.d3.core.Selection;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
 

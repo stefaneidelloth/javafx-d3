@@ -2,8 +2,8 @@ package com.github.javafxd3.demo.client;
 
 import java.util.List;
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.core.Selection;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.core.Selection;
 import com.github.javafxd3.demo.client.democases.behaviors.DragMultiples;
 import com.github.javafxd3.demo.client.democases.behaviors.ZoomDemo;
 import com.github.javafxd3.demo.client.democases.functionplotter.FunctionPlotDemo;
@@ -13,8 +13,8 @@ import com.github.javafxd3.demo.client.democases.geom.voronoi.VoronoiTessellatio
 import com.github.javafxd3.demo.client.democases.helloworld.HelloWorldDemo;
 import com.github.javafxd3.demo.client.democases.svg.line.LineDemo;
 import com.github.javafxd3.demo.client.democases.svg.symbol.SymbolDemo;
-import com.github.javafxd3.demo.client.democases.svg.text.TextDemo;
 import com.github.javafxd3.demo.client.democases.xy.Xy;
+import com.github.javafxd3.javafx.JavaFxD3Browser;
 
 import javafx.application.Application;
 import javafx.scene.Node;
@@ -96,7 +96,7 @@ public class JavaFxD3DemoSuite extends Application {
 			runDemoSuite(stage, demoMenuBox, demoPreferenceBox);
 		};
 		// create browser
-		browser = new JavaFxD3Browser(afterBrowserLoadingHook);
+		browser = new JavaFxD3Browser(afterBrowserLoadingHook, true);
 
 		// add browser
 		hBoxChildren.add(browser);

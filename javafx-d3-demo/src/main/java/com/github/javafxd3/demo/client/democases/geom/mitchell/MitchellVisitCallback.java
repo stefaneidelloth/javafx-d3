@@ -1,7 +1,7 @@
 package com.github.javafxd3.demo.client.democases.geom.mitchell;
 
-import com.github.javafxd3.api.geom.Quadtree.Callback;
-import com.github.javafxd3.api.geom.Quadtree.Node;
+import com.github.javafxd3.d3.geom.Quadtree.Callback;
+import com.github.javafxd3.d3.geom.Quadtree.Node;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

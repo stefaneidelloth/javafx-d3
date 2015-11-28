@@ -1,7 +1,7 @@
 package com.github.javafxd3.demo.client.democases.geom.mitchell;
 
-import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.functions.TimerFunction;
+import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.functions.TimerFunction;
 
 public class MitchellTimerFunction implements TimerFunction {
 

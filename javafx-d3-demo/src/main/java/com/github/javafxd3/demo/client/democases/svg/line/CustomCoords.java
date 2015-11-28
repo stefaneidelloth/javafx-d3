@@ -1,8 +1,8 @@
 package com.github.javafxd3.demo.client.democases.svg.line;
 
-import com.github.javafxd3.api.coords.Coords;
-import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.wrapper.Inspector;
+import com.github.javafxd3.d3.coords.Coords;
+import com.github.javafxd3.d3.functions.DatumFunction;
+import com.github.javafxd3.d3.wrapper.Inspector;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

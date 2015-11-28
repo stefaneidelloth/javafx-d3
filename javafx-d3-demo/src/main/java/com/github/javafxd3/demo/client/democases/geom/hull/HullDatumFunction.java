@@ -3,9 +3,9 @@ package com.github.javafxd3.demo.client.democases.geom.hull;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.javafxd3.api.arrays.Array;
-import com.github.javafxd3.api.core.Value;
-import com.github.javafxd3.api.functions.DatumFunction;
+import com.github.javafxd3.d3.arrays.Array;
+import com.github.javafxd3.d3.core.Value;
+import com.github.javafxd3.d3.functions.DatumFunction;
 import com.github.javafxd3.demo.client.democases.geom.hull.HullDemo.MyCoords;
 
 import javafx.scene.web.WebEngine;

@@ -1,8 +1,8 @@
 package com.github.javafxd3.demo.client.democases.svg.arc;
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.svg.Arc;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.svg.Arc;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;

@@ -2,15 +2,15 @@ package com.github.javafxd3.demo.client.democases.axis;
 
 import java.net.URL;
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.scales.LinearScale;
-import com.github.javafxd3.api.svg.Area;
-import com.github.javafxd3.api.svg.Axis;
-import com.github.javafxd3.api.svg.Axis.Orientation;
-import com.github.javafxd3.api.svg.Line;
-import com.github.javafxd3.api.time.TimeFormat;
-import com.github.javafxd3.api.time.TimeScale;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.scales.LinearScale;
+import com.github.javafxd3.d3.svg.Area;
+import com.github.javafxd3.d3.svg.Axis;
+import com.github.javafxd3.d3.svg.Line;
+import com.github.javafxd3.d3.svg.Axis.Orientation;
+import com.github.javafxd3.d3.time.TimeFormat;
+import com.github.javafxd3.d3.time.TimeScale;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;

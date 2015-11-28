@@ -78,7 +78,7 @@ C  0x00000001021e0260
 Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 J 2153  com.sun.webkit.dom.JSObject.evalImpl(JILjava/lang/String;)Ljava/lang/Object; (0 bytes) @ 0x0000000002c77c9d [0x0000000002c77c40+0x5d]
 J 3735 C2 com.sun.webkit.dom.JSObject.eval(Ljava/lang/String;)Ljava/lang/Object; (13 bytes) @ 0x00000000029dd80c [0x00000000029dd7e0+0x2c]
-J 3249 C1 com.github.javafxd3.api.core.Selection.attr(Ljava/lang/String;Lcom/github/javafxd3/api/functions/DatumFunction;)Lcom/github/javafxd3/api/core/Selection; (87 bytes) @ 0x0000000002f738d4 [0x0000000002f725e0+0x12f4]
+J 3249 C1 com.github.javafxd3.d3.core.Selection.attr(Ljava/lang/String;Lcom/github/javafxd3/api/functions/DatumFunction;)Lcom/github/javafxd3/api/core/Selection; (87 bytes) @ 0x0000000002f738d4 [0x0000000002f725e0+0x12f4]
 J 3431 C1 com.github.javafxd3.demo.client.democases.geom.voronoi.VoronoiTessellationDemo.redraw()V (91 bytes) @ 0x000000000304ff2c [0x000000000304e7c0+0x176c]
 J 3534 C1 com.github.javafxd3.demo.client.democases.geom.voronoi.VoronoiTessellationDemo$$Lambda$235.run()V (8 bytes) @ 0x000000000271488c [0x00000000027147c0+0xcc]
 J 3433 C1 com.github.javafxd3.demo.client.democases.geom.voronoi.MouseMoveDatumFunction.apply(Ljava/lang/Object;Ljava/lang/Object;I)Ljava/lang/Void; (82 bytes) @ 0x0000000003054edc [0x0000000003054160+0xd7c]
@@ -295,17 +295,17 @@ Heap after GC invocations=16 (full 1):
 }
 
 Deoptimization events (10 events):
-Event: 10.878 Thread 0x000000005884d000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x0000000002f93108 method=com.sun.webkit.graphics.GraphicsDecoder.decode(Lcom/sun/webkit/graphics/WCGraphicsManager;Lcom/sun/webkit/graphics/WCGraphicsContext;Lcom/sun/webkit/graphics/BufferData;),†D(@
+Event: 10.878 Thread 0x000000005884d000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x0000000002f93108 method=com.sun.webkit.graphics.GraphicsDecoder.decode(Lcom/sun/webkit/graphics/WCGraphicsManager;Lcom/sun/webkit/graphics/WCGraphicsContext;Lcom/sun/webkit/graphics/BufferData;),ï¿½D(@
 Event: 12.004 Thread 0x000000005ebb2800 Uncommon trap: reason=speculate_class_check action=maybe_recompile pc=0x0000000002ee8634 method=java.util.HashMap.removeNode(ILjava/lang/Object;Ljava/lang/Object;ZZ)Ljava/util/HashMap$Node; @ 283
 Event: 12.004 Thread 0x000000005ebb2800 Uncommon trap: reason=speculate_class_check action=maybe_recompile pc=0x0000000002ee8634 method=java.util.HashMap.removeNode(ILjava/lang/Object;Ljava/lang/Object;ZZ)Ljava/util/HashMap$Node; @ 283
 Event: 16.088 Thread 0x0000000059449000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000000002feb264 method=sun.misc.FloatingDecimal$BinaryToASCIIBuffer.dtoa(IJIZ)V @ 379
 Event: 19.228 Thread 0x000000005884d000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x0000000002fbded0 method=com.sun.webkit.graphics.GraphicsDecoder.decode(Lcom/sun/webkit/graphics/WCGraphicsManager;Lcom/sun/webkit/graphics/WCGraphicsContext;Lcom/sun/webkit/graphics/BufferData;)
-jði?@
-Event: 31.045 Thread 0x000000005884d000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x0000000002fbdc8c method=com.sun.webkit.graphics.GraphicsDecoder.decode(Lcom/sun/webkit/graphics/WCGraphicsManager;Lcom/sun/webkit/graphics/WCGraphicsContext;Lcom/sun/webkit/graphics/BufferData;)ê´™å¾WC@
-Event: 38.686 Thread 0x000000005884d000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00000000030b17c8 method=com.sun.javafx.sg.prism.NGNode.markCullRegions(Lcom/sun/javafx/geom/DirtyRegionContainer;ILcom/sun/javafx/geom/transform/BaseTransform;Lcom/sun/javafx/geom/transform/GeneralTýò[âWC@
+jï¿½i?@
+Event: 31.045 Thread 0x000000005884d000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x0000000002fbdc8c method=com.sun.webkit.graphics.GraphicsDecoder.decode(Lcom/sun/webkit/graphics/WCGraphicsManager;Lcom/sun/webkit/graphics/WCGraphicsContext;Lcom/sun/webkit/graphics/BufferData;)ê´™ï¿½WC@
+Event: 38.686 Thread 0x000000005884d000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00000000030b17c8 method=com.sun.javafx.sg.prism.NGNode.markCullRegions(Lcom/sun/javafx/geom/DirtyRegionContainer;ILcom/sun/javafx/geom/transform/BaseTransform;Lcom/sun/javafx/geom/transform/GeneralTï¿½ï¿½[ï¿½WC@
 Event: 38.687 Thread 0x000000005884d000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000000000281b250 method=com.sun.javafx.sg.prism.NGNode.markCullRegions(Lcom/sun/javafx/geom/DirtyRegionContainer;ILcom/sun/javafx/geom/transform/BaseTransform;Lcom/sun/javafx/geom/transform/GeneralT?ê—˜%GR@
 Event: 73.112 Thread 0x000000005884d000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000000002b4e63c method=com.sun.javafx.geom.RectBounds.contains(Lcom/sun/javafx/geom/RectBounds;)Z @ 49
-Event: 74.159 Thread 0x000000005884d000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x0000000002fbf9b8 method=com.sun.webkit.graphics.GraphicsDecoder.decode(Lcom/sun/webkit/graphics/WCGraphicsManager;Lcom/sun/webkit/graphics/WCGraphicsContext;Lcom/sun/webkit/graphics/BufferData;)’BÑªtÁ%@
+Event: 74.159 Thread 0x000000005884d000 Uncommon trap: reason=class_check action=maybe_recompile pc=0x0000000002fbf9b8 method=com.sun.webkit.graphics.GraphicsDecoder.decode(Lcom/sun/webkit/graphics/WCGraphicsManager;Lcom/sun/webkit/graphics/WCGraphicsContext;Lcom/sun/webkit/graphics/BufferData;)ï¿½BÑªtï¿½%@
 
 Internal exceptions (10 events):
 Event: 0.139 Thread 0x0000000001bee800 Exception <a 'java/security/PrivilegedActionException'> (0x00000000d7176818) thrown at [C:\re\workspace\8-2-build-windows-amd64-cygwin\jdk8u51\3951\hotspot\src\share\vm\prims\jvm.cpp, line 1382]

@@ -1,6 +1,6 @@
 package com.github.javafxd3.demo.client.democases.geom.mitchell;
 
-import com.github.javafxd3.api.geom.Quadtree.RootNode;
+import com.github.javafxd3.d3.geom.Quadtree.RootNode;
 
 import javafx.scene.web.WebEngine;
 

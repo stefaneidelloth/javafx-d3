@@ -1,9 +1,9 @@
 package com.github.javafxd3.demo.client.democases.behaviors;
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.core.Selection;
-import com.github.javafxd3.api.functions.DatumFunction;
-import com.github.javafxd3.api.svg.Axis;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.functions.DatumFunction;
+import com.github.javafxd3.d3.svg.Axis;
 
 public class ZoomDatumFunction implements DatumFunction<Void> {
 	

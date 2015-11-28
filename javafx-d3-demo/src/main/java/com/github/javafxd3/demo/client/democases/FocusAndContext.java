@@ -2,8 +2,8 @@ package com.github.javafxd3.demo.client.democases;
 
 import java.util.Date;
 
-import com.github.javafxd3.api.D3;
-import com.github.javafxd3.api.wrapper.JavaScriptObject;
+import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.d3.wrapper.JavaScriptObject;
 import com.github.javafxd3.demo.client.AbstractDemoCase;
 import com.github.javafxd3.demo.client.DemoCase;
 import com.github.javafxd3.demo.client.DemoFactory;
