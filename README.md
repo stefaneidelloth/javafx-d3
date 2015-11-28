@@ -6,9 +6,8 @@ Many thanks to the authors of the projects **gwt-d3** [[1]](https://github.com/g
 
 Most of the source code of javafx-d3 originates from gwt-d3. If you use the original
 gwt-d3 project your result will be a web application that is written in JavaScript. 
-
-If you use javafx-d3, your aim is to end up with Java code that can be applied 
-for JavaFx desktop applications.
+If you use **javafx-d3**, your aim is to create a **JavaFx desktop applications**.
+that is written in Java.
 
 ![alt tag](https://github.com/stefaneidelloth/javafx-d3/blob/master/javafx-d3-demo/src/test/resources/javafxd3.png)
 
