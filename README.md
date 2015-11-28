@@ -41,9 +41,11 @@ With this straregy of javafx-d3 you are able to use the full power of d3.js for 
 This project is licensed under BSD:
 * javafx-d3: https://github.com/stefaneidelloth/javafx-d3/blob/master/LICENSE
 
-Javafx-d3 is based on third party code which is licensed under BSD as well:
-* d3.js: https://github.com/mbostock/d3/blob/master/LICENSE
-* gwt-d3: https://github.com/gwtd3/gwt-d3/blob/master/LICENSE
+Javafx-d3 is based on third party code and you have to consider the corresponding licenses as well:
+* d3.js => BSD: https://github.com/mbostock/d3/blob/master/LICENSE
+* gwt-d3 => BSD: https://github.com/gwtd3/gwt-d3/blob/master/LICENSE
+* function-plot => MIT: https://github.com/maurizzzio/function-plot
+* nvd3 => Apache: https://github.com/novus/nvd3/blob/master/LICENSE.md
 
 ----  
  
