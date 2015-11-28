@@ -10,29 +10,31 @@ gwt-d3 project your result will be a web application that is written in JavaScri
 If you use javafx-d3, your aim is to end up with Java code that can be applied 
 for JavaFx desktop applications.
 
+![alt tag](https://github.com/stefaneidelloth/javafx-d3/blob/master/javafx-d3-demo/src/test/resources/javafxd3.png)
+
 ## Current state
 
 * Most code from gwt-d3 has been transformed.
-* The code regions that have not yet been translated throw "not yet implemented" exceptions.
-* There might also be some bugs left...
+* The remaining parts will be implemented/corrected on request. 
+* So please create a feature request or issue ticket if you have a need in that direction.
 
-=> Please feel free to help fixing the remaining issues.  
+=> Please also feel free to jump in and directly contribute to the code of javafx-d3.  
 
 ## How it works: ##
 
 Javafx-d3 uses the JavaFx WebView [[3]](https://docs.oracle.com/javafx/2/webview/jfxpub-webview.htm "JavaFx WebView") to display an html page and to execute JavaScript.
-The JavaScript library d3.js is injected into the WebView. Using 
-so called JSObjects [[4]](http://docstore.mik.ua/orelly/web/jscript/ch19_06.html "Using JavaScript from Java") we are able to communicate between Java and JavaScript. 
-This way, you can use the full power of d3.js (at least the part that is already wrapped here) 
-for Java desktop applications to produce neat visualizations [[5]](https://github.com/mbostock/d3/wiki/Gallery "d3.js gallery"). 
+The JavaScript library d3.js is injected into the WebView. The communication between Java and JavaScript is based on  
+so called JSObjects [[4]](http://docstore.mik.ua/orelly/web/jscript/ch19_06.html "Using JavaScript from Java"). 
+
+With this straregy of javafx-d3 you are able to use the full power of d3.js for your Java desktop applications. 
 
 ## How to get started: ##
 
 * Get the source code 
-* You can use the main folder as an Eclipse workspace including two projects.
+* You can use the main folder as an Eclipse workspace including two projects:
 * Import the two Eclipse Maven projects **javafx-d3** and **javafx-d3-demo**
 * Build the maven projects
-* Run the demo suite com.github.javafxd3.demo.client.JavaFxD3DemoSuite 
+* Run the demo suite **com.github.javafxd3.demo.client.JavaFxD3DemoSuite**
 * If you do not get javafx-d3 up and running please create an issue ticket. 
 
 ## License ##
