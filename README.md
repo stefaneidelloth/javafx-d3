@@ -13,9 +13,9 @@ that is written in Java.
 
 ## Current state
 
-* Most code from gwt-d3 has been transformed.
-* The remaining parts will be implemented/corrected on request. 
-* So please create a feature request or issue ticket if you have a need in that direction.
+* Most code from gwt-d3 has already been transformed.
+* In order to keep my efforts focussed, the remaining parts will be done on request. 
+* Therefore, if you are interested in more functionality, please create an issue ticket.
 
 => Please also feel free to jump in and directly contribute to the code of javafx-d3.  
 
