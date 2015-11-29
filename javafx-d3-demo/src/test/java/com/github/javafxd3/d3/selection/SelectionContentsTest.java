@@ -1,7 +1,7 @@
 package com.github.javafxd3.d3.selection;
 
 import com.github.javafxd3.d3.core.Selection;
-import com.github.javafxd3.demo.client.democases.svg.text.LabelFactory;
+import com.github.javafxd3.d3.democases.svg.text.LabelFactory;
 
 @SuppressWarnings("javadoc")
 public class SelectionContentsTest extends AbstractSelectionTest {

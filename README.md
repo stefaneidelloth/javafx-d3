@@ -33,7 +33,7 @@ With this straregy of javafx-d3 you are able to use the full power of d3.js for 
 * You can use the main folder as an Eclipse workspace including two projects:
 * Import the two Eclipse Maven projects **javafx-d3** and **javafx-d3-demo**
 * Build the maven projects
-* Run the demo suite **com.github.javafxd3.demo.client.JavaFxD3DemoSuite**
+* Run the demo suite **com.github.javafxd3.d3.JavaFxD3DemoSuite**
 * If you do not get javafx-d3 up and running please create an issue ticket. 
 
 ## License ##

@@ -4,12 +4,12 @@ import com.github.javafxd3.d3.D3;
 import com.github.javafxd3.d3.core.Selection;
 import com.github.javafxd3.d3.core.Transition;
 import com.github.javafxd3.d3.core.Transition.EventType;
+import com.github.javafxd3.d3.democases.svg.text.LabelFactory;
 import com.github.javafxd3.d3.ease.Easing;
 import com.github.javafxd3.d3.functions.ConstantDatumFunction;
 import com.github.javafxd3.d3.functions.DatumFunction;
 import com.github.javafxd3.d3.selection.AbstractSelectionTest;
 import com.github.javafxd3.d3.transition.function.InterpolatorTweenFunction;
-import com.github.javafxd3.demo.client.democases.svg.text.LabelFactory;
 
 @SuppressWarnings("javadoc")
 public class TransitionTest extends AbstractSelectionTest {

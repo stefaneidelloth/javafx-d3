@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import com.github.javafxd3.d3.D3;
+import com.github.javafxd3.functionplot.FunctionPlot;
 
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -52,6 +53,9 @@ public class JavaFxD3Browser extends Region {
 	private Runnable loadingFinishedHook;
 
 	private Boolean enableDebugMode = false;
+
+	
+
 	//#end region
 
 	//#region CONSTRUCTORS
@@ -94,36 +98,44 @@ public class JavaFxD3Browser extends Region {
 		//add the web view as child to this JavaFx region
 		getChildren().add(webView);
 
-		// get web engine
+		//get web engine
 		webEngine = webView.getEngine();
 
-		// enable java script
+		//enable java script
 		webEngine.setJavaScriptEnabled(true);
 
-		// create handler for JavaScript alert event
+		//create handler for JavaScript alert event
 		webEngine.setOnAlert((eventArgs) -> {
 			String message = eventArgs.getData();
 			showAlert(message);
 		});
 
-		// add loading finished hook 
+		//add loading finished hook 
 		registerLoadingFinishedHook();
 
-		// load the initial browser content
+		//load the initial browser content
 		String initialBrowserContent = createInitialBrowserContent();
+
+		//loadContent(initialBrowserContent);
 		webEngine.loadContent(initialBrowserContent);
+
+		//note: after asynchronous loading has been finished, the
+		//loading finished hook will be executed.
 
 	}
 
 	private void registerLoadingFinishedHook() {
-		ReadOnlyObjectProperty<State> state = webEngine.getLoadWorker().stateProperty();
+		Worker<Void> loadWorker = webEngine.getLoadWorker();
+		ReadOnlyObjectProperty<State> state = loadWorker.stateProperty();
 		state.addListener((obs, oldState, newState) -> {
 
 			boolean isSucceeded = (newState == Worker.State.SUCCEEDED);
 			if (isSucceeded) {
 				injectJavaScriptLibraries();
 				createD3Wrapper();
-				loadingFinishedHook.run();
+				if (loadingFinishedHook != null) {
+					loadingFinishedHook.run();
+				}
 			}
 
 			boolean isFailed = (newState == Worker.State.FAILED);
@@ -146,24 +158,24 @@ public class JavaFxD3Browser extends Region {
 
 	}
 
-	private void injectD3() {	
+	private void injectD3() {
 		// https://github.com/mbostock/d3/blob/master/d3.min.js
 		String d3Content = getJavaScriptLibraryFromFile("d3.min.js");
 		webEngine.executeScript(d3Content);
 	}
-	
-	private void injectFunctionPlotter() {	
+
+	private void injectFunctionPlotter() {
 		// https://github.com/maurizzzio/function-plot/blob/master/dist/function-plot.js
 		String functionPlotterContent = getJavaScriptLibraryFromFile("function-plot.js");
 		webEngine.executeScript(functionPlotterContent);
 	}
-	
+
 	private void injectNvd3() {
 		// https://github.com/novus/nvd3/blob/master/build/nv.d3.min.js
 		String nvd3Content = getJavaScriptLibraryFromFile("nv.d3.min.js");
 		webEngine.executeScript(nvd3Content);
-	}	
-		
+	}
+
 	private void injectFireBug() {
 		// inject firebug into web engine, also see 
 		// https://stackoverflow.com/questions/9398879/html-javascript-debugging-in-javafx-webview
@@ -181,11 +193,10 @@ public class JavaFxD3Browser extends Region {
 
 		webEngine.executeScript(fireBugCommand);
 	}
-	
+
 	private void createD3Wrapper() {
 		d3 = new D3(webEngine);
 	}
-	
 
 	/**
 	 * Shows an alert message for the user
@@ -266,6 +277,25 @@ public class JavaFxD3Browser extends Region {
 			throw new IllegalStateException(message);
 		}
 		return d3;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public FunctionPlot getFunctionPlot() {
+		if (d3 == null) {
+			String message = "The d3 reference is null. Do not call this method directly but use "
+					+ "the post loading hook to wait until the initial loading of the browser has been finished.";
+			throw new IllegalStateException(message);
+		}
+
+		FunctionPlot functionPlot = new FunctionPlot(webEngine);
+		return functionPlot;
+	}
+
+	public WebEngine getWebEngine() {
+		return webEngine;
 	}
 
 	//#end region

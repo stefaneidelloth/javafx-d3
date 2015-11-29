@@ -1,9 +1,9 @@
 package com.github.javafxd3.d3.selection;
 
 import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.democases.svg.text.LabelFactory;
 import com.github.javafxd3.d3.selection.datumfunction.PrefixPlusIndexDatumFunction;
 import com.github.javafxd3.d3.wrapper.D3NodeFactory;
-import com.github.javafxd3.demo.client.democases.svg.text.LabelFactory;
 
 @SuppressWarnings("javadoc")
 public class SelectionTextTest extends AbstractSelectionTest {

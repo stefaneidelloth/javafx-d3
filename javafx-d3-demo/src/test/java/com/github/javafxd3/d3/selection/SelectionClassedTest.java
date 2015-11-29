@@ -1,10 +1,10 @@
 package com.github.javafxd3.d3.selection;
 
 import com.github.javafxd3.d3.core.Selection;
+import com.github.javafxd3.d3.democases.svg.text.LabelFactory;
 import com.github.javafxd3.d3.functions.ConstantDatumFunction;
 import com.github.javafxd3.d3.functions.EvenIndexDatumFunction;
 import com.github.javafxd3.d3.wrapper.D3NodeFactory;
-import com.github.javafxd3.demo.client.democases.svg.text.LabelFactory;
 
 /**
  * Testing

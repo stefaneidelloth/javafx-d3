@@ -5,6 +5,7 @@ import java.util.Arrays;
 import com.github.javafxd3.d3.core.Selection;
 import com.github.javafxd3.d3.core.UpdateSelection;
 import com.github.javafxd3.d3.core.Value;
+import com.github.javafxd3.d3.democases.svg.text.LabelFactory;
 import com.github.javafxd3.d3.functions.KeyFunction;
 import com.github.javafxd3.d3.selection.comparator.ValueComparator;
 import com.github.javafxd3.d3.selection.datumfunction.AssertCounterDatumFunction;
@@ -15,7 +16,6 @@ import com.github.javafxd3.d3.selection.datumfunction.OddEvenDatumFunction;
 import com.github.javafxd3.d3.selection.datumfunction.OddEvenElementDatumFunction;
 import com.github.javafxd3.d3.selection.datumfunction.StringDatumFunction;
 import com.github.javafxd3.d3.wrapper.Element;
-import com.github.javafxd3.demo.client.democases.svg.text.LabelFactory;
 
 import netscape.javascript.JSObject;
 
