@@ -46,6 +46,8 @@ Javafx-d3 is based on third party code and you have to consider the correspondin
 * gwt-d3 => BSD: https://github.com/gwtd3/gwt-d3/blob/master/LICENSE
 * function-plot => MIT: https://github.com/maurizzzio/function-plot
 * nvd3 => Apache: https://github.com/novus/nvd3/blob/master/LICENSE.md
+* jquery.js => JS Foundation https://github.com/jquery/jquery/blob/master/LICENSE.txt
+* plotly.js => MIT: https://github.com/plotly/plotly.js/blob/master/LICENSE
 
 ----  
  
