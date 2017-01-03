@@ -1,11 +1,8 @@
 package org.treez.javafxd3.d3.svg;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.treez.javafxd3.d3.behaviour.Drag.DragEventType;
-
 import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -16,7 +13,7 @@ import netscape.javascript.JSObject;
  * While the default accessors generate static symbols, it is common to set one
  * or more of the accessors using a function, such as setting the size
  * proportional to a dimension of data for a scatterplot. The returned function
- * generates path data for various symbols (see {@link Type} for all the
+ * generates path data for various symbols (see {@link SymbolType} for all the
  * symbols).
  * <p>
  * Note that the symbol does not include accessors for x and y. Instead, you can
@@ -62,60 +59,7 @@ public class Symbol extends PathDataGenerator {
 
 	//#region METHODS
 
-	/**
-	 * Shape of the symbol.
-	 * <p>
-	 * Types are normalized to have the same area in square pixels, according to
-	 * the specified size. However, note that different types' sizes may be
-	 * affected by the stroke and stroke width in different ways. All of the
-	 * types are designed to be visible when only a fill style is used (unlike
-	 * the Protovis cross), although they generally look better when both a fill
-	 * and stroke is used.
-	 */
-	public static enum Type {
-		/**
-		 * A circle
-		 */
-		CIRCLE("circle"),
-		/**
-		 * A greek cross or plus sign
-		 */
-		CROSS("cross"),
-		/**
-		 * A rhombus
-		 */
-		DIAMOND("diamond"),
-		/**
-		 * An axis-aligned square.
-		 */
-		SQUARE("square"),
-		/**
-		 * A downward-pointing equilateral triangle.
-		 */
-		TRIANGLE_DOWN("triangle-down"),
-		/**
-		 * a upward-pointing equilateral triangle.
-		 */
-		TRIANGLE_UP("triangle-up");
-
-		private final String value;
-
-		private Type(final String value) {
-			this.value = value;
-		}
-
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
-
-		public static List<String> jsValues() {
-			return Arrays.asList(CIRCLE.value, CROSS.value, DIAMOND.value, SQUARE.value, TRIANGLE_DOWN.value,
-					TRIANGLE_UP.value);
-		}
-	}
+	
 
 	/**
 	 * Set the type of the symbol using the specified {@link DragEventType}
@@ -128,7 +72,7 @@ public class Symbol extends PathDataGenerator {
 	 * @param type
 	 * @return
 	 */
-	public Symbol type(Type type) {
+	public Symbol type(SymbolType type) {
 
 		String value = type.getValue();
 		String command = "this.type('" + value + "');";
@@ -145,7 +89,7 @@ public class Symbol extends PathDataGenerator {
 	 *            the function that return the {@link DragEventType} of symbol.
 	 * @return this instance for chaining
 	 */
-	public Symbol type(DatumFunction<Type> typeAccessorFunction) {
+	public Symbol type(DatumFunction<SymbolType> typeAccessorFunction) {
 
 		assertObjectIsNotAnonymous(typeAccessorFunction);
 
@@ -201,6 +145,18 @@ public class Symbol extends PathDataGenerator {
 		JSObject result = evalForJsObject(command);
 		return new Symbol(webEngine, result);
 
+	}
+	
+	/**
+	 * Generate the path data as String.	
+	 * @param data
+	 *            an array of data
+	 * @return the generated path data
+	 */
+	public String generate() {			
+		String command = "this()";		
+		String result = (String) eval(command);		
+		return result;		
 	}
 
 }

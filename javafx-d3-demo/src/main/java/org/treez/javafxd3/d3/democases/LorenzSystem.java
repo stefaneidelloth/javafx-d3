@@ -1,6 +1,5 @@
 package org.treez.javafxd3.d3.democases;
 
-
 import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.DemoCase;
@@ -80,7 +79,7 @@ public class LorenzSystem extends AbstractDemoCase {
 					context.beginPath();
 					context.moveTo(x, y);
 					x += δτ * σ * (y - x);
-					y += δτ * ((x * (�? - z)) - y);
+					y += δτ * ((x * (�? - z)) - y);
 					z += δτ * ((x * y) - (β * z));
 					context.lineTo(x, y);
 					context.stroke();

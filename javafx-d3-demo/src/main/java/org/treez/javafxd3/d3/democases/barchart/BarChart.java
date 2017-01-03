@@ -2,26 +2,21 @@ package org.treez.javafxd3.d3.democases.barchart;
 
 import java.util.List;
 
+import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.DemoCase;
+import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Formatter;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.core.Value;
+import org.treez.javafxd3.d3.democases.Margin;
 import org.treez.javafxd3.d3.dsv.DsvCallback;
 import org.treez.javafxd3.d3.dsv.DsvObjectAccessor;
 import org.treez.javafxd3.d3.dsv.DsvRow;
-import org.treez.javafxd3.d3.functions.DatumFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.scales.OrdinalScale;
 import org.treez.javafxd3.d3.svg.Axis;
 import org.treez.javafxd3.d3.svg.Axis.Orientation;
-import org.treez.javafxd3.d3.wrapper.Element;
-import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
-
-import org.treez.javafxd3.d3.AbstractDemoCase;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
-import org.treez.javafxd3.d3.democases.Margin;
 
 import javafx.scene.layout.VBox;
 import netscape.javascript.JSObject;

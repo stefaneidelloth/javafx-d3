@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.treez.javafxd3.d3.arrays.Array;
-import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
-
+import org.treez.javafxd3.d3.arrays.ArrayUtils;
 import org.treez.javafxd3.d3.functions.DatumFunction;
 import org.treez.javafxd3.d3.functions.JsFunction;
+import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -85,22 +85,22 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 
 		// get and store JSObject
 		JSObject dataObj = data.getJsObject();
-		
+
 		//Inspector.inspect(dataObj);
-		
+
 		String memberName = createNewTemporaryInstanceName();
 		JSObject d3JsObj = getD3();
 		d3JsObj.setMember(memberName, dataObj);
-		
+
 		// execute command to generate data
 		String command = "this(d3." + memberName + ")";
-		
+
 		String result = (String) eval(command);
-		
+
 		d3JsObj.removeMember(memberName);
-		
+
 		return result;
-		
+
 	}
 
 	/**
@@ -128,14 +128,14 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 
 		// get and store JSObject
 		JSObject dataObj = data.getJsObject();
-		String dataMemberName = createNewTemporaryInstanceName();		
-		JSObject d3JsObject = getD3();	
+		String dataMemberName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(dataMemberName, dataObj);
 
 		// execute command to generate data
 		String command = "this(d3." + dataMemberName + ", " + index + ")";
-		String result = evalForString(command);	
-		
+		String result = evalForString(command);
+
 		d3JsObject.removeMember(dataMemberName);
 
 		return result;
@@ -151,8 +151,8 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 	public final String generate(final List<? extends JavaScriptObject> data) {
 		Array<?> array = Array.fromList(webEngine, data);
 		return generate(array);
-	}	
-	
+	}
+
 	/**
 	 * Alias for #generate(JavaScriptObject).
 	 * 
@@ -160,11 +160,11 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 	 *            the data
 	 * @return generated path data
 	 */
-	public final String generate(final JavaScriptObject[] data) {		
-		List<JavaScriptObject> list = Arrays.asList(data); 		
+	public final String generate(final JavaScriptObject[] data) {
+		List<JavaScriptObject> list = Arrays.asList(data);
 		return generate(Array.fromList(webEngine, list));
-	}	
-	
+	}
+
 	/**
 	 * Alias for #generate(JavaScriptObject).
 	 * 
@@ -176,6 +176,19 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 		Array<Double> array = Array.fromDoubles(webEngine, data);
 		String result = generate(array);
 		return result;
+	}
+
+	public String generate(Double[][] coordinates) {
+
+		String arrayString = ArrayUtils.createArrayString(coordinates);
+		String pathString = generate(arrayString);
+		return pathString;
+	}
+
+	public String generate(String dataArrayString) {
+		String command = "this(" + dataArrayString + ")";
+		String pathString = this.evalForString(command);
+		return pathString;
 	}
 
 	//#end region

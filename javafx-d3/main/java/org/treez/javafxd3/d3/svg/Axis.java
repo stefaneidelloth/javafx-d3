@@ -78,7 +78,7 @@ public class Axis extends JavaScriptObject implements JsFunction {
 	 * @param scale
 	 * @return the current axis
 	 */
-	public <S extends Scale<S>> Axis scale(S scale) {
+	public <S extends Scale<?>> Axis scale(S scale) {
 		
 		this.associatedScale = scale;
 		JSObject jsScale = scale.getJsObject();			
@@ -176,6 +176,23 @@ public class Axis extends JavaScriptObject implements JsFunction {
 		JSObject result = call("ticks", count, formatSpecifier);
 		return new Axis(webEngine, result);
 	}
+	
+	/**
+	 * Same as {@link #ticks(int)} but suitable for
+	 * {@link LogScale#tickFormat(int, String)}.
+	 * 
+	 * 
+	 * @param count
+	 *            the count to be passed to the underlying scale.
+	 * @param formatSpecifier
+	 *            the format argument to be passed to the underlying scale.
+	 * @return the current axis
+	 */
+	public Axis ticksExpression(int count, String formatFunctionExpression) {		
+		String command = "this.ticks(" + count + ", " + formatFunctionExpression + ");";
+		JSObject result = evalForJsObject(command);
+		return new Axis(webEngine, result);		
+	}
 
 	/**
 	 * Same as {@link #ticks(int)} but suitable for
@@ -198,10 +215,7 @@ public class Axis extends JavaScriptObject implements JsFunction {
 
 		JSObject result = evalForJsObject(command);
 
-		
-
 		return new Axis(webEngine, result);
-
 	}
 
 	/**
@@ -423,6 +437,12 @@ public class Axis extends JavaScriptObject implements JsFunction {
 
 		return new Axis(webEngine, result);
 
+	}
+	
+	public Axis tickFormatExpression(String formatFunctionExpression) {		
+		String command = "this.tickFormat("+formatFunctionExpression+");";
+		JSObject result = evalForJsObject(command);
+		return new Axis(webEngine, result);
 	}
 
 	/**

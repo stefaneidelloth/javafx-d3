@@ -9,6 +9,7 @@ import org.treez.javafxd3.d3.svg.Area;
 import org.treez.javafxd3.d3.svg.Axis;
 import org.treez.javafxd3.d3.svg.Line;
 import org.treez.javafxd3.d3.svg.Axis.Orientation;
+import org.treez.javafxd3.d3.svg.InterpolationMode;
 import org.treez.javafxd3.d3.time.TimeFormat;
 import org.treez.javafxd3.d3.time.TimeScale;
 
@@ -74,14 +75,14 @@ public class AxisComponent extends AbstractDemoCase {
 		final Axis yAxis = d3.svg().axis().scale(y).orient(Orientation.RIGHT).ticks(4);
 
 		// An area generator, for the light fill.
-		final Area area = d3.svg().area().interpolate(Area.InterpolationMode.MONOTONE)
+		final Area area = d3.svg().area().interpolate(InterpolationMode.MONOTONE)
 				// .x(function(d) { return x(d.date); })
 				.x(new XAxisDatumFunction(webEngine, x)).y0(h)
 				// .y1(function(d) { return y(d.price); });
 				.y1(new YAxisDatumFunction(webEngine, y));
 
 		// A line generator, for the dark stroke.
-		final Line line = d3.svg().line().interpolate(Line.InterpolationMode.MONOTONE)
+		final Line line = d3.svg().line().interpolate(InterpolationMode.MONOTONE)
 				// .x(function(d) { return x(d.date); })
 				.x(new XAxisDatumFunction(webEngine, x))
 				// // .y(function(d) { return y(d.price); });

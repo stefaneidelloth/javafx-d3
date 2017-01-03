@@ -3,12 +3,9 @@ package org.treez.javafxd3.d3.svg;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.coords.Coords;
-import org.treez.javafxd3.d3.svg.Area;
-import org.treez.javafxd3.d3.svg.Area.InterpolationMode;
-
-import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.svg.datumfunction.IndexSwitchDatumFunction;
 import org.treez.javafxd3.d3.svg.datumfunction.XCaptureDatumFunction;
 import org.treez.javafxd3.d3.svg.datumfunction.XDatumFunction;

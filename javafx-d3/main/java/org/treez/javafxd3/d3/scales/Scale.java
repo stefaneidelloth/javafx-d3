@@ -27,7 +27,7 @@ import netscape.javascript.JSObject;
  *            the subclass of scale
  * 
  */
-public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
+public abstract class Scale<S extends Scale<?>> extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
@@ -280,5 +280,24 @@ public abstract class Scale<S extends Scale<S>> extends JavaScriptObject {
     	Value value = Value.create(webEngine,  result);
     	return value;
     	
+    }
+    
+    public  Double applyForDouble(String d){
+    	String command = "this('" + d + "')";
+    	Object result = eval(command);  
+    	String valueString = result.toString();
+    	boolean isUndefined = valueString.equals("undefined");
+    	if(isUndefined){
+    		return null;
+    	}
+    	Double value = Double.parseDouble(valueString);
+    	return value;
+    	
+    }
+    
+    public  String applyForString(String d){
+    	String command = "this('" + d + "')";
+    	Object result = eval(command);    	
+    	return result.toString();    	
     }
 }

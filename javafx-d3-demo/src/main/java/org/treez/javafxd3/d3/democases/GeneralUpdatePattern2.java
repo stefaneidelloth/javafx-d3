@@ -1,15 +1,17 @@
 package org.treez.javafxd3.d3.democases;
 
-
-import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.UpdateSelection;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DatumFunction;
 import org.treez.javafxd3.d3.functions.KeyFunction;
+import org.treez.javafxd3.d3.wrapper.Element;
+
+import org.treez.javafxd3.d3.AbstractDemoCase;
+import org.treez.javafxd3.d3.DemoCase;
+import org.treez.javafxd3.d3.DemoFactory;
+import com.sun.glass.ui.Timer;
 
 import javafx.scene.layout.VBox;
 import netscape.javascript.JSObject;
@@ -20,11 +22,11 @@ import netscape.javascript.JSObject;
  * 
  *
  */
-
 public class GeneralUpdatePattern2 extends AbstractDemoCase {
 
 	//#region ATTRIBUTES
-	
+
+	private Timer timer;
 	private Selection svg;	
 
 	//#end region
@@ -121,7 +123,8 @@ public class GeneralUpdatePattern2 extends AbstractDemoCase {
 					@Override
 					public String apply(final Object context, final Object d, final int index) {
 						
-						Value datum = (Value) d;
+						Value datum = (Value) d;						
+						Element element =(Element) context;
 						
 						return "" + datum.asChar();
 					}
@@ -147,7 +150,8 @@ public class GeneralUpdatePattern2 extends AbstractDemoCase {
 
 	@Override
 	public void stop() {
-		
+		//timer.cancel();
+		timer = null;
 	}
 	
 	//#end region

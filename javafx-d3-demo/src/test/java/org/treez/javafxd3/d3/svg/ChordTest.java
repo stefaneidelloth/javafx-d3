@@ -2,12 +2,11 @@ package org.treez.javafxd3.d3.svg;
 
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.svg.Chord;
-
-import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.svg.datumfunction.ChordRadiusDatumFunction;
 import org.treez.javafxd3.d3.svg.datumfunction.ChordSourceDatumFunction;
 import org.treez.javafxd3.d3.svg.datumfunction.ChordStartAngleDatumFunction;
 import org.treez.javafxd3.d3.svg.datumfunction.ChordTargetDatumFunction;
+import org.treez.javafxd3.d3.AbstractTestCase;
 
 
 @SuppressWarnings("javadoc")

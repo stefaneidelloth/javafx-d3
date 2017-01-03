@@ -3,6 +3,7 @@ package org.treez.javafxd3.d3.wrapper;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.treez.javafxd3.d3.core.Value;
 
@@ -53,6 +54,28 @@ public class JavaScriptObject {
 	//#end region
 
 	//#region METHODS
+	
+	protected void setEmptyArrayAsJsObject() {
+		setJsObject(createEmptyArray());		
+	}
+
+	protected JSObject createEmptyArray() {
+		String dummyName = createNewTemporaryInstanceName();
+		webEngine.executeScript("var " +dummyName +"=[];");
+		JSObject emptyObject = (JSObject) webEngine.executeScript(dummyName);
+		return emptyObject;
+	}
+	
+	protected void setEmptyObjectAsJsObject() {
+		setJsObject(createEmptyObject());		
+	}
+
+	protected JSObject createEmptyObject() {
+		String dummyName = createNewTemporaryInstanceName();
+		webEngine.executeScript("var " +dummyName +"={};");
+		JSObject emptyObject = (JSObject) webEngine.executeScript(dummyName);
+		return emptyObject;
+	}
 
 	//#region CALL
 
@@ -648,6 +671,7 @@ public class JavaScriptObject {
 	}
 	
 	protected void assertObjectIsNotAnonymous(final Object callback) {
+		Objects.requireNonNull(callback, "Callback must not be null");
 		Class<?> callbackClass = callback.getClass();
 		boolean isAnonymeous = callbackClass.isAnonymousClass();
 		if (isAnonymeous) {

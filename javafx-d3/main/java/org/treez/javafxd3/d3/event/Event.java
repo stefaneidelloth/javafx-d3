@@ -7,14 +7,8 @@ import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-/**
- * 
- * @param <T> 
- *
- */
 public class Event extends JavaScriptObject implements JsFunction {
-	
-	
+		
 
 	//#region CONSTRUCTORS
 	
@@ -44,6 +38,15 @@ public class Event extends JavaScriptObject implements JsFunction {
 	public Selection getEventTarget(){
 		JSObject result = call("this.eventTarget");
 		return new Selection(webEngine, result);
+	}
+
+	public Event sourceEvent() {
+		JSObject result = call("this.sourceEvent");
+		return new Event(webEngine, result);		
+	}
+
+	public void stopPropagation() {
+		call("this.stopPropagation()");		
 	}
 	
 	//#end region

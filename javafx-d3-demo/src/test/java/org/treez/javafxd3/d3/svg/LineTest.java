@@ -3,20 +3,16 @@ package org.treez.javafxd3.d3.svg;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.coords.Coords;
-import org.treez.javafxd3.d3.svg.Line;
-import org.treez.javafxd3.d3.svg.RadialLine;
-import org.treez.javafxd3.d3.svg.Line.InterpolationMode;
-import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
-
-import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.svg.datumfunction.IndexFactorDatumFunction;
 import org.treez.javafxd3.d3.svg.datumfunction.IndexSwitchDatumFunction;
 import org.treez.javafxd3.d3.svg.datumfunction.XCaptureDatumFunction;
 import org.treez.javafxd3.d3.svg.datumfunction.YCaptureDatumFunction;
 import org.treez.javafxd3.d3.svg.datumfunction.YCoordsCounterDatumFunction;
+import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 @SuppressWarnings("javadoc")
 public class LineTest extends AbstractTestCase {

@@ -10,7 +10,7 @@ import netscape.javascript.JSObject;
  * <li>{@link DiscreteQuantitativeScale} have a discrete output range
  * </ul> 
  */
-public abstract class QuantitativeScale<S extends QuantitativeScale<S>> extends Scale<S> {
+public abstract class QuantitativeScale<S extends QuantitativeScale<?>> extends Scale<S> {
 
 	//#region CONSTRUCTORS
 

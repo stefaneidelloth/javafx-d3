@@ -1,9 +1,6 @@
 package org.treez.javafxd3.d3.democases;
 
-import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transition;
 import org.treez.javafxd3.d3.core.Value;
@@ -14,7 +11,9 @@ import org.treez.javafxd3.d3.svg.Arc;
 import org.treez.javafxd3.d3.tweens.TweenFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 
-
+import org.treez.javafxd3.d3.AbstractDemoCase;
+import org.treez.javafxd3.d3.DemoCase;
+import org.treez.javafxd3.d3.DemoFactory;
 import com.sun.glass.ui.Timer;
 
 import javafx.scene.layout.VBox;
@@ -29,10 +28,8 @@ public class ArcTween extends AbstractDemoCase {
 
 	//#region ATTRIBUTES
 
-	private static final String INTRO_TEXT = "This demonstrate the SVG Arc API with Transition API: here, "
-			+ "a complex transition is constructed from a custom interpolator. "
-			+ "Moreover, the centroid() method of Arc is illustrated to show how easy "
-			+ "it is to display labels in a donut chart.";
+	private static final String INTRO_TEXT = "This demonstrate the SVG Arc API with Transition API: here, a complex transition is constructed from a custom interpolator. "
+			+ "Moreover, the centroid() method of Arc is illustrated to show how easy it is to display labels in a donut chart.";
 	private Timer timer;
 	private Selection svg;
 	private Arc arc;

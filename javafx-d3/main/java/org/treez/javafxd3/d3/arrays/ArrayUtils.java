@@ -55,6 +55,8 @@ public class ArrayUtils {
 		return arrayString;
 	}
 	
+	
+	
 	/**
 	 * Creates a string that contains the given values as array in square brackets
 	 * @param numbers
@@ -234,6 +236,32 @@ public class ArrayUtils {
 		JSObject[] jsObjects = jsObjectList.toArray(new JSObject[jsObjectList.size()]);
 		
 		return jsObjects;
+	}
+	
+	public double[] range(double start, double stop, double step) {
+
+		List<Double> list = new ArrayList<>();
+		double value = start;
+		while (value <= stop) {
+			list.add(value);
+			value += step;
+		}
+
+		double[] result = new double[list.size()];
+		for (int i = 0; i < list.size(); i++) {
+			result[i] = list.get(i);
+		}
+		return result;
+	}
+
+	public Double[] range(double start, double stop) {
+		Double[] result = new Double[(int) (stop - start)];
+
+		for (int i = 0; i < stop - start; i++) {
+			result[i] = start + i;
+		}
+
+		return result;
 	}
 
 }

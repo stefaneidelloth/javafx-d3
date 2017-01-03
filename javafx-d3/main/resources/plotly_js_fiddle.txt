@@ -1,0 +1,56 @@
+
+https://jsfiddle.net/abalter/0cjprqgy/
+
+External Resource:
+https://cdn.plot.ly/plotly-latest.min.js
+
+doc:
+https://plot.ly/javascript/contour-plots/
+https://plot.ly/javascript/reference/#contour
+
+
+
+var data = [ {
+  z: [[10, 10.625, 12.5, 15.625, 20],
+       [5.625, 6.25, 8.125, 11.25, 15.625],
+       [2.5, 3.125, 5., 8.125, 12.5],
+       [0.625, 1.25, 3.125, 6.25, 10.625],
+       [0, 0.625, 2.5, 5.625, 10]],
+  x: [-9, -6, -5 , -3, -1],
+  y: [0, 1, 4, 5, 7],
+  type: 'contour',
+  
+  colorscale: 'Jet',
+  showscale: false,
+  autocontour: false,
+  
+  contours: {
+    start: 0,
+    end: 8,
+    size: 0.4
+  }
+}];
+
+var layout = {
+margin: {
+b: 0,
+l: 0,
+r: 0,
+t: 0
+},
+height: 600,
+width: 600,
+  title: '',
+  xaxis: {
+  		ticks: '',
+      showticklabels: false  ,
+      range: [0,3]
+      
+  },
+  yaxis: {
+       ticks: '',
+       showticklabels: false     
+  } 
+};
+
+Plotly.newPlot('graph', data, layout, {displayModeBar: false});

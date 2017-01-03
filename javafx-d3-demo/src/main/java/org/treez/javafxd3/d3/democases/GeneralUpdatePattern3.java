@@ -1,9 +1,6 @@
 package org.treez.javafxd3.d3.democases;
 
-import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.UpdateSelection;
 import org.treez.javafxd3.d3.core.Value;
@@ -11,6 +8,9 @@ import org.treez.javafxd3.d3.functions.DatumFunction;
 import org.treez.javafxd3.d3.functions.KeyFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 
+import org.treez.javafxd3.d3.AbstractDemoCase;
+import org.treez.javafxd3.d3.DemoCase;
+import org.treez.javafxd3.d3.DemoFactory;
 import com.sun.glass.ui.Timer;
 
 import javafx.scene.layout.VBox;

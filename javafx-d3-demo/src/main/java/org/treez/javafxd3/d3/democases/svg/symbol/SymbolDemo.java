@@ -12,7 +12,7 @@ import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transform;
 import org.treez.javafxd3.d3.svg.Symbol;
-import org.treez.javafxd3.d3.svg.Symbol.Type;
+import org.treez.javafxd3.d3.svg.SymbolType;
 
 import javafx.scene.layout.VBox;
 
@@ -89,7 +89,7 @@ public class SymbolDemo extends AbstractDemoCase {
 	protected void addSymbol() {
 		Random random = new Random();
 
-		symbols.type(Type.values()[random.nextInt(Type.values().length)]);
+		symbols.type(SymbolType.values()[random.nextInt(SymbolType.values().length)]);
 		symbols.size(random.nextInt(2500) + 25);
 
 		Transform transform = new Transform(webEngine);

@@ -83,4 +83,10 @@ public class Polygon extends Array<Array<Double>> {
 		return new Polygon(webEngine, result);		
 	}
 
+	public void addPoint(double[] pointCoordinates) {
+		String arrayString = ArrayUtils.createArrayString(pointCoordinates);
+		String command = "this.push("+arrayString+")";
+		eval(command);		
+	}
+
 }

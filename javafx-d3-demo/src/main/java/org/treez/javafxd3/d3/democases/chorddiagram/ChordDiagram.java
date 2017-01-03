@@ -1,16 +1,12 @@
 package org.treez.javafxd3.d3.democases.chorddiagram;
 
-import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.functions.DatumFunction;
-import org.treez.javafxd3.d3.layout.Chord.ChordItem;
-import org.treez.javafxd3.d3.wrapper.Element;
-import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
-
 import org.treez.javafxd3.d3.AbstractDemoCase;
+import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.DemoCase;
 import org.treez.javafxd3.d3.DemoFactory;
+import org.treez.javafxd3.d3.core.Selection;
+import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;

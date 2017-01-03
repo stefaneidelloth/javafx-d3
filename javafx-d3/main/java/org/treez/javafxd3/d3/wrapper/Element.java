@@ -64,9 +64,15 @@ public class Element extends Node {
 	/**
 	 * @return
 	 */
-	public Object getInnerText() {
+	public String getInnerText() {
+		
+		JSObject jsObj = this.getJsObject();
+		
+		Inspector.inspect(jsObj);
 		
 		String result = getMemberForString("textContent");
+		
+		String nodeValue = getMemberForString("nodeValue");
 		
 		if (result.equals("undefined")){
 			result = getMemberForString("text");
@@ -169,7 +175,15 @@ public class Element extends Node {
 	}
 
 	public BoundingBox getBBox() {
-		throw new IllegalStateException("not yet implemented");
+		String command = "this.getBBox();";
+		JSObject bBox = evalForJsObject(command);
+		
+		Double x = Double.parseDouble("" + bBox.eval("this.x"));
+		Double y = Double.parseDouble("" + bBox.eval("this.y"));
+		Double width = Double.parseDouble("" + bBox.eval("this.width"));
+		Double height = Double.parseDouble("" + bBox.eval("this.height"));
+		BoundingBox boundinbBox = new BoundingBox(x,y,width,height);		
+		return boundinbBox;				
 	}
 
 	public Element getParentElement() {

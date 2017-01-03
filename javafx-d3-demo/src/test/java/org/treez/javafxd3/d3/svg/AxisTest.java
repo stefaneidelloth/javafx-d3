@@ -9,10 +9,9 @@ import org.treez.javafxd3.d3.scales.LogScale;
 import org.treez.javafxd3.d3.scales.OrdinalScale;
 import org.treez.javafxd3.d3.svg.Axis;
 import org.treez.javafxd3.d3.svg.Axis.Orientation;
-
+import org.treez.javafxd3.d3.svg.datumfunction.TickTestDatumFunction;
 import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.selection.datumfunction.PrefixPlusIndexDatumFunction;
-import org.treez.javafxd3.d3.svg.datumfunction.TickTestDatumFunction;
 
 @SuppressWarnings("javadoc")
 public class AxisTest extends AbstractTestCase {

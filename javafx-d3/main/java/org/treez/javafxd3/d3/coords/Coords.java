@@ -83,7 +83,7 @@ public class Coords extends JavaScriptObject {
 	 * {@link Coords} datum.
 	 */
 	public static final DatumFunction<Double> getXAccessor(WebEngine webEngine){
-		DatumFunction<Double> accessor = new XAccessorDatumFunction(webEngine); 
+		DatumFunction<Double> accessor = new XDatumFunction(webEngine); 
 		return accessor;
 	}
 
@@ -92,7 +92,7 @@ public class Coords extends JavaScriptObject {
 	 * {@link Coords} datum.
 	 */
 	public static final DatumFunction<Double> getYAccessor(WebEngine webEngine){
-		DatumFunction<Double> accessor = new YAccessorDatumFunction(webEngine); 
+		DatumFunction<Double> accessor = new YDatumFunction(webEngine); 
 		return accessor;
 	}
 

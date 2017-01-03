@@ -7,17 +7,14 @@ import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.DemoCase;
 import org.treez.javafxd3.d3.DemoFactory;
-import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.democases.Margin;
 import org.treez.javafxd3.d3.functions.DatumFunction;
 import org.treez.javafxd3.d3.scales.OrdinalScale;
-import org.treez.javafxd3.d3.svg.Brush;
-import org.treez.javafxd3.d3.svg.Symbol;
 import org.treez.javafxd3.d3.svg.Axis.Orientation;
 import org.treez.javafxd3.d3.svg.Brush.BrushEvent;
-import org.treez.javafxd3.d3.svg.Symbol.Type;
+import org.treez.javafxd3.d3.svg.SymbolType;
 
 import javafx.scene.layout.VBox;
 
@@ -71,14 +68,14 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 
 	@Override
 	public void start() {
-		Type[] data = Symbol.Type.values();
+		SymbolType[] data = SymbolType.values();
 
 		Margin margin = new Margin(210, 10, 210, 10);
 		int width = 960 - margin.right - margin.left;
 		final int height = 500 - margin.top - margin.bottom;
 
 		List<String> stringList = new ArrayList<>();
-		for(Type dataValue:data){
+		for(SymbolType dataValue:data){
 			stringList.add(dataValue.getValue());
 		}
 		String[] array = stringList.toArray(new String[data.length]);
@@ -99,16 +96,16 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 						
 						Value datum = (Value) d;
 						
-						String value = datum.<Type> as().getValue();
+						String value = datum.<SymbolType> as().getValue();
 						return "translate(" + x.apply(value).asDouble() + "," + (height / 2) + ")";
 					}
-				}).attr("d", d3.svg().symbol().type(new DatumFunction<Type>() {
+				}).attr("d", d3.svg().symbol().type(new DatumFunction<SymbolType>() {
 					@Override
-					public Type apply(final Object context, final Object d, final int index) {
+					public SymbolType apply(final Object context, final Object d, final int index) {
 						
 						Value datum = (Value) d;
 						
-						return datum.<Type> as();
+						return datum.<SymbolType> as();
 					}
 				}).size(200));
 

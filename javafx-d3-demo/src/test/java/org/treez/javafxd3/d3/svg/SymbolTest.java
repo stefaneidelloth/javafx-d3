@@ -3,10 +3,9 @@ package org.treez.javafxd3.d3.svg;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
 import org.treez.javafxd3.d3.svg.Symbol;
-import org.treez.javafxd3.d3.svg.Symbol.Type;
 
-import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.svg.datumfunction.IndexDatumFunction;
+import org.treez.javafxd3.d3.AbstractTestCase;
 
 @SuppressWarnings("javadoc")
 public class SymbolTest extends AbstractTestCase {
@@ -23,7 +22,7 @@ public class SymbolTest extends AbstractTestCase {
 		for (int i = 0; i < types.length; i++) {
 			String type = types[i];
 			System.out.println("SYMBOL TYPE: " + type);
-			Type typeEnum = Symbol.Type.valueOf(type.toUpperCase().replace('-',
+			SymbolType typeEnum = SymbolType.valueOf(type.toUpperCase().replace('-',
 					'_'));
 			if (typeEnum == null) {
 				fail("the symbol type " + type + " is not implemented");
@@ -34,8 +33,8 @@ public class SymbolTest extends AbstractTestCase {
 		symbol.size(32);
 		symbol.size(new IndexDatumFunction());
 
-		symbol.type(Type.CIRCLE);
-		symbol.type(new ConstantDatumFunction<Type>(Type.CIRCLE));
+		symbol.type(SymbolType.CIRCLE);
+		symbol.type(new ConstantDatumFunction<SymbolType>(SymbolType.CIRCLE));
 	}
 	
 	/**
