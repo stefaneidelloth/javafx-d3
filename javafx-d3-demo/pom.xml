@@ -4,7 +4,7 @@
 	<groupId>javafx-d3-demo</groupId>
 	<artifactId>javafx-d3-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
+	<packaging>pom</packaging>
 
 	<build>
 
@@ -94,6 +94,10 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<modules>		
+		<module>../javafx-d3</module>		
+  </modules>
 
 
 	<dependencies>
