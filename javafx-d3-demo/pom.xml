@@ -1,12 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	
+	<!-- HEADER **************************************************************************************************************** -->  
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>javafx-d3-demo</groupId>
 	<artifactId>javafx-d3-demo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version> <!--  is available as variable ${project.version} -->
 	<packaging>pom</packaging>
 
 	<build>
+	
+	    <!-- RESOURCES *********************************************************************************************************** -->   
 
 		<resources>
 			<resource>
@@ -28,7 +33,10 @@
 			</resource>
 
 		</resources>
-
+		
+		<!-- PLUGIN MANAGEMENT***************************************************************************************************** -->
+		<!-- tells Eclipse plugin M2E to execute the ant task (also see PREPARE PACKAGE phase) -->
+		<!-- also see PREPARE PACKAGE phase and http://stackoverflow.com/questions/32565193/how-to-define-access-rules-for-classpath-entries-in-maven-pom-xml-file-for-eclip -->
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -60,17 +68,58 @@
 			</plugins>
 		</pluginManagement>
 
-
+		<!-- PLUGINS ************************************************************************************************************** -->
+		
 		<plugins>
+		
+			<!-- ### RESOURCES ### phase -->
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>resource-execution</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>resources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		
+			<!-- ### COMPILE ### phase -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
+				<version>3.5.1</version>
 				<configuration>
+				    <!-- specify current java version here: -->
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
-			</plugin>
+				<executions>
+					<execution>
+						<id>compile-execution</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>test-compile-execution</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>  			
 
+            <!-- ### PREPARE PACKAGE ### phase -->
+            
+            <!-- adapt access rules for JavaFx using an ant taks -->
+            <!-- also see  http://stackoverflow.com/questions/32565193/how-to-define-access-rules-for-classpath-entries-in-maven-pom-xml-file-for-eclip -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
@@ -92,6 +141,84 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<!-- ### PACKAGE ### phase -->
+  			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>				
+				<executions>
+					<execution>
+					    <id>package-execution</id>
+						<phase>package</phase>
+						<goals>
+					    	<goal>jar</goal>					       
+					    </goals>
+					</execution>					
+				</executions> 	
+				<configuration>
+      				<archive>
+       					 <manifest>
+         					 <addClasspath>true</addClasspath>
+         					 <mainClass>org.treez.javafxd3.d3.JavaFxD3DemoSuite</mainClass>
+       					 </manifest>
+     				 </archive>
+    			</configuration>			
+			</plugin>
+			
+			<plugin>
+              <artifactId>maven-assembly-plugin</artifactId>
+              <configuration>
+                  <archive>
+                      <manifest>
+                          <addClasspath>true</addClasspath>
+                          <mainClass>org.treez.javafxd3.d3.JavaFxD3DemoSuite</mainClass>
+                      </manifest>
+                  </archive>
+                  <descriptorRefs>
+                      <descriptorRef>-with-dependencies</descriptorRef>
+                  </descriptorRefs>
+              </configuration>
+              <executions>
+                  <execution>
+                      <id>make-jar-with-dependencies</id>
+                      <phase>package</phase>
+                      <goals>
+                          <goal>single</goal>
+                      </goals>
+                  </execution>
+              </executions>
+          </plugin>
+			
+			<!-- ### INSTALL ### phase -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.5.2</version>
+				<executions>
+					<execution>
+					    <id>install-execution</id>
+						<phase>install</phase>
+						<goals>
+					    	<goal>install</goal>					       
+					    </goals>
+					</execution>	
+					<execution>
+					    <id>install-file-execution</id>
+						<phase>install</phase>
+						<goals>
+					    	<goal>install-file</goal>					       
+					    </goals>
+					    <configuration>
+					    	<groupId>org.treez.javafx-d3-demo</groupId>
+  							<artifactId>javafx-d3-demo</artifactId> 
+							<version>${project.version}</version>
+							<packaging>jar</packaging>
+					    	<file>${project.basedir}/target/javafx-d3-demo-${project.version}.jar</file>
+					    </configuration>
+					</execution>				
+				</executions> 	
+			</plugin>	
+			
 		</plugins>
 	</build>
 	
