@@ -11,7 +11,7 @@ import org.treez.javafxd3.d3.DemoFactory;
 
 import javafx.scene.layout.VBox;
 
-@SuppressWarnings("javadoc")
+
 public class FocusAndContext extends AbstractDemoCase {
 
 	//#region ATTRIBUTES

@@ -2,6 +2,7 @@ package org.treez.javafxd3.d3.interpolators;
 
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Value;
+import org.treez.javafxd3.d3.wrapper.Inspector;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -18,12 +19,8 @@ import netscape.javascript.JSObject;
  */
 public class JavascriptFunctionInterpolator extends JavaScriptObject implements Interpolator<Value> {
 
-	//#region CONSTRUCTORS
+	//#region CONSTRUCTORS	
 	
-	/**
-	 * Constructor
-	 * @param webEngine
-	 */
 	public JavascriptFunctionInterpolator(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
@@ -34,10 +31,10 @@ public class JavascriptFunctionInterpolator extends JavaScriptObject implements 
 	//#region METHODS
 
 	@Override
-	public  Value interpolate(final double t){
-		String command = "{datum : this("+t+")};";
-		JSObject result = evalForJsObject(command);
-		return new Value(webEngine, result);
+	public  Value interpolate(final double t){	
+		Inspector.inspect(this);
+		Object interpolationResult = callThis(t);		
+		return Value.create(webEngine, interpolationResult);
 	}
 
 	@Override

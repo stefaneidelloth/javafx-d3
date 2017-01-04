@@ -1,7 +1,10 @@
 package org.treez.javafxd3.d3.wrapper;
 
+import org.treez.javafxd3.d3.core.Selection;
+
 import javafx.geometry.BoundingBox;
 import javafx.scene.web.WebEngine;
+import netscape.javascript.JSException;
 import netscape.javascript.JSObject;
 
 /**
@@ -26,172 +29,134 @@ public class Element extends Node {
 
 	//#region METHODS
 
-	/**
-	 * @param b
-	 * @return
-	 */
 	public Node cloneNode(boolean b) {
 		throw new IllegalStateException("not yet implemented");
 	}
 
-	/**
-	 * @return
-	 */
 	public String getTagName() {
 		String result = getMemberForString("tagName");
 		return result;
 	}
 
-	/**
-	 * @return
-	 */
 	public Node getParentNode() {
 		String command = "d3.select(this).parentNode";
 		JSObject result = evalForJsObject(command);
 		return new Node(webEngine, result);
 	}
 
-	/**
-	 * @return
-	 */
 	public int getChildCount() {
-				
-		String countCommand = "this.childNodes.length";
-		int result = evalForInteger(countCommand);		
-		return result;
+
+		try {
+			String countCommand = "this.children.length";
+			int result = evalForInteger(countCommand);
+			return result;
+		} catch (JSException exception) {
+			String countCommand = "this.childNodes.length";
+			int result = evalForInteger(countCommand);
+			return result;
+		}
 	}
 
-	/**
-	 * @return
-	 */
-	public String getInnerText() {
-		
-		JSObject jsObj = this.getJsObject();
-		
-		Inspector.inspect(jsObj);
-		
+	public String getTextContent() {
 		String result = getMemberForString("textContent");
-		
-		String nodeValue = getMemberForString("nodeValue");
-		
-		if (result.equals("undefined")){
+		if (result.equals("undefined")) {
 			result = getMemberForString("text");
 		}
 		return result;
 	}
 
-	/**
-	 * @param string
-	 */
-	public void setInnerHtml(String string) {
-		throw new IllegalStateException("not yet implemented");
-		// return null;
-
+	public void setInnerHtml(String html) {
+		String command = "this.innerHtml=\"" + html + "\";";
+		eval(command);
 	}
 
-	/**
-	 * @param attr
-	 * @return
-	 */
 	public String getAttribute(String attr) {
-		String result = getMemberForString(attr);
+		String command = "this.getAttribute('" + attr + "')";
+		String result = evalForString(command);
 		return result;
 	}
 
-	/**
-	 * @param string
-	 * @param b
-	 */
-	public void setPropertyBoolean(String string, boolean b) {
-		throw new IllegalStateException("not yet implemented");
-
+	public Object getProperty(String property) {
+		String command = "this." + property;
+		return eval(command);
 	}
 
-	/**
-	 * @param dataProperty
-	 * @return
-	 */
+	public void setPropertyBoolean(String dataProperty, boolean bool) {
+		String command = "this." + dataProperty + "= " + bool + ";";
+		eval(command);
+	}
+
 	public Integer getPropertyInt(String dataProperty) {
-		throw new IllegalStateException("not yet implemented");
-		// return null;
+		String command = "this." + dataProperty;
+		Integer result = evalForInteger(command);
+		return result;
 	}
 
-	/**
-	 * @param dataProperty
-	 * @param i
-	 */
-	public void setPropertyInt(String dataProperty, int i) {
-		throw new IllegalStateException("not yet implemented");
-
+	public void setPropertyInt(String dataProperty, int value) {
+		String command = "this." + dataProperty + "= " + value + ";";
+		eval(command);
 	}
 
-	/**
-	 * @param dataProperty
-	 * @return
-	 */
 	public String getPropertyString(String dataProperty) {
-		throw new IllegalStateException("not yet implemented");
-		// return null;
+		String command = "this." + dataProperty;
+		String result = evalForString(command);
+		return result;
 	}
 
-	/**
-	 * @param i
-	 * @return
-	 */
-	public Element getChild(int i) {
-		throw new IllegalStateException("not yet implemented");
-		// return null;
+	public Element getChild(int index) {
+		String command = "this.childNodes[" + index + "];";
+		JSObject child = evalForJsObject(command);
+		return new Element(webEngine, child);
 	}
 
-	/**
-	 * @return
-	 */
 	public String getChildNodes() {
-		throw new IllegalStateException("not yet implemented");
+		String command = "this.childNodes";
+		String result = evalForString(command);
+		return result;
 	}
 
-	/**
-	 * @param string
-	 * @return
-	 */
 	public Element[] getElementsByTagName(String string) {
 		throw new IllegalStateException("not yet implemented");
 	}
 
-	/**
-	 * @param nodeFactory
-	 */
 	public void add(D3NodeFactory nodeFactory) {
-		throw new IllegalStateException("not yet implemented");
-
+		nodeFactory.createInParentSelection(select());
 	}
 
-	/**
-	 * @param nodeFactory
-	 */
 	public void remove(D3NodeFactory nodeFactory) {
-		throw new IllegalStateException("not yet implemented");
+		Selection elementSelection = select();
+		nodeFactory.remove(elementSelection);
+	}
 
+	public Selection select() {
+		JSObject d3Obj = this.getD3();
+		JSObject selectionObj = (JSObject) d3Obj.call("select", getJsObject());
+		Selection elementSelection = new Selection(webEngine, selectionObj);
+		return elementSelection;
 	}
 
 	public BoundingBox getBBox() {
 		String command = "this.getBBox();";
 		JSObject bBox = evalForJsObject(command);
-		
+
 		Double x = Double.parseDouble("" + bBox.eval("this.x"));
 		Double y = Double.parseDouble("" + bBox.eval("this.y"));
 		Double width = Double.parseDouble("" + bBox.eval("this.width"));
 		Double height = Double.parseDouble("" + bBox.eval("this.height"));
-		BoundingBox boundinbBox = new BoundingBox(x,y,width,height);		
-		return boundinbBox;				
+		BoundingBox boundinbBox = new BoundingBox(x, y, width, height);
+		return boundinbBox;
 	}
 
 	public Element getParentElement() {
-		
 		String command = "this.parentNode";
 		JSObject result = evalForJsObject(command);
-		return new Element(webEngine, result);		
-		
+		return new Element(webEngine, result);
+	}
+
+	public String getStyle(String identifier) {
+		String command = "this.style." + identifier;
+		String result = evalForString(command);
+		return result;
 	}
 
 	//#end region

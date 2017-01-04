@@ -1,6 +1,5 @@
 package org.treez.javafxd3.d3.svg;
 
-import org.treez.javafxd3.d3.arrays.ArrayUtils;
 import org.treez.javafxd3.d3.functions.DatumFunction;
 
 import javafx.scene.web.WebEngine;

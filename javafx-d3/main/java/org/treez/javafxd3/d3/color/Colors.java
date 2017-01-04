@@ -46,6 +46,9 @@ public class Colors extends JavaScriptObject {
 	 */
 	public RGBColor rgb(int r, int g, int b) {
 		JSObject result = call("rgb", r, g, b);
+		if(result==null){
+			return null;
+		}
 		return new RGBColor(webEngine, result);
 	};
 
@@ -66,6 +69,9 @@ public class Colors extends JavaScriptObject {
 	 */
 	public RGBColor rgb(final String color) {
 		JSObject result = call("rgb", color);
+		if(result==null){
+			return null;
+		}
 		return new RGBColor(webEngine, result);
 	}
 
@@ -80,6 +86,9 @@ public class Colors extends JavaScriptObject {
 	public RGBColor rgb(final Color color) {
 		JSObject jsObject = color.getJsObject();
 		JSObject result = call("rgb", jsObject);
+		if(result==null){
+			return null;
+		}
 		return new RGBColor(webEngine, result);
 	}
 
@@ -99,6 +108,9 @@ public class Colors extends JavaScriptObject {
 	 */
 	public HSLColor hsl(int h, double s, double l) {
 		JSObject result = call("hsl", h, s, l);
+		if(result==null){
+			return null;
+		}
 		return new HSLColor(webEngine, result);
 	}
 
@@ -119,6 +131,9 @@ public class Colors extends JavaScriptObject {
 	 */
 	public HSLColor hsl(final String color) {
 		JSObject result = call("hsl", color);
+		if(result==null){
+			return null;
+		}
 		return new HSLColor(webEngine, result);
 	}
 
@@ -133,6 +148,9 @@ public class Colors extends JavaScriptObject {
 	public HSLColor hsl(final RGBColor color) {
 		JSObject jsObject = color.getJsObject();
 		JSObject result = call("hsl", jsObject);
+		if(result==null){
+			return null;
+		}
 		return new HSLColor(webEngine, result);
 	}
 

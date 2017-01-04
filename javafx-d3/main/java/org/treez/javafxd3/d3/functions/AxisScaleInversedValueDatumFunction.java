@@ -1,7 +1,6 @@
 package org.treez.javafxd3.d3.functions;
 
 import org.treez.javafxd3.d3.scales.Scale;
-import org.treez.javafxd3.d3.wrapper.Inspector;
 
 import netscape.javascript.JSObject;
 

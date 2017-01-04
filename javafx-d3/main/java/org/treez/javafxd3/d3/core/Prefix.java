@@ -45,7 +45,7 @@ public class Prefix extends JavaScriptObject {
 	 * @return the prefix symbol
 	 */
 	public String symbol() {
-		String result = callForString("this.symbol");
+		String result = getMemberForString("symbol");
 		return result;
 	}
 
@@ -58,7 +58,7 @@ public class Prefix extends JavaScriptObject {
 	 * @return the converted number
 	 */
 	public double scale(double input) {
-		Double result = callForDouble("this.scale", input);
+		Double result = callForDouble("scale", input);
 		return result;
 	}
 

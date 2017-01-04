@@ -91,7 +91,10 @@ public class EnteringSelection extends JavaScriptObject {
 	 * @return a new selection containing the appended elements
 	 */
 	public Selection append(String name) {
-		JSObject result = (JSObject) eval("this.append('" + name +"')");
+		JSObject result = call("append", name);
+		if(result==null){
+			return null;
+		}
 		return new Selection(webEngine, result);
 	}
 	
@@ -264,8 +267,9 @@ public class EnteringSelection extends JavaScriptObject {
 	 *            the index of the group
 	 * @return
 	 */
-	public Element parentNode(int i) {
-		JSObject result = call("[i].parentNode");
+	public Element parentNode(int index) {
+		String command = "this["+index+"].parentNode";
+		JSObject result = evalForJsObject(command);
 		if(result==null){
 			return null;
 		}
@@ -291,6 +295,9 @@ public class EnteringSelection extends JavaScriptObject {
 	 */
 	public final int groupCount() {
 		Array<JSObject> array = asElementArray();
+		if(array==null){
+			return 0;
+		}
 		int size = array.sizes().get(1);
 		return size;		
 	}
@@ -303,6 +310,9 @@ public class EnteringSelection extends JavaScriptObject {
 	 */
 	public final Array<JSObject> asElementArray() { //equivalent to Array<Element> but not wrapped
 		JSObject result = call("cast");
+		if(result==null){
+			return null;
+		}
 		return new Array<JSObject>(webEngine, result);
 	}
 	

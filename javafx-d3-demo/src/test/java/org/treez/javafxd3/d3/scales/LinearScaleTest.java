@@ -1,11 +1,8 @@
 package org.treez.javafxd3.d3.scales;
 
 
-import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.scales.LinearScale;
-
 import org.treez.javafxd3.d3.AbstractTestCase;
+import org.treez.javafxd3.d3.core.Value;
 
 
 @SuppressWarnings("javadoc")
@@ -15,9 +12,7 @@ public class LinearScaleTest extends AbstractTestCase {
 
 	@Override	
 	public void doTest() {
-		
-		D3 d3 = new D3(webEngine);
-		
+						
 		LinearScale scale = d3.scale().linear();
 		// get default domain
 		assertEquals(2, scale.domain().length());

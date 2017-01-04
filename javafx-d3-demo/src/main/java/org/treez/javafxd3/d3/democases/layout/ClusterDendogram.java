@@ -1,26 +1,17 @@
 package org.treez.javafxd3.d3.democases.layout;
 
-import java.awt.Window;
-
-import javax.xml.ws.Response;
-
+import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.DemoCase;
+import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DatumFunction;
-import org.treez.javafxd3.d3.functions.PropertyValueFunction;
 import org.treez.javafxd3.d3.layout.Cluster;
-import org.treez.javafxd3.d3.layout.Link;
-import org.treez.javafxd3.d3.layout.HierarchicalLayout.Node;
 import org.treez.javafxd3.d3.svg.Diagonal;
 import org.treez.javafxd3.d3.wrapper.Element;
 
-import org.treez.javafxd3.d3.AbstractDemoCase;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
-
 import javafx.scene.layout.VBox;
-import jdk.nashorn.internal.ir.RuntimeNode.Request;
 
 /**
  * 

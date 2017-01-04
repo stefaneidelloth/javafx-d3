@@ -308,10 +308,8 @@ public class Area extends PathDataGenerator {
 		JSObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
-		String command = "this.defined(function(d) { " //
-				+ "alert('yo'); " //
-				+ "var result = d3." + memberName + ".apply(null,{datum:d}, 0); "//
-				+ "alert(result); "//
+		String command = "this.defined(function(d) { " //				
+				+ "var result = d3." + memberName + ".apply(null,{datum:d}, 0); "//				
 				+ "return result; "//
 				+ "});";
 

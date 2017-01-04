@@ -4,12 +4,12 @@ package org.treez.javafxd3.d3.selection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
+import org.treez.javafxd3.d3.wrapper.Element;
 import org.treez.javafxd3.d3.wrapper.Inspector;
-
-import org.treez.javafxd3.d3.AbstractTestCase;
 
 import netscape.javascript.JSObject;
 
@@ -18,6 +18,16 @@ import netscape.javascript.JSObject;
  * 
  */
 public abstract class AbstractSelectionTest extends AbstractTestCase {
+	
+	//#region CONSTRUCTORS
+	
+	public AbstractSelectionTest(){
+		super();
+	}
+	
+	//#end region
+	
+	//#region METHODS
 
 	/**
 	 * Clear the root node, add a node with the given factory and return the D3
@@ -26,9 +36,9 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 * @param w
 	 * @return the selection containing only the given widget
 	 */
-	protected Selection givenASimpleSelection(D3NodeFactory nodeFactory) {
-		Selection svg = clearSvg();
-		Selection newNode = nodeFactory.createInParentSelection(svg);
+	protected Selection givenASimpleNodeFactory(D3NodeFactory nodeFactory) {
+		Selection root = clearRoot();
+		Selection newNode = nodeFactory.createInParentSelection(root);
 		return newNode;
 	}
 
@@ -39,49 +49,64 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 * @param widgets
 	 * @return
 	 */
-	protected Selection givenAMultipleSelection(final D3NodeFactory... nodeFactories) {
-		Selection svg = clearSvg();
+	protected Selection givenMultipleNodeFactories(final D3NodeFactory... nodeFactories) {
+		Selection root = clearRoot();
 		for (D3NodeFactory nodeFactory : nodeFactories) {
-			nodeFactory.createInParentSelection(svg);
+			nodeFactory.createInParentSelection(root);
 		}
-		return svg.selectAll("*");
+		return root.selectAll("*");
 	}
 
 	/**
-	 * Returns the selection child element with the given index as Selection.
+	 * Returns the selection child element with the given index as Element.
 	 * (Apply get(0) on the result to select the first element of the
 	 * selection.)
 	 * 
 	 * @param index
 	 * @return
 	 */
-	public Selection getElement(final int index) {
-		Selection children = getSvg().selectAll("*").get(0);
-		//Inspector.inspect(children);
+	public Element getElementFromRoot(final int index) {
+		Selection children = getRoot().selectAll("*").get(0);
+		if(children==null){
+			return null;
+		}
+		
 		Selection child = children.get(index);
-
+		
+		JSObject elementObj = child.getJsObject();
+		boolean isElement = elementObj instanceof org.w3c.dom.Element;
+		if(isElement){
+			return new Element(webEngine, elementObj);
+		}
+		
+		throw new IllegalStateException("Could not get element.");
+	}
+	
+	public Selection getElementAsSelection(final int index) {
+		Selection children = getSvg().selectAll("*").get(0);
+		if(children==null){
+			return null;
+		}
+		
+		Selection child = children.get(index);
 		return child;
+		
 	}
 
-	/**
-	 * @param index
-	 * @param attribute
-	 * @return
-	 */
 	public String getElementAttribute(final int index, final String attribute) {
-		Selection element = getElement(index);
+		Element element = getElementFromRoot(index);
 
 		if (element == null) {
 			String message = "Could not retrieve element with index " + index;
 			throw new IllegalArgumentException(message);
 		}
 
-		//Inspector.inspect(element);
-
-		String attributeValue = getAttributeFromElement(element, attribute);
+		String attributeValue = element.getAttribute(attribute);
 		return attributeValue;
 
 	}
+	
+	
 
 	protected String getAttributeFromElement(Selection element, final String attribute) {
 		Map<String, String> attributeMap = getDomAttributes(element);
@@ -113,71 +138,65 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 		return attributeMap;
 	}
 
-	/**
-	 * @param index
-	 * @return
-	 */
+
 	public String getElementInnerText(final int index) {
-		Selection element = getElement(index);
+		Element element = getElementFromRoot(index);
 		if (element == null) {
 			String message = "Could not retrieve element with index " + index;
 			throw new IllegalArgumentException(message);
 		}
 
-		String result = getAttributeFromElement(element, "text");
+		String result = element.getTextContent();
 		return result;
 
 	}
 
-	/**
-	 * @param index
-	 * @return
-	 */
+
 	public String getElementInnerHtml(final int index) {
-		Selection element = getElement(index);
+		Element element = getElementFromRoot(index);
 		if (element == null) {
 			String message = "Could not retrieve element with index " + index;
 			throw new IllegalArgumentException(message);
 		}
 
-		String result = getAttributeFromElement(element, "innerHtml");
+		String result = element.getAttribute("innerHtml");
 		return result;
 	}
 
-	/**
-	 * @param index
-	 * @return
-	 */
+
 	public String getElementClassAttribute(final int index) {
-		Selection element = getElement(index);
+		Element element = getElementFromRoot(index);
 		if (element == null) {
 			String message = "Could not retrieve element with index " + index;
 			throw new IllegalArgumentException(message);
 		}
 
-		String result = getAttributeFromElement(element, "class");
+		String result = element.getAttribute("class");
 		return result;
 	}
 
-	/**
-	 * @param index
-	 * @param style
-	 * @return
-	 */
-	public String getElementStyle(final int index, final String style) {
-		Selection element = getElement(index);
+	public String getElementStyle(final int index, final String styleProperty) {
+		Element element = getElementFromRoot(index);
 		if (element == null) {
 			String message = "Could not retrieve element with index " + index;
 			throw new IllegalArgumentException(message);
 		}
 
-		String result = getAttributeFromElement(element, "style");
+		String result = element.getStyle(styleProperty);		
+		
 		return result;
 	}
 
 	protected Value getElementProperty(final int index, final String property) {
-		JSObject propertyObj = (JSObject) getElement(index).getMember(property);
-		return new Value(webEngine, propertyObj);
+		Element element =  getElementFromRoot(index);
+		Inspector.inspect(element);
+		if(element==null){
+			return null;
+		}
+		Object valueObj =  element.getProperty(property);		
+		return Value.create(webEngine,  valueObj);
 	}
+	
+	//#end region
 
 }

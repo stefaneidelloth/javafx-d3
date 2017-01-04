@@ -3,6 +3,7 @@
 	<name>javafx-d3-demo</name>
 	<comment></comment>
 	<projects>
+		<project>javafx-d3</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

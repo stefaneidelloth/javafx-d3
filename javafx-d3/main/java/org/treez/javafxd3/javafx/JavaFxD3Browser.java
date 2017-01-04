@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.functionplot.FunctionPlot;
@@ -106,6 +107,7 @@ public class JavaFxD3Browser extends Region {
 
 		//get web engine
 		webEngine = webView.getEngine();
+		Objects.requireNonNull(webEngine);
 
 		//enable java script
 		webEngine.setJavaScriptEnabled(true);
@@ -113,6 +115,7 @@ public class JavaFxD3Browser extends Region {
 		//create handler for JavaScript alert event
 		webEngine.setOnAlert((eventArgs) -> {
 			String message = eventArgs.getData();
+			System.out.println("JavaFxD3Browser-Alert: " + message);
 			showAlert(message);
 		});
 

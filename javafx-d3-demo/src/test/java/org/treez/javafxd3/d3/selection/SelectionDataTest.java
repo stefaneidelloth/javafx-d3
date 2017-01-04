@@ -6,8 +6,6 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
 import org.treez.javafxd3.d3.functions.KeyFunction;
-import org.treez.javafxd3.d3.wrapper.Inspector;
-
 import org.treez.javafxd3.d3.selection.datumfunction.IntegerArrayDatumFunction;
 import org.treez.javafxd3.d3.selection.datumfunction.ObjectArrayDatumFunction;
 import org.treez.javafxd3.d3.selection.datumfunction.StringDatumFunction;
@@ -21,8 +19,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 	@Override
 	public void doTest() {
 		
-		//TODO: testSelectionDataGetter();
-		
+		testSelectionDataGetter();		
 		
 		testSelectionDataSetterArray();
 		testSelectionDataSetterFunctionReturningJSO();
@@ -36,7 +33,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 
 	protected Selection givenASimpleSelection() {
 		clearSvg();
-		return d3.select("root").append("table").selectAll("tr").data(MATRIX[0]).enter().append("tr");
+		return d3.select("#root").append("table").selectAll("tr").data(MATRIX[0]).enter().append("tr");
 	}
 
 	/**
@@ -49,7 +46,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 	 */
 	protected Selection givenANestedSelection() {
 		clearSvg();
-		Selection tr = d3.select("root").append("table").selectAll("tr").data(MATRIX).enter().append("tr");
+		Selection tr = d3.select("#root").append("table").selectAll("tr").data(MATRIX).enter().append("tr");
 		
 		//Inspector.inspect(tr);
 		Selection tds = tr.selectAll("td");
@@ -201,11 +198,11 @@ public class SelectionDataTest extends AbstractSelectionTest {
 		assertDataPropertyEqualsTo(100, selection, 2);
 
 		// Object
-		selection.data(new Object[] { "67", "12", "107" });
-		selection.data(new Object[] { "67", "12", "107" }, func);
-		assertDataPropertyEqualsTo("67", selection, 0);
-		assertDataPropertyEqualsTo("12", selection, 1);
-		assertDataPropertyEqualsTo("107", selection, 2);
+		selection.data(new Object[] { 67, 12, 107 });
+		selection.data(new Object[] { 67, 12, 107 }, func);
+		assertDataPropertyEqualsTo(67, selection, 0);
+		assertDataPropertyEqualsTo(12, selection, 1);
+		assertDataPropertyEqualsTo(107, selection, 2);
 
 		// JSO
 		selection.data(new char[] { 'b', 'z', 'g' });
@@ -254,10 +251,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 		assertEquals(expectedData, propertyValue);		
 		
 	}
-
-	/**
-	 * 
-	 */
+	
 	private void testSelectionDataGetter() {
 		// given a 2-dim selection
 		Selection selection = givenANestedSelection();

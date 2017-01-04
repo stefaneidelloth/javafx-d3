@@ -53,19 +53,19 @@ public class Plotly extends JavaScriptObject {
 	public void restyle(Element element, Data data, int... indices ){
 		JSObject elementObj = element.getJsObject();
 		JSObject dataObj = data.getJsObject();
-		JSObject result = call("restyle", elementObj, dataObj, indices);
+		call("restyle", elementObj, dataObj, indices);
 	}
 	
 	public void relayout(Element element, Layout data, int... indices ){
 		JSObject elementObj = element.getJsObject();
 		JSObject layoutObj = data.getJsObject();
-		JSObject result = call("relayout", elementObj, layoutObj, indices);
+		call("relayout", elementObj, layoutObj, indices);
 	}
 	
 	public void addTraces(Element element, Data data){
 		JSObject elementObj = element.getJsObject();
 		JSObject dataObj = data.getJsObject();
-		JSObject result = call("addTraces", elementObj, dataObj);
+		call("addTraces", elementObj, dataObj);
 	}
 	
 	public void deleteTraces(Element element, int indice){

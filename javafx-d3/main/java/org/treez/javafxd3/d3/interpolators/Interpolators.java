@@ -1,6 +1,13 @@
 package org.treez.javafxd3.d3.interpolators;
 
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.color.Color;
+import org.treez.javafxd3.d3.color.Colors;
 import org.treez.javafxd3.d3.color.HSLColor;
 import org.treez.javafxd3.d3.color.RGBColor;
 import org.treez.javafxd3.d3.core.Transform;
@@ -8,16 +15,20 @@ import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
 
 
 /**
- * Provide access to the d3.interpolat* methods.
+ * Provide access to the d3.interpolate* methods.
  * <p> 
  */
 public class Interpolators {
 	
 	//#region METHODS
-
+	
+	private static D3 getD3(WebEngine webEngine){		
+		return new D3(webEngine);			
+	}
 
 	/**
 	 * Returns a string interpolator between the two strings a and b.
@@ -51,11 +62,9 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<String> interpolateString(final String a,
-			final String b) {
-		
-	
-		return new JavascriptFunctionInterpolatorDecorator<String>(interpolate0(a, b));
+	public static final Interpolator<String> interpolateString(WebEngine webEngine,final String a,
+			final String b) {	
+		return new JavascriptFunctionInterpolatorDecorator<String>(interpolate0(webEngine, a, b));
 	}
 
 	/**
@@ -77,25 +86,28 @@ public class Interpolators {
 	 *            the end color
 	 * @return the interpolator
 	 */
-	public static final Interpolator<RGBColor> interpolateRgb(final String a,
-			final String b) {
-		
-	 throw new IllegalStateException("not yet implemented");
-	 /*
 	
-		return new JavascriptFunctionInterpolatorDecorator<RGBColor>(
-				
-				interpolateRgb0(Colors.rgb(a), Colors.rgb(b))
-				
-			) {
+	
+	public static final Interpolator<RGBColor> interpolateRgb(WebEngine webEngine, final String a,
+			final String b) {	
+		
+		Colors colors = new Colors(webEngine);	
+		Color startColor = colors.rgb(a);
+		Color endColor = colors.rgb(b);		
+		
+		JavascriptFunctionInterpolator interpolator = interpolateRgb0(webEngine, startColor, endColor);
+		
+		return new JavascriptFunctionInterpolatorDecorator<RGBColor>(interpolator) {
+			
 			@Override
 			public RGBColor cast(final Value v) {
-				return Colors.rgb(v.asString());
+				String colorString = v.asString();
+				return colors.rgb(colorString);
 			}
-		};
+		};		
 		
-		*/
 	}
+	
 
 	/**
 	 * Returns an RGB color space interpolator between the two colors a and b.
@@ -116,21 +128,15 @@ public class Interpolators {
 	 *            the end color
 	 * @return the interpolator
 	 */
-	public static final Interpolator<RGBColor> interpolateRgb(final Color a,
-			final Color b) {
-		
-		 throw new IllegalStateException("not yet implemented");
-		 /*
-	
-		return new JavascriptFunctionInterpolatorDecorator<RGBColor>(
-				interpolateRgb0(a, b)) {
+	public static final Interpolator<RGBColor> interpolateRgb(WebEngine webEngine, final Color a,
+			final Color b) {		
+		Colors colors = new Colors(webEngine);	
+		return new JavascriptFunctionInterpolatorDecorator<RGBColor>(interpolateRgb0(webEngine, a, b)) {
 			@Override
 			public RGBColor cast(final Value v) {
-				return Colors.rgb(v.asString());
+				return colors.rgb(v.asString());
 			}
-		};
-		
-		*/
+		};		
 	}
 
 	/**
@@ -152,21 +158,15 @@ public class Interpolators {
 	 *            the end color
 	 * @return the interpolator
 	 */
-	public static final Interpolator<HSLColor> interpolateHsl(final String a,
-			final String b) {
-		
-		 throw new IllegalStateException("not yet implemented");
-		 /*
-	
-		return new JavascriptFunctionInterpolatorDecorator<HSLColor>(
-				interpolateHsl0(Colors.hsl(a), Colors.hsl(b))) {
+	public static final Interpolator<HSLColor> interpolateHsl(WebEngine webEngine, final String a,
+			final String b) {		
+		Colors colors = new Colors(webEngine);	
+		return new JavascriptFunctionInterpolatorDecorator<HSLColor>(interpolateHsl0(webEngine, colors.hsl(a), colors.hsl(b))) {
 			@Override
 			public HSLColor cast(final Value v) {
-				return Colors.hsl(v.asString());
+				return colors.hsl(v.asString());
 			}
-		};
-		
-		*/
+		};	
 	}
 
 	/**
@@ -188,21 +188,15 @@ public class Interpolators {
 	 *            the end color
 	 * @return the interpolator
 	 */
-	public static final Interpolator<HSLColor> interpolateHsl(final Color a,
-			final Color b) {
-		
-		 throw new IllegalStateException("not yet implemented");
-		 /*
-	
-		return new JavascriptFunctionInterpolatorDecorator<HSLColor>(
-				interpolateHsl0(a, b)) {
+	public static final Interpolator<HSLColor> interpolateHsl(WebEngine webEngine, final Color a,
+			final Color b) {		
+		Colors colors = new Colors(webEngine);		
+		return new JavascriptFunctionInterpolatorDecorator<HSLColor>(interpolateHsl0(webEngine, a, b)) {
 			@Override
 			public HSLColor cast(final Value v) {
-				return Colors.hsl(v.asString());
+				return colors.hsl(v.asString());
 			}
-		};
-		
-		*/
+		};	
 	}
 
 	/**
@@ -232,10 +226,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double> interpolateNumber(final double a,
+	public static final Interpolator<Double> interpolateNumber(WebEngine webEngine, final double a,
 			final double b) {
 		return new JavascriptFunctionInterpolatorDecorator<Double>(
-				interpolateNumber0(a, b)) {
+				interpolateNumber0(webEngine, a, b)) {
 			@Override
 			public Double cast(final Value v) {
 				return new Double(v.asDouble());
@@ -274,13 +268,15 @@ public class Interpolators {
 	 *            the array b
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Object[]> interpolateArray(
+	public static final Interpolator<Object[]> interpolateArray(WebEngine webEngine,
 			final Object[] a, final Object[] b) {
 		return new JavascriptFunctionInterpolatorDecorator<Object[]>(
-				interpolateArray0(a, b)) {
+				interpolateArray0(webEngine, a, b)) {
 			@Override
 			public Object[] cast(final Value v) {
-				return v.as();
+				JSObject jsValue = v.as();				
+				Array<Object> array = new Array<Object>(webEngine, jsValue);
+				return array.asArray(Object.class);				
 			}
 		};
 	}
@@ -320,13 +316,44 @@ public class Interpolators {
 	 *            the object b
 	 * @return the interpolator
 	 */
-	public static final <T extends JavaScriptObject> Interpolator<T> interpolateObject(
+	public static final <T extends JavaScriptObject> Interpolator<T> interpolateObject(WebEngine webEngine,
 			final T a, final T b) {
 		return new JavascriptFunctionInterpolatorDecorator<T>(
-				interpolateObject0(a, b)) {
+				interpolateObject0(webEngine, a, b)) {
+			@SuppressWarnings("unchecked")
 			@Override
 			public T cast(final Value v) {
-				return v.<T> as();
+				
+				JSObject jsObject = v.as();
+				Class<?> clazz = a.getClass();
+				
+				Object instance = createNewJavaScriptObjectInstance(webEngine, clazz, jsObject); 				
+				return (T) instance;
+			}
+
+			private Object createNewJavaScriptObjectInstance(WebEngine webEngine,
+					final Class<?> clazz, JSObject jsObject) {
+				
+				Constructor<?> constructor;
+				try {
+					constructor = clazz.getConstructor(new Class<?>[]{WebEngine.class, JSObject.class});
+				} catch (NoSuchMethodException exception) {
+					throw new IllegalStateException("Could not get constructor for JavaScriptObject", exception);
+				} catch (SecurityException securityException) {
+					throw new IllegalStateException("Could not get constructor for JavaScriptObject", securityException);
+				}
+				
+				if(constructor==null){
+					throw new IllegalStateException("Could not get constructor for JavaScriptObject");
+				}
+				
+				Object instance;
+				try {
+					instance = constructor.newInstance(webEngine, jsObject);
+				} catch (Exception exception) {
+					throw new IllegalStateException("Could not create instance of JavaScriptObject", exception);
+				}
+				return instance;
 			}
 		};
 	}
@@ -351,7 +378,7 @@ public class Interpolators {
 		Transform transform = new Transform(webEngine);
 	
 		return new JavascriptFunctionInterpolatorDecorator<Transform>(
-				interpolateTransform0(a, b)) {
+				interpolateTransform0(webEngine, a, b)) {
 			@Override
 			public Transform cast(final Value v) {
 				return transform.parse(v.asString());
@@ -368,9 +395,9 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double> interpolateNumber(final int a,
+	public static final Interpolator<Double> interpolateNumber(WebEngine webEngine, final int a,
 			final int b) {
-		return interpolateNumber((double) a, (double) b);
+		return interpolateNumber(webEngine, (double) a, (double) b);
 	}
 
 	/**
@@ -382,9 +409,9 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double> interpolateNumber(final byte a,
+	public static final Interpolator<Double> interpolateNumber(WebEngine webEngine, final byte a,
 			final byte b) {
-		return interpolateNumber((double) a, (double) b);
+		return interpolateNumber(webEngine, (double) a, (double) b);
 	}
 
 	/**
@@ -396,9 +423,9 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double> interpolateNumber(final float a,
+	public static final Interpolator<Double> interpolateNumber(WebEngine webEngine,final float a,
 			final float b) {
-		return interpolateNumber((double) a, (double) b);
+		return interpolateNumber(webEngine, (double) a, (double) b);
 	}
 
 	/**
@@ -410,9 +437,9 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double> interpolateNumber(final long a,
+	public static final Interpolator<Double> interpolateNumber(WebEngine webEngine,final long a,
 			final long b) {
-		return interpolateNumber((double) a, (double) b);
+		return interpolateNumber(webEngine, (double) a, (double) b);
 	}
 
 	/**
@@ -424,9 +451,9 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double> interpolateNumber(final short a,
+	public static final Interpolator<Double> interpolateNumber(WebEngine webEngine,final short a,
 			final short b) {
-		return interpolateNumber((double) a, (double) b);
+		return interpolateNumber(webEngine, (double) a, (double) b);
 	}
 
 	/**
@@ -441,10 +468,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Long> interpolateRound(final double a,
+	public static final Interpolator<Long> interpolateRound(WebEngine webEngine, final double a,
 			final double b) {
 		return new JavascriptFunctionInterpolatorDecorator<Long>(
-				interpolateRound0(a, b)) {
+				interpolateRound0(webEngine, a, b)) {
 			@Override
 			public Long cast(final Value v) {
 				return new Long((long) v.asDouble());
@@ -461,10 +488,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Byte> interpolateRound(final byte a,
+	public static final Interpolator<Byte> interpolateRound(WebEngine webEngine,final byte a,
 			final byte b) {
 		return new JavascriptFunctionInterpolatorDecorator<Byte>(
-				interpolateRound0(a, b)) {
+				interpolateRound0(webEngine, a, b)) {
 			@Override
 			public Byte cast(final Value v) {
 				return new Byte(v.asByte());
@@ -481,10 +508,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Character> interpolateRound(final char a,
+	public static final Interpolator<Character> interpolateRound(WebEngine webEngine,final char a,
 			final char b) {
 		return new JavascriptFunctionInterpolatorDecorator<Character>(
-				interpolateRound0(a, b)) {
+				interpolateRound0(webEngine, a, b)) {
 			@Override
 			public Character cast(final Value v) {
 				return new Character(v.asChar());
@@ -501,10 +528,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Integer> interpolateRound(final int a,
+	public static final Interpolator<Integer> interpolateRound(WebEngine webEngine,final int a,
 			final int b) {
 		return new JavascriptFunctionInterpolatorDecorator<Integer>(
-				interpolateRound0(a, b)) {
+				interpolateRound0(webEngine, a, b)) {
 			@Override
 			public Integer cast(final Value v) {
 				return new Integer(v.asInt());
@@ -521,10 +548,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Long> interpolateRound(final long a,
+	public static final Interpolator<Long> interpolateRound(WebEngine webEngine,final long a,
 			final long b) {
 		return new JavascriptFunctionInterpolatorDecorator<Long>(
-				interpolateRound0(a, b)) {
+				interpolateRound0(webEngine, a, b)) {
 			@Override
 			public Long cast(final Value v) {
 				// this will not work !!!
@@ -545,10 +572,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Short> interpolateRound(final short a,
+	public static final Interpolator<Short> interpolateRound(WebEngine webEngine,final short a,
 			final short b) {
 		return new JavascriptFunctionInterpolatorDecorator<Short>(
-				interpolateRound0(a, b)) {
+				interpolateRound0(webEngine,a, b)) {
 			@Override
 			public Short cast(final Value v) {
 				return new Short(v.asShort());
@@ -579,13 +606,15 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double[]> interpolateZoom(
+	public static final Interpolator<Double[]> interpolateZoom(WebEngine webEngine,
 			final Double[] a, final Double[] b) {
 		return new JavascriptFunctionInterpolatorDecorator<Double[]>(
-				interpolateZoom0(a, b)) {
+				interpolateZoom0(webEngine, a, b)) {
 			@Override
 			public Double[] cast(final Value v) {
-				return v.as();
+				JSObject jsArray = v.as();
+				Array<Double> doubleArray = new Array<Double>(webEngine, jsArray);
+				return doubleArray.asArray(Double.class);
 			}
 		};
 	}
@@ -610,45 +639,73 @@ public class Interpolators {
 	 * @param b
 	 * @return
 	 */	
-	private static  <T> JavascriptFunctionInterpolator interpolate0(
+	private static  <T> JavascriptFunctionInterpolator interpolate0(WebEngine webEngine,
 			T a, T b) {
-		throw new IllegalStateException("not yet implemented");
-		//var result = $wnd.d3.interpolate(a, b);
-		//return result;
+		
+		D3 d3 = getD3(webEngine);
+		JSObject result = d3.call("interpolate",  a, b);
+		if(result==null){
+			return null;
+		}
+		return new JavascriptFunctionInterpolator(webEngine, result);
 	}
 
 	
-	private static  JavascriptFunctionInterpolator interpolateNumber0(
+	
+	private static  JavascriptFunctionInterpolator interpolateNumber0(WebEngine webEngine,
 			double a, double b) {
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call($wnd.d3.interpolateNumber(a, b);
+		
+		D3 d3 = getD3(webEngine);
+		JSObject result = d3.call("interpolateNumber",  a, b);
+		if(result==null){
+			return null;
+		}
+		return new JavascriptFunctionInterpolator(webEngine, result);
+		
 	}
 
 	
-	private static  JavascriptFunctionInterpolator interpolateRound0(
+	private static  JavascriptFunctionInterpolator interpolateRound0(WebEngine webEngine,
 			double a, double b) {
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call($wnd.d3.interpolateRound(a, b);
+		D3 d3 = getD3(webEngine);
+		JSObject result = d3.call("interpolateRound",  a, b);
+		if(result==null){
+			return null;
+		}
+		return new JavascriptFunctionInterpolator(webEngine, result);
+		
 	}
 
 	
-	private static  JavascriptFunctionInterpolator interpolateZoom0(
+	private static  JavascriptFunctionInterpolator interpolateZoom0(WebEngine webEngine,
 			Double[] a, Double[] b) {
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call($wnd.d3.interpolateZoom(a, b);
+		D3 d3 = getD3(webEngine);
+		JSObject result = d3.call("interpolateZoom",  a, b);
+		if(result==null){
+			return null;
+		}
+		return new JavascriptFunctionInterpolator(webEngine, result);
 	}
 
 	
-	private static  JavascriptFunctionInterpolator interpolateRgb0(
+	private static  JavascriptFunctionInterpolator interpolateRgb0(WebEngine webEngine,
 			Color a, Color b) {
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call($wnd.d3.interpolateRgb(a, b);
+		D3 d3 = getD3(webEngine);
+		JSObject result = d3.call("interpolateRgb",  a.getJsObject(), b.getJsObject());
+		if(result==null){
+			return null;
+		}
+		return new JavascriptFunctionInterpolator(webEngine, result);
 	}
 
-	private static  JavascriptFunctionInterpolator interpolateHsl0(
+	private static  JavascriptFunctionInterpolator interpolateHsl0(WebEngine webEngine,
 			Color a, Color b) {
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call($wnd.d3.interpolateHsl(a, b);
+		D3 d3 = getD3(webEngine);
+		JSObject result = d3.call("interpolateHsl",  a.getJsObject(), b.getJsObject());
+		if(result==null){
+			return null;
+		}
+		return new JavascriptFunctionInterpolator(webEngine, result);
 	}
 
 	// private static  JavascriptFunctionInterpolator
@@ -661,26 +718,36 @@ public class Interpolators {
 	// return $wnd.d3.interpolateLab(a, b);
 	// }
 
-	private static  JavascriptFunctionInterpolator interpolateObject0(
-			JavaScriptObject a, JavaScriptObject b) {
-		
+	private static  JavascriptFunctionInterpolator interpolateObject0(WebEngine webEngine,
+			JavaScriptObject a, JavaScriptObject b) {		
 	
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call($wnd.d3.interpolateObject(a, b);
+		D3 d3 = getD3(webEngine);
+		JSObject result = d3.call("interpolateObject",  a.getJsObject(), b.getJsObject());
+		if(result==null){
+			return null;
+		}
+		return new JavascriptFunctionInterpolator(webEngine, result);
 	}
 
-	private static  JavascriptFunctionInterpolator interpolateArray0(
-			Object[] a, Object[] b) {
-		
+	private static  JavascriptFunctionInterpolator interpolateArray0(WebEngine webEngine,
+			Object[] a, Object[] b) {		
 	
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call($wnd.d3.interpolateArray(a, b);
+		D3 d3 = getD3(webEngine);
+		JSObject result = d3.call("interpolateArray",  a, b);
+		if(result==null){
+			return null;
+		}
+		return new JavascriptFunctionInterpolator(webEngine, result);
 	}
 
-	private static  JavascriptFunctionInterpolator interpolateTransform0(
+	private static  JavascriptFunctionInterpolator interpolateTransform0(WebEngine webEngine,
 			Transform a, Transform b) {
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call($wnd.d3.interpolateTransform(a, b);
+		D3 d3 = getD3(webEngine);
+		JSObject result = d3.call("interpolateTransform",  a.getJsObject(), b.getJsObject());
+		if(result==null){
+			return null;
+		}
+		return new JavascriptFunctionInterpolator(webEngine, result);
 	}
 
 	// FIXME access to interpolators does not work as expected
@@ -740,9 +807,14 @@ public class Interpolators {
 	// public static final InterpolatorFactory<String> interpolateTransform =
 	// interpolateTransformFactory();
 
-	private static  JSNIInterpolatorFactory<Double> interpolateNumberFactory(){
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call($wnd.d3.interpolateNumber;
+	private static  JSNIInterpolatorFactory<Double> interpolateNumberFactory(WebEngine webEngine){
+				
+		D3 d3 = getD3(webEngine);
+		JSObject result = d3.getMember("interpolateNumber");
+		if(result==null){
+			return null;
+		}
+		return new JSNIInterpolatorFactory<Double>(webEngine, result);
 	}
 
 	//
@@ -803,9 +875,20 @@ public class Interpolators {
 	 * 
 	 * @return the array of interpolator factories
 	 */
-	public static  InterpolatorFactory<?>[] interpolators(){
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call($wnd.d3.interpolators;
+	public static  List<InterpolatorFactory<?>> interpolators(WebEngine webEngine){		
+		D3 d3 = getD3(webEngine);
+		JSObject result = d3.getMember("interpolators");
+		if(result==null){
+			return null;
+		}
+		
+		List<InterpolatorFactory<?>> interpolatorList = new ArrayList<>();
+		Array<JSObject> interpolators = new Array<JSObject>(webEngine, result);
+		for(Object jsInterpolator: interpolators){
+			interpolatorList.add(new JSNIInterpolatorFactory<>(webEngine, (JSObject)jsInterpolator));
+		}
+		
+		return interpolatorList;		
 	}
 	
 	//#end region

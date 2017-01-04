@@ -10,7 +10,6 @@ import org.treez.javafxd3.d3.svg.Axis;
 import org.treez.javafxd3.d3.svg.Axis.Orientation;
 
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
 
 
 
@@ -124,7 +123,7 @@ public class Xy extends AbstractDemoCase {
 		  .data(yData)  // using the values in the ydata array
 		  .enter().append("svg:circle")  // create a new circle for each value
 		      .attr("cy", new YAxisDatumFunction(webEngine, y) ) // translate y value to a pixel
-		      .attr("cx", new XAxisDatumFunction(webEngine, x, xData)) // translate x value
+		      .attr("cx", new XAxisDatumFunction(x, xData)) // translate x value
 		      .attr("r", 5) // radius of circle
 		      .style("opacity", 0.6); // opacity of circle
 	}

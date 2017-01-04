@@ -32,13 +32,21 @@ public class IntegerArrayDatumFunction implements DatumFunction<Integer[]> {
 	//#region METHODS
 
 	@Override
-	public Integer[] apply(Object context, Object datum, int index) {
-		
+	public Integer[] apply(Object context, Object datum, int index) {		
 		JSObject jsObject = (JSObject) datum;
 		Value value = new Value(webEngine, jsObject);
-		
-		Integer[] as = value.as();
-		return as;
+		int[] intArray = value.as();		
+		Integer[] integerObjectArray = convertToIntegerArray(intArray);		
+		return integerObjectArray;		
+	}
+
+	private Integer[] convertToIntegerArray(int[] intArray) {
+		Integer[] integerArray = new Integer[intArray.length];
+		int i = 0;
+		for (int intValue : intArray) {
+		    integerArray[i++] = Integer.valueOf(intValue);
+		}
+		return integerArray;
 	}
 	
 	//#end region

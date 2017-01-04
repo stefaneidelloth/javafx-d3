@@ -2,7 +2,6 @@ package org.treez.javafxd3.d3.svg;
 
 import org.treez.javafxd3.d3.behaviour.Drag.DragEventType;
 import org.treez.javafxd3.d3.functions.DatumFunction;
-import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

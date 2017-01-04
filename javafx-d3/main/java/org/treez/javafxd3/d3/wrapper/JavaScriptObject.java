@@ -200,7 +200,8 @@ public class JavaScriptObject {
 	 * @param args
 	 * @return
 	 */
-	protected JSObject call(String methodName, Object... args) {
+	public JSObject call(String methodName, Object... args) {
+		Objects.requireNonNull(jsObject);
 		Object resultObj = jsObject.call(methodName, args);
 		
 		if (resultObj==null){
@@ -223,7 +224,7 @@ public class JavaScriptObject {
 				String message = "A result of type String with the value " + result + "' could not be processed.";
 				throw new IllegalStateException(message);
 			}
-		}
+		}		
 
 		String typeString = "null";
 		if (resultObj != null) {
@@ -436,8 +437,17 @@ public class JavaScriptObject {
 	 * @return
 	 */
 	public Boolean evalForBoolean(String command) {
-		Boolean result = (Boolean) jsObject.eval(command);
-		return result;
+		Object result = jsObject.eval(command);
+		if(result==null){
+			return null;
+		}		
+		
+		boolean isBoolean = result instanceof Boolean;
+		if(isBoolean){
+			return (Boolean) result;
+		}
+		
+		throw new IllegalStateException("Could not convert result to Boolean");
 	};
 
 	/**
@@ -447,8 +457,22 @@ public class JavaScriptObject {
 	 * @return
 	 */
 	public Integer evalForInteger(String command) {
-		Integer result = (Integer) jsObject.eval(command);
-		return result;
+		Object result = jsObject.eval(command);
+		if (result==null){
+			return null;
+		}
+		
+		boolean isInteger = result instanceof Integer;
+		if(isInteger){
+			return (Integer) result;
+		}
+		
+		boolean isString = result instanceof String;
+		if(isString){
+			return Integer.parseInt((String) result);
+		}		
+		
+		throw new IllegalStateException("Could not convert result to Integer");
 	};
 
 	/**
@@ -458,8 +482,22 @@ public class JavaScriptObject {
 	 * @return
 	 */
 	public Double evalForDouble(String command) {
-		Double result = (Double) jsObject.eval(command);
-		return result;
+		Object result = jsObject.eval(command);
+		if (result==null){
+			return null;
+		}
+		
+		boolean isDouble = result instanceof Double;
+		if(isDouble){
+			return (Double) result;
+		}
+		
+		boolean isString = result instanceof String;
+		if(isString){
+			return Double.parseDouble((String) result);
+		}		
+		
+		throw new IllegalStateException("Could not convert result to Integer");
 	};
 
 	/**
@@ -469,9 +507,17 @@ public class JavaScriptObject {
 	 * @return
 	 */
 	public String evalForString(String command) {
-		Object resultObj = jsObject.eval(command);
-		String result = (String) resultObj;
-		return result;
+		Object result = jsObject.eval(command);
+		if(result==null){
+			return null;
+		}
+		
+		boolean isString = result instanceof String;
+		if(isString){
+		return (String) result;
+		}
+		
+		return result.toString();
 	};
 
 	/**

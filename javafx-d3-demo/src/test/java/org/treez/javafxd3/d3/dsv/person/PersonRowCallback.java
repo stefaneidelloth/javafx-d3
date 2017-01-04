@@ -1,4 +1,4 @@
-package org.treez.javafxd3.d3.tsv.person;
+package org.treez.javafxd3.d3.dsv.person;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -32,7 +32,5 @@ public class PersonRowCallback implements DsvCallback<DsvRow> {
 		DsvRow jane = valueList.get(2);
 		assertEquals("Jane", jane.get("Name").asString());
 		assertEquals(15, (int) jane.get("Age").asInt());
-	}
-	
-	
+	}	
 }

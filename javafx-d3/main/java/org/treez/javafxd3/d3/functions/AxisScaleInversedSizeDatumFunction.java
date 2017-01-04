@@ -8,9 +8,7 @@ public class AxisScaleInversedSizeDatumFunction implements DatumFunction<Double>
 	
 	//#region ATTRIBUTES
 	
-	private Scale<?> scale;	
-	
-	private double maxValue;
+	private Scale<?> scale;		
 	
 	//#end region
 	
@@ -19,9 +17,8 @@ public class AxisScaleInversedSizeDatumFunction implements DatumFunction<Double>
 	/**
 	 * @param webEngine
 	 */
-	public AxisScaleInversedSizeDatumFunction(Scale<?> scale, double maxValue){
-		this.scale = scale;		
-		this.maxValue = maxValue;
+	public AxisScaleInversedSizeDatumFunction(Scale<?> scale){
+		this.scale = scale;				
 	}
 	
 	//#end region

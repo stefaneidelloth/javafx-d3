@@ -18,10 +18,7 @@ public class JavascriptFunctionInterpolatorDecorator<T> implements Interpolator<
     
     //#region CONSTRUCTORS
 
-    /**
-     * Constructor
-     * @param delegate
-     */
+
     public JavascriptFunctionInterpolatorDecorator(final JavascriptFunctionInterpolator delegate) {      
         this.delegate = delegate;
     }

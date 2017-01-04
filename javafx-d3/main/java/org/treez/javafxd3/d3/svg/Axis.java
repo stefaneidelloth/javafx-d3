@@ -15,7 +15,6 @@ import org.treez.javafxd3.d3.scales.QuantitativeScale;
 import org.treez.javafxd3.d3.scales.Scale;
 import org.treez.javafxd3.d3.time.Interval;
 import org.treez.javafxd3.d3.time.TimeScale;
-import org.treez.javafxd3.d3.wrapper.Inspector;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -61,9 +60,10 @@ public class Axis extends JavaScriptObject implements JsFunction {
 	 * 
 	 * @return the scale.
 	 */
+	@SuppressWarnings("unchecked")
 	public <S extends Scale<S>> S scale() {
 		JSObject result = call("scale");
-		if (associatedScale != null) {
+		if (associatedScale != null) {			
 			S scale = (S) associatedScale.createScale(webEngine, result);
 			return scale;
 		} else {

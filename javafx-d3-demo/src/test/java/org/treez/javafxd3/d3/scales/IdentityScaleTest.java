@@ -1,8 +1,5 @@
 package org.treez.javafxd3.d3.scales;
 
-import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.scales.IdentityScale;
-
 import org.treez.javafxd3.d3.AbstractTestCase;
 
 @SuppressWarnings("javadoc")
@@ -11,7 +8,6 @@ public class IdentityScaleTest extends AbstractTestCase {
 	@Override
 	public void doTest() {
 		
-		D3 d3 = new D3(webEngine);
 		
 		IdentityScale scale = d3.scale().identity();
 		// get default domain

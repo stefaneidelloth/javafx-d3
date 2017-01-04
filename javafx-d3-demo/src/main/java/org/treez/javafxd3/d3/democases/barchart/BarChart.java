@@ -21,7 +21,7 @@ import org.treez.javafxd3.d3.svg.Axis.Orientation;
 import javafx.scene.layout.VBox;
 import netscape.javascript.JSObject;
 
-@SuppressWarnings("javadoc")
+
 public class BarChart extends AbstractDemoCase {
 
 	//#region ATTRIBUTES

@@ -1,24 +1,21 @@
 package org.treez.javafxd3.d3.behaviors;
 
-import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.behaviour.Zoom;
 import org.treez.javafxd3.d3.behaviour.Zoom.ZoomEventType;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.functions.DatumFunction;
 
-import org.treez.javafxd3.d3.AbstractTestCase;
-
 /**
  * Tests the class Zoom
  */
-public class ZoomTest extends AbstractTestCase {
+public class ZoomTest extends AbstractTestCase implements DatumFunction<Void> {
 
 	private static final double DELTA = 0.001d;
 
 	@Override
 	public void doTest() {
-		D3 d3 = new D3(webEngine);
-
+		
 		Zoom zoom = d3.behavior().zoom();
 
 		assertNull(zoom.center());
@@ -36,9 +33,9 @@ public class ZoomTest extends AbstractTestCase {
 		zoom.event(body);
 		zoom.event(body.transition());
 
-		zoom.on(ZoomEventType.ZOOMSTART, noopListener);
-		zoom.on(ZoomEventType.ZOOM, noopListener);
-		zoom.on(ZoomEventType.ZOOMEND, noopListener);
+		zoom.on(ZoomEventType.ZOOMSTART, this);
+		zoom.on(ZoomEventType.ZOOM, this);
+		zoom.on(ZoomEventType.ZOOMEND, this);
 
 		zoom.scale();
 		zoom.scale(5.0);
@@ -48,13 +45,15 @@ public class ZoomTest extends AbstractTestCase {
 		zoom.translate();
 		zoom.translate(new Double[] { 5.0, 6.0 });
 	}
-
-	private final DatumFunction<Void> noopListener = new DatumFunction<Void>() {
-		@Override
-		public Void apply(Object context, Object d, int index) {
-
-			return null;
-		};
+	
+	/** 
+	 * Implementation of DatumFunction to be used as zoom event listener
+	 */
+	@Override
+	public Void apply(Object context, Object d, int index) {
+		return null;
 	};
+
+	
 
 }

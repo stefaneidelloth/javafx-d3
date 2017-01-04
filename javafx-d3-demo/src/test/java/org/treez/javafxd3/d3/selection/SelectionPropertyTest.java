@@ -2,113 +2,77 @@ package org.treez.javafxd3.d3.selection;
 
 import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.democases.svg.text.LabelFactory;
+import org.treez.javafxd3.d3.democases.InputElementFactory;
 import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
-import org.treez.javafxd3.d3.functions.DatumFunction;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 @SuppressWarnings("javadoc")
 public class SelectionPropertyTest extends AbstractSelectionTest {
 
-	private static final String PROPERTY = "checked";
-
-	private static final Double DELTA = 1e-4;
+	private static final String BOOLEAN_PROPERTY = "checked";	
+	private static final String STRING_PROPERTY = "value";	
 
 	@Override
 	public void doTest() {
 		testGetter();
-		testSetterConstantBoolean();
-		testSetterConstantDouble();
+		testSetterConstantBoolean();		
 		testSetterConstantString();
 		testSetterConstantJavascriptObject();
 		testSetterFunction();
 		testSetterGetter();
 	}
+	
+	protected void testGetter() {
+		// try a boolean
+		InputElementFactory cb = new InputElementFactory();
+		Selection sel = givenASimpleNodeFactory(cb);
+		sel.node().setPropertyBoolean("checked", true);
+		assertEquals(true, sel.property("checked").asBoolean());
 
-	/**
-	 * 
-	 */
-	private void testSetterGetter() {
-		// works with single selection
-		Selection selection = givenASimpleSelection(new LabelFactory());
-		final double value = 1.56;
-		selection.property(SelectionPropertyTest.PROPERTY, new ConstantDatumFunction<Double>(value));
-		assertEquals(value, selection.property(SelectionPropertyTest.PROPERTY).asDouble(), DELTA);
-
-		// works with multiple selection
-		Selection selection2 = givenAMultipleSelection(new LabelFactory(), new LabelFactory(), new LabelFactory());
-		selection2.property(SelectionPropertyTest.PROPERTY, new ConstantDatumFunction<Double>(value));
-		assertEquals(value, selection.property(SelectionPropertyTest.PROPERTY).asDouble(), DELTA);
-
+		// with multiple selection, should return the first element
+		Selection selection2 = givenMultipleNodeFactories(createInputElement(SelectionPropertyTest.BOOLEAN_PROPERTY, "true"),
+				createInputElement(SelectionPropertyTest.BOOLEAN_PROPERTY, "false"),
+				createInputElement(SelectionPropertyTest.BOOLEAN_PROPERTY, "false"));
+		
+		assertEquals("true", selection2.property(SelectionPropertyTest.BOOLEAN_PROPERTY).asString());
 	}
-
-	protected void testSetterFunction() {
-		// works with single selection
-		Selection selection = givenASimpleSelection(new LabelFactory());
-		final String value = "1";
-		selection.property(SelectionPropertyTest.PROPERTY, new ConstantDatumFunction<String>(value));
-		assertEquals(value, getElementProperty(0, SelectionPropertyTest.PROPERTY).asString());
-
-		// works with multiple selection
-		Selection selection2 = givenAMultipleSelection(new LabelFactory(), new LabelFactory(), new LabelFactory());
-		selection2.property(SelectionPropertyTest.PROPERTY, new ConstantDatumFunction<String>(value));
-		assertEquals(value, getElementProperty(0, SelectionPropertyTest.PROPERTY).asString());
-		assertEquals(value, getElementProperty(1, SelectionPropertyTest.PROPERTY).asString());
-		assertEquals(value, getElementProperty(2, SelectionPropertyTest.PROPERTY).asString());
-	}
-
-	protected void testSetterConstantString() {
-		// works with single selection
-		Selection selection = givenASimpleSelection(new LabelFactory());
-		String value = "1";
-		selection.property(SelectionPropertyTest.PROPERTY, value);
-		assertEquals(value, getElementProperty(0, SelectionPropertyTest.PROPERTY).asString());
-
-		// works with multiple selection
-		Selection selection2 = givenAMultipleSelection(new LabelFactory(), new LabelFactory(), new LabelFactory());
-		selection2.property(SelectionPropertyTest.PROPERTY, value);
-		assertEquals(value, getElementProperty(0, SelectionPropertyTest.PROPERTY).asString());
-		assertEquals(value, getElementProperty(1, SelectionPropertyTest.PROPERTY).asString());
-		assertEquals(value, getElementProperty(2, SelectionPropertyTest.PROPERTY).asString());
-
-	}
-
-	protected void testSetterConstantDouble() {
-		// works with single selection
-		Selection selection = givenASimpleSelection(new LabelFactory());
-		double value = 3.56;
-		selection.property(SelectionPropertyTest.PROPERTY, value);
-		assertEquals(value, getElementProperty(0, SelectionPropertyTest.PROPERTY).asDouble(), DELTA);
-
-		// works with multiple selection
-		Selection selection2 = givenAMultipleSelection(new LabelFactory(), new LabelFactory(), new LabelFactory());
-		selection2.property(SelectionPropertyTest.PROPERTY, value);
-		assertEquals(value, getElementProperty(0, SelectionPropertyTest.PROPERTY).asDouble(), DELTA);
-		assertEquals(value, getElementProperty(1, SelectionPropertyTest.PROPERTY).asDouble(), DELTA);
-		assertEquals(value, getElementProperty(2, SelectionPropertyTest.PROPERTY).asDouble(), DELTA);
-	}
-
+	
 	protected void testSetterConstantBoolean() {
 		boolean value = true;
 		// works with single selection
-		Selection selection = givenASimpleSelection(new LabelFactory());
-		selection.property(SelectionPropertyTest.PROPERTY, value);
-		assertEquals(value, getElementProperty(0, SelectionPropertyTest.PROPERTY).asBoolean());
+		Selection selection = givenASimpleNodeFactory(new InputElementFactory());
+		selection.property(SelectionPropertyTest.BOOLEAN_PROPERTY, value);
+		assertEquals(value, getElementProperty(0, SelectionPropertyTest.BOOLEAN_PROPERTY).asBoolean());
 
 		// works with multiple selection
-		Selection selection2 = givenAMultipleSelection(new LabelFactory(), new LabelFactory(), new LabelFactory());
-		selection2.property(SelectionPropertyTest.PROPERTY, value);
-		assertEquals(value, getElementProperty(0, SelectionPropertyTest.PROPERTY).asBoolean());
-		assertEquals(value, getElementProperty(1, SelectionPropertyTest.PROPERTY).asBoolean());
-		assertEquals(value, getElementProperty(2, SelectionPropertyTest.PROPERTY).asBoolean());
+		Selection selection2 = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
+		selection2.property(SelectionPropertyTest.BOOLEAN_PROPERTY, value);
+		assertEquals(value, getElementProperty(0, SelectionPropertyTest.BOOLEAN_PROPERTY).asBoolean());
+		assertEquals(value, getElementProperty(1, SelectionPropertyTest.BOOLEAN_PROPERTY).asBoolean());
+		assertEquals(value, getElementProperty(2, SelectionPropertyTest.BOOLEAN_PROPERTY).asBoolean());
+	}
+	
+	protected void testSetterConstantString() {
+		// works with single selection
+		Selection selection = givenASimpleNodeFactory(new InputElementFactory());
+		String value = "1";
+		selection.property(SelectionPropertyTest.STRING_PROPERTY, value);
+		assertEquals(value, getElementProperty(0, SelectionPropertyTest.STRING_PROPERTY).asString());
+
+		// works with multiple selection
+		Selection selection2 = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
+		selection2.property(SelectionPropertyTest.STRING_PROPERTY, value);
+		assertEquals(value, getElementProperty(0, SelectionPropertyTest.STRING_PROPERTY).asString());
+		assertEquals(value, getElementProperty(1, SelectionPropertyTest.STRING_PROPERTY).asString());
+		assertEquals(value, getElementProperty(2, SelectionPropertyTest.STRING_PROPERTY).asString());
 
 	}
-
+	
 	protected void testSetterConstantJavascriptObject() {
 
 		// works with single selection
-		Selection selection = givenASimpleSelection(new LabelFactory());
+		Selection selection = givenASimpleNodeFactory(new InputElementFactory());
 
 		// any object
 		JavaScriptObject value = new Coords(webEngine, 1.0, 2.0);
@@ -118,31 +82,45 @@ public class SelectionPropertyTest extends AbstractSelectionTest {
 		assertEquals(value, getElementProperty(0, propName).as());
 
 		// works with multiple selection
-		Selection selection2 = givenAMultipleSelection(new LabelFactory(), new LabelFactory(), new LabelFactory());
+		Selection selection2 = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
 		selection2.property(propName, value);
 		assertEquals(value, getElementProperty(0, propName).as(Object.class));
 		assertEquals(value, getElementProperty(1, propName).as(Object.class));
 		assertEquals(value, getElementProperty(2, propName).as(Object.class));
-
 	}
+	
+	protected void testSetterFunction() {
+		// works with single selection
+		Selection selection = givenASimpleNodeFactory(new InputElementFactory());
+		final String value = "1";
+		selection.property(SelectionPropertyTest.STRING_PROPERTY, new ConstantDatumFunction<String>(value));
+		assertEquals(value, getElementProperty(0, SelectionPropertyTest.STRING_PROPERTY).asString());
 
-	protected void testGetter() {
-		// try a boolean
-		LabelFactory cb = new LabelFactory();
-		Selection sel = givenASimpleSelection(cb);
-		sel.node().setPropertyBoolean("checked", true);
-		assertEquals(true, sel.property("checked").asBoolean());
-
-		// with multiple selection, should return the first element
-		Selection selection2 = givenAMultipleSelection(createLabel(SelectionPropertyTest.PROPERTY, "true"),
-				createLabel(SelectionPropertyTest.PROPERTY, "false"),
-				createLabel(SelectionPropertyTest.PROPERTY, "false"));
-		assertEquals("true", selection2.property(SelectionPropertyTest.PROPERTY).asString());
+		// works with multiple selection
+		Selection selection2 = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
+		selection2.property(SelectionPropertyTest.STRING_PROPERTY, new ConstantDatumFunction<String>(value));
+		assertEquals(value, getElementProperty(0, SelectionPropertyTest.STRING_PROPERTY).asString());
+		assertEquals(value, getElementProperty(1, SelectionPropertyTest.STRING_PROPERTY).asString());
+		assertEquals(value, getElementProperty(2, SelectionPropertyTest.STRING_PROPERTY).asString());
 	}
+	
+	private void testSetterGetter() {
+		// works with single selection
+		Selection selection = givenASimpleNodeFactory(new InputElementFactory());
+		final String value = "1.56";
+		selection.property(SelectionPropertyTest.STRING_PROPERTY, new ConstantDatumFunction<String>(value));
+		assertEquals(value, selection.property(SelectionPropertyTest.STRING_PROPERTY).asString());
 
-	private D3NodeFactory createLabel(final String attr, final String value) {
-		LabelFactory label = new LabelFactory();
-		label.setPropertyString(attr, value);
-		return label;
+		// works with multiple selection
+		Selection selection2 = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
+		selection2.property(SelectionPropertyTest.STRING_PROPERTY, new ConstantDatumFunction<String>(value));
+		assertEquals(value, selection.property(SelectionPropertyTest.STRING_PROPERTY).asString());
+	}
+	
+
+	private D3NodeFactory createInputElement(final String attr, final String value) {
+		InputElementFactory inputElementFactory = new InputElementFactory();
+		inputElementFactory.setProperty(attr, value);
+		return inputElementFactory;
 	}
 }

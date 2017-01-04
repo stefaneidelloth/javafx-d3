@@ -1,28 +1,23 @@
 package org.treez.javafxd3.d3.svg;
 
-import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DatumFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.scales.LogScale;
 import org.treez.javafxd3.d3.scales.OrdinalScale;
-import org.treez.javafxd3.d3.svg.Axis;
+import org.treez.javafxd3.d3.selection.datumfunction.PrefixPlusIndexDatumFunction;
 import org.treez.javafxd3.d3.svg.Axis.Orientation;
 import org.treez.javafxd3.d3.svg.datumfunction.TickTestDatumFunction;
-import org.treez.javafxd3.d3.AbstractTestCase;
-import org.treez.javafxd3.d3.selection.datumfunction.PrefixPlusIndexDatumFunction;
 
 @SuppressWarnings("javadoc")
-public class AxisTest extends AbstractTestCase {
-	
-	
-	
+public class AxisTest extends AbstractTestCase {	
 
 	@Override	
     public void doTest() {
     	
-    	D3 d3 = new D3(webEngine);
+    	
     	
         Axis axis = d3.svg().axis();
 
@@ -58,7 +53,7 @@ public class AxisTest extends AbstractTestCase {
       //  assertEquals(10, axis.ticks()[1].asInt());
 
         // FIXME: smoke test to be cross checked
-        DatumFunction<String> f = new PrefixPlusIndexDatumFunction(webEngine, "index");
+        DatumFunction<String> f = new PrefixPlusIndexDatumFunction("index");
         
         axis.ticks(8, f);
         assertEquals(8, (int) axis.ticks().get(0,  Value.class).asInt());
@@ -77,22 +72,22 @@ public class AxisTest extends AbstractTestCase {
         // assertEquals(9, axis.tickSubdivide());
 
         // tick size
-        assertEquals(6, axis.tickSize());
-        assertEquals(6, axis.innerTickSize());
-        assertEquals(6, axis.outerTickSize());
+        assertEquals(6, axis.tickSize(),TOLERANCE);
+        assertEquals(6, axis.innerTickSize(),TOLERANCE);
+        assertEquals(6, axis.outerTickSize(),TOLERANCE);
         axis.tickSize(6);
         axis.innerTickSize(5);
         axis.outerTickSize(5);
-        assertEquals(5, axis.innerTickSize());
-        assertEquals(5, axis.outerTickSize());
+        assertEquals(5, axis.innerTickSize(),TOLERANCE);
+        assertEquals(5, axis.outerTickSize(),TOLERANCE);
 
         axis.tickSize(6, 0);
         axis.tickSize(6, 3, 2);
 
         // tick padding
-        assertEquals(3, axis.tickPadding());
+        assertEquals(3, axis.tickPadding(),TOLERANCE);
         axis.tickPadding(5);
-        assertEquals(5, axis.tickPadding());
+        assertEquals(5, axis.tickPadding(),TOLERANCE);
 
         // tick format
         assertNull(axis.tickFormat());

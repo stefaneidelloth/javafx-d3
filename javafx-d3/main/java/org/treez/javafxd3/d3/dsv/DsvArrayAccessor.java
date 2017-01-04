@@ -31,5 +31,5 @@ public interface DsvArrayAccessor<T> {
 	 * @param index the index of the current row
 	 * @return
 	 */
-	T parse(String[] row, int index);
+	T parse(Object rowArray, int index);
 }

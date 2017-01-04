@@ -2,16 +2,13 @@ package org.treez.javafxd3.d3.transition;
 
 import java.util.Random;
 
-import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.ease.Easing;
 import org.treez.javafxd3.d3.ease.EasingFunction;
 import org.treez.javafxd3.d3.ease.Mode;
-
-import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.transition.function.CustomEasingFunction;
 
-@SuppressWarnings("javadoc")
 public class EasingTest extends AbstractTestCase {
 	
 	private static final double DELTA = 0.001d;
@@ -40,8 +37,7 @@ public class EasingTest extends AbstractTestCase {
 
 	protected void testEasingFunction(final EasingFunction e1, final EasingFunction e2) {
 		
-		D3 d3 = new D3(webEngine);
-		
+				
 		// test the extreme values
 		assertEquals(0.0, e1.ease(0),DELTA);
 		assertEquals(1.0, e1.ease(1),DELTA);

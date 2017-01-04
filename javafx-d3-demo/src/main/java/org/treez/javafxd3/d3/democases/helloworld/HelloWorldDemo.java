@@ -46,10 +46,16 @@ public class HelloWorldDemo extends AbstractDemoCase {
 	public void start() {
 
 		Selection svg = getSvg();
-		svg.attr("width", 700).attr("height",400);
-		
-		Selection text = svg.append("text") //
-				.attr("x", "0").attr("y", "15").text("Hello World");		
+
+		svg //
+				.attr("width", 700)//
+				.attr("height", 400);
+
+		svg //
+				.append("text") //
+				.attr("x", "0") //
+				.attr("y", "15") //
+				.text("Hello World");
 
 	}
 

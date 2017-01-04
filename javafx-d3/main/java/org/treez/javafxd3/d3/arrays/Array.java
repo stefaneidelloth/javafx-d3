@@ -1,6 +1,7 @@
 package org.treez.javafxd3.d3.arrays;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.treez.javafxd3.d3.D3;
@@ -16,7 +17,7 @@ import netscape.javascript.JSObject;
  * @param <T>
  * @param <D>
  */
-public class Array<T> extends JavaScriptObject {
+public class Array<T> extends JavaScriptObject implements Iterable<Object> {
 
 	//#region CONSTRUCTORS
 
@@ -302,22 +303,32 @@ public class Array<T> extends JavaScriptObject {
 		return resultObj;
 	}
 
-	public <D> List<? extends D> asList(Class<D> classObj) {
+	public <D> List<D> asList(Class<D> clazz) {
 		int size = length();
+		if(size==0){
+			return new ArrayList<D>();
+		}		
+		
 		List<D> list = new ArrayList<>();
 		for (int index = 0; index < size; index++) {
-			D element = (D) this.get(index, classObj);
+			D element =  this.get(index, clazz);
 			list.add(element);
 		}
 		return list;
+	}
+	
+	public T[] asArray(Class<T> clazz) {
+		List<T> list = asList(clazz);		
+		@SuppressWarnings("unchecked")
+		T[] emptyArray = (T[]) java.lang.reflect.Array.newInstance(clazz, list.size());		
+		return list.toArray(emptyArray);
 	}
 
 	//#end region
 	
 	//#region TO STRING
 	
-	public String toString(){
-				
+	public String toString(){				
 		int size = length();
 		List<String> stringList = new ArrayList<>();
 		for (int index = 0; index < size; index++) {
@@ -325,11 +336,14 @@ public class Array<T> extends JavaScriptObject {
 			stringList.add(element.toString());			
 		}
 		String displayString = "[" + String.join(",", stringList) + "]";
-		return displayString;
-		
+		return displayString;		
 	}
-
 	
+	@Override
+	public Iterator<Object> iterator() {
+		List<Object> objectList = asList(Object.class);
+		return  objectList.iterator();
+	}		
 	
 	//#end region
 

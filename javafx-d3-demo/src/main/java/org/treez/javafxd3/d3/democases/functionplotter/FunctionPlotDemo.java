@@ -1,13 +1,11 @@
 package org.treez.javafxd3.d3.democases.functionplotter;
 
-import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.functionplot.FunctionPlot;
-import org.treez.javafxd3.functionplot.Options;
-
 import org.treez.javafxd3.d3.AbstractDemoCase;
+import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.DemoCase;
 import org.treez.javafxd3.d3.DemoFactory;
+import org.treez.javafxd3.functionplot.FunctionPlot;
+import org.treez.javafxd3.functionplot.Options;
 
 import javafx.scene.layout.VBox;
 
@@ -47,7 +45,7 @@ public class FunctionPlotDemo extends AbstractDemoCase {
 	@Override
 	public void start() {
 
-		Selection svg = getSvg() //
+		getSvg() //
 				.attr("width", 700) //
 				.attr("height", 400);
 

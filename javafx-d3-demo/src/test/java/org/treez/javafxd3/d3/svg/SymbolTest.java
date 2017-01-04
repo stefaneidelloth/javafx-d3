@@ -1,13 +1,13 @@
 package org.treez.javafxd3.d3.svg;
 
-import org.treez.javafxd3.d3.D3;
+
 import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
 import org.treez.javafxd3.d3.svg.Symbol;
 
 import org.treez.javafxd3.d3.svg.datumfunction.IndexDatumFunction;
 import org.treez.javafxd3.d3.AbstractTestCase;
 
-@SuppressWarnings("javadoc")
+
 public class SymbolTest extends AbstractTestCase {
 
 	
@@ -15,7 +15,7 @@ public class SymbolTest extends AbstractTestCase {
 	@Override	
 	public void doTest() {
 		
-		D3 d3 = new D3(webEngine);
+		
 		
 		// check the symbol types match the Symbol.Type.values
 		String[] types = symbolTypes();
@@ -46,7 +46,7 @@ public class SymbolTest extends AbstractTestCase {
 	 */
 	public String[] symbolTypes(){
 		
-		D3 d3 = new D3(webEngine);
+		
 		Object result = d3.eval("this.svg.symbolTypes");
 		String resultString = result.toString();
 		String[] symbolTypes = resultString.split(",");

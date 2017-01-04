@@ -9,6 +9,7 @@ import org.treez.javafxd3.d3.AbstractTestCase;
 public class JsDateTest extends AbstractTestCase {
 
 	@Override	
+	@SuppressWarnings("deprecation")
 	public void doTest() {
 		
 			long time = 283906800000L; 
@@ -17,7 +18,7 @@ public class JsDateTest extends AbstractTestCase {
 
 			JsDate jsDate = JsDate.create(webEngine, time);
 
-			//year
+			//year			
 			int expectedYear = date.getYear() + 1900;
 			int year = jsDate.getFullYear();
 			assertEquals("Year", expectedYear, year);

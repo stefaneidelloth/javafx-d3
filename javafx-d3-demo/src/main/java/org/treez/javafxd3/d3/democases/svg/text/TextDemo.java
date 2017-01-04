@@ -10,7 +10,7 @@ import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.DemoCase;
 import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.wrapper.Inspector;
+import org.treez.javafxd3.d3.democases.InputElementFactory;
 
 import javafx.scene.layout.VBox;
 import netscape.javascript.JSObject;
@@ -63,7 +63,7 @@ public class TextDemo extends AbstractDemoCase {
 
 		Selection svg = getSvg();
 
-		LabelFactory labelFactory = new LabelFactory("Svg text label");
+		InputElementFactory labelFactory = new InputElementFactory("Svg text label");
 
 		Selection text = labelFactory.createInParentSelection(svg);
 		Selection movedText = text.attr("y", "15").attr("x", "0");

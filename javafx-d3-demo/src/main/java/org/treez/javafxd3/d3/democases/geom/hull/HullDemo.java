@@ -77,7 +77,7 @@ public class HullDemo extends AbstractDemoCase {
 	public void start() {
 
 		List<MyCoords> coordsList = new ArrayList<>();
-		for (int index = 0; index < 100; index++) {
+		for (int index = 0; index < 10; index++) {
 			MyCoords coords = new MyCoords(webEngine, randomX(), randomY());
 			coordsList.add(coords);
 		}

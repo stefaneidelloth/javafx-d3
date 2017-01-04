@@ -2,7 +2,6 @@ package org.treez.javafxd3.d3.democases.svg.line;
 
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DatumFunction;
-import org.treez.javafxd3.d3.wrapper.Inspector;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

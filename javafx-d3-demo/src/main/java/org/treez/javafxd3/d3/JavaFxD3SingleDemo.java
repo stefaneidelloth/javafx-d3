@@ -3,9 +3,9 @@ package org.treez.javafxd3.d3;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.scales.LinearScale;
+
 import org.treez.javafxd3.javafx.JavaFxD3Browser;
 
 import javafx.application.Application;
@@ -25,7 +25,7 @@ public class JavaFxD3SingleDemo extends Application {
 	 * The JavaFx scene
 	 */
 	private Scene scene;
-	
+
 	private JavaFxD3Browser browser;
 
 	//#end region
@@ -50,25 +50,25 @@ public class JavaFxD3SingleDemo extends Application {
 		//define d3 content as post loading hook
 		Runnable postLoadingHook = () -> {
 			System.out.println("Initial loading of browser is finished");
-			
+
 			//do some d3 stuff
 			createD3Example();
-			
+
 		};
-		
+
 		//create browser
 		browser = new JavaFxD3Browser(postLoadingHook, true);
 
 		//create the scene
 		scene = new Scene(browser, 750, 500, Color.web("#666970"));
 		stage.setScene(scene);
-		stage.show();	
+		stage.show();
 
 	}
 
 	private void createD3Example() {
 
-		D3 d3 = browser.getD3();
+		D3 d3 = browser.getD3();		
 
 		Double[] data = { 4.0, 8.0, 15.0, 16.0, 23.0, 42.0 };
 
@@ -110,7 +110,7 @@ public class JavaFxD3SingleDemo extends Application {
 				.attr("dy", ".35em") //
 				.textExpression("function(d) { return d; }") //
 				.attr("style", textStyle);
-		
+
 	}
 
 	//#end region

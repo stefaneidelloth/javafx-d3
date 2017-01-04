@@ -19,8 +19,6 @@ import org.treez.javafxd3.d3.functions.DatumFunction;
 import org.treez.javafxd3.d3.svg.InterpolationMode;
 import org.treez.javafxd3.d3.svg.Line;
 
-import org.treez.javafxd3.d3.wrapper.Inspector;
-
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
@@ -263,9 +261,7 @@ public class LineDemo extends AbstractDemoCase {
 
 		EnteringSelection enter = updateSelection.enter();
 		if (enter != null) {
-			Selection result = enter.append("circle").attr("cx", cxFunction).attr("cy", cyFunction).attr("r", 10);
-						
-			//Inspector.inspect(result);
+			enter.append("circle").attr("cx", cxFunction).attr("cy", cyFunction).attr("r", 10);			
 			updateSelection.exit().remove();
 		}
 

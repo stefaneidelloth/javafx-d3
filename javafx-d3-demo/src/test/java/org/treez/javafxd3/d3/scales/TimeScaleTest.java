@@ -2,15 +2,13 @@ package org.treez.javafxd3.d3.scales;
 
 import org.treez.javafxd3.d3.AbstractTestCase;
 
-@SuppressWarnings("javadoc")
+
 public class TimeScaleTest extends AbstractTestCase {
 	
 	
 
 	@Override	
-	public void doTest() {
-		
-		//D3 d3 = new D3(webEngine);
+	public void doTest() {		
 		
 		/*
 		Object[] domain = d3.time().scale().domain();

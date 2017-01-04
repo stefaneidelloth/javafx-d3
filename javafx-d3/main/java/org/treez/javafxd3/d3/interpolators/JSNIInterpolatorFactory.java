@@ -20,13 +20,14 @@ import netscape.javascript.JSObject;
  */
 public class JSNIInterpolatorFactory<O> extends JavaScriptObject implements InterpolatorFactory<O> {
 
-	//#region CONSTRUCTORS
-	/**
-	 * Constructor
-	 * @param webEngine
-	 */
+	//#region CONSTRUCTORS	
+
 	public JSNIInterpolatorFactory(WebEngine webEngine) {
 		super(webEngine);
+	}
+	
+	public JSNIInterpolatorFactory(WebEngine webEngine, JSObject jsObject) {
+		super(webEngine, jsObject);
 	}
 	
 	//#end region

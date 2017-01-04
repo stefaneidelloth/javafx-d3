@@ -29,7 +29,7 @@ public class ArrayTest extends AbstractTestCase {
 
 	private void testEmptyArray(D3 d3) {
 		JSObject emptyArrayObj = (JSObject) d3.eval("[]");
-		Array emptyArray = new Array(webEngine, emptyArrayObj);
+		Array<?> emptyArray = new Array<>(webEngine, emptyArrayObj);
 
 		List<Integer> sizes = emptyArray.sizes();
 		assertEquals("number of rows", 0, (int) sizes.get(0));
@@ -39,7 +39,7 @@ public class ArrayTest extends AbstractTestCase {
 
 	private void test3x0Array(D3 d3) {
 		JSObject emptyArrayObj = (JSObject) d3.eval("[[],[],[]]");
-		Array emptyArray = new Array(webEngine, emptyArrayObj);
+		Array<?> emptyArray = new Array<>(webEngine, emptyArrayObj);
 
 		List<Integer> sizes = emptyArray.sizes();
 		assertEquals("number of rows", (int) sizes.get(0), 3);
@@ -50,7 +50,7 @@ public class ArrayTest extends AbstractTestCase {
 	private void test3x2Array(D3 d3) {
 		// 3 x 2
 		JSObject array3x2Object = (JSObject) d3.eval("[[1, 2],[3,4],[5,6]]");
-		Array array3x2 = new Array(webEngine, array3x2Object);
+		Array<Integer> array3x2 = new Array<>(webEngine, array3x2Object);
 
 		List<Integer> sizes3x2 = array3x2.sizes();
 
@@ -62,7 +62,7 @@ public class ArrayTest extends AbstractTestCase {
 	private void test1x3Array(D3 d3) {
 		// 1 x 3
 		JSObject array1x3Object = (JSObject) d3.eval("[1, 2, 3]");
-		Array array1x3 = new Array(webEngine, array1x3Object);
+		Array<Integer> array1x3 = new Array<>(webEngine, array1x3Object);
 
 		List<Integer> sizes1x3 = array1x3.sizes();
 		assertEquals("number of rows", 1, (int) sizes1x3.get(0));

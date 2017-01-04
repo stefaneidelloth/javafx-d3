@@ -9,16 +9,15 @@ import org.treez.javafxd3.d3.AbstractTestCase;
 
 public class TimeFormatTest extends AbstractTestCase {
 
-	@Override	
+	@Override
 	public void doTest() {
-		
-			parse();
-			format();
-			utc();
-			iso();
-		
+		parse();
+		format();
+		utc();
+		iso();
 	}
 
+	@SuppressWarnings("deprecation")
 	private int getTimeZoneOffset(double time) {
 		Date date = new Date((long) time);
 		return date.getTimezoneOffset();

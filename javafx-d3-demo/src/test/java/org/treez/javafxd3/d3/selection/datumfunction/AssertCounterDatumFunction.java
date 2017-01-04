@@ -6,6 +6,7 @@ import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DatumFunction;
 
 import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
 
 
 
@@ -40,7 +41,8 @@ public class AssertCounterDatumFunction implements DatumFunction<Void> {
 
 	@Override
 	public Void apply(Object context, Object datum, int index) {
-		Value value = Value.create(webEngine,  datum);
+		JSObject jsDatum = (JSObject) datum;
+		Value value = new Value(webEngine,  jsDatum);
 		assertEquals(counter, (int) value.asInt());
 		counter++;
 		return null;

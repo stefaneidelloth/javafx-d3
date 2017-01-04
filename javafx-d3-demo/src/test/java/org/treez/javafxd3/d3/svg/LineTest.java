@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.treez.javafxd3.d3.AbstractTestCase;
-import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.svg.datumfunction.IndexFactorDatumFunction;
@@ -22,7 +21,7 @@ public class LineTest extends AbstractTestCase {
 	@Override	
     public void doTest() {
     	
-    	D3 d3 = new D3(webEngine);
+    	
     	
         Line line = d3.svg().line();
 

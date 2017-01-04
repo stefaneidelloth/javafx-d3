@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.behaviour.Behavior;
 import org.treez.javafxd3.d3.behaviour.Drag;
-import org.treez.javafxd3.d3.behaviour.Zoom;
 import org.treez.javafxd3.d3.behaviour.Drag.DragEvent;
+import org.treez.javafxd3.d3.behaviour.Zoom;
 import org.treez.javafxd3.d3.behaviour.Zoom.ZoomEvent;
 import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.Formatter;
@@ -32,7 +33,6 @@ import org.treez.javafxd3.d3.scales.Scales;
 import org.treez.javafxd3.d3.svg.SVG;
 import org.treez.javafxd3.d3.time.Time;
 import org.treez.javafxd3.d3.wrapper.Element;
-import org.treez.javafxd3.d3.wrapper.Inspector;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 import org.treez.javafxd3.d3.wrapper.JsArrayMixed;
 import org.treez.javafxd3.d3.wrapper.Node;
@@ -65,14 +65,11 @@ public class D3 extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param webEngine
-	 */
 	public D3(WebEngine webEngine) {
 		super(webEngine);
-		JSObject d3 = (JSObject) webEngine.executeScript("d3");
+		Objects.requireNonNull(webEngine);
+		Object d3Obj = webEngine.executeScript("d3");
+		JSObject d3 = (JSObject) d3Obj;
 		setJsObject(d3);
 	}
 
@@ -84,7 +81,7 @@ public class D3 extends JavaScriptObject {
 	 * @return the version of the d3 API
 	 */
 	public String version() {
-		String result = callForString("version");
+		String result = getMemberForString("version");
 		return result;
 	};
 
@@ -260,10 +257,9 @@ public class D3 extends JavaScriptObject {
 		JSObject result = call("transition");
 		return new Transition(webEngine, result);
 	};
-	
-	
-	public Transform transform(String transformString){
-		JSObject result = call("transform", transformString);					
+
+	public Transform transform(String transformString) {
+		JSObject result = call("transform", transformString);
 		return new Transform(webEngine, result);
 	}
 
@@ -543,7 +539,7 @@ public class D3 extends JavaScriptObject {
 	 *
 	 * @return the instance of {@link Event}
 	 */
-	public Event event() {		
+	public Event event() {
 		JSObject result = getMember("event");
 		return new Event(webEngine, result);
 	};
@@ -556,13 +552,13 @@ public class D3 extends JavaScriptObject {
 	 * @return the current event as a Coords object
 	 */
 	public Coords eventAsCoords() {
-								
-		Object xObj =  eval("d3.event.x");
-		Object yObj =  eval("d3.event.y");
+
+		Object xObj = eval("d3.event.x");
+		Object yObj = eval("d3.event.y");
 		Double x = Double.parseDouble(xObj.toString());
 		Double y = Double.parseDouble(yObj.toString());
-		
-		return new Coords(webEngine, x,y);
+
+		return new Coords(webEngine, x, y);
 	};
 
 	/**
@@ -574,12 +570,12 @@ public class D3 extends JavaScriptObject {
 	 * @return the current event as a Coords object
 	 */
 	public Coords eventAsDCoords() {
-		Object dxObj =  eval("d3.event.dx");
-		Object dyObj =  eval("d3.event.dy");
+		Object dxObj = eval("d3.event.dx");
+		Object dyObj = eval("d3.event.dy");
 		Double dx = Double.parseDouble(dxObj.toString());
 		Double dy = Double.parseDouble(dyObj.toString());
-		
-		return new Coords(webEngine, dx,dy);
+
+		return new Coords(webEngine, dx, dy);
 	};
 
 	/**
@@ -679,7 +675,7 @@ public class D3 extends JavaScriptObject {
 	 * @return the CSV module
 	 */
 	public <T> Dsv<T> csv() {
-		JSObject result = getMember("csv");
+		JSObject result = getMember("csv"); //call("dsvFormat", ",");
 		return new Dsv<T>(webEngine, result);
 	};
 
@@ -702,15 +698,15 @@ public class D3 extends JavaScriptObject {
 
 		assertObjectIsNotAnonymous(callback);
 
-		throw new IllegalStateException("not yet implemented");
+		String callbackName = createNewTemporaryInstanceName();
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(callbackName, callback);
 
-		/*
-		 * JSObject result = call($wnd.d3 .csv( url, function(error, rows) {
-		 * callback.@com.github.gwtd3.api.dsv.DsvCallback::get(Lcom/google/gwt/
-		 * core/client/JavaScriptObject;Lcom/github/gwtd3/api/dsv/DsvRows;)(
-		 * error, rows); });
-		 * 
-		 */
+		String command = "this.csv('" + url + "', function(error, rows) { " //
+				+ "  this." + callbackName + ".get(error, rows); " //
+				+ "});";
+		JSObject result = evalForJsObject(command);
+		return new Dsv<T>(webEngine, result);
 	};
 
 	/**
@@ -733,6 +729,7 @@ public class D3 extends JavaScriptObject {
 	 */
 	public <T> Dsv<T> csv(String url, DsvObjectAccessor<T> accessor, DsvCallback<T> callback) {
 
+		assertObjectIsNotAnonymous(accessor);
 		assertObjectIsNotAnonymous(callback);
 
 		String accessorMemberName = createNewTemporaryInstanceName();
@@ -742,9 +739,9 @@ public class D3 extends JavaScriptObject {
 		jsObj.setMember(accessorMemberName, accessor);
 		jsObj.setMember(callbackName, callback);
 
-		String command = "this.csv('" + url + "', function(row, index) { " //
+		String command = "this.csv('" + url + "', function(row, index) { " //			
 				+ "  return this." + accessorMemberName + ".apply(row, index);" //
-				+ " }, " + "function(error, rows) { " //
+				+ " }, " + "function(error, rows) { " //			
 				+ "  this." + callbackName + ".get(error, rows); " //
 				+ "});";
 		JSObject result = evalForJsObject(command);
@@ -773,15 +770,16 @@ public class D3 extends JavaScriptObject {
 
 		assertObjectIsNotAnonymous(accessor);
 
-		throw new IllegalStateException("not yet implemented");
+		String accessorMemberName = createNewTemporaryInstanceName();
 
-		/*
-		 * JSObject result = call($wnd.d3 .csv( url, function(row, index) {
-		 * return
-		 * accessor.@com.github.gwtd3.api.core.ObjectAccessor::apply(Ljava/lang/
-		 * Object;I)(row, index); });
-		 * 
-		 */
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(accessorMemberName, accessor);
+
+		String command = "this.csv('" + url + "', function(row, index) { " //				
+				+ "  return this." + accessorMemberName + ".apply(row, index);" //
+				+ " });";
+		JSObject result = evalForJsObject(command);
+		return new Dsv<T>(webEngine, result);
 	};
 
 	/**
@@ -806,7 +804,10 @@ public class D3 extends JavaScriptObject {
 	 * @return the TSV module
 	 */
 	public <T> Dsv<T> tsv() {
-		JSObject result = getMember("tsv");
+		JSObject result = getMember("tsv"); //call("dsvFormat", "\t");
+		if(result==null){
+			throw new IllegalStateException("Could not get tsv");
+		}
 		return new Dsv<T>(webEngine, result);
 	};
 
@@ -829,15 +830,16 @@ public class D3 extends JavaScriptObject {
 
 		assertObjectIsNotAnonymous(callback);
 
-		throw new IllegalStateException("not yet implemented");
+		String callbackName = createNewTemporaryInstanceName();
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(callbackName, callback);
 
-		/*
-		 * JSObject result = call($wnd.d3 .tsv( url, function(error, rows) {
-		 * callback.@com.github.gwtd3.api.dsv.DsvCallback::get(Lcom/google/gwt/
-		 * core/client/JavaScriptObject;Lcom/github/gwtd3/api/dsv/DsvRows;)(
-		 * error, rows); });
-		 * 
-		 */
+		String command = "this.tsv('" + url + "', function(error, rows) { " //
+				+ "  this." + callbackName + ".get(error, rows); " //
+				+ "});";
+		JSObject result = evalForJsObject(command);
+		return new Dsv<T>(webEngine, result);
+
 	};
 
 	/**
@@ -860,20 +862,24 @@ public class D3 extends JavaScriptObject {
 	 */
 	public <T> Dsv<T> tsv(String url, DsvObjectAccessor<T> accessor, DsvCallback<T> callback) {
 
+		assertObjectIsNotAnonymous(accessor);
 		assertObjectIsNotAnonymous(callback);
 
-		throw new IllegalStateException("not yet implemented");
+		String accessorMemberName = createNewTemporaryInstanceName();
+		String callbackName = createNewTemporaryInstanceName();
 
-		/*
-		 * JSObject result = call($wnd.d3 .tsv( url, function(row, index) {
-		 * return
-		 * accessor.@com.github.gwtd3.api.core.ObjectAccessor::apply(Ljava/lang/
-		 * Object;I)(row, index); }, function(error, rows) {
-		 * callback.@com.github.gwtd3.api.dsv.DsvCallback::get(Lcom/google/gwt/
-		 * core/client/JavaScriptObject;Lcom/github/gwtd3/api/dsv/DsvRows;)(
-		 * error, rows); });
-		 * 
-		 */
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(accessorMemberName, accessor);
+		jsObj.setMember(callbackName, callback);
+
+		String command = "this.tsv('" + url + "', function(row, index) { " //			
+				+ "  return this." + accessorMemberName + ".apply(row, index);" //
+				+ " }, " + "function(error, rows) { " //			
+				+ "  this." + callbackName + ".get(error, rows); " //
+				+ "});";
+		JSObject result = evalForJsObject(command);
+		return new Dsv<T>(webEngine, result);
+		
 	};
 
 	/**
@@ -897,15 +903,17 @@ public class D3 extends JavaScriptObject {
 
 		assertObjectIsNotAnonymous(accessor);
 
-		throw new IllegalStateException("not yet implemented");
+		String accessorMemberName = createNewTemporaryInstanceName();
 
-		/*
-		 * JSObject result = call($wnd.d3 .tsv( url, function(row, index) {
-		 * return
-		 * accessor.@com.github.gwtd3.api.core.ObjectAccessor::apply(Ljava/lang/
-		 * Object;I)(row, index); });
-		 * 
-		 */
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(accessorMemberName, accessor);
+
+		String command = "this.tsv('" + url + "', function(row, index) { " //				
+				+ "  return this." + accessorMemberName + ".apply(row, index);" //
+				+ " });";
+		JSObject result = evalForJsObject(command);
+		return new Dsv<T>(webEngine, result);
+		
 	};
 
 	/**
@@ -1010,20 +1018,19 @@ public class D3 extends JavaScriptObject {
 
 	// =========== range ===================
 
-
 	public Array<Double> range(double stop) {
 		JSObject result = call("range", stop);
 		return new Array<Double>(webEngine, result);
 	}
-	
-	public Array<Double> range(double start, double stop) {		
+
+	public Array<Double> range(double start, double stop) {
 		JSObject result = call("range", start, stop);
-		return new Array<Double>(webEngine, result);		
+		return new Array<Double>(webEngine, result);
 	}
-	
-	public Array<Double> range(double start, double stop, double step) {		
+
+	public Array<Double> range(double start, double stop, double step) {
 		JSObject result = call("range", start, stop, step);
-		return new Array<Double>(webEngine, result);		
+		return new Array<Double>(webEngine, result);
 	}
 
 	// =========== behaviours ==============
@@ -1043,15 +1050,15 @@ public class D3 extends JavaScriptObject {
 	 */
 
 	public final ZoomEvent zoomEvent() {
-		
+
 		Event event = event();
-		if (event==null){
+		if (event == null) {
 			return null;
-		}		
-		
+		}
+
 		JSObject jsEvent = event.getJsObject();
 
-		return new ZoomEvent(webEngine, jsEvent);		
+		return new ZoomEvent(webEngine, jsEvent);
 	}
 
 	/**
@@ -1064,10 +1071,10 @@ public class D3 extends JavaScriptObject {
 	public final DragEvent dragEvent() {
 
 		Event event = event();
-		if (event==null){
+		if (event == null) {
 			return null;
-		}		
-		
+		}
+
 		JSObject jsEvent = event.getJsObject();
 
 		return new DragEvent(webEngine, jsEvent);
@@ -1086,7 +1093,7 @@ public class D3 extends JavaScriptObject {
 
 		String command = "var identity = function(d) { return d; }";
 		eval(command);
-		JSObject result = evalForJsObject("identity");		
+		JSObject result = evalForJsObject("identity");
 		return result;
 	}
 
@@ -1136,8 +1143,6 @@ public class D3 extends JavaScriptObject {
 	public WebEngine getWebEngine() {
 		return webEngine;
 	}
-
-	
 
 	//#end region
 

@@ -2,12 +2,8 @@ package org.treez.javafxd3.d3.time;
 
 import java.util.Date;
 
-import org.junit.Test;
-import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.time.Interval;
-import org.treez.javafxd3.d3.time.JsDate;
-
 import org.treez.javafxd3.d3.AbstractTestCase;
+import org.treez.javafxd3.d3.D3;
 
 public class TestTimeIntervals extends AbstractTestCase {
 

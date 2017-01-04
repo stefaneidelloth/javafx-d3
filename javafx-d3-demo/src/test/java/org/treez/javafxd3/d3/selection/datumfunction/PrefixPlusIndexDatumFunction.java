@@ -2,29 +2,18 @@ package org.treez.javafxd3.d3.selection.datumfunction;
 
 import org.treez.javafxd3.d3.functions.DatumFunction;
 
-import javafx.scene.web.WebEngine;
 
-/**
- * A datum function that returns the datum as string
- * 
- */
 public class PrefixPlusIndexDatumFunction implements DatumFunction<String> {
 	
-	//#region ATTRIBUTES
-	
-	private WebEngine webEngine;
+	//#region ATTRIBUTES	
 	
 	private String prefix;
 	
 	//#end region
 	
-	//#region CONSTRUCTORS
+	//#region CONSTRUCTORS	
 	
-	/**
-	 * @param webEngine
-	 */
-	public PrefixPlusIndexDatumFunction(WebEngine webEngine, String prefix){
-		this.webEngine=webEngine;
+	public PrefixPlusIndexDatumFunction(String prefix){		
 		this.prefix=prefix;
 	}
 	
@@ -33,8 +22,7 @@ public class PrefixPlusIndexDatumFunction implements DatumFunction<String> {
 	//#region METHODS
 
 	@Override
-	public String apply(Object context, Object datum, int index) {
-		//Value value = Value.create(webEngine,  datum);
+	public String apply(Object context, Object datum, int index) {		
 		return prefix + index;
 	}
 	

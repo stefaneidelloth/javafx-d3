@@ -1,18 +1,13 @@
 package org.treez.javafxd3.d3.scales;
 
-import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.scales.OrdinalScale;
-
 import org.treez.javafxd3.d3.AbstractTestCase;
+import org.treez.javafxd3.d3.core.Value;
 
 @SuppressWarnings("javadoc")
 public class OrdinalScaleTest extends AbstractTestCase {
 
 	@Override	
-    public void doTest() {
-    	
-    	D3 d3 = new D3(webEngine);
+    public void doTest() {    	
 
         // new ordinal scale is undefined
     	Value value = d3.scale().ordinal().apply(10);
@@ -91,8 +86,7 @@ public class OrdinalScaleTest extends AbstractTestCase {
 
     private void testColorPalettes() {
     	
-    	D3 d3 = new D3(webEngine);
-    	
+        	
         assertColorPalettes(d3.scale().category10(),
                 "#1f77b4 #ff7f0e #2ca02c #d62728 #9467bd #8c564b #e377c2 #7f7f7f #bcbd22 #17becf");
         assertColorPalettes(

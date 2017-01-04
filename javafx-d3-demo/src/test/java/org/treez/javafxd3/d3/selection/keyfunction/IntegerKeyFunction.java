@@ -2,7 +2,6 @@ package org.treez.javafxd3.d3.selection.keyfunction;
 
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.KeyFunction;
-import org.treez.javafxd3.d3.wrapper.Element;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

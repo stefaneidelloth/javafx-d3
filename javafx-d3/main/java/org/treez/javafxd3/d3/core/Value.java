@@ -374,24 +374,34 @@ public class Value extends JavaScriptObject {
 	 */
 	public Coords asCoords() {
 		String command = "this.datum";
-		JSObject result = evalForJsObject(command);
-		return new Coords(webEngine, result);
+		Object result = eval(command);
+		
+		boolean isCoords = result instanceof Coords;
+		if(isCoords){
+			return (Coords) result;
+		} else {
+			return new Coords(webEngine, (JSObject) result);
+		}
+		
 	}
 
 	/**
 	 * Cast and return the wrapped value, if possible.
-	 * <p>
+	 * (Does not work for "conversion" of JSObject to JavaScriptObject)
 	 *
 	 * @throws ClassCastException
 	 *             if the value cannot be converted in T
 	 *
 	 * @return the value
 	 */
+	
 	@SuppressWarnings("unchecked")
 	public <T> T as() {
 		String command = "this.datum";
-		Object result = eval(command);
-		return (T) result;
+		Object result = eval(command);			
+		T castedResult =  (T) result;
+		return castedResult;
+				
 	}
 
 	/**
@@ -462,10 +472,11 @@ public class Value extends JavaScriptObject {
 	/**
 	 * @return true if the value is undefined in the Javascript sense
 	 */
-	public boolean isUndefined() {
-		String command = "this.datum == 'undefined';";
-		Boolean result = evalForBoolean(command);
-		return result;
+	public boolean isUndefined() {		
+		String command = "this.datum";
+		Object resultObj = eval(command);		
+		boolean isUndefined = resultObj.equals("undefined");
+		return isUndefined;
 	}
 
 	/**

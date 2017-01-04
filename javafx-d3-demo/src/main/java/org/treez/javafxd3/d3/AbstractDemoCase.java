@@ -1,6 +1,7 @@
 package org.treez.javafxd3.d3;
 
 import java.net.URL;
+import java.util.Objects;
 
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Selection;
@@ -88,7 +89,8 @@ public abstract class AbstractDemoCase implements DemoCase {
 	private void loadCssForThisClass() {
 		String className = getClass().getName();
 		String cssPath = className.replace(".", "/") + ".css";		
-		URL cssUrl = getClass().getClassLoader().getResource(cssPath);		
+		URL cssUrl = getClass().getClassLoader().getResource(cssPath);	
+		Objects.requireNonNull(cssUrl);
 		loadCss(cssUrl);
 	}
 	

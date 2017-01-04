@@ -11,8 +11,12 @@ import org.treez.javafxd3.d3.core.UpdateSelection;
  * Single argument {@link Selection#data} methods use a default by-index behavior to map data with elements. This interface can be passed to
  *  Selection#data(com.google.gwt.core.client.JavaScriptObject, KeyFunction) and variants to map data to elements using a different criteria.
  * <p>
- * The  #apply(Element, Datum, int) method will be called once for each element in the new data array, and once again for each existing element in the selection. The result
- * will be used to map the passed data to the passed element.
+ * The  #apply(Element, Datum, int) method will be called once for each (already) existing element in the selection and then for
+ * each value in the new data array. The result value will be associated with the input element.
+ * 
+ * If multiple elements have the same key, the duplicate elements are put into the exit selection; 
+ * if multiple data values have the same key, the duplicate data values are put into the enter selection.
+ * 
  * <p>
  *  
  * @param <T> 

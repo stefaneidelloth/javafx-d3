@@ -1,6 +1,9 @@
 package org.treez.javafxd3.d3.democases;
 
+import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.DemoCase;
+import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transition;
 import org.treez.javafxd3.d3.core.Value;
@@ -11,9 +14,6 @@ import org.treez.javafxd3.d3.svg.Arc;
 import org.treez.javafxd3.d3.tweens.TweenFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 
-import org.treez.javafxd3.d3.AbstractDemoCase;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import com.sun.glass.ui.Timer;
 
 import javafx.scene.layout.VBox;
@@ -156,7 +156,7 @@ public class ArcTween extends AbstractDemoCase {
 					final Arc arcDatum = datum.as();
 					final double endAngle = arcDatum.endAngle();
 					return new CallableInterpolator<String>() {
-						private final Interpolator<Double> interpolator = Interpolators.interpolateNumber(endAngle,
+						private final Interpolator<Double> interpolator = Interpolators.interpolateNumber(webEngine, endAngle,
 								newAngle);
 
 						@Override

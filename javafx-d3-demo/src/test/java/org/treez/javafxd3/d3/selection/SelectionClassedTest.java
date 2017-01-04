@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.selection;
 
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.democases.svg.text.LabelFactory;
+import org.treez.javafxd3.d3.democases.InputElementFactory;
 import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
 import org.treez.javafxd3.d3.functions.EvenIndexDatumFunction;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
@@ -25,7 +25,7 @@ public class SelectionClassedTest extends AbstractSelectionTest {
 	protected void testSetterFunction() {
 		// 1. add
 		// works with single selection
-		Selection selection = givenASimpleSelection(createLabelFactory(""));
+		Selection selection = givenASimpleNodeFactory(createLabelFactory(""));
 		
 		
 		selection.classed("foo bar", new ConstantDatumFunction<Boolean>(true));
@@ -33,7 +33,7 @@ public class SelectionClassedTest extends AbstractSelectionTest {
 		assertEquals("foo bar", getElementClassAttribute(0));
 
 		// works with multiple selection
-		selection = givenAMultipleSelection(createLabelFactory(""), createLabelFactory(""), createLabelFactory(""));
+		selection = givenMultipleNodeFactories(createLabelFactory(""), createLabelFactory(""), createLabelFactory(""));
 		
 		
 		selection.classed("foo bar", new EvenIndexDatumFunction());
@@ -47,31 +47,31 @@ public class SelectionClassedTest extends AbstractSelectionTest {
 	protected void testSetterConstantString() {
 		// 1 test add
 		// works with single selection
-		Selection selection = givenASimpleSelection(createLabelFactory(""));
+		Selection selection = givenASimpleNodeFactory(createLabelFactory(""));
 		selection.classed("foo bar", true);
 		assertEquals("foo bar", getElementClassAttribute(0));
 
 		// works with multiple selection
-		selection = givenAMultipleSelection(createLabelFactory(""), createLabelFactory(""));
+		selection = givenMultipleNodeFactories(createLabelFactory(""), createLabelFactory(""));
 		selection.classed("barry lindon", true);
 		assertEquals("barry lindon", getElementClassAttribute(0));
 		assertEquals("barry lindon", getElementClassAttribute(1));
 
 		// 2 test remove
-		selection = givenASimpleSelection(createLabelFactory("foo bar"));
+		selection = givenASimpleNodeFactory(createLabelFactory("foo bar"));
 		selection.classed("foo", false);
 		assertEquals("bar", getElementClassAttribute(0));
 
-		selection = givenASimpleSelection(createLabelFactory("foo bar"));
+		selection = givenASimpleNodeFactory(createLabelFactory("foo bar"));
 		selection.classed("foo bar", false);
 		assertEquals("", getElementClassAttribute(0));
 
-		selection = givenASimpleSelection(createLabelFactory("foo bar"));
+		selection = givenASimpleNodeFactory(createLabelFactory("foo bar"));
 		selection.classed("bar foo", false);
 		assertEquals("", getElementClassAttribute(0));
 
 		// works with multiple selection
-		Selection selection2 = givenAMultipleSelection(createLabelFactory("foo bar"), createLabelFactory("bar lindon"));
+		Selection selection2 = givenMultipleNodeFactories(createLabelFactory("foo bar"), createLabelFactory("bar lindon"));
 		selection2.classed("bar", false);
 		assertEquals("foo", getElementClassAttribute(0));
 		assertEquals("lindon", getElementClassAttribute(1));
@@ -80,14 +80,14 @@ public class SelectionClassedTest extends AbstractSelectionTest {
 
 	protected void testGetter() {
 		// with single selection
-		Selection selection = givenASimpleSelection(createLabelFactory("foo bar"));
+		Selection selection = givenASimpleNodeFactory(createLabelFactory("foo bar"));
 		assertEquals(true, selection.classed("bar"));
 		assertEquals(true, selection.classed("foo"));
 		assertEquals(true, selection.classed("foo bar"));
 		assertEquals(true, selection.classed("bar foo"));
 		assertEquals(false, selection.classed("bary"));
 
-		Selection multipleSelection = givenAMultipleSelection(createLabelFactory("bary doe"),
+		Selection multipleSelection = givenMultipleNodeFactories(createLabelFactory("bary doe"),
 				createLabelFactory("foo bar"));
 		assertEquals(true, multipleSelection.classed("doe"));
 		assertEquals(true, multipleSelection.classed("bary"));
@@ -98,7 +98,7 @@ public class SelectionClassedTest extends AbstractSelectionTest {
 	}
 
 	private D3NodeFactory createLabelFactory(final String className) {
-		LabelFactory labelFactory = new LabelFactory();
+		InputElementFactory labelFactory = new InputElementFactory();
 		labelFactory.setStyleClass(className);
 		return labelFactory;
 	}

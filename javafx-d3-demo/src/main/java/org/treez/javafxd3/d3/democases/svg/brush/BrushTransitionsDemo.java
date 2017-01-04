@@ -8,15 +8,12 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.event.D3Event;
 import org.treez.javafxd3.d3.functions.DatumFunction;
 import org.treez.javafxd3.d3.geom.Quadtree.Callback;
-import org.treez.javafxd3.d3.geom.Quadtree.Node;
 import org.treez.javafxd3.d3.geom.Quadtree.RootNode;
 import org.treez.javafxd3.d3.scales.IdentityScale;
 import org.treez.javafxd3.d3.svg.Brush;
 import org.treez.javafxd3.d3.svg.Brush.BrushEvent;
-import org.treez.javafxd3.d3.wrapper.Element;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;

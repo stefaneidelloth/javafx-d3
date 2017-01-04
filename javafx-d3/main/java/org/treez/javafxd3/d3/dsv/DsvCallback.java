@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.dsv;
 
 /**
- * When the CSV data is available, the specified callback will be invoked with
+ * When the DSV data is available, the specified callback will be invoked with
  * the parsed rows as the argument. If an error occurs, the callback function
  * will instead be invoked with null.
  * 

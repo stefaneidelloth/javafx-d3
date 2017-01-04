@@ -1,18 +1,16 @@
 package org.treez.javafxd3.d3.transition;
 
-import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transition;
 import org.treez.javafxd3.d3.core.Transition.EventType;
-import org.treez.javafxd3.d3.democases.svg.text.LabelFactory;
+import org.treez.javafxd3.d3.democases.InputElementFactory;
 import org.treez.javafxd3.d3.ease.Easing;
 import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
 import org.treez.javafxd3.d3.functions.DatumFunction;
-
 import org.treez.javafxd3.d3.selection.AbstractSelectionTest;
 import org.treez.javafxd3.d3.transition.function.InterpolatorTweenFunction;
 
-@SuppressWarnings("javadoc")
+
 public class TransitionTest extends AbstractSelectionTest {
 
 	private final DatumFunction<String> callback = new ConstantDatumFunction<String>("16px");
@@ -20,11 +18,10 @@ public class TransitionTest extends AbstractSelectionTest {
 	@Override	
 	public void doTest() {
 		
-		D3 d3 = new D3(webEngine);
-		
+				
 		// NOTE: all this is only smoke tests
 
-		Selection selection = givenASimpleSelection(new LabelFactory("blah"));
+		Selection selection = givenASimpleNodeFactory(new InputElementFactory("blah"));
 		//
 		Transition transition = selection.transition().duration(100);
 		transition.attr("foo", callback);
@@ -46,8 +43,7 @@ public class TransitionTest extends AbstractSelectionTest {
 
 		// d3.transition
 		assertNotNull(d3.transition());
-		// FIXME: with argument
-
+		
 	}
 
 }

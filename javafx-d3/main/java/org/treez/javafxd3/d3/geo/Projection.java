@@ -31,6 +31,7 @@ public class Projection<P extends Projection<?>> extends JavaScriptObject {
 	 * @param latitude
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public P rotate(double longitude, double latitude) {
 		JSObject result = call("rotate", longitude, latitude);
 		return (P) new Projection<P>(webEngine, result);
@@ -41,6 +42,7 @@ public class Projection<P extends Projection<?>> extends JavaScriptObject {
 	 * @param latitude
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public P center(double longitude, double latitude) {
 		JSObject result = call("center", longitude, latitude);
 		return (P) new Projection<P>(webEngine, result);
@@ -54,6 +56,7 @@ public class Projection<P extends Projection<?>> extends JavaScriptObject {
 	 *            the scale
 	 * @return the projection
 	 */
+	@SuppressWarnings("unchecked")
 	public P scale(double factor) {
 		JSObject result = call("scale", factor);
 		return (P) new Projection<P>(webEngine, result);

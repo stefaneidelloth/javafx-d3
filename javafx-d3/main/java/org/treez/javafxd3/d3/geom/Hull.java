@@ -19,11 +19,7 @@ import netscape.javascript.JSObject;
 public class Hull extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
-
-	/**
-	 * @param webEngine
-	 * @param wrappedJsObject
-	 */
+	
 	public Hull(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);

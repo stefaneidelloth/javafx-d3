@@ -1,12 +1,12 @@
 package org.treez.javafxd3.d3;
 
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.SwingUtilities;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.time.JsDate;
 import org.treez.javafxd3.javafx.JavaFxD3Browser;
@@ -22,10 +22,10 @@ import javafx.scene.web.WebEngine;
 public abstract class AbstractTestCase extends Assert {
 
 	//#region ATTRIBUTES
-
-	protected static JavaFxD3Browser browser = null;
 	
 	protected static double TOLERANCE = 1e-6; 
+
+	protected JavaFxD3Browser browser = null;	
 
 	protected WebEngine webEngine;
 	
@@ -39,9 +39,6 @@ public abstract class AbstractTestCase extends Assert {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 */
 	public AbstractTestCase() {
 		if (browser == null) {
 			initializeJavaFxD3Browser();
@@ -54,7 +51,10 @@ public abstract class AbstractTestCase extends Assert {
 	
 	@Test
 	public void doTestOnJavaFxApplicationThread(){
-		Runnable testRunnable = ()->doTest();
+		Runnable testRunnable = ()->{
+			Objects.requireNonNull(webEngine);
+			doTest();
+			};
 		doOnJavaFXThread(testRunnable);
 	}
 	
@@ -78,6 +78,7 @@ public abstract class AbstractTestCase extends Assert {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
+				throw new IllegalStateException("Could not wait", e);
 			}
 		}
 	}
@@ -115,8 +116,7 @@ public abstract class AbstractTestCase extends Assert {
 	}
 
 	/**
-	 * runs the test
-	 * 
+	 * runs the actual test(s) 
 	 */
 	public abstract void doTest();
 	
@@ -131,14 +131,34 @@ public abstract class AbstractTestCase extends Assert {
 		svg.selectAll("*").remove();
 		return svg;
 	}
-
-	/**
-	 * @return
-	 */
+	
 	public Selection getSvg() {
-		Selection svg = d3.select("#svg");
+		Selection svg = d3.select("svg");
+		if(svg==null){
+			throw new IllegalArgumentException("Could not retrive svg element.");
+		}
 		return svg;
 	}
+	
+	/**
+	 * Clears the content of the root element and returns
+	 * the root as Selection
+	 * @return 
+	 */
+	public Selection clearRoot(){			
+		Selection root = getRoot();
+		root.selectAll("*").remove();
+		return root;
+	}
+
+	public Selection getRoot() {
+		Selection root = d3.select("#root");
+		if(root==null){
+			throw new IllegalArgumentException("Could not retrive root element.");
+		}
+		return root;
+	}
+	
 	
 	public void assertDateEquals(double expected, double actual) {
 		assertDateEquals(null, expected, actual);
