@@ -73,18 +73,21 @@ public class SelectionData2Test extends AbstractSelectionTest {
 
 	}
 
-	private void testSelectionDatumSetterFunction() {
-		// GIVEN a multiple selection
-		Selection selection = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
-		// WHEN I call selection.datum() with a function depending on the index
-		selection.datum(new OddEvenDatumFunction(5.0, 2.0));
-		// THEN each element has a the corresponding data
-		selection.each(new AssertOddEvenDatumFunction(webEngine, 5.0, 2.0));
+	private void testSelectionDatumGetter() {
+		// GIVEN a multiple selection with data join
+		Selection selection = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(),
+				new InputElementFactory());
+		selection.data(new String[] { "54", "2", "10" });
+		// WHEN I call selection.datum()
+		Value v = selection.datum();
+		// THEN I get the datum of the first non null elemenet
+		assertEquals("54", v.asString());
 	}
 
 	private void testSelectionDatumSetterConstant() {
 		// GIVEN a multiple selection
-		Selection selection = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
+		Selection selection = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(),
+				new InputElementFactory());
 		// WHEN I call selection.datum() with a constant "blah"
 		selection.datum("blah");
 		// THEN all data has a datum of "blah"
@@ -96,15 +99,14 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		selection.each(new AssertNullStringDatumFunction(webEngine));
 	}
 
-	private void testSelectionDatumGetter() {
-		// GIVEN a multiple selection with data join
-		Selection selection = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
-		selection.data(new String[] { "54", "2", "10" });
-		// WHEN I call selection.datum()
-		Value v = selection.datum();
-		// THEN I get the datum of the first non null elemenet
-		assertEquals("54", v.asString());
-
+	private void testSelectionDatumSetterFunction() {
+		// GIVEN a multiple selection
+		Selection selection = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(),
+				new InputElementFactory());
+		// WHEN I call selection.datum() with a function depending on the index
+		selection.datum(new OddEvenDatumFunction(5.0, 2.0));
+		// THEN each element has a the corresponding data
+		selection.each(new AssertOddEvenDatumFunction(webEngine, 5.0, 2.0));
 	}
 
 	private void testSelectionFilterFunction() {
@@ -117,7 +119,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// THEN the returned selection contains 2 elements (css is 1-based
 		// index)
 		assertEquals(2, filtered.size());
-		assertEquals("0", filtered.node().getTextContent());
+		assertEquals("0", filtered.node().getText());
 		assertEquals(3, selection.size());
 	}
 
@@ -131,8 +133,38 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// THEN the returned selection contains 2 elements (css is 1-based
 		// index)
 		assertEquals(2, filtered.size());
-		assertEquals("0", filtered.node().getTextContent());
+
+		Element firstElement = filtered.node();
+		assertEquals("0", firstElement.getText());
 		assertEquals(3, selection.size());
+	}
+
+	private void testSelectionOrder() {
+		// GIVEN a selection with elements ordered differently than in the DOM
+		InputElementFactory l1 = new InputElementFactory("blah1");
+		InputElementFactory l2 = new InputElementFactory("blah2");
+		Selection createdElements = givenMultipleNodeFactories(l1, l2);
+		assertEquals(2, createdElements.size());
+
+		//switch order of nodes in DOM (order in selection is kept)
+		getRoot().node().remove(l1);
+		getRoot().node().add(l1);
+
+		//check order in selection
+		assertEquals("blah1", createdElements.get(0).get(0).node().getText());
+		assertEquals("blah2", createdElements.get(0).get(1).node().getText());
+
+		//check order in DOM
+		assertEquals("blah2", getElementProperty(0, "textContent").asString());
+		assertEquals("blah1", getElementProperty(1, "textContent").asString());
+
+		// WHEN calling selection.order
+		createdElements.order();
+
+		// THEN the elements are reordered in the DOM in the order of the
+		// selection		
+		assertEquals("blah1", getElementProperty(0, "textContent").asString());
+		assertEquals("blah2", getElementProperty(1, "textContent").asString());
 	}
 
 	private void testSelectionSort() {
@@ -141,7 +173,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		InputElementFactory l2 = new InputElementFactory("blah1");
 		Selection selection = givenMultipleNodeFactories(l1, l2);
 		Element firstNode = selection.node();
-		assertEquals("blah2", firstNode.getTextContent());
+		assertEquals("blah2", firstNode.getText());
 
 		assertEquals("blah1", getElementProperty(1, "textContent").asString());
 
@@ -159,33 +191,5 @@ public class SelectionData2Test extends AbstractSelectionTest {
 
 		//assertEquals("blah1", ((Element) getSvg().node().getChild(0)).getInnerText());
 		//assertEquals("blah2", ((Element) getSvg().node().getChild(1)).getInnerText());
-	}
-
-	private void testSelectionOrder() {
-		// GIVEN a selection with elements ordered differently than in the DOM
-		InputElementFactory l1 = new InputElementFactory("blah1");
-		InputElementFactory l2 = new InputElementFactory("blah2");
-		Selection createdElements = givenMultipleNodeFactories(l1, l2);
-		assertEquals(2, createdElements.size());
-		
-		//switch order of nodes in DOM (order in selection is kept)
-		getRoot().node().remove(l1);
-		getRoot().node().add(l1);					
-		
-		//check order in selection
-		assertEquals("blah1", createdElements.get(0).get(0).node().getTextContent());
-		assertEquals("blah2", createdElements.get(0).get(1).node().getTextContent());
-		
-		//check order in DOM
-		assertEquals("blah2", getElementProperty(0, "textContent").asString());
-		assertEquals("blah1", getElementProperty(1, "textContent").asString());
-		
-		// WHEN calling selection.order
-		createdElements.order();
-		
-		// THEN the elements are reordered in the DOM in the order of the
-		// selection		
-		assertEquals("blah1", getElementProperty(0, "textContent").asString());
-		assertEquals("blah2", getElementProperty(1, "textContent").asString());
 	}
 }

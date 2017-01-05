@@ -1,5 +1,9 @@
 package org.treez.javafxd3.d3.wrapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Selection;
 
 import javafx.geometry.BoundingBox;
@@ -57,16 +61,20 @@ public class Element extends Node {
 		}
 	}
 
-	public String getTextContent() {
-		String result = getMemberForString("textContent");
-		if (result.equals("undefined")) {
-			result = getMemberForString("text");
-		}
+	public String getText() {
+		String command = "d3.select(this).text()";
+		String result = evalForString(command);
+		return result;		
+	}	
+	
+	public String getInnerHtml() {
+		String command = "d3.select(this).html();";
+		String result =  evalForString(command);
 		return result;
 	}
-
+	
 	public void setInnerHtml(String html) {
-		String command = "this.innerHtml=\"" + html + "\";";
+		String command = "d3.select(this).html('" + html + "');";
 		eval(command);
 	}
 
@@ -107,16 +115,22 @@ public class Element extends Node {
 		String command = "this.childNodes[" + index + "];";
 		JSObject child = evalForJsObject(command);
 		return new Element(webEngine, child);
-	}
+	}	
 
-	public String getChildNodes() {
-		String command = "this.childNodes";
-		String result = evalForString(command);
-		return result;
-	}
-
-	public Element[] getElementsByTagName(String string) {
-		throw new IllegalStateException("not yet implemented");
+	public Element[] getElementsByTagName(String tagName) {
+		
+		String command = "d3.select(this).selectAll('"+ tagName+"')";
+		JSObject result = evalForJsObject(command);
+		Array<JSObject> resultArray = new Array<>(webEngine, result);
+		
+		List<Element> elementList = new ArrayList<>();
+		
+		resultArray.forEach((element)->{
+			JSObject jsElement = (JSObject) element;
+			elementList.add(new Element(webEngine, jsElement));
+		});
+		
+		return elementList.toArray(new Element[elementList.size()]);
 	}
 
 	public void add(D3NodeFactory nodeFactory) {
@@ -158,6 +172,17 @@ public class Element extends Node {
 		String result = evalForString(command);
 		return result;
 	}
+	
+	public String toString(){
+		JSObject jsObject = getJsObject();
+		if(jsObject==null){
+			return "!!Element with missing JSObject!!";
+		} else {
+			return Inspector.getInspectionInfo(jsObject);
+		}
+	}
+
+	
 
 	//#end region
 

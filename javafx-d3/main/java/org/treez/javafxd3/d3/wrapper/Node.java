@@ -1,5 +1,7 @@
 package org.treez.javafxd3.d3.wrapper;
 
+import org.treez.javafxd3.d3.arrays.Array;
+
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
@@ -38,9 +40,13 @@ public class Node extends JavaScriptObject {
 		//return null;
 	}
 
-	public Object children() {
-		throw new IllegalStateException("not yet implemented");
-		//return null;
+	public Array<Node> children() {
+		String command = "this.children";
+		JSObject result = evalForJsObject(command);
+		if(result==null){
+			return null;
+		}
+		return new Array<>(webEngine, result);		
 	}
 	
 	//#end region

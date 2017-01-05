@@ -32,7 +32,7 @@ public class StringBuilderFunction implements DatumFunction<Void> {
 	public Void apply(Object context, Object datum, int index) {
 		JSObject jsObject = (JSObject) context;
 		Element element = new Element(webEngine, jsObject);
-		stringBuilder.append(element.getTextContent());
+		stringBuilder.append(element.getText());
 		return null;
 	}
 	

@@ -11,13 +11,12 @@ import java.util.Map;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.ArrayUtils;
-import org.treez.javafxd3.d3.arrays.ForEachObjectDelegate;
-import org.treez.javafxd3.d3.arrays.ForEachObjectDelegateWrapper;
 import org.treez.javafxd3.d3.functions.DatumFunction;
 import org.treez.javafxd3.d3.functions.KeyFunction;
 import org.treez.javafxd3.d3.functions.MouseClickFunction;
 import org.treez.javafxd3.d3.svg.PathDataGenerator;
 import org.treez.javafxd3.d3.wrapper.Element;
+import org.treez.javafxd3.d3.wrapper.Inspector;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -891,8 +890,24 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public Selection html(final DatumFunction<String> callback) {
-		Selection result = attr("innerHtml", callback);
-		return result;
+		
+		assertObjectIsNotAnonymous(callback);
+
+		String memberName = createNewTemporaryInstanceName();
+		
+		JSObject d3jsObj = getD3();		
+		d3jsObj.setMember(memberName, callback);
+
+		// tell x to use the callback
+		String command = "this.html(function(d,i) {" //				
+				+ "return d3." + memberName + ".apply(this, {datum:d}, i);" //
+				+ "})";
+
+		JSObject result = evalForJsObject(command);
+		if(result==null){
+			return null;
+		}
+		return new Selection(webEngine, result);
 	}
 
 	/**
@@ -911,8 +926,11 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public Selection html(String value) {
-		Selection result = attr("innerHtml", value);
-		return result;		
+		JSObject result = call("html", value);
+		if(result==null){
+			return null;
+		}
+		return new Selection(webEngine, result);		
 	}
 
 	/**
@@ -925,7 +943,7 @@ public class Selection extends EnteringSelection {
 	 * @return the value of the text property
 	 */
 	public String html() {
-		String result = attr("innerHtml");		
+		String result = callForString("html");		
 		return result;
 	}
 
@@ -2133,6 +2151,15 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(onCommand);
 		return new Selection(webEngine, result);
 
+	}
+	
+	@Override
+	public String toString(){
+		JSObject jsObject = getJsObject();
+		if(jsObject==null){
+			return "!!Selection with missing JSObject!!";
+		}		
+		return Inspector.getInspectionInfo(jsObject);		
 	}
 
 	//#end region

@@ -175,6 +175,10 @@ public abstract class AbstractTestCase extends Assert {
 			assertEquals(message, expectedDate, actualDate);
 		}
 	}
+	
+	protected String getHtml() {
+		return d3.select("html").html();
+	}
 
 	//#end region
 }

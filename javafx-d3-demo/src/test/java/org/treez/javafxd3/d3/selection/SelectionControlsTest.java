@@ -32,7 +32,7 @@ public class SelectionControlsTest extends AbstractSelectionTest {
 	private void testNode() {
 		Selection selection = givenMultipleNodeFactories(new InputElementFactory("1"), new InputElementFactory("2"));	
 				
-		assertEquals("1", selection.get(0).get(0).node().getTextContent());
+		assertEquals("1", selection.get(0).get(0).node().getText());
 		
 		selection = selection.selectAll("unknown");
 		assertNull(selection.node());

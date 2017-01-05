@@ -15,9 +15,7 @@ public class InputElementFactory implements D3NodeFactory {
 	
 	//#region ATTRIBUTES
 	
-	private String text = "";
-	
-	private String innerHtml = "";		
+	private String text = "";	
 	
 	private Style style = new Style();
 	
@@ -49,10 +47,8 @@ public class InputElementFactory implements D3NodeFactory {
 	@Override
 	public Selection createInParentSelection(Selection selection) {
 		inputElementSelection = selection.append("input")
-				.text(text)	
-				.html(innerHtml)						
-				.attr("class", styleClass);
-		
+				.text(text)										
+				.attr("class", styleClass);		
 		
 		style.apply(inputElementSelection);
 		
@@ -90,15 +86,7 @@ public class InputElementFactory implements D3NodeFactory {
 			inputElementSelection = inputElementSelection.attr(attr, value);
 		}
 		additionalAttributes.put(attr, value);		
-	}
-
-
-	public void setInnerHTML(String value) {
-		if (inputElementSelection!=null){
-			inputElementSelection = inputElementSelection.html(value);
-		}
-		innerHtml = value;		
-	}
+	}	
 	
 	public void setText(String value) {
 		if (inputElementSelection!=null){

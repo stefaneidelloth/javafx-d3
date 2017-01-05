@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.treez.javafxd3.d3.AbstractTestCase;
+import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
 import org.treez.javafxd3.d3.wrapper.Element;
 import org.treez.javafxd3.d3.wrapper.Inspector;
+import org.treez.javafxd3.d3.wrapper.Node;
 
 import netscape.javascript.JSObject;
 
@@ -66,20 +68,15 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 	 * @return
 	 */
 	public Element getElementFromRoot(final int index) {
-		Selection children = getRoot().selectAll("*").get(0);
+		Array<Node> children = getRoot().node().children();
+				
 		if(children==null){
 			return null;
 		}
 		
-		Selection child = children.get(index);
+		Element child = children.get(index, Element.class);
+		return child;
 		
-		JSObject elementObj = child.getJsObject();
-		boolean isElement = elementObj instanceof org.w3c.dom.Element;
-		if(isElement){
-			return new Element(webEngine, elementObj);
-		}
-		
-		throw new IllegalStateException("Could not get element.");
 	}
 	
 	public Selection getElementAsSelection(final int index) {
@@ -146,7 +143,7 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 			throw new IllegalArgumentException(message);
 		}
 
-		String result = element.getTextContent();
+		String result = element.getText();
 		return result;
 
 	}
@@ -159,7 +156,7 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 			throw new IllegalArgumentException(message);
 		}
 
-		String result = element.getAttribute("innerHtml");
+		String result = element.getInnerHtml();
 		return result;
 	}
 

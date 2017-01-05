@@ -298,7 +298,7 @@ public class EnteringSelection extends JavaScriptObject {
 		if(array==null){
 			return 0;
 		}
-		int size = array.sizes().get(1);
+		int size = array.length();
 		return size;		
 	}
 
@@ -309,11 +309,7 @@ public class EnteringSelection extends JavaScriptObject {
 	 * @return this selection as an array of array of elements
 	 */
 	public final Array<JSObject> asElementArray() { //equivalent to Array<Element> but not wrapped
-		JSObject result = call("cast");
-		if(result==null){
-			return null;
-		}
-		return new Array<JSObject>(webEngine, result);
+		return new Array<>(webEngine, getJsObject());
 	}
 	
 	

@@ -73,7 +73,7 @@ public class InterpolatorsTest extends AbstractTestCase {
 		
 		assertEquals(15d, interpolator.interpolate(0.5)[0]);
 		assertEquals(150d, interpolator.interpolate(0.5)[1]);
-		assertEquals(2000d, interpolator.interpolate(0.5)[2]);
+		assertEquals(2000, interpolator.interpolate(0.5)[2]);
 	}
 
 	private void testD3InterpolateObject() {

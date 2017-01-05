@@ -807,6 +807,7 @@ public class Interpolators {
 	// public static final InterpolatorFactory<String> interpolateTransform =
 	// interpolateTransformFactory();
 
+	/*
 	private static  JSNIInterpolatorFactory<Double> interpolateNumberFactory(WebEngine webEngine){
 				
 		D3 d3 = getD3(webEngine);
@@ -816,6 +817,7 @@ public class Interpolators {
 		}
 		return new JSNIInterpolatorFactory<Double>(webEngine, result);
 	}
+	*/
 
 	//
 	// private static  JSNIInterpolatorFactory<Long>

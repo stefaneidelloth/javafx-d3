@@ -50,7 +50,7 @@ public class DivElementFactory implements D3NodeFactory {
 	public Selection createInParentSelection(Selection selection) {
 		inputElementSelection = selection.append("div")
 				.text(text)	
-				.attr("innerHtml",innerHtml)					
+				.html(innerHtml)					
 				.attr("class", styleClass);
 		
 		
@@ -95,7 +95,7 @@ public class DivElementFactory implements D3NodeFactory {
 
 	public void setInnerHTML(String value) {
 		if (inputElementSelection!=null){
-			inputElementSelection = inputElementSelection.attr("innerHtml",value);
+			inputElementSelection = inputElementSelection.html(value);
 		}
 		innerHtml = value;		
 	}

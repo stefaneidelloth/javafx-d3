@@ -157,7 +157,7 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public Selection selectAll(String selector) {
-		JSObject result = call("selectAll", selector);
+		JSObject result = evalForJsObject("this.selectAll('" + selector + "')");
 		return new Selection(webEngine, result);
 	};
 
