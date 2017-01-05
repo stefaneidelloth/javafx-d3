@@ -2,11 +2,7 @@ package org.treez.javafxd3.d3.arrays;
 
 import org.treez.javafxd3.d3.core.Value;
 
-/**
- * 
- *
- * @param <T>
- */
+
 public interface ForEachCallback<T> {
 	/**
 	 * Executed for each element of the array with an assigned value.

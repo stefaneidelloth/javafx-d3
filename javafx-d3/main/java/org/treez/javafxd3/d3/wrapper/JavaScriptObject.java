@@ -538,7 +538,7 @@ public class JavaScriptObject {
 	//#region CONVERSION
 
 	@SuppressWarnings("unchecked")
-	protected <T> T convertObjectTo(Object resultObj, Class<T> classObj) {
+	protected synchronized <T> T convertObjectTo(Object resultObj, Class<T> classObj) {
 		if (resultObj == null) {
 			return null;
 		}
@@ -564,7 +564,7 @@ public class JavaScriptObject {
 		try {
 			T result = classObj.cast(resultObj);
 			return result;
-		} catch (Exception exception) {
+		} catch (ClassCastException exception) {
 			boolean isNumber = resultObj instanceof Number;
 			if (isNumber) {
 				T result = tryToCastFromDoubleValue(resultObj, classObj, exception);
@@ -700,13 +700,13 @@ public class JavaScriptObject {
 	//#region UTILS
 	
 	/**
-	 * Creates a unique callback name (includes the current time in ms and a random number)
+	 * Creates a unique callback name (includes the current time in ns and a random number)
 	 * @return
 	 */
 	protected static String createNewTemporaryInstanceName() {
 		double random = Math.random(); 
 		String randomString = ("" + random).substring(2,5);
-		String name =  "temp__instance__" + System.currentTimeMillis() + "_" + randomString;
+		String name =  "temp__instance__" + System.nanoTime() + "_" + randomString;
 		return name;
 	}
 	

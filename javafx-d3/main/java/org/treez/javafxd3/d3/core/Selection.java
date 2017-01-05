@@ -11,6 +11,8 @@ import java.util.Map;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.ArrayUtils;
+import org.treez.javafxd3.d3.arrays.ForEachObjectDelegate;
+import org.treez.javafxd3.d3.arrays.ForEachObjectDelegateWrapper;
 import org.treez.javafxd3.d3.functions.DatumFunction;
 import org.treez.javafxd3.d3.functions.KeyFunction;
 import org.treez.javafxd3.d3.functions.MouseClickFunction;
@@ -1801,23 +1803,14 @@ public class Selection extends EnteringSelection {
 
 		JSObject d3JsObject = getD3();
 		List<String> fullVarNames = new ArrayList<>();
-		List<String> varNames = new ArrayList<>();
-
-		for (Object arrayObject : array) {
-			
-			JSObject jsElement;
-			boolean isJavaScriptObject = arrayObject instanceof JavaScriptObject;
-			if(isJavaScriptObject){
-				JavaScriptObject javaScriptObject = (JavaScriptObject) arrayObject;
-				jsElement = javaScriptObject.getJsObject();
-			} else {
-				jsElement = (JSObject) arrayObject;
-			}
-			
+		List<String> varNames = new ArrayList<>();		
+		
+		array.forEach((element)->{			
+			JSObject jsElement= (JSObject) element;			
 			String varName = createNewTemporaryInstanceName();
 			d3JsObject.setMember(varName, jsElement);
 			fullVarNames.add("d3." + varName);
-		}
+		});		
 
 		String command = "this.datum([" + String.join(",", fullVarNames) + "])";
 		JSObject result = evalForJsObject(command);

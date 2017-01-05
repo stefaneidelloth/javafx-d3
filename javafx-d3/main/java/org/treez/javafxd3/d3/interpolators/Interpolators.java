@@ -884,9 +884,7 @@ public class Interpolators {
 		
 		List<InterpolatorFactory<?>> interpolatorList = new ArrayList<>();
 		Array<JSObject> interpolators = new Array<JSObject>(webEngine, result);
-		for(Object jsInterpolator: interpolators){
-			interpolatorList.add(new JSNIInterpolatorFactory<>(webEngine, (JSObject)jsInterpolator));
-		}
+		interpolators.forEach((element)->{interpolatorList.add(new JSNIInterpolatorFactory<>(webEngine, (JSObject)element));});		
 		
 		return interpolatorList;		
 	}

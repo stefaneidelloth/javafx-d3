@@ -1,7 +1,6 @@
 package org.treez.javafxd3.d3.arrays;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.treez.javafxd3.d3.D3;
@@ -17,14 +16,14 @@ import netscape.javascript.JSObject;
  * @param <T>
  * @param <D>
  */
-public class Array<T> extends JavaScriptObject implements Iterable<Object> {
+public class Array<T> extends JavaScriptObject  {
 
 	//#region CONSTRUCTORS
 
 	public Array(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
-	}	
+	}
 
 	//#end region
 
@@ -62,15 +61,15 @@ public class Array<T> extends JavaScriptObject implements Iterable<Object> {
 			if (isJavaScriptObject) {
 				JavaScriptObject javaScriptObject = (JavaScriptObject) value;
 				JSObject wrappedJsObject = javaScriptObject.getJsObject();
-				
+
 				//Inspector.inspect(wrappedJsObject);
-				
+
 				tempArray.setSlot(index, wrappedJsObject);
 			} else {
 				tempArray.setSlot(index, value);
 			}
 		}
-		
+
 		//remove temp var
 		d3Obj.removeMember(varName);
 
@@ -94,12 +93,12 @@ public class Array<T> extends JavaScriptObject implements Iterable<Object> {
 
 		// execute command and return result as Array
 		JSObject result = (JSObject) webEngine.executeScript(varName);
-		
-		webEngine.executeScript(varName +" = null;");
-		
+
+		webEngine.executeScript(varName + " = null;");
+
 		return new Array<Double>(webEngine, result);
 	}
-	
+
 	public static Array<Double> fromDoubles(WebEngine webEngine, Double[][] data) {
 		String varName = createNewTemporaryInstanceName();
 		String arrayString = ArrayUtils.createArrayString(data);
@@ -108,13 +107,12 @@ public class Array<T> extends JavaScriptObject implements Iterable<Object> {
 
 		// execute command and return result as Array
 		JSObject result = (JSObject) webEngine.executeScript(varName);
-		
-		webEngine.executeScript(varName +" = null;");
-		
+
+		webEngine.executeScript(varName + " = null;");
+
 		return new Array<Double>(webEngine, result);
 	}
-	
-	
+
 	public static Array<String> fromStrings(WebEngine webEngine, String[] data) {
 
 		String varName = createNewTemporaryInstanceName();
@@ -124,9 +122,9 @@ public class Array<T> extends JavaScriptObject implements Iterable<Object> {
 
 		// execute command and return result as Array
 		JSObject result = (JSObject) webEngine.executeScript(varName);
-		
-		webEngine.executeScript(varName +" = null;");
-		
+
+		webEngine.executeScript(varName + " = null;");
+
 		return new Array<String>(webEngine, result);
 	}
 
@@ -212,6 +210,22 @@ public class Array<T> extends JavaScriptObject implements Iterable<Object> {
 		}
 	}
 
+	public int dimension() {
+		List<Integer> sizes = sizes();
+		int rows = sizes.get(0);
+		int columns = sizes.get(1);
+		if (rows == 0 && columns == 0) {
+			return 0;
+		}
+		if (rows == 1) {
+			return 1;
+		}
+		if (columns == 1) {
+			return 1;
+		}
+		return 2;
+	}
+
 	private void checkSizeOfRemainingSubItems(int numberOfRows, Integer numberOfColumns) {
 		for (int rowIndex = 1; rowIndex < numberOfRows; rowIndex++) {
 			Object rowObj = getAsObject(rowIndex);
@@ -259,20 +273,25 @@ public class Array<T> extends JavaScriptObject implements Iterable<Object> {
 		return zeroSizes;
 	}
 
-	public int dimension() {
-		List<Integer> sizes = sizes();
-		int rows = sizes.get(0);
-		int columns = sizes.get(1);
-		if (rows == 0 && columns == 0) {
-			return 0;
-		}
-		if (rows == 1) {
-			return 1;
-		}
-		if (columns == 1) {
-			return 1;
-		}
-		return 2;
+	//#end region
+
+	//#region LOOPS
+
+	public void forEach(ForEachObjectDelegate forEachDelegate) {
+		
+		ForEachObjectDelegateWrapper delegateWrapper = new ForEachObjectDelegateWrapper(forEachDelegate);
+		
+		D3 d3 = new D3(webEngine);
+		JSObject d3Obj = d3.getJsObject();
+		String delegateName = createNewTemporaryInstanceName();
+		d3Obj.setMember(delegateName, delegateWrapper);
+
+		String command ="this.forEach(" + //
+				"  function(element){" + //			
+				"    d3." + delegateName + ".process(element);" + //
+				"  }" + //
+				")";
+		eval(command);
 	}
 
 	//#end region
@@ -291,7 +310,7 @@ public class Array<T> extends JavaScriptObject implements Iterable<Object> {
 		return result;
 	}
 
-	private Object getAsObject(int index) {
+	public Object getAsObject(int index) {
 		JSObject jsObject = getJsObject();
 		Object resultObj = jsObject.getSlot(index);
 		return resultObj;
@@ -305,46 +324,54 @@ public class Array<T> extends JavaScriptObject implements Iterable<Object> {
 
 	public <D> List<D> asList(Class<D> clazz) {
 		int size = length();
-		if(size==0){
+		if (size == 0) {
 			return new ArrayList<D>();
-		}		
-		
+		}
+
 		List<D> list = new ArrayList<>();
 		for (int index = 0; index < size; index++) {
-			D element =  this.get(index, clazz);
+			D element = this.get(index, clazz);
 			list.add(element);
 		}
 		return list;
 	}
-	
+
+	public List<Object> asRawList() {
+		int size = length();
+		if (size == 0) {
+			return new ArrayList<Object>();
+		}
+
+		List<Object> list = new ArrayList<>();
+		for (int index = 0; index < size; index++) {
+			Object element = this.getAsObject(index);
+			list.add(element);
+		}
+		return list;
+	}
+
 	public T[] asArray(Class<T> clazz) {
-		List<T> list = asList(clazz);		
+		List<T> list = asList(clazz);
 		@SuppressWarnings("unchecked")
-		T[] emptyArray = (T[]) java.lang.reflect.Array.newInstance(clazz, list.size());		
+		T[] emptyArray = (T[]) java.lang.reflect.Array.newInstance(clazz, list.size());
 		return list.toArray(emptyArray);
 	}
 
 	//#end region
-	
+
 	//#region TO STRING
-	
-	public String toString(){				
+
+	public String toString() {
 		int size = length();
 		List<String> stringList = new ArrayList<>();
 		for (int index = 0; index < size; index++) {
 			Object element = this.get(index, Object.class);
-			stringList.add(element.toString());			
+			stringList.add(element.toString());
 		}
 		String displayString = "[" + String.join(",", stringList) + "]";
-		return displayString;		
-	}
-	
-	@Override
-	public Iterator<Object> iterator() {
-		List<Object> objectList = asList(Object.class);
-		return  objectList.iterator();
-	}		
-	
+		return displayString;
+	}	
+
 	//#end region
 
 	//#end region
