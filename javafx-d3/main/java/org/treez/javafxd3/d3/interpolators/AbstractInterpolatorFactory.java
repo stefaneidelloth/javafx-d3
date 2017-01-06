@@ -1,5 +1,8 @@
 package org.treez.javafxd3.d3.interpolators;
 
+import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
+
+import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
 /**
@@ -11,19 +14,31 @@ import netscape.javascript.JSObject;
  * 
  * 
  */
-public abstract class AbstractInterpolatorFactory<O> implements InterpolatorFactory<O> {
+public abstract class AbstractInterpolatorFactory<O> extends JavaScriptObject implements InterpolatorFactory<O> {
+	
+	public AbstractInterpolatorFactory(WebEngine webEngine){
+		super(webEngine);
+	}
+	
 
 	@Override
-	public abstract <I> Interpolator<O> create(final I a, final I b);
+	public abstract <I> Interpolator<O> create(final Object a, final Object b);
 
 	@Override
-	public  JSObject asJSOFunction(){
-		throw new IllegalStateException("not yet implemented");
-		/*
-		return function(a, b) {
-			return this.@com.github.gwtd3.api.interpolators.AbstractInterpolatorFactory::create(Ljava/lang/Object;Ljava/lang/Object;)();
-		}
-		*/
+	public  JSObject asJSOFunction(){	
+		
+		String interpolatorName = createNewTemporaryInstanceName();
+		String jsInterpolatorName = createNewTemporaryInstanceName();
+		
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(interpolatorName, this);
+
+		String command = "this."+jsInterpolatorName+" = function(a, b) { return d3." + interpolatorName + ".create(a,b);};";
+		d3JsObject.eval(command);		
+		
+		JSObject result = (JSObject) d3JsObject.eval("this." +jsInterpolatorName);
+		return result;			
+			
 		
 	}
 }

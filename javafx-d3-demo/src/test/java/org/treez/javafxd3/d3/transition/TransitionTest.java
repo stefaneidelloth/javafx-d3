@@ -27,7 +27,7 @@ public class TransitionTest extends AbstractSelectionTest {
 		transition.attr("foo", callback);
 		transition.attr("bar", 16);
 		transition.attr("bar", "32px");
-		transition.attrTween("bar", new InterpolatorTweenFunction());
+		transition.attrTween("bar", new InterpolatorTweenFunction(webEngine));
 		
 		
 		transition

@@ -1,10 +1,9 @@
 package org.treez.javafxd3.d3.tweens;
 
-import org.treez.javafxd3.d3.interpolators.Interpolator;
-import org.treez.javafxd3.d3.wrapper.Element;
-
 import org.treez.javafxd3.d3.core.Transition;
-import org.treez.javafxd3.d3.core.Value;
+import org.treez.javafxd3.d3.interpolators.Interpolator;
+
+import netscape.javascript.JSObject;
 
 /**
  * A function returning an {@link Interpolator} used to tween elements attribute or styles within {@link Transition}s.
@@ -16,13 +15,9 @@ import org.treez.javafxd3.d3.core.Value;
  */
 public interface TweenFunction<T> {
 
+
 	/**
-	 * @param context
-	 * @param datum
-	 * @param index
-	 * @param value 
-	 * @param attributeValue
-	 * @return
+	 * Returns a java script interpolation method interpolate(doubleValue) as JSObject
 	 */
-	Interpolator<T> apply(Element context, Value datum, int index, Value value);
+	JSObject apply(Object context, Object datum, int index, Object value);
 }

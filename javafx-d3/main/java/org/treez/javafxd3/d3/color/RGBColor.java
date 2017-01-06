@@ -109,6 +109,11 @@ public class RGBColor extends Color {
 		JSObject result = call("darker", k);
 		return new RGBColor(webEngine, result);
 	}
+	
+	@Override
+	public String toString(){
+		return "r: " + r() + ", g: "+ g()+ ", b: " + b();
+	}
 
 	//#end region
 

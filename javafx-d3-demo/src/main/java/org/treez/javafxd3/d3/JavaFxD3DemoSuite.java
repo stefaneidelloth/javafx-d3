@@ -2,8 +2,9 @@ package org.treez.javafxd3.d3;
 
 import java.util.List;
 
-import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Selection;
+import org.treez.javafxd3.d3.democases.ArcTween;
+import org.treez.javafxd3.d3.democases.LorenzSystem;
 import org.treez.javafxd3.d3.democases.behaviors.DragMultiples;
 import org.treez.javafxd3.d3.democases.behaviors.ZoomDemo;
 import org.treez.javafxd3.d3.democases.functionplotter.FunctionPlotDemo;
@@ -139,7 +140,7 @@ public class JavaFxD3DemoSuite extends Application {
 		menuChildren.add(new DemoMenuButton("Symbols", SymbolDemo.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Lines", LineDemo.factory(d3, prefBox)));
 		//menuChildren.add(new DemoMenuButton("Arc", ArcDemo.factory(d3, prefBox)));
-		//menuChildren.add(new DemoMenuButton("Arc Tween", ArcTween.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("Arc Tween", ArcTween.factory(d3, prefBox)));
 
 		// GEOM
 		menuChildren.add(new DemoMenuButton("Convex Hull", HullDemo.factory(d3, prefBox)));
@@ -156,7 +157,7 @@ public class JavaFxD3DemoSuite extends Application {
 
 		//menuChildren.add(new DemoMenuButton("Focus And Context", FocusAndContext.factory(d3, prefBox)));
 		//menuChildren.add(new DemoMenuButton("Chord diagram", ChordDiagram.factory(d3, prefBox)));
-		//menuChildren.add(new DemoMenuButton("Lorenz System", LorenzSystem.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("Lorenz System", LorenzSystem.factory(d3, prefBox)));
 		//menuChildren.add(new DemoMenuButton("Shape Tweening", ShapeTweeningDemo.factory(d3, prefBox)));
 
 		//menuChildren.add(new DemoMenuButton("Collapsible Tree", TreeDemo.factory(d3, prefBox)));

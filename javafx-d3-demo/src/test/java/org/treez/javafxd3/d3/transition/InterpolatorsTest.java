@@ -38,12 +38,12 @@ public class InterpolatorsTest extends AbstractTestCase {
 				.interpolateZoom(webEngine,new Double[]{5.0, 6.0, 30.0},
 						new Double[]{1.0, 2.0, 20.0});
 
-		Double[] array = interpolator.interpolate(0);
+		Double[] array = interpolator.interpolate(0d);
 		assertEquals(5.0, array[0], TOLERANCE);
 		assertEquals(6.0, array[1], TOLERANCE);
 		assertEquals(30.0, array[2], TOLERANCE);
 
-		array = interpolator.interpolate(1);
+		array = interpolator.interpolate(1d);
 		assertEquals(1.0, array[0], TOLERANCE);
 		assertEquals(2.0, array[1], TOLERANCE);
 		assertEquals(20.0, array[2], TOLERANCE);
@@ -62,9 +62,9 @@ public class InterpolatorsTest extends AbstractTestCase {
 		Interpolator<Transform> interpolator = Interpolators
 				.interpolateTransform(webEngine, transform.parse("rotate(40)"),
 						transform.parse("rotate(80)"));
-		assertEquals(40d, interpolator.interpolate(0).rotate(), TOLERANCE);
-		assertEquals(60d, interpolator.interpolate(0.5).rotate(), TOLERANCE);
-		assertEquals(80d, interpolator.interpolate(1).rotate(), TOLERANCE);
+		assertEquals(40d, interpolator.interpolate(0d).rotate(), TOLERANCE);
+		assertEquals(60d, interpolator.interpolate(0.5d).rotate(), TOLERANCE);
+		assertEquals(80d, interpolator.interpolate(1d).rotate(), TOLERANCE);
 	}
 
 	private void testD3InterpolateArray() {
@@ -95,26 +95,26 @@ public class InterpolatorsTest extends AbstractTestCase {
 		String b = "#0000ff";
 		// string variant
 		Interpolator<RGBColor> rgb = Interpolators.interpolateRgb(webEngine,a, b);
-		assertEquals(255, rgb.interpolate(0).r());
-		assertEquals(0, rgb.interpolate(0).g());
-		assertEquals(0, rgb.interpolate(0).b());
+		assertEquals(255, rgb.interpolate(0d).r());
+		assertEquals(0, rgb.interpolate(0d).g());
+		assertEquals(0, rgb.interpolate(0d).b());
 
 		//
-		assertEquals(0, rgb.interpolate(1).r());
-		assertEquals(0, rgb.interpolate(1).g());
-		assertEquals(255, rgb.interpolate(1).b());
+		assertEquals(0, rgb.interpolate(1d).r());
+		assertEquals(0, rgb.interpolate(1d).g());
+		assertEquals(255, rgb.interpolate(1d).b());
 
 		// color variant
 		Colors colors = new Colors(webEngine);
 		rgb = Interpolators.interpolateRgb(webEngine, colors.rgb(255, 0, 0),
 				colors.rgb(0, 0, 255));
-		assertEquals(255, rgb.interpolate(0).r());
-		assertEquals(0, rgb.interpolate(0).g());
-		assertEquals(0, rgb.interpolate(0).b());
+		assertEquals(255, rgb.interpolate(0d).r());
+		assertEquals(0, rgb.interpolate(0d).g());
+		assertEquals(0, rgb.interpolate(0d).b());
 
-		assertEquals(0, rgb.interpolate(1).r());
-		assertEquals(0, rgb.interpolate(1).g());
-		assertEquals(255, rgb.interpolate(1).b());
+		assertEquals(0, rgb.interpolate(1d).r());
+		assertEquals(0, rgb.interpolate(1d).g());
+		assertEquals(255, rgb.interpolate(1d).b());
 
 		// interpolator factory string variant
 		// rgb = Interpolators.interpolateRgb.create(a, b);
@@ -145,14 +145,14 @@ public class InterpolatorsTest extends AbstractTestCase {
 		// string variant
 		Interpolator<HSLColor> interpolator = Interpolators
 				.interpolateHsl(webEngine,a, b);
-		assertEquals(0, interpolator.interpolate(0).h(),TOLERANCE);
-		assertEquals(1.0, interpolator.interpolate(0).s(),TOLERANCE);
-		assertEquals(0.5, interpolator.interpolate(0).l(),TOLERANCE);
+		assertEquals(0, interpolator.interpolate(0d).h(),TOLERANCE);
+		assertEquals(1.0, interpolator.interpolate(0d).s(),TOLERANCE);
+		assertEquals(0.5, interpolator.interpolate(0d).l(),TOLERANCE);
 
 		//
-		assertEquals(240, interpolator.interpolate(1).h(),TOLERANCE);
-		assertEquals(1.0, interpolator.interpolate(1).s(),TOLERANCE);
-		assertEquals(0.5, interpolator.interpolate(1).l(),TOLERANCE);
+		assertEquals(240, interpolator.interpolate(1d).h(),TOLERANCE);
+		assertEquals(1.0, interpolator.interpolate(1d).s(),TOLERANCE);
+		assertEquals(0.5, interpolator.interpolate(1d).l(),TOLERANCE);
 
 		// color variant
 		Colors colors = new Colors(webEngine);
@@ -160,13 +160,13 @@ public class InterpolatorsTest extends AbstractTestCase {
 		
 		interpolator = Interpolators.interpolateHsl(webEngine,colors.rgb(255, 0, 0),
 				colors.rgb(0, 0, 255));
-		assertEquals(0, interpolator.interpolate(0).h(),TOLERANCE);
-		assertEquals(1.0, interpolator.interpolate(0).s(),TOLERANCE);
-		assertEquals(0.5, interpolator.interpolate(0).l(),TOLERANCE);
+		assertEquals(0, interpolator.interpolate(0d).h(),TOLERANCE);
+		assertEquals(1.0, interpolator.interpolate(0d).s(),TOLERANCE);
+		assertEquals(0.5, interpolator.interpolate(0d).l(),TOLERANCE);
 
-		assertEquals(240, interpolator.interpolate(1).h(),TOLERANCE);
-		assertEquals(1.0, interpolator.interpolate(1).s(),TOLERANCE);
-		assertEquals(0.5, interpolator.interpolate(1).l(),TOLERANCE);
+		assertEquals(240, interpolator.interpolate(1d).h(),TOLERANCE);
+		assertEquals(1.0, interpolator.interpolate(1d).s(),TOLERANCE);
+		assertEquals(0.5, interpolator.interpolate(1d).l(),TOLERANCE);
 
 		// interpolator factory string variant
 		// rgb = Interpolators.interpolateRgb.create(a, b);
@@ -201,13 +201,13 @@ public class InterpolatorsTest extends AbstractTestCase {
 		assertEquals("15px", interpolated);
 
 		//InterpolatorFactory<Coords> newInterpolator = 
-				new AbstractInterpolatorFactory<Coords>() {
+				new AbstractInterpolatorFactory<Coords>(webEngine) {
 			@Override
-			public <I> Interpolator<Coords> create(final I a, final I b) {
+			public <I> Interpolator<Coords> create(Object a, Object b) {
 				if (b instanceof Coords) {
-					return new CallableInterpolator<Coords>() {
+					return new CallableInterpolator<Coords>(webEngine) {
 						@Override
-						public Coords interpolate(final double t) {
+						public Coords interpolate(Object t) {
 							return new Coords(webEngine, 15, 20);
 						}
 					};
@@ -239,44 +239,44 @@ public class InterpolatorsTest extends AbstractTestCase {
 		// char
 		Interpolator<Character> charInterpolator = Interpolators
 				.interpolateRound(webEngine,'a', 'j');
-		assertEquals('a', (char) charInterpolator.interpolate(0));
+		assertEquals('a', (char) charInterpolator.interpolate(0d));
 		assertEquals('c', (char) charInterpolator.interpolate(0.25));
-		assertEquals('j', (char) charInterpolator.interpolate(1));
+		assertEquals('j', (char) charInterpolator.interpolate(1d));
 
 		// int
 		Interpolator<Integer> intInterpolator = Interpolators.interpolateRound(webEngine,
 				10, 20);
-		assertEquals(10, (int) intInterpolator.interpolate(0));
+		assertEquals(10, (int) intInterpolator.interpolate(0d));
 		assertEquals(13, (int) intInterpolator.interpolate(0.25));
-		assertEquals(20, (int) intInterpolator.interpolate(1));
+		assertEquals(20, (int) intInterpolator.interpolate(1d));
 
 		// short
 		Interpolator<Short> shortInterpolator = Interpolators.interpolateRound(webEngine,
 				(short) 10, (short) 20);
-		assertEquals(10, (short) shortInterpolator.interpolate(0));
+		assertEquals(10, (short) shortInterpolator.interpolate(0d));
 		assertEquals(13, (short) shortInterpolator.interpolate(0.25));
-		assertEquals(20, (short) shortInterpolator.interpolate(1));
+		assertEquals(20, (short) shortInterpolator.interpolate(1d));
 
 		// byte
 		Interpolator<Byte> byteInterpolator = Interpolators.interpolateRound(webEngine,
 				(byte) 10, (byte) 20);
-		assertEquals(10, (byte) byteInterpolator.interpolate(0));
+		assertEquals(10, (byte) byteInterpolator.interpolate(0d));
 		assertEquals(13, (byte) byteInterpolator.interpolate(0.25));
-		assertEquals(20, (byte) byteInterpolator.interpolate(1));
+		assertEquals(20, (byte) byteInterpolator.interpolate(1d));
 
 		// long
 		Interpolator<Long> longInterpolator = Interpolators.interpolateRound(webEngine,
 				(long) 10, (long) 20);
-		assertEquals(10l, (long) longInterpolator.interpolate(0));
+		assertEquals(10l, (long) longInterpolator.interpolate(0d));
 		assertEquals(13l, (long) longInterpolator.interpolate(0.25));
-		assertEquals(20l, (long) longInterpolator.interpolate(1));
+		assertEquals(20l, (long) longInterpolator.interpolate(1d));
 
 		// double
 		Interpolator<Long> doubleInterpolator = Interpolators.interpolateRound(webEngine,
 				(double) 10, (double) 20);
-		assertEquals(10l, (long) doubleInterpolator.interpolate(0));
+		assertEquals(10l, (long) doubleInterpolator.interpolate(0d));
 		assertEquals(13l, (long) doubleInterpolator.interpolate(0.25));
-		assertEquals(20l, (long) doubleInterpolator.interpolate(1));
+		assertEquals(20l, (long) doubleInterpolator.interpolate(1d));
 
 	}
 
@@ -285,42 +285,42 @@ public class InterpolatorsTest extends AbstractTestCase {
 		// byte
 		Interpolator<Double> byteInterpolator = Interpolators
 				.interpolateNumber(webEngine, (byte) 10, (byte) 20);
-		assertEquals(10.0, byteInterpolator.interpolate(0),TOLERANCE);
+		assertEquals(10.0, byteInterpolator.interpolate(0d),TOLERANCE);
 		assertEquals(12.5, byteInterpolator.interpolate(0.25),TOLERANCE);
-		assertEquals(20.0, byteInterpolator.interpolate(1),TOLERANCE);
+		assertEquals(20.0, byteInterpolator.interpolate(1d),TOLERANCE);
 
 		// double
 		Interpolator<Double> doubleInterpolator = Interpolators
 				.interpolateNumber(webEngine,0.1, 0.2);
-		assertEquals(0.1, doubleInterpolator.interpolate(0), TOLERANCE);
+		assertEquals(0.1, doubleInterpolator.interpolate(0d), TOLERANCE);
 		assertEquals(0.125, doubleInterpolator.interpolate(0.25), TOLERANCE);
-		assertEquals(0.2, doubleInterpolator.interpolate(1), TOLERANCE);
+		assertEquals(0.2, doubleInterpolator.interpolate(1d), TOLERANCE);
 		// float
 		Interpolator<Double> floatInterpolator = Interpolators
 				.interpolateNumber(webEngine,0.1f, 0.2f);
-		assertEquals(0.1, floatInterpolator.interpolate(0), TOLERANCE);
+		assertEquals(0.1, floatInterpolator.interpolate(0d), TOLERANCE);
 		assertEquals(0.125, floatInterpolator.interpolate(0.25), TOLERANCE);
-		assertEquals(0.2, floatInterpolator.interpolate(1), TOLERANCE);
+		assertEquals(0.2, floatInterpolator.interpolate(1d), TOLERANCE);
 		// int
 		Interpolator<Double> intInterpolator = Interpolators.interpolateNumber(webEngine,
 				10, 20);
-		assertEquals(10.0, intInterpolator.interpolate(0),TOLERANCE);
+		assertEquals(10.0, intInterpolator.interpolate(0d),TOLERANCE);
 		assertEquals(12.5, intInterpolator.interpolate(0.25),TOLERANCE);
-		assertEquals(20.0, intInterpolator.interpolate(1),TOLERANCE);
+		assertEquals(20.0, intInterpolator.interpolate(1d),TOLERANCE);
 		//
 		// long
 		Interpolator<Double> longInterpolator = Interpolators
 				.interpolateNumber(webEngine,10L, 20L);
-		assertEquals(10.0, longInterpolator.interpolate(0),TOLERANCE);
+		assertEquals(10.0, longInterpolator.interpolate(0d),TOLERANCE);
 		assertEquals(12.5, longInterpolator.interpolate(0.25),TOLERANCE);
-		assertEquals(20.0, longInterpolator.interpolate(1),TOLERANCE);
+		assertEquals(20.0, longInterpolator.interpolate(1d),TOLERANCE);
 
 		// short
 		Interpolator<Double> shortInterpolator = Interpolators
 				.interpolateNumber(webEngine,(short) 10, (short) 20);
-		assertEquals(10.0, shortInterpolator.interpolate(0),TOLERANCE);
+		assertEquals(10.0, shortInterpolator.interpolate(0d),TOLERANCE);
 		assertEquals(12.5, shortInterpolator.interpolate(0.25),TOLERANCE);
-		assertEquals(20.0, shortInterpolator.interpolate(1),TOLERANCE);
+		assertEquals(20.0, shortInterpolator.interpolate(1d),TOLERANCE);
 
 		// factory
 		// LinearScale scale = d3.scale.linear().interpolate(

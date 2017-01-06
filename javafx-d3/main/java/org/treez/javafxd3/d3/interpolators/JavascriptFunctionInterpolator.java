@@ -2,7 +2,6 @@ package org.treez.javafxd3.d3.interpolators;
 
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.wrapper.Inspector;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -31,8 +30,7 @@ public class JavascriptFunctionInterpolator extends JavaScriptObject implements 
 	//#region METHODS
 
 	@Override
-	public  Value interpolate(final double t){	
-		Inspector.inspect(this);
+	public  Value interpolate(Object t){			
 		Object interpolationResult = callThis(t);		
 		return Value.create(webEngine, interpolationResult);
 	}

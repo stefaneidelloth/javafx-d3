@@ -25,7 +25,7 @@ public interface InterpolatorFactory<O> {
 	 * 
 	 * @return an appropriate interpolator or null if the factory does not support the input values.
 	 */
-	<I> Interpolator<O> create(I a, I b);
+	<I> Interpolator<O> create(Object a, Object b);
 
 	/**
 	 * Return a one-arg JS function wrapping the interpolation.

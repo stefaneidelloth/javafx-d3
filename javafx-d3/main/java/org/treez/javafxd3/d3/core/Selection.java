@@ -1747,6 +1747,8 @@ public class Selection extends EnteringSelection {
 		
 		JavaScriptObject arrayObject = new JavaScriptObject(webEngine, jsArrayObject);
 		
+		
+		
 		return data(arrayObject, keyFunction);
 
 	}
@@ -1781,6 +1783,10 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(dataName);
+		
+		if(result==null){
+			return null;
+		}
 
 		return new Selection(webEngine, result);
 
@@ -1797,6 +1803,10 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(dataName);
+		
+		if(result==null){
+			return null;
+		}
 
 		return new Selection(webEngine, result);
 
@@ -1812,6 +1822,10 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(dataName);
+		
+		if(result==null){
+			return null;
+		}
 
 		return new Selection(webEngine, result);
 
@@ -1835,6 +1849,10 @@ public class Selection extends EnteringSelection {
 
 		for (String varName : varNames) {
 			d3JsObject.removeMember(varName);
+		}
+		
+		if(result==null){
+			return null;
 		}
 
 		return new UpdateSelection(webEngine, result);
@@ -1884,6 +1902,10 @@ public class Selection extends EnteringSelection {
 
 		d3JsObject.removeMember(varName);
 		d3JsObject.removeMember(methodName);
+		
+		if(result==null){
+			return null;
+		}
 
 		return new Selection(webEngine, result);
 
@@ -1917,6 +1939,10 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection filter(String selector) {
 		JSObject result = call("filter", selector);
+		
+		if(result==null){
+			return null;
+		}
 		return new Selection(webEngine, result);
 	}
 
@@ -1949,6 +1975,10 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(methodName);
+		
+		if(result==null){
+			return null;
+		}
 
 		return new Selection(webEngine, result);
 
@@ -2002,6 +2032,9 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection order() {
 		JSObject result = call("order");
+		if(result==null){
+			return null;
+		}
 		return new Selection(webEngine, result);
 	}
 
@@ -2016,6 +2049,9 @@ public class Selection extends EnteringSelection {
 	 */
 	public Transition transition() {
 		JSObject result = call("transition");
+		if(result==null){
+			return null;
+		}
 		return new Transition(webEngine, result);
 	}
 
@@ -2037,6 +2073,9 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection interrupt() {
 		JSObject result = call("interrupt");
+		if(result==null){
+			return null;
+		}
 		return new Selection(webEngine, result);
 	}
 

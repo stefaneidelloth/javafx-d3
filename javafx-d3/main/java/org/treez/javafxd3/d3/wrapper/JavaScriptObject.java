@@ -202,6 +202,9 @@ public class JavaScriptObject {
 	 */
 	public JSObject call(String methodName, Object... args) {
 		Objects.requireNonNull(jsObject);
+		
+		checkIfMethodExists(methodName);
+		
 		Object resultObj = jsObject.call(methodName, args);
 		
 		if (resultObj==null){
@@ -232,6 +235,11 @@ public class JavaScriptObject {
 		}
 		String message = "The result type '" + typeString + "' is not yet implemented for method '" + methodName + "'";
 		throw new IllegalStateException(message);
+	}
+
+	private void checkIfMethodExists(String methodName) {
+		Object method = jsObject.getMember(methodName);
+		Objects.requireNonNull(method, "Method "+methodName+" does not exist");
 	}
 
 	protected Object callThis(Object... args) {
@@ -492,12 +500,17 @@ public class JavaScriptObject {
 			return (Double) result;
 		}
 		
+		boolean isInteger = result instanceof Integer;
+		if(isInteger){
+			return new Double((Integer) result);
+		}
+		
 		boolean isString = result instanceof String;
 		if(isString){
 			return Double.parseDouble((String) result);
 		}		
 		
-		throw new IllegalStateException("Could not convert result to Integer");
+		throw new IllegalStateException("Could not convert result to Double");
 	};
 
 	/**
@@ -728,6 +741,18 @@ public class JavaScriptObject {
 	}
 	
 	//#end region
+	
+	@Override
+	public String toString(){
+		String className =  this.getClass().getSimpleName() ;
+		JSObject jsObject = getJsObject();
+		
+		if(jsObject==null){
+			return "!!" +className + " with missing JSObject!!";
+		} else {
+			return Inspector.getInspectionInfo(jsObject);
+		}
+	}
 
 	//#end region
 

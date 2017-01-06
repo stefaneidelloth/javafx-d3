@@ -1,19 +1,25 @@
 package org.treez.javafxd3.d3.transition.function;
 
-import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.interpolators.Interpolator;
 import org.treez.javafxd3.d3.tweens.TweenFunction;
-import org.treez.javafxd3.d3.wrapper.Element;
+import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-public class InterpolatorTweenFunction implements TweenFunction<String>{
+import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
 
+public class InterpolatorTweenFunction extends JavaScriptObject implements TweenFunction<String>{
+
+	public InterpolatorTweenFunction(WebEngine webEngine){
+		super(webEngine);
+	}
+	
 	
 	@Override
-	public Interpolator<String> apply(final Element context,
-			final Value datum, final int index, final Value value) {
+	public JSObject apply(final Object context,
+			final Object datum, final int index, final Object value) {
 		
-		Interpolator<String> interpolator = new TestCallableInterpolator();
-		return interpolator;
+		Interpolator<String> interpolator = new TestCallableInterpolator(webEngine);
+		return interpolator.asJSOFunction();
 	}
 	
 }

@@ -180,8 +180,8 @@ public class Arc extends PathDataGenerator {
 	 * @param index
 	 * @return
 	 */
-	public Array<Double> centroid(JSObject datum, int index) {
-		JSObject result = call("centroid", datum, index);
+	public Array<Double> centroid(Arc arc, int index) {
+		JSObject result = call("centroid", arc.getJsObject(), index);
 		return new Array<Double>(webEngine, result);
 	}
 
@@ -196,8 +196,13 @@ public class Arc extends PathDataGenerator {
 	public static Arc constantArc(WebEngine injectedWebEngine) {
 		D3 d3 = new D3(injectedWebEngine);
 		
-		String command = "{ innerRadius : 0, outerRadius : 1, startAngle : 0, endAngle : 0 };";
-		JSObject result = d3.evalForJsObject(command);
+		String command = "d3.new_arc = {innerRadius: 0, outerRadius: 1, startAngle: 0, endAngle: 0 };";
+		d3.eval(command);
+		
+		JSObject result = d3.evalForJsObject("d3.new_arc");
+		
+		//d3.eval("d3.new_arc=undefined");
+		
 		return new Arc(injectedWebEngine, result);
 	}
 
@@ -208,14 +213,19 @@ public class Arc extends PathDataGenerator {
 	 *            the arc to copy
 	 * @return the new copy
 	 */
-	public Arc copy(Arc oldArc){
+	public static Arc copy(WebEngine webEngine, Arc oldArc){
 		Double innerRadius = oldArc.innerRadius();
 		Double outerRadius = oldArc.outerRadius();
 		Double startAngle = oldArc.startAngle();
 		Double endAngle = oldArc.endAngle();
 	
-		String command = "{ innerRadius : "+innerRadius+", outerRadius : "+outerRadius+", startAngle : "+startAngle+", endAngle : "+endAngle + " };";
-		JSObject result = evalForJsObject(command);
+		String command = "d3.copy_arc = { innerRadius : "+innerRadius+", outerRadius : "+outerRadius+", startAngle : "+startAngle+", endAngle : "+endAngle + " };";
+		webEngine.executeScript(command);
+		
+		
+		JSObject result = (JSObject) webEngine.executeScript("d3.copy_arc");
+		//webEngine.executeScript("d3.copy_arc=undefined");
+		
 		return new Arc(webEngine, result);
 		
 	}

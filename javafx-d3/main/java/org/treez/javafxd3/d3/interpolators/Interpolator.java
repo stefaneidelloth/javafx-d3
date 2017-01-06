@@ -26,7 +26,7 @@ public interface Interpolator<T> {
 	 *            the parameter
 	 * @return the corresponding value
 	 */
-	public T interpolate(double t);
+	public T interpolate(Object t);
 
 	/**
 	 * Return a one-arg JS function wrapping the interpolation.

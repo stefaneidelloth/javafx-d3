@@ -1,17 +1,16 @@
 package org.treez.javafxd3.d3.core;
 
+import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.color.Color;
 import org.treez.javafxd3.d3.ease.Easing;
 import org.treez.javafxd3.d3.ease.EasingFunction;
+import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.JsFunction;
 import org.treez.javafxd3.d3.interpolators.Interpolator;
 import org.treez.javafxd3.d3.svg.PathDataGenerator;
 import org.treez.javafxd3.d3.tweens.TweenFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
-
-import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.functions.DatumFunction;
-import org.treez.javafxd3.d3.functions.JsFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -166,6 +165,9 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition duration(int milliseconds) {
 		JSObject result = call("duration", milliseconds);
+		if(result==null){
+			return null;
+		}
 		return new Transition(webEngine, result);
 	}
 
@@ -363,12 +365,12 @@ public class Transition extends JavaScriptObject {
 	 * 
 	 * @see <a href="https:attrTween">Offical API</a>
 	 * 
-	 * @param name
+	 * @param nameOfTheAttributeToTween
 	 *            the name of the attribute to transition
 	 * @param tweenFunction
 	 *            the function used to create an interpolator
 	 */
-	public Transition attrTween(String name, TweenFunction<?> tweenFunction) {
+	public Transition attrTween(String nameOfTheAttributeToTween, TweenFunction<?> tweenFunction) {
 		
 		assertObjectIsNotAnonymous(tweenFunction);
 
@@ -376,10 +378,22 @@ public class Transition extends JavaScriptObject {
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(memberName, tweenFunction);
 
-		String command = "this.attrTween('" + name + "', function(d, i, a) { " + "var interpolator = d3." + memberName
-				+ ".apply(this,{datum:d},i,{datum:a});" + "return interpolator;" + "});";
+		String command = "this.attrTween('" + nameOfTheAttributeToTween + "', " + //
+				"  function(d, i, a) { " + //
+				//"     alert('attrTweenDelegate');" + //
+				"     var interpolator = d3." + memberName + ".apply(this,{datum:d},i,{datum:a});" + //				
+				//"     alert('attrTweenDelegate interpolator: ' + interpolator);" + //
+				"     return interpolator;" + //
+				"  }" + //
+				");";
 
 		JSObject result = evalForJsObject(command);
+		
+		
+		if(result==null){
+			return null;
+		}
+		
 		return new Transition(webEngine, result);
 
 	}

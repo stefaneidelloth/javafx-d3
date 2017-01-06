@@ -40,7 +40,7 @@ public class JSNIInterpolatorFactory<O> extends JavaScriptObject implements Inte
 	}
 
 	@Override
-	public final <I> Interpolator<O> create(final I a, final I b) {
+	public final <I> Interpolator<O> create(Object a, Object b) {
 		return new JavascriptFunctionInterpolatorDecorator<O>(createInterpolator(a, b)) {
 			@Override
 			public O cast(final Value v) {
@@ -54,7 +54,7 @@ public class JSNIInterpolatorFactory<O> extends JavaScriptObject implements Inte
 	 * @param b
 	 * @return
 	 */
-	public  <I> JavascriptFunctionInterpolator createInterpolator(final I a, final I b){
+	public  <I> JavascriptFunctionInterpolator createInterpolator(Object a, Object b){
 		JSObject result = callThisForJsObject(a, b);
 		return new JavascriptFunctionInterpolator(webEngine, result);		
 	}

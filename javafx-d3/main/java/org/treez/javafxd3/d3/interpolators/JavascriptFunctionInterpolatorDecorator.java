@@ -33,7 +33,7 @@ public class JavascriptFunctionInterpolatorDecorator<T> implements Interpolator<
     }
 
     @Override
-    public T interpolate(final double t) {
+    public T interpolate(Object t) {
         return cast(delegate.interpolate(t));
     }
 
