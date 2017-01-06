@@ -3,6 +3,7 @@ package org.treez.javafxd3.d3.scales;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.ArrayUtils;
 import org.treez.javafxd3.d3.interpolators.Interpolator;
+import org.treez.javafxd3.d3.wrapper.Inspector;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import org.treez.javafxd3.d3.D3;
@@ -79,7 +80,7 @@ public abstract class Scale<S extends Scale<?>> extends JavaScriptObject {
     	JSObject result = evalForJsObject(command);    	
     	S scaleResult = createScale(webEngine, result);   
     	return scaleResult;    	
-    }
+    }  
    
 	/**
      * Sets the scale's input domain to the specified array of strings.
@@ -244,6 +245,7 @@ public abstract class Scale<S extends Scale<?>> extends JavaScriptObject {
      * @return the output value
      */
     public  Value apply(double d){
+    	Inspector.inspect(this);
     	String command = "this(" + d + ")";
     	Object result = eval(command);
     	

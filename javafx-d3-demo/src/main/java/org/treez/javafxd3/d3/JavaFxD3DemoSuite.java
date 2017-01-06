@@ -5,6 +5,7 @@ import java.util.List;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.democases.ArcTween;
 import org.treez.javafxd3.d3.democases.LorenzSystem;
+import org.treez.javafxd3.d3.democases.barchart.BarChart;
 import org.treez.javafxd3.d3.democases.behaviors.DragMultiples;
 import org.treez.javafxd3.d3.democases.behaviors.ZoomDemo;
 import org.treez.javafxd3.d3.democases.functionplotter.FunctionPlotDemo;
@@ -149,6 +150,7 @@ public class JavaFxD3DemoSuite extends Application {
 
 		// CHART
 		menuChildren.add(new DemoMenuButton("XY plot", Xy.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("Bar chart", BarChart.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Function plot", FunctionPlotDemo.factory(d3, prefBox)));
 		//menuChildren.add(new DemoMenuButton("Axis Component", AxisComponent.factory(d3, prefBox)));
 		//menuChildren.add(new DemoMenuButton("General Update Pattern I", GeneralUpdatePattern1.factory(d3, prefBox)));

@@ -1151,6 +1151,29 @@ public class Selection extends EnteringSelection {
 		return new UpdateSelection(webEngine, result);
 	}
 	
+	public UpdateSelection dataObjectCollection(Collection<Object> collection) {
+
+		JSObject d3JsObject = getD3();
+
+		List<String> fullVarNames = new ArrayList<>();
+		List<String> varNames = new ArrayList<>();
+		for (Object object : collection) {
+			String varName = createNewTemporaryInstanceName();			
+			d3JsObject.setMember(varName, object);
+			fullVarNames.add("d3." + varName);
+			varNames.add(varName);
+		}
+
+		String command = "this.data([" + String.join(",", fullVarNames) + "])";
+		JSObject result = evalForJsObject(command);
+
+		for (String varName : varNames) {
+			d3JsObject.removeMember(varName);
+		}
+
+		return new UpdateSelection(webEngine, result);
+	}
+	
 
 
 	/**

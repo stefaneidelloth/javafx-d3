@@ -201,14 +201,24 @@ public class Value extends JavaScriptObject {
 	 *
 	 * @return the value
 	 */
-	public double asDouble() {
+	public Double asDouble() {
 		String command = "this.datum-0;";
 		Object resultObj = eval(command);
+		
+		if(resultObj==null){
+			return null;
+		}
 
-		boolean isDouble = resultObj instanceof Float;
+		boolean isDouble = resultObj instanceof Double;
 		if (isDouble) {
 			Double result = (Double) resultObj;
 			return result;
+		}
+		
+		boolean isFloat = resultObj instanceof Float;
+		if (isFloat) {
+			Float floatValue = (Float) resultObj;
+			return floatValue.doubleValue();			
 		}
 
 		boolean isNumber = resultObj instanceof Number;
@@ -305,7 +315,7 @@ public class Value extends JavaScriptObject {
 	 * @return the value
 	 */
 	public final long asLong() {
-		long result = (long) asDouble();
+		long result = (long) (double) asDouble();
 		return result;
 	}
 
@@ -375,19 +385,19 @@ public class Value extends JavaScriptObject {
 	public Coords asCoords() {
 		String command = "this.datum";
 		Object result = eval(command);
-		
+
 		boolean isCoords = result instanceof Coords;
-		if(isCoords){
+		if (isCoords) {
 			return (Coords) result;
 		} else {
 			return new Coords(webEngine, (JSObject) result);
 		}
-		
+
 	}
 
 	/**
-	 * Cast and return the wrapped value, if possible.
-	 * (Does not work for "conversion" of JSObject to JavaScriptObject)
+	 * Cast and return the wrapped value, if possible. (Does not work for
+	 * "conversion" of JSObject to JavaScriptObject)
 	 *
 	 * @throws ClassCastException
 	 *             if the value cannot be converted in T
@@ -395,13 +405,17 @@ public class Value extends JavaScriptObject {
 	 * @return the value
 	 */
 	
-	@SuppressWarnings("unchecked")
 	public <T> T as() {
 		String command = "this.datum";
-		Object result = eval(command);			
-		T castedResult =  (T) result;
-		return castedResult;
-				
+		Object result = eval(command);
+		try {
+			@SuppressWarnings("unchecked")
+			T castedResult = (T) result;
+			return castedResult;
+		} catch (ClassCastException exception) {
+			String message = "Could not directly cast the value. Please try to use method as(Class<?> class) instead of as(). ";
+			throw new IllegalStateException(message, exception);
+		}
 	}
 
 	/**
@@ -411,16 +425,17 @@ public class Value extends JavaScriptObject {
 	 *            the clazz to cast to
 	 * @return the casted instance
 	 */
+	@SuppressWarnings("unchecked")
 	public final <T> T as(final Class<T> clazz) {
 		String command = "this.datum";
 		Object resultObj = eval(command);
-		
-		if (resultObj==null){
+
+		if (resultObj == null) {
 			return null;
 		}
-		
+
 		boolean isUndefined = resultObj.equals("undefined");
-		if (isUndefined){
+		if (isUndefined) {
 			return null;
 		}
 
@@ -449,9 +464,22 @@ public class Value extends JavaScriptObject {
 				return instance;
 			} else {
 				return null;
-								
+
 			}
 
+		}
+
+		boolean targetIsDouble = Double.class.isAssignableFrom(clazz);
+		if (targetIsDouble) {
+
+			Class<?> resultClass = resultObj.getClass();
+			boolean isDouble = Double.class.isAssignableFrom(resultClass);
+			if (isDouble) {
+				return (T) resultObj;
+			}
+
+			Double doubleValue = Double.parseDouble("" + resultObj);
+			return (T) doubleValue;
 		}
 
 		T result = clazz.cast(resultObj);
@@ -472,9 +500,9 @@ public class Value extends JavaScriptObject {
 	/**
 	 * @return true if the value is undefined in the Javascript sense
 	 */
-	public boolean isUndefined() {		
+	public boolean isUndefined() {
 		String command = "this.datum";
-		Object resultObj = eval(command);		
+		Object resultObj = eval(command);
 		boolean isUndefined = resultObj.equals("undefined");
 		return isUndefined;
 	}

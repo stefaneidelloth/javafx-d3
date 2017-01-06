@@ -474,7 +474,7 @@ public class Interpolators {
 				interpolateRound0(webEngine, a, b)) {
 			@Override
 			public Long cast(final Value v) {
-				return new Long((long) v.asDouble());
+				return new Long((long) (double) v.asDouble());
 			}
 		};
 	}
@@ -558,7 +558,7 @@ public class Interpolators {
 				// see
 				//toolkit/doc/latest/DevGuideCodingBasicsJSNI#important
 				// v.asLong()
-				return new Long((long) v.asDouble());
+				return new Long((long) (double) v.asDouble());
 			}
 		};
 	}

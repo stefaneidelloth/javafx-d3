@@ -843,7 +843,7 @@ public class D3 extends JavaScriptObject {
 	};
 
 	/**
-	 * Issues an HTTP GET request for the comma-separated values (TSV) file at
+	 * Issues an HTTP GET request for the tab-separated values (TSV) file at
 	 * the specified url.
 	 * <p>
 	 * The file contents are assumed to be RFC4180-compliant. The mime type of
@@ -872,7 +872,8 @@ public class D3 extends JavaScriptObject {
 		jsObj.setMember(accessorMemberName, accessor);
 		jsObj.setMember(callbackName, callback);
 
-		String command = "this.tsv('" + url + "', function(row, index) { " //			
+		String command = "this.tsv('" + url + "', function(row, index) { " //		
+				+ "alert('inside tsv callback'); " //
 				+ "  return this." + accessorMemberName + ".apply(row, index);" //
 				+ " }, " + "function(error, rows) { " //			
 				+ "  this." + callbackName + ".get(error, rows); " //

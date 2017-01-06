@@ -190,7 +190,7 @@ public class ValueTest extends AbstractTestCase {
 		// assertTrue(Double.isNaN(value.asJsDate().getTime()));
 
 		value = getDecimal();
-		int n = (int) value.asDouble();
+		int n = (int) (double) value.asDouble();
 		assertEquals(n, (int) value.asInt());
 		assertEquals(n, (byte) value.asByte());
 		assertEquals(12.5F, value.asFloat(), 1e-6);
