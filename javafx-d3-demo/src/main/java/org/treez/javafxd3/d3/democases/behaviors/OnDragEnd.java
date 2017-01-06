@@ -3,12 +3,12 @@ package org.treez.javafxd3.d3.democases.behaviors;
 import org.treez.javafxd3.d3.wrapper.Element;
 
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-public class OnDragEnd implements DatumFunction<Void> {
+public class OnDragEnd implements DataFunction<Void> {
 	
 	private WebEngine webEngine;
 	private D3 d3;

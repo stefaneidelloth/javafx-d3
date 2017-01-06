@@ -5,7 +5,7 @@ import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.DemoCase;
 import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.layout.VBox;
@@ -66,7 +66,7 @@ public class ChordDiagram extends AbstractDemoCase {
 		final Selection svg = d3.select("root").append("svg").attr("width", width).attr("height", height).append("g")
 				.attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")");
 
-		DatumFunction<String> indexFunction = new DatumFunction<String>() {
+		DataFunction<String> indexFunction = new DataFunction<String>() {
 			@Override
 			public String apply(final Element context, final Value d, final int index) {
 				try {
@@ -87,7 +87,7 @@ public class ChordDiagram extends AbstractDemoCase {
 				.on("mouseover", fade(svg, .1)).on("mouseout", fade(svg, 1));
 
 		// Returns an array of tick angles and labels, given a group.
-		DatumFunction<GroupTick[]> groupTicks = new DatumFunction<GroupTick[]>() {
+		DataFunction<GroupTick[]> groupTicks = new DataFunction<GroupTick[]>() {
 			@Override
 			public GroupTick[] apply(final Element context, final Value d, final int index) {
 				final Group g = d.<Group> as();
@@ -107,7 +107,7 @@ public class ChordDiagram extends AbstractDemoCase {
 		Selection ticks;
 		try {
 			ticks = svg.append("g").selectAll("g").data(chord.groups()).enter().append("g").selectAll("g")
-					.data(groupTicks).enter().append("g").attr("transform", new DatumFunction<String>() {
+					.data(groupTicks).enter().append("g").attr("transform", new DataFunction<String>() {
 						@Override
 						public String apply(final Element context, final Value d, final int index) {
 							GroupTick groupTick = d.<GroupTick> as();
@@ -117,17 +117,17 @@ public class ChordDiagram extends AbstractDemoCase {
 					});
 			ticks.append("line").attr("x1", 1).attr("y1", 0).attr("x2", 5).attr("y2", 0).style("stroke", "#000");
 
-			ticks.append("text").attr("x", 8).attr("dy", ".35em").attr("transform", new DatumFunction<String>() {
+			ticks.append("text").attr("x", 8).attr("dy", ".35em").attr("transform", new DataFunction<String>() {
 				@Override
 				public String apply(final Element context, final Value d, final int index) {
 					return d.<GroupTick> as().angle() > Math.PI ? "rotate(180)translate(-16)" : null;
 				}
-			}).style("text-anchor", new DatumFunction<String>() {
+			}).style("text-anchor", new DataFunction<String>() {
 				@Override
 				public String apply(final Element context, final Value d, final int index) {
 					return d.<GroupTick> as().angle() > Math.PI ? "end" : null;
 				}
-			}).text(new DatumFunction<String>() {
+			}).text(new DataFunction<String>() {
 				@Override
 				public String apply(final Element context, final Value d, final int index) {
 					return d.<GroupTick> as().label();
@@ -135,7 +135,7 @@ public class ChordDiagram extends AbstractDemoCase {
 			});
 
 			svg.append("g").attr("class", "chord").selectAll("path").data(chord.chords()).enter().append("path")
-					.attr("d", d3.svg().chord().radius(innerRadius)).style("fill", new DatumFunction<String>() {
+					.attr("d", d3.svg().chord().radius(innerRadius)).style("fill", new DataFunction<String>() {
 						@Override
 						public String apply(final Element context, final Value d, final int index) {
 							return fill.apply(d.<ChordItem> as().target().index()).asString();
@@ -165,8 +165,8 @@ public class ChordDiagram extends AbstractDemoCase {
 		return result;		
 	}
 
-	private DatumFunction<Void> fade(final Selection svg, final double opacity) {
-		return new DatumFunction<Void>() {
+	private DataFunction<Void> fade(final Selection svg, final double opacity) {
+		return new DataFunction<Void>() {
 			@Override
 			public Void apply(final Object context, final Object d, final int i) {
 

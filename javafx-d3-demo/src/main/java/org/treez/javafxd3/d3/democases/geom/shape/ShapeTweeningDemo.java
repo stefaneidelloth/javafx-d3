@@ -14,7 +14,7 @@ import org.treez.javafxd3.d3.DemoCase;
 import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transition.EventType;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 
 import javafx.scene.layout.VBox;
 
@@ -129,7 +129,7 @@ public class ShapeTweeningDemo extends AbstractDemoCase {
 	private void loop(final String d0, final String d1) {
 
 		path.attr("d", d0).transition().duration(5000).attr("d", d1).transition().delay(5000).attr("d", d0)
-				.each(EventType.END, new DatumFunction<Void>() {
+				.each(EventType.END, new DataFunction<Void>() {
 					@Override
 					public Void apply(final Object context, final Object d, final int index) {
 						loop(d0, d1);

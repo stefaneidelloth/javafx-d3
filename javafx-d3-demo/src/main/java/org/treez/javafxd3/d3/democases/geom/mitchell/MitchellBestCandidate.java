@@ -89,8 +89,8 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 
 		final RootNode<Circle> quadtree = d3.geom() //
 				.quadtree() //
-				.x(new XDatumFunction(webEngine)) //
-				.y(new YDatumFunction(webEngine)) //
+				.x(new XDataFunction(webEngine)) //
+				.y(new YDataFunction(webEngine)) //
 				.extent(0, 0, width, height) //
 				.apply(new Circle[1]);
 

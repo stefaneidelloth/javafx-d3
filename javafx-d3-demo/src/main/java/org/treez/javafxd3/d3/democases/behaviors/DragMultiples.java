@@ -106,8 +106,8 @@ public class DragMultiples extends AbstractDemoCase {
 
 		svg.append("circle") //
 				.attr("r", CIRCLE_RADIUS) //
-				.attr("cx", new XDatumFunction(webEngine)) //
-				.attr("cy", new YDatumFunction(webEngine)) //
+				.attr("cx", new XDataFunction(webEngine)) //
+				.attr("cy", new YDataFunction(webEngine)) //
 				.style("cursor", "pointer")
 				// listeners are registered
 				.call(drag);

@@ -10,7 +10,6 @@ import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
 import org.treez.javafxd3.d3.wrapper.Element;
-import org.treez.javafxd3.d3.wrapper.Inspector;
 import org.treez.javafxd3.d3.wrapper.Node;
 
 import netscape.javascript.JSObject;
@@ -186,7 +185,7 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 
 	protected Value getElementProperty(final int index, final String property) {
 		Element element =  getElementFromRoot(index);
-		Inspector.inspect(element);
+		
 		if(element==null){
 			return null;
 		}

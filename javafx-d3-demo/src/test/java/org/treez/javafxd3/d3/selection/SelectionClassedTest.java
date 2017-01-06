@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.selection;
 
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.democases.InputElementFactory;
-import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
-import org.treez.javafxd3.d3.functions.EvenIndexDatumFunction;
+import org.treez.javafxd3.d3.functions.data.ConstantDataFunction;
+import org.treez.javafxd3.d3.functions.data.EvenIndexDataFunction;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
 
 /**
@@ -28,7 +28,7 @@ public class SelectionClassedTest extends AbstractSelectionTest {
 		Selection selection = givenASimpleNodeFactory(createLabelFactory(""));
 		
 		
-		selection.classed("foo bar", new ConstantDatumFunction<Boolean>(true));
+		selection.classed("foo bar", new ConstantDataFunction<Boolean>(true));
 		
 		assertEquals("foo bar", getElementClassAttribute(0));
 
@@ -36,7 +36,7 @@ public class SelectionClassedTest extends AbstractSelectionTest {
 		selection = givenMultipleNodeFactories(createLabelFactory(""), createLabelFactory(""), createLabelFactory(""));
 		
 		
-		selection.classed("foo bar", new EvenIndexDatumFunction());
+		selection.classed("foo bar", new EvenIndexDataFunction());
 		
 		assertEquals("foo bar", getElementClassAttribute(0));
 		assertEquals("", getElementClassAttribute(1));

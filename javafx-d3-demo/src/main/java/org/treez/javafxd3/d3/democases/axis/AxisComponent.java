@@ -77,16 +77,16 @@ public class AxisComponent extends AbstractDemoCase {
 		// An area generator, for the light fill.
 		final Area area = d3.svg().area().interpolate(InterpolationMode.MONOTONE)
 				// .x(function(d) { return x(d.date); })
-				.x(new XAxisDatumFunction(webEngine, x)).y0(h)
+				.x(new XAxisDataFunction(webEngine, x)).y0(h)
 				// .y1(function(d) { return y(d.price); });
-				.y1(new YAxisDatumFunction(webEngine, y));
+				.y1(new YAxisDataFunction(webEngine, y));
 
 		// A line generator, for the dark stroke.
 		final Line line = d3.svg().line().interpolate(InterpolationMode.MONOTONE)
 				// .x(function(d) { return x(d.date); })
-				.x(new XAxisDatumFunction(webEngine, x))
+				.x(new XAxisDataFunction(webEngine, x))
 				// // .y(function(d) { return y(d.price); });
-				.y(new YAxisDatumFunction(webEngine, y));
+				.y(new YAxisDataFunction(webEngine, y));
 		
 		String relativeUrl = "readme.csv";
 		

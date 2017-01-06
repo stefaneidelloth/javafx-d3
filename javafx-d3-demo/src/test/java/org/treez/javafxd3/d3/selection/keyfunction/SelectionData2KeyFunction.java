@@ -3,7 +3,6 @@ package org.treez.javafxd3.d3.selection.keyfunction;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.KeyFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
-import org.treez.javafxd3.d3.wrapper.Inspector;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -23,7 +22,7 @@ public class SelectionData2KeyFunction implements KeyFunction<Integer> {
 			Element element = new Element(webEngine, elementJsObject);				
 						
 			JSObject jsDatum = (JSObject) datum;
-			Inspector.inspect(jsDatum);
+			
 			
 			Value value = new Value(webEngine, jsDatum);			
 			

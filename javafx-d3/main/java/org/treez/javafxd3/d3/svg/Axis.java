@@ -6,7 +6,7 @@ import org.treez.javafxd3.d3.core.Formatter;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transition;
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.JsFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.scales.LogScale;
@@ -196,7 +196,7 @@ public class Axis extends JavaScriptObject implements JsFunction {
 
 	/**
 	 * Same as {@link #ticks(int)} but suitable for
-	 * {@link LogScale#tickFormat(int, DatumFunction)}.
+	 * {@link LogScale#tickFormat(int, DataFunction)}.
 	 * 
 	 * 
 	 * @param count
@@ -205,7 +205,7 @@ public class Axis extends JavaScriptObject implements JsFunction {
 	 *            the format argument to be passed to the underlying scale.
 	 * @return the current axis
 	 */
-	public Axis ticks(int count, DatumFunction<String> formatSpecifier) {
+	public Axis ticks(int count, DataFunction<String> formatSpecifier) {
 
 		String memberName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
@@ -422,7 +422,7 @@ public class Axis extends JavaScriptObject implements JsFunction {
 	 *            the function converting each tick value to a String.
 	 * @return the current {@link Axis}
 	 */
-	public Axis tickFormat(DatumFunction<String> formatFunction) {
+	public Axis tickFormat(DataFunction<String> formatFunction) {
 
 		assertObjectIsNotAnonymous(formatFunction);
 		String memberName = createNewTemporaryInstanceName();

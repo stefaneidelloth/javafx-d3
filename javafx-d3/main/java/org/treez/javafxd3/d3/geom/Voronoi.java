@@ -2,10 +2,9 @@ package org.treez.javafxd3.d3.geom;
 
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.ArrayUtils;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.layout.Link;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
-
-import org.treez.javafxd3.d3.functions.DatumFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -125,13 +124,13 @@ public class Voronoi extends JavaScriptObject {
      *            the x accessor
      * @return the current layout
      */
-    public  Voronoi x(DatumFunction<Double> xAccessor){
+    public  Voronoi x(DataFunction<Double> xAccessor){
     	
     	throw new IllegalStateException("not yet implemented");
     	/*
 		return this
 				.x(function(d, i) {
-					return xAccessor.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
+					return xAccessor.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
 				});
 				
 		*/
@@ -148,13 +147,13 @@ public class Voronoi extends JavaScriptObject {
      * @return the current layout
      */
 
-    public  Voronoi y(DatumFunction<Double> yAccessor){
+    public  Voronoi y(DataFunction<Double> yAccessor){
     	
     	throw new IllegalStateException("not yet implemented");
     	/*
 		return this
 				.y(function(d, i) {
-					return yAccessor.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
+					return yAccessor.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
 				});
 				
 		*/

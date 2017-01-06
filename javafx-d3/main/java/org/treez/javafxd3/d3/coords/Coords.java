@@ -1,6 +1,6 @@
 package org.treez.javafxd3.d3.coords;
 
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -79,20 +79,20 @@ public class Coords extends JavaScriptObject {
 	//#region METHODS
 
 	/**
-	 * Convenient {@link DatumFunction} that return the x component of a
+	 * Convenient {@link DataFunction} that return the x component of a
 	 * {@link Coords} datum.
 	 */
-	public static final DatumFunction<Double> getXAccessor(WebEngine webEngine){
-		DatumFunction<Double> accessor = new XDatumFunction(webEngine); 
+	public static final DataFunction<Double> getXAccessor(WebEngine webEngine){
+		DataFunction<Double> accessor = new XDataFunction(webEngine); 
 		return accessor;
 	}
 
 	/**
-	 * Convenient {@link DatumFunction} that return the y component of a
+	 * Convenient {@link DataFunction} that return the y component of a
 	 * {@link Coords} datum.
 	 */
-	public static final DatumFunction<Double> getYAccessor(WebEngine webEngine){
-		DatumFunction<Double> accessor = new YDatumFunction(webEngine); 
+	public static final DataFunction<Double> getYAccessor(WebEngine webEngine){
+		DataFunction<Double> accessor = new YDataFunction(webEngine); 
 		return accessor;
 	}
 

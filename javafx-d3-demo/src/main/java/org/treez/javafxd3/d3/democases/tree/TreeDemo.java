@@ -87,7 +87,7 @@ public class TreeDemo extends AbstractDemoCase {
 		tree = d3.layout().tree().size(width, height);
 		// set the global way to draw paths
 		diagonal = d3.svg().diagonal()
-				.projection(new DatumFunction<Double[]>() {
+				.projection(new DataFunction<Double[]>() {
 					@Override
 					public Double[] apply(Element context, Value d,
 							int index) {
@@ -161,7 +161,7 @@ public class TreeDemo extends AbstractDemoCase {
 
 		// add circles to all entering nodes
 		nodeEnter.append("circle").attr("r", 1e-6)
-				.style("fill", new DatumFunction<String>() {
+				.style("fill", new DataFunction<String>() {
 					@Override
 					public String apply(Element context, Value d, int index) {
 						JavaScriptObject node = d.<TreeDemoNode> as()
@@ -172,7 +172,7 @@ public class TreeDemo extends AbstractDemoCase {
 
 		// transition entering nodes
 		Transition nodeUpdate = node.transition().duration(duration)
-				.attr("transform", new DatumFunction<String>() {
+				.attr("transform", new DataFunction<String>() {
 					@Override
 					public String apply(Element context, Value d, int index) {
 						TreeDemoNode data = d.<TreeDemoNode> as();
@@ -181,7 +181,7 @@ public class TreeDemo extends AbstractDemoCase {
 				});
 
 		nodeUpdate.select("circle").attr("r", 4.5)
-				.style("fill", new DatumFunction<String>() {
+				.style("fill", new DataFunction<String>() {
 					@Override
 					public String apply(Element context, Value d, int index) {
 						JavaScriptObject object = d.<TreeDemoNode> as()
@@ -192,7 +192,7 @@ public class TreeDemo extends AbstractDemoCase {
 
 		// transition exiting nodes
 		Transition nodeExit = node.exit().transition().duration(duration)
-				.attr("transform", new DatumFunction<String>() {
+				.attr("transform", new DataFunction<String>() {
 					@Override
 					public String apply(Element context, Value d, int index) {
 						return "translate(" + source.x() + "," + source.y()
@@ -214,7 +214,7 @@ public class TreeDemo extends AbstractDemoCase {
 				});
 
 		link.enter().insert("svg:path", "g").attr("class", "link")
-				.attr("d", new DatumFunction<String>() {
+				.attr("d", new DataFunction<String>() {
 					@Override
 					public String apply(Element context, Value d, int index) {
 						Coords o = new Coords(webEngine, source.getNumAttr("x0"),
@@ -226,7 +226,7 @@ public class TreeDemo extends AbstractDemoCase {
 		link.transition().duration(duration).attr("d", diagonal);
 
 		link.exit().transition().duration(duration)
-				.attr("d", new DatumFunction<String>() {
+				.attr("d", new DataFunction<String>() {
 					@Override
 					public String apply(Element context, Value d, int index) {
 						Coords o = Coords.create(source.x(), source.y());
@@ -272,7 +272,7 @@ public class TreeDemo extends AbstractDemoCase {
 		}
 	}
 
-	private class Click implements DatumFunction<Void> {
+	private class Click implements DataFunction<Void> {
 		@Override
 		public Void apply(Element context, Value d, int index) {
 			TreeDemoNode node = d.<TreeDemoNode> as();

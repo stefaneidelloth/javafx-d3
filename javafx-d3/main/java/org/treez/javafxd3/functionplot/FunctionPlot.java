@@ -1,7 +1,6 @@
 package org.treez.javafxd3.functionplot;
 
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.wrapper.Inspector;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -124,7 +123,7 @@ public class FunctionPlot extends JavaScriptObject {
 		options.setWidth(width);
 		options.setHeight(height);
 
-		Inspector.inspect(options);
+		
 
 		apply(options);
 

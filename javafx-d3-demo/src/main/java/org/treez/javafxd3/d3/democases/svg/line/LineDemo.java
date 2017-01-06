@@ -15,7 +15,7 @@ import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.EnteringSelection;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.UpdateSelection;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.svg.InterpolationMode;
 import org.treez.javafxd3.d3.svg.Line;
 
@@ -95,9 +95,9 @@ public class LineDemo extends AbstractDemoCase {
 
 		// create initial d3 content
 
-		DatumFunction<Double> xAccessor = CustomCoords.xAccessor(webEngine);
-		DatumFunction<Double> yAcccessor = CustomCoords.yAccessor(webEngine);
-		DatumFunction<Boolean> isDefinedAccessor = CustomCoords.definedAccessor(webEngine);
+		DataFunction<Double> xAccessor = CustomCoords.xAccessor(webEngine);
+		DataFunction<Double> yAcccessor = CustomCoords.yAccessor(webEngine);
+		DataFunction<Boolean> isDefinedAccessor = CustomCoords.definedAccessor(webEngine);
 		line = d3.svg().line().x(xAccessor).y(yAcccessor).defined(isDefinedAccessor);
 
 		svg = d3.select("svg").attr("width", width).attr("height", height).append("g");
@@ -255,9 +255,9 @@ public class LineDemo extends AbstractDemoCase {
 
 		UpdateSelection updateSelection = getSvg().selectAll("circle").data(data);
 
-		DatumFunction<Double> cxFunction = new CxDatumFunction(webEngine);
+		DataFunction<Double> cxFunction = new CxDataFunction(webEngine);
 
-		DatumFunction<Double> cyFunction = new CyDatumFunction(webEngine);
+		DataFunction<Double> cyFunction = new CyDataFunction(webEngine);
 
 		EnteringSelection enter = updateSelection.enter();
 		if (enter != null) {

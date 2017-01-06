@@ -4,12 +4,12 @@ import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.behaviour.Zoom;
 import org.treez.javafxd3.d3.behaviour.Zoom.ZoomEventType;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 
 /**
  * Tests the class Zoom
  */
-public class ZoomTest extends AbstractTestCase implements DatumFunction<Void> {
+public class ZoomTest extends AbstractTestCase implements DataFunction<Void> {
 
 	private static final double DELTA = 0.001d;
 
@@ -47,7 +47,7 @@ public class ZoomTest extends AbstractTestCase implements DatumFunction<Void> {
 	}
 	
 	/** 
-	 * Implementation of DatumFunction to be used as zoom event listener
+	 * Implementation of DataFunction to be used as zoom event listener
 	 */
 	@Override
 	public Void apply(Object context, Object d, int index) {

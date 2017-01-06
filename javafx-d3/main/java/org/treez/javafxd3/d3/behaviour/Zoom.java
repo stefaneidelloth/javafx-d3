@@ -7,7 +7,7 @@ import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transition;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.JsFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.scales.QuantitativeScale;
@@ -95,7 +95,7 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @param listener
 	 * @return the current zoom instance
 	 */
-	public Zoom on(ZoomEventType type, DatumFunction<Void> listener) {
+	public Zoom on(ZoomEventType type, DataFunction<Void> listener) {
 		
 		assertObjectIsNotAnonymous(listener);
 
@@ -362,7 +362,7 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * Provide access to the properties of a zoom event.
 	 * <p>
 	 * Use {@link D3#zoomEvent()} from within a
-	 * {@link Zoom#on(ZoomEventType, DatumFunction)} listener.
+	 * {@link Zoom#on(ZoomEventType, DataFunction)} listener.
 	 * <p>
 	 * 
 	 * 

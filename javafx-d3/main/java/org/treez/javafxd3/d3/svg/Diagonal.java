@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.svg;
 
 import org.treez.javafxd3.d3.coords.Coords;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.layout.Node;
 import org.treez.javafxd3.d3.layout.Tree;
 
@@ -17,7 +17,7 @@ import netscape.javascript.JSObject;
  * node-link diagram.
  * 
  * Diagonals default to Cartesian orientations, but can be used in radial and
- * other orientations using {@link Diagonal#projection(DatumFunction)}.
+ * other orientations using {@link Diagonal#projection(DataFunction)}.
  */
 public class Diagonal extends PathDataGenerator {
 
@@ -54,7 +54,7 @@ public class Diagonal extends PathDataGenerator {
 	 * 
 	 * @return the accessor function registered with the diagonal generator
 	 */
-	public DatumFunction<?> projection() {
+	public DataFunction<?> projection() {
 		throw new IllegalStateException("not yet implemented");
 		//return this.projection();
 	}
@@ -78,7 +78,7 @@ public class Diagonal extends PathDataGenerator {
 	 *            datum function
 	 * @return this diagonal object
 	 */
-	public Diagonal projection(DatumFunction<?> function) {
+	public Diagonal projection(DataFunction<?> function) {
 		
 		assertObjectIsNotAnonymous(function);
 
@@ -86,7 +86,7 @@ public class Diagonal extends PathDataGenerator {
 
 		/*
 		 * return this .projection(function(d, i) { return
-		 * df.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/
+		 * df.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/google/
 		 * gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{
 		 * datum:d},i); });
 		 * 
@@ -161,7 +161,7 @@ public class Diagonal extends PathDataGenerator {
 	 *            source accessor function
 	 * @return the diagonal object
 	 */
-	public Diagonal source(DatumFunction<?> function) {
+	public Diagonal source(DataFunction<?> function) {
 		
 		assertObjectIsNotAnonymous(function);
 
@@ -169,7 +169,7 @@ public class Diagonal extends PathDataGenerator {
 
 		/*
 		 * return this .source(function(d, i) { return
-		 * df.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/
+		 * df.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/google/
 		 * gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{
 		 * datum:d},i); });
 		 * 
@@ -188,7 +188,7 @@ public class Diagonal extends PathDataGenerator {
 	 *            target accessor function
 	 * @return the diagonal object
 	 */
-	public Diagonal target(DatumFunction<?> function) {
+	public Diagonal target(DataFunction<?> function) {
 		
 		assertObjectIsNotAnonymous(function);
 
@@ -196,7 +196,7 @@ public class Diagonal extends PathDataGenerator {
 
 		/*
 		 * return this .target(function(d, i) { return
-		 * df.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/google/
+		 * df.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/google/
 		 * gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{
 		 * datum:d},i); });
 		 * 

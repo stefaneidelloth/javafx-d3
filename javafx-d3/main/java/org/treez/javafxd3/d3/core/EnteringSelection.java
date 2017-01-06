@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.Array;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.JsFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
@@ -98,7 +98,7 @@ public class EnteringSelection extends JavaScriptObject {
 		return new Selection(webEngine, result);
 	}
 	
-	public Selection append(DatumFunction<JSObject> function) {
+	public Selection append(DataFunction<JSObject> function) {
 		
 		String funcName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
@@ -164,7 +164,7 @@ public class EnteringSelection extends JavaScriptObject {
 	 * @return
 	 * @throws Exception
 	 */
-	public Selection select(DatumFunction<Element> func) {
+	public Selection select(DataFunction<Element> func) {
 		
 		String funcName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();

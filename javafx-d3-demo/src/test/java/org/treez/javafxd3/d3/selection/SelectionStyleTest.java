@@ -2,7 +2,7 @@ package org.treez.javafxd3.d3.selection;
 
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.democases.InputElementFactory;
-import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
+import org.treez.javafxd3.d3.functions.data.ConstantDataFunction;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
 
 
@@ -28,12 +28,12 @@ public class SelectionStyleTest extends AbstractSelectionTest {
 		// works with single selection
 		Selection selection = givenASimpleNodeFactory(new InputElementFactory());
 		final double value = 0.5;
-		selection.style(STYLE_HTML, new ConstantDatumFunction<Double>(value));
+		selection.style(STYLE_HTML, new ConstantDataFunction<Double>(value));
 		assertEquals(Double.toString(value), getElementStyle(0, STYLE_CAMEL));
 
 		// works with multiple selection
 		Selection selection2 = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
-		selection2.style(STYLE_HTML, new ConstantDatumFunction<Double>(value));
+		selection2.style(STYLE_HTML, new ConstantDataFunction<Double>(value));
 		assertEquals(Double.toString(value), getElementStyle(0, STYLE_CAMEL));
 		assertEquals(Double.toString(value), getElementStyle(1, STYLE_CAMEL));
 		assertEquals(Double.toString(value), getElementStyle(2, STYLE_CAMEL));
@@ -44,12 +44,12 @@ public class SelectionStyleTest extends AbstractSelectionTest {
 		// works with single selection
 		Selection selection = givenASimpleNodeFactory(new InputElementFactory());
 		final double value = 1.54;
-		selection.style(SelectionStyleTest.STYLE_HTML, new ConstantDatumFunction<Double>(value), true);
+		selection.style(SelectionStyleTest.STYLE_HTML, new ConstantDataFunction<Double>(value), true);
 		assertEquals("1.54", getElementStyle(0, SelectionStyleTest.STYLE_CAMEL));
 
 		// works with multiple selection
 		Selection selection2 = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
-		selection2.style(SelectionStyleTest.STYLE_HTML, new ConstantDatumFunction<Double>(value));
+		selection2.style(SelectionStyleTest.STYLE_HTML, new ConstantDataFunction<Double>(value));
 		assertEquals("1.54", getElementStyle(0, SelectionStyleTest.STYLE_CAMEL));
 		assertEquals("1.54", getElementStyle(1, SelectionStyleTest.STYLE_CAMEL));
 		assertEquals("1.54", getElementStyle(2, SelectionStyleTest.STYLE_CAMEL));

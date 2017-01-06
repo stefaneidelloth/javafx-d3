@@ -3,13 +3,13 @@ package org.treez.javafxd3.d3.svg;
 import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.scales.LogScale;
 import org.treez.javafxd3.d3.scales.OrdinalScale;
-import org.treez.javafxd3.d3.selection.datumfunction.PrefixPlusIndexDatumFunction;
+import org.treez.javafxd3.d3.selection.datafunction.PrefixPlusIndexDataFunction;
 import org.treez.javafxd3.d3.svg.Axis.Orientation;
-import org.treez.javafxd3.d3.svg.datumfunction.TickTestDatumFunction;
+import org.treez.javafxd3.d3.svg.datafunction.TickTestDataFunction;
 
 @SuppressWarnings("javadoc")
 public class AxisTest extends AbstractTestCase {	
@@ -53,7 +53,7 @@ public class AxisTest extends AbstractTestCase {
       //  assertEquals(10, axis.ticks()[1].asInt());
 
         // FIXME: smoke test to be cross checked
-        DatumFunction<String> f = new PrefixPlusIndexDatumFunction("index");
+        DataFunction<String> f = new PrefixPlusIndexDataFunction("index");
         
         axis.ticks(8, f);
         assertEquals(8, (int) axis.ticks().get(0,  Value.class).asInt());
@@ -101,7 +101,7 @@ public class AxisTest extends AbstractTestCase {
         s2.domain(5, 15, 20, 100);
         s2.range(1, 2, 3, 4);
         final StringBuffer counter = new StringBuffer();
-        axis.tickFormat(new TickTestDatumFunction(webEngine, counter));
+        axis.tickFormat(new TickTestDataFunction(webEngine, counter));
         
         // apply
         Selection svg = d3.select("svg").attr("width", 100)

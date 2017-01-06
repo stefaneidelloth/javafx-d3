@@ -5,12 +5,12 @@ import org.treez.javafxd3.d3.wrapper.Element;
 
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-public class OnDragMove implements DatumFunction<Void> {
+public class OnDragMove implements DataFunction<Void> {
 		
 	private WebEngine webEngine;
 	private D3 d3;

@@ -3,8 +3,7 @@ package org.treez.javafxd3.d3;
 import java.util.List;
 
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.democases.ArcTween;
-import org.treez.javafxd3.d3.democases.LorenzSystem;
+import org.treez.javafxd3.d3.democases.arcTween.ArcTween;
 import org.treez.javafxd3.d3.democases.barchart.BarChart;
 import org.treez.javafxd3.d3.democases.behaviors.DragMultiples;
 import org.treez.javafxd3.d3.democases.behaviors.ZoomDemo;
@@ -13,6 +12,8 @@ import org.treez.javafxd3.d3.democases.geom.hull.HullDemo;
 import org.treez.javafxd3.d3.democases.geom.mitchell.MitchellBestCandidate;
 import org.treez.javafxd3.d3.democases.geom.voronoi.VoronoiTessellationDemo;
 import org.treez.javafxd3.d3.democases.helloworld.HelloWorldDemo;
+import org.treez.javafxd3.d3.democases.lorenz.LorenzSystem;
+import org.treez.javafxd3.d3.democases.svg.brush.OrdinalBrushingDemo;
 import org.treez.javafxd3.d3.democases.svg.line.LineDemo;
 import org.treez.javafxd3.d3.democases.svg.symbol.SymbolDemo;
 import org.treez.javafxd3.d3.democases.xy.Xy;
@@ -143,6 +144,12 @@ public class JavaFxD3DemoSuite extends Application {
 		//menuChildren.add(new DemoMenuButton("Arc", ArcDemo.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Arc Tween", ArcTween.factory(d3, prefBox)));
 
+		// BRUSHES
+		//menuChildren.add(new DemoMenuButton("Brush As Slider", BrushAsSliderDemo.factory(d3, prefBox)));
+		//menuChildren.add(new DemoMenuButton("Scatterplot Matrix Brushing", ScatterplotMatrixDemo.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("Ordinal Brushing", OrdinalBrushingDemo.factory(d3, prefBox)));
+		//menuChildren.add(new DemoMenuButton("Brush Transitions", BrushTransitionsDemo.factory(d3, prefBox)));
+
 		// GEOM
 		menuChildren.add(new DemoMenuButton("Convex Hull", HullDemo.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Mitchell's Best Candidate", MitchellBestCandidate.factory(d3, prefBox)));
@@ -171,12 +178,6 @@ public class JavaFxD3DemoSuite extends Application {
 		//LAYOUT
 		//menuChildren.add(new DemoMenuButton("Cluster Dendogram", ClusterDendogram.factory(d3, prefBox)));
 
-		// BRUSHES
-		//menuChildren.add(new DemoMenuButton("Brush As Slider", BrushAsSliderDemo.factory(d3, prefBox)));
-		//menuChildren.add(new DemoMenuButton("Scatterplot Matrix Brushing", ScatterplotMatrixDemo.factory(d3, prefBox)));
-		//menuChildren.add(new DemoMenuButton("Ordinal Brushing", OrdinalBrushingDemo.factory(d3, prefBox)));
-		//menuChildren.add(new DemoMenuButton("Brush Transitions", BrushTransitionsDemo.factory(d3, prefBox)));
-
 	}
 
 	/**
@@ -185,23 +186,17 @@ public class JavaFxD3DemoSuite extends Application {
 	 * @return
 	 */
 	public Selection clearContent() {
-		
-		
-		
-		
-		
+
 		D3 d3 = browser.getD3();
 		d3.selectAll("svg").remove();
 		d3.select("#root").selectAll("*").remove();
 		d3.select("head").selectAll("link").remove();
-		
+
 		Selection svg = d3.select("#root") //
 				.append("svg") //
 				.attr("id", "svg");
 		return svg;
 	}
-
-	
 
 	/**
 	 * @return

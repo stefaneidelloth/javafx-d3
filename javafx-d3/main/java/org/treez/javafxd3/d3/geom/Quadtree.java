@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.treez.javafxd3.d3.arrays.Array;
+import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
-
-import org.treez.javafxd3.d3.functions.DatumFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -53,7 +53,7 @@ public class Quadtree extends JavaScriptObject {
 	 *            the x accessor
 	 * @return the current Quadtree
 	 */
-	public Quadtree x(DatumFunction<Double> xAccessor) {
+	public Quadtree x(DataFunction<Double> xAccessor) {
 
 		assertObjectIsNotAnonymous(xAccessor);
 
@@ -80,7 +80,7 @@ public class Quadtree extends JavaScriptObject {
 	 * @return the current Quadtree
 	 */
 
-	public Quadtree y(DatumFunction<Double> yAccessor) {
+	public Quadtree y(DataFunction<Double> yAccessor) {
 
 		assertObjectIsNotAnonymous(yAccessor);
 
@@ -99,7 +99,7 @@ public class Quadtree extends JavaScriptObject {
 	 * Constructs a new quadtree for the specified array of points.
 	 * <p>
 	 * The x and y coordinates of each point is determined using the default
-	 * {@link #x(DatumFunction)} and {@link #y(DatumFunction)} accessors.
+	 * {@link #x(DataFunction)} and {@link #y(DataFunction)} accessors.
 	 * <p>
 	 * To build a quadtree by adding points incrementally, the specified points
 	 * array can be empty, and points can be later added to the returned root
@@ -293,7 +293,7 @@ public class Quadtree extends JavaScriptObject {
 			if(resultObj==null){
 				return null;
 			}
-			T result = convertObjectTo(resultObj, classObj);
+			T result = ConversionUtil.convertObjectTo(resultObj, classObj, webEngine);
 			return result;			
 		}
 

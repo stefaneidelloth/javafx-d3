@@ -4,7 +4,7 @@ import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.color.Color;
 import org.treez.javafxd3.d3.ease.Easing;
 import org.treez.javafxd3.d3.ease.EasingFunction;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.JsFunction;
 import org.treez.javafxd3.d3.interpolators.Interpolator;
 import org.treez.javafxd3.d3.svg.PathDataGenerator;
@@ -26,7 +26,7 @@ import netscape.javascript.JSObject;
  * {@link #remove()} operator is provided for convenient removal of elements
  * when the transition ends.
  * <p>
- * Transitions may have per-element #delay and {@link #duration(DatumFunction)},
+ * Transitions may have per-element #delay and {@link #duration(DataFunction)},
  * computed using functions of data similar to other operators. This makes it
  * easy to stagger a transition for different elements, either based on data or
  * index. For example, you can sort elements and then stagger the transition for
@@ -136,7 +136,7 @@ public class Transition extends JavaScriptObject {
 	 * @param func
 	 * @return the current transition
 	 */
-	public Transition delay(DatumFunction<Integer> func) {
+	public Transition delay(DataFunction<Integer> func) {
 		
 		assertObjectIsNotAnonymous(func);
 
@@ -179,7 +179,7 @@ public class Transition extends JavaScriptObject {
 	 *            the function returning a transition duration in milliseconds
 	 * @return the current transition
 	 */
-	public Transition duration(DatumFunction<Integer> func) {
+	public Transition duration(DataFunction<Integer> func) {
 		
 		assertObjectIsNotAnonymous(func);
 
@@ -309,7 +309,7 @@ public class Transition extends JavaScriptObject {
 	 *            the function used to compute the new value of the attribute
 	 * @return the current transition
 	 */
-	public Transition attr(final String name, final DatumFunction<?> callback) {
+	public Transition attr(final String name, final DataFunction<?> callback) {
 
 		assertObjectIsNotAnonymous(callback);
 
@@ -463,7 +463,7 @@ public class Transition extends JavaScriptObject {
 	 *            the callback to be called
 	 * @return the current transition
 	 */
-	public Transition style(String name, DatumFunction<?> callback) {
+	public Transition style(String name, DataFunction<?> callback) {
 
 		assertObjectIsNotAnonymous(callback);
 
@@ -543,7 +543,7 @@ public class Transition extends JavaScriptObject {
 	 *            otherwise
 	 * @return the current selection
 	 */
-	public Selection style(String name, DatumFunction<?> callback, boolean important) {
+	public Selection style(String name, DataFunction<?> callback, boolean important) {
 
 		assertObjectIsNotAnonymous(callback);
 
@@ -661,7 +661,7 @@ public class Transition extends JavaScriptObject {
 	 *            the function used to compute the new text property
 	 * @return the current transition
 	 */
-	public Transition text(final DatumFunction<String> callback) {
+	public Transition text(final DataFunction<String> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 
@@ -700,7 +700,7 @@ public class Transition extends JavaScriptObject {
 	 *            the function returning an {@link Interpolator}
 	 * @return the current transition
 	 */
-	public Transition tween(String name, DatumFunction<Interpolator<?>> factory) {
+	public Transition tween(String name, DataFunction<Interpolator<?>> factory) {
 		
 		assertObjectIsNotAnonymous(factory);
 
@@ -834,7 +834,7 @@ public class Transition extends JavaScriptObject {
 	 *            the function to be used as a filter
 	 * @return a new transition containing the filtered elements
 	 */
-	public Transition filter(final DatumFunction<Element> datumFunction) {
+	public Transition filter(final DataFunction<Element> datumFunction) {
 		
 		assertObjectIsNotAnonymous(datumFunction);
 
@@ -947,7 +947,7 @@ public class Transition extends JavaScriptObject {
 	 *            the listener
 	 * @return the current transition
 	 */
-	public Transition each(EventType type, DatumFunction<Void> listener) {
+	public Transition each(EventType type, DataFunction<Void> listener) {
 		
 		assertObjectIsNotAnonymous(listener);
 
@@ -972,7 +972,7 @@ public class Transition extends JavaScriptObject {
 	}
 
 	/**
-	 * Behaves similarly to {@link Selection#each(DatumFunction)}: immediately
+	 * Behaves similarly to {@link Selection#each(DataFunction)}: immediately
 	 * invokes the specified function for each element in the current
 	 * transition, passing in the current datum d and index i, with the this
 	 * context of the current DOM element.
@@ -989,7 +989,7 @@ public class Transition extends JavaScriptObject {
 	 * @param listener
 	 * @return
 	 */
-	public Transition each(DatumFunction<Void> listener) {
+	public Transition each(DataFunction<Void> listener) {
 		
 		assertObjectIsNotAnonymous(listener);
 

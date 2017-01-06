@@ -4,11 +4,11 @@ import java.util.Arrays;
 
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
 import org.treez.javafxd3.d3.functions.KeyFunction;
-import org.treez.javafxd3.d3.selection.datumfunction.IntegerArrayDatumFunction;
-import org.treez.javafxd3.d3.selection.datumfunction.ObjectArrayDatumFunction;
-import org.treez.javafxd3.d3.selection.datumfunction.StringDatumFunction;
+import org.treez.javafxd3.d3.functions.data.ConstantDataFunction;
+import org.treez.javafxd3.d3.selection.datafunction.IntegerArrayDataFunction;
+import org.treez.javafxd3.d3.selection.datafunction.ObjectArrayDataFunction;
+import org.treez.javafxd3.d3.selection.datafunction.StringDataFunction;
 import org.treez.javafxd3.d3.selection.keyfunction.IntegerKeyFunction;
 
 import netscape.javascript.JSObject;
@@ -53,9 +53,9 @@ public class SelectionDataTest extends AbstractSelectionTest {
 		
 		//Inspector.inspect(tds);
 		
-		Selection withInteger = tds.data(new IntegerArrayDatumFunction(webEngine));
+		Selection withInteger = tds.data(new IntegerArrayDataFunction(webEngine));
 						
-		Selection td = withInteger.enter().append("td").text(new StringDatumFunction(webEngine));
+		Selection td = withInteger.enter().append("td").text(new StringDataFunction(webEngine));
 		return td;
 	}
 
@@ -65,7 +65,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 	private void testSelectionDataSetterFunctionReturningJSO() {
 		Selection selection = givenTrElementsInATable(3);
 
-		selection.data(new ConstantDatumFunction<String[]>(new String[] { "0", "1", "2" }));
+		selection.data(new ConstantDataFunction<String[]>(new String[] { "0", "1", "2" }));
 
 		assertDataPropertyEqualsTo("0", selection, 0);
 		assertDataPropertyEqualsTo("1", selection, 1);
@@ -274,9 +274,9 @@ public class SelectionDataTest extends AbstractSelectionTest {
 		System.out.println("creating second level divs");
 		
 		tr.selectAll("td") //
-				.data(new ObjectArrayDatumFunction(webEngine)) //
+				.data(new ObjectArrayDataFunction(webEngine)) //
 				.enter() //
 				.append("td") //
-				.text(new StringDatumFunction(webEngine));
+				.text(new StringDataFunction(webEngine));
 	}
 }

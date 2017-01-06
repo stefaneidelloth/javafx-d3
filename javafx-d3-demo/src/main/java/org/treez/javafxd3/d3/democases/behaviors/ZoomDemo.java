@@ -124,7 +124,7 @@ public class ZoomDemo extends AbstractDemoCase {
 				.zoom() //	
 				.x(x)
 				.y(y)
-				.on(ZoomEventType.ZOOM, new ZoomDatumFunction(d3, scaleLabel, translateLabel, svg, xAxis, yAxis));
+				.on(ZoomEventType.ZOOM, new ZoomDataFunction(d3, scaleLabel, translateLabel, svg, xAxis, yAxis));
 
 		svg.call(zoom);
 

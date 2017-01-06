@@ -2,7 +2,7 @@ package org.treez.javafxd3.d3.selection;
 
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.functions.CountFunction;
+import org.treez.javafxd3.d3.functions.data.CountDataFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 
 import netscape.javascript.JSObject;
@@ -124,7 +124,7 @@ public class SubSelectionsTest extends AbstractSelectionTest {
 		assertEquals(1, firstZorgs.groupCount());
 		assertParentNodeIsRootHtml(firstZorgs);
 
-		CountFunction countFunction = new CountFunction();
+		CountDataFunction countFunction = new CountDataFunction();
 		firstZorgs.each(countFunction.reset());
 		assertEquals(1, countFunction.getCount());
 
@@ -152,7 +152,7 @@ public class SubSelectionsTest extends AbstractSelectionTest {
 
 		// select by function
 		// Selection selection = sandboxSelection.select(new
-		// DatumFunction<Element>() {
+		// DataFunction<Element>() {
 		// @Override
 		// public Element apply(final Element context, final Value d, final int
 		// index) {
@@ -187,7 +187,7 @@ public class SubSelectionsTest extends AbstractSelectionTest {
 		// sanbox ?
 		assertEquals(3, getRoot().node().getChildCount());
 		// it seems in the span elements
-		d3.select("#root").selectAll("span").each(new AssertOneChildDatumFunction(webEngine));
+		d3.select("#root").selectAll("span").each(new AssertOneChildDataFunction(webEngine));
 
 	}
 
@@ -213,7 +213,7 @@ public class SubSelectionsTest extends AbstractSelectionTest {
 		// sanbox ?
 		assertEquals(3, getRoot().node().getChildCount());
 		// it seems in the span elements
-		d3.select("#root").selectAll("span").each(new AssertOneChildDatumFunction(webEngine));
+		d3.select("#root").selectAll("span").each(new AssertOneChildDataFunction(webEngine));
 
 	}
 

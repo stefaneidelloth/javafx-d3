@@ -74,24 +74,24 @@ public class FocusAndContext extends AbstractDemoCase {
 		final Axis xAxis2 = d3.svg().axis().scale(x2).orient(Orientation.BOTTOM);
 		final Axis yAxis = d3.svg().axis().scale(y).orient(Orientation.LEFT);
 
-		final Area area = d3.svg().area().interpolate(InterpolationMode.MONOTONE).x(new DatumFunction<Double>() {
+		final Area area = d3.svg().area().interpolate(InterpolationMode.MONOTONE).x(new DataFunction<Double>() {
 			@Override
 			public Double apply(final Element context, final Value d, final int index) {
 				return x.apply(d.<Data> as().getDate()).asDouble();
 			}
-		}).y0(height).y1(new DatumFunction<Double>() {
+		}).y0(height).y1(new DataFunction<Double>() {
 			@Override
 			public Double apply(final Element context, final Value d, final int index) {
 				return y.apply(d.<Data> as().getPrice()).asDouble();
 			}
 		});
 
-		final Area area2 = d3.svg().area().interpolate(InterpolationMode.MONOTONE).x(new DatumFunction<Double>() {
+		final Area area2 = d3.svg().area().interpolate(InterpolationMode.MONOTONE).x(new DataFunction<Double>() {
 			@Override
 			public Double apply(final Element context, final Value d, final int index) {
 				return x2.apply(d.<Data> as().getDate()).asDouble();
 			}
-		}).y0(height2).y1(new DatumFunction<Double>() {
+		}).y0(height2).y1(new DataFunction<Double>() {
 			@Override
 			public Double apply(final Element context, final Value d, final int index) {
 				return y2.apply(d.<Data> as().getPrice()).asDouble();
@@ -110,7 +110,7 @@ public class FocusAndContext extends AbstractDemoCase {
 				"translate(" + margin2.left + "," + margin2.top + ")");
 
 		final Brush brush = d3.svg().brush().x(x2);
-		brush.on(BrushEvent.BRUSH, new DatumFunction<Void>() {
+		brush.on(BrushEvent.BRUSH, new DataFunction<Void>() {
 			@Override
 			public Void apply(final Element context, final Value d, final int index) {
 				x.domain(brush.empty() ? x2.domain() : brush.extent());

@@ -3,7 +3,7 @@ package org.treez.javafxd3.d3.geom;
 import java.util.List;
 
 import org.treez.javafxd3.d3.arrays.Array;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -39,7 +39,7 @@ public class Hull extends JavaScriptObject {
 	 *            the x accessor
 	 * @return the current hull
 	 */
-	public Hull x(DatumFunction<Double> xAccessor) {
+	public Hull x(DataFunction<Double> xAccessor) {
 
 		assertObjectIsNotAnonymous(xAccessor);
 
@@ -65,7 +65,7 @@ public class Hull extends JavaScriptObject {
 	 * @return the current hull
 	 */
 
-	public Hull y(DatumFunction<Double> yAccessor) {
+	public Hull y(DataFunction<Double> yAccessor) {
 
 		assertObjectIsNotAnonymous(yAccessor);
 

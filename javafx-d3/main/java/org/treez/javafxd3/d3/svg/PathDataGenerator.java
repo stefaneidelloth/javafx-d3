@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.ArrayUtils;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.JsFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
@@ -31,7 +31,7 @@ import netscape.javascript.JSObject;
  * <p>
  * Each generator specifies a default way of using the datum to create the path,
  * but generally speaking, the default behaviour can be overriden by providing
- * {@link DatumFunction} for each generator attribute. Please refer to generator
+ * {@link DataFunction} for each generator attribute. Please refer to generator
  * subclass documention for more information.
  * <p>
  *

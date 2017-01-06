@@ -5,15 +5,15 @@ import org.treez.javafxd3.d3.core.Transition;
 import org.treez.javafxd3.d3.core.Transition.EventType;
 import org.treez.javafxd3.d3.democases.InputElementFactory;
 import org.treez.javafxd3.d3.ease.Easing;
-import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
+import org.treez.javafxd3.d3.functions.data.ConstantDataFunction;
 import org.treez.javafxd3.d3.selection.AbstractSelectionTest;
 import org.treez.javafxd3.d3.transition.function.InterpolatorTweenFunction;
 
 
 public class TransitionTest extends AbstractSelectionTest {
 
-	private final DatumFunction<String> callback = new ConstantDatumFunction<String>("16px");
+	private final DataFunction<String> callback = new ConstantDataFunction<String>("16px");
 
 	@Override	
 	public void doTest() {
@@ -32,12 +32,12 @@ public class TransitionTest extends AbstractSelectionTest {
 		
 		transition
 				.delay(1000)
-				.delay(new ConstantDatumFunction<Integer>(100))
-				.duration(new ConstantDatumFunction<Integer>(123))
-				.each(EventType.START, new ConstantDatumFunction<Void>(null))
-				.each(EventType.END, new ConstantDatumFunction<Void>(null))
+				.delay(new ConstantDataFunction<Integer>(100))
+				.duration(new ConstantDataFunction<Integer>(123))
+				.each(EventType.START, new ConstantDataFunction<Void>(null))
+				.each(EventType.END, new ConstantDataFunction<Void>(null))
 				.ease(Easing.back(webEngine, 12))
-				.style("font-size", new ConstantDatumFunction<String>(""));
+				.style("font-size", new ConstantDataFunction<String>(""));
 
 		transition.size();
 

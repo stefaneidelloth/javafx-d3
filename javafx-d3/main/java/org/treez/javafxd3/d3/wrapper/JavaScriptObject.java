@@ -1,11 +1,8 @@
 package org.treez.javafxd3.d3.wrapper;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import org.treez.javafxd3.d3.core.Value;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -546,134 +543,7 @@ public class JavaScriptObject {
 		return result;
 	};
 
-	//#end region
-
-	//#region CONVERSION
-
-	@SuppressWarnings("unchecked")
-	protected synchronized <T> T convertObjectTo(Object resultObj, Class<T> classObj) {
-		if (resultObj == null) {
-			return null;
-		}
-		
-		boolean targetIsString = classObj.equals(String.class);
-		if (targetIsString) {	
-			T result = (T) convertToString(resultObj);
-			return result;
-		}
-
-		boolean targetIsValue = classObj.equals(Value.class);
-		if (targetIsValue) {
-			T result = (T) convertToValue(resultObj);
-			return result;
-		}
-
-		boolean targetIsJavaScriptObject = JavaScriptObject.class.isAssignableFrom(classObj);
-		if (targetIsJavaScriptObject) {
-			T result = convertToJavaScriptObject(resultObj, classObj);
-			return result;
-		}
-
-		try {
-			T result = classObj.cast(resultObj);
-			return result;
-		} catch (ClassCastException exception) {
-			boolean isNumber = resultObj instanceof Number;
-			if (isNumber) {
-				T result = tryToCastFromDoubleValue(resultObj, classObj, exception);
-				return result;
-			}
-
-			String message = "Could not cast item of type '" + resultObj.getClass().getName() + "' to required type '"
-					+ classObj.getName() + "'";
-			throw new IllegalStateException(message, exception);
-		}
-	}
-
-	private String convertToString(Object source) {
-		try {
-			String stringResult = source.toString();
-			String result = String.class.cast(stringResult);
-			return result;
-		} catch (Exception exception) {
-			String message = "Could not convert item of type " + source.getClass().getName() + " to String.";
-			throw new IllegalStateException(message, exception);
-		}
-	}	
-
-	private Value convertToValue(Object resultObj) {
-		boolean resultObjIsValue = resultObj instanceof Value;
-		if (resultObjIsValue) {
-			Value result = Value.class.cast(resultObj);
-			return result;
-		} else {
-			Value value = Value.create(webEngine, resultObj);			
-			return value;
-		}
-	}	
-	
-	public <T> T convertToJavaScriptObject(Object resultObj, Class<T> classObj) {		
-		Constructor<T> constructor = createConstructorForJavaScriptObject(resultObj, classObj);
-		T newJavaScriptObject = tryToCreateNewInstance(resultObj, classObj, constructor);		
-		return newJavaScriptObject;
-	}
-
-	private <T> T tryToCreateNewInstance(Object resultObj, Class<T> classObj, Constructor<T> constructor) {
-		T newJavaScriptObject;
-		try {
-			newJavaScriptObject = constructor.newInstance(webEngine, resultObj);
-		} catch (Exception exception) {
-			String message = "Could not construct new instance of type '" + classObj.getName() + "' with "
-					+ "object of type " + resultObj.getClass().getName();
-			throw new IllegalStateException(message, exception);
-		}
-		return newJavaScriptObject;
-	}
-
-	private <T> Constructor<T> createConstructorForJavaScriptObject(Object resultObj, Class<T> classObj) {
-		
-		Class<?> resultObjClass = resultObj.getClass();
-		
-		Constructor<T> constructor;
-
-		boolean resultIsJsObject = resultObj instanceof JSObject;
-		if (resultIsJsObject) {
-			try {
-				constructor = classObj.getConstructor(new Class<?>[] { WebEngine.class, JSObject.class });
-			} catch (Exception exception) {
-				String message = "Could not get constructor for JavaScriptObject of " + "type '"
-						+ classObj.getName() + "' with parameters of type WebEngine and '"
-						+ resultObjClass.getName() + "'.";
-				throw new IllegalStateException(message, exception);
-			}
-
-		} else {
-			try {
-				constructor = classObj.getConstructor(new Class<?>[] { WebEngine.class, resultObjClass });
-			} catch (Exception exception) {
-				String message = "Could not get constructor for JavaScriptObject of " + "type '"
-						+ classObj.getName() + "' with parameters of type WebEngine and '"
-						+ resultObjClass.getName() + "'.";
-				throw new IllegalStateException(message, exception);
-			}
-		}
-		return constructor;
-	}
-			
-	private <T> T tryToCastFromDoubleValue(Object resultObj, Class<T> classObj, Exception exception) {
-		Number number = (Number) resultObj;
-		Object doubleValue = number.doubleValue();
-		try {
-			T result = classObj.cast(doubleValue);
-			return result;
-		} catch (Exception numberCastException) {
-			String message = "Could not cast item of type " + resultObj.getClass().getName()
-					+ " to required type " + classObj.getName();
-			throw new IllegalStateException(message, exception);
-		}
-	}
-
-	//#end region
+	//#end region	
 	
 	//#region EQUALS
 	

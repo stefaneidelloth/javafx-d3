@@ -8,13 +8,13 @@ import org.treez.javafxd3.d3.core.UpdateSelection;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.democases.InputElementFactory;
 import org.treez.javafxd3.d3.selection.comparator.ValueComparator;
-import org.treez.javafxd3.d3.selection.datumfunction.AssertCounterDatumFunction;
-import org.treez.javafxd3.d3.selection.datumfunction.AssertNullStringDatumFunction;
-import org.treez.javafxd3.d3.selection.datumfunction.AssertOddEvenDatumFunction;
-import org.treez.javafxd3.d3.selection.datumfunction.AssertStringDatumFunction;
-import org.treez.javafxd3.d3.selection.datumfunction.OddEvenDatumFunction;
-import org.treez.javafxd3.d3.selection.datumfunction.OddEvenElementDatumFunction;
-import org.treez.javafxd3.d3.selection.datumfunction.StringDatumFunction;
+import org.treez.javafxd3.d3.selection.datafunction.AssertCounterDataFunction;
+import org.treez.javafxd3.d3.selection.datafunction.AssertNullStringDataFunction;
+import org.treez.javafxd3.d3.selection.datafunction.AssertOddEvenDataFunction;
+import org.treez.javafxd3.d3.selection.datafunction.AssertStringDataFunction;
+import org.treez.javafxd3.d3.selection.datafunction.OddEvenDataFunction;
+import org.treez.javafxd3.d3.selection.datafunction.OddEvenElementDataFunction;
+import org.treez.javafxd3.d3.selection.datafunction.StringDataFunction;
 import org.treez.javafxd3.d3.selection.keyfunction.SelectionData2KeyFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 
@@ -41,7 +41,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		int[] data = new int[] { 1, 2, 3, 4, 8, 13 };
 		Selection sandBoxSelection = d3.select("#root");
 		Selection dataJoinedSelection = sandBoxSelection.selectAll("div").data(data).enter().append("div").attr("blah",
-				new StringDatumFunction(webEngine));
+				new StringDataFunction(webEngine));
 
 		assertEquals(6, dataJoinedSelection.size());
 
@@ -69,7 +69,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		Selection remaining = d3.select("#root").selectAll("div");
 		assertEquals(4, remaining.size());
 
-		remaining.each(new AssertCounterDatumFunction(webEngine));
+		remaining.each(new AssertCounterDataFunction(webEngine));
 
 	}
 
@@ -91,12 +91,12 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// WHEN I call selection.datum() with a constant "blah"
 		selection.datum("blah");
 		// THEN all data has a datum of "blah"
-		selection.each(new AssertStringDatumFunction(webEngine, "blah"));
+		selection.each(new AssertStringDataFunction(webEngine, "blah"));
 		// WHEN I call selection.datum() with a constant NULL
 		String datum = null;
 		selection.datum(datum);
 		// THEN all elements has a null data
-		selection.each(new AssertNullStringDatumFunction(webEngine));
+		selection.each(new AssertNullStringDataFunction(webEngine));
 	}
 
 	private void testSelectionDatumSetterFunction() {
@@ -104,9 +104,9 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		Selection selection = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(),
 				new InputElementFactory());
 		// WHEN I call selection.datum() with a function depending on the index
-		selection.datum(new OddEvenDatumFunction(5.0, 2.0));
+		selection.datum(new OddEvenDataFunction(5.0, 2.0));
 		// THEN each element has a the corresponding data
-		selection.each(new AssertOddEvenDatumFunction(webEngine, 5.0, 2.0));
+		selection.each(new AssertOddEvenDataFunction(webEngine, 5.0, 2.0));
 	}
 
 	private void testSelectionFilterFunction() {
@@ -115,7 +115,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 				new InputElementFactory("2"));
 		assertEquals(3, selection.size());
 		// WHEN i call filter(":nth-child(odd)")
-		Selection filtered = selection.filter(new OddEvenElementDatumFunction(webEngine));
+		Selection filtered = selection.filter(new OddEvenElementDataFunction(webEngine));
 		// THEN the returned selection contains 2 elements (css is 1-based
 		// index)
 		assertEquals(2, filtered.size());

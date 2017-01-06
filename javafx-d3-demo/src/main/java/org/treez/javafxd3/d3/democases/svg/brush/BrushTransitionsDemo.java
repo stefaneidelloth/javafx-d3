@@ -8,7 +8,7 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.geom.Quadtree.Callback;
 import org.treez.javafxd3.d3.geom.Quadtree.RootNode;
 import org.treez.javafxd3.d3.scales.IdentityScale;
@@ -97,11 +97,11 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
                 .x(x)
                 .y(y)
                 .extent(defaultExtent)
-                .on(BrushEvent.BRUSH, new DatumFunction<Void>() {
+                .on(BrushEvent.BRUSH, new DataFunction<Void>() {
                     @Override
                     public Void apply(final Object context, final Object d, final int index) {
                         Array<Double> extent = brush.extent();
-                        point.each(new DatumFunction<Void>() {
+                        point.each(new DataFunction<Void>() {
                             @Override
                             public Void apply(final Object context, final Object d, final int index) {
                             	
@@ -115,7 +115,7 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
                                 extent.get(0,1, Double.class),
                                 extent.get(1,0, Double.class),
                                 extent.get(1,1, Double.class));
-                        point.classed("selected", new DatumFunction<Boolean>() {
+                        point.classed("selected", new DataFunction<Boolean>() {
                             @Override
                             public Boolean apply(final Object context, final Object d, final int index) {
                             	Value datum = (Value) d;
@@ -125,7 +125,7 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
                         return null;
                     }
                 })
-                .on(BrushEvent.BRUSH_END, new DatumFunction<Void>() {
+                .on(BrushEvent.BRUSH_END, new DataFunction<Void>() {
                     @Override
                     public Void apply(final Object context, final Object d, final int index) {
                        // if (d3.<D3Event> event().sourceEvent() == null) {
@@ -151,7 +151,7 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
                 .data(data)
                 .enter().append("circle")
                 .attr("class", "point")
-                .attr("cx", new DatumFunction<Double>() {
+                .attr("cx", new DataFunction<Double>() {
                     @Override
                     public Double apply(final Object context, final Object d, final int index) {
                     	
@@ -160,7 +160,7 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
                         return datum.<Coords> as().x();
                     }
                 })
-                .attr("cy", new DatumFunction<Double>() {
+                .attr("cy", new DataFunction<Double>() {
                     @Override
                     public Double apply(final Object context, final Object d, final int index) {
                     	

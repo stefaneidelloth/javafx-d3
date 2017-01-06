@@ -2,7 +2,7 @@ package org.treez.javafxd3.d3.layout;
 
 import org.treez.javafxd3.d3.behaviour.Drag;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -120,14 +120,14 @@ public class Force extends JavaScriptObject {
 	 *            document
 	 * @return the force layout object.
 	 */
-	public Force linkDistance(DatumFunction<?> callback) {
+	public Force linkDistance(DataFunction<?> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 
 		throw new IllegalStateException("not yet implemented");
 		/*
 		 * try { return this .linkDistance(function(d, i) { try { var r =
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
+		 * callback.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/
 		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
 		 * this,{datum:d},i); return r; } catch (e) { alert(e); return null; }
 		 * }); } catch (e) { alert(e); return null; }
@@ -167,14 +167,14 @@ public class Force extends JavaScriptObject {
 	 * 
 	 * @return the force layout object.
 	 */
-	public Force linkStrength(DatumFunction<?> callback) {
+	public Force linkStrength(DataFunction<?> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 
 		throw new IllegalStateException("not yet implemented");
 		/*
 		 * try { return this .linkStrength(function(d, i) { try { var r =
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
+		 * callback.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/
 		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
 		 * this,{datum:d},i); return r; } catch (e) { alert(e); return null; }
 		 * }); } catch (e) { alert(e); return null; }
@@ -261,7 +261,7 @@ public class Force extends JavaScriptObject {
 	 * 
 	 * @return the force layout object.
 	 */
-	public Force charge(DatumFunction<?> callback) {
+	public Force charge(DataFunction<?> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 
@@ -270,7 +270,7 @@ public class Force extends JavaScriptObject {
 		 * try { return this .charge(function(d, i) { try {
 		 * 
 		 * var r =
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
+		 * callback.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/
 		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
 		 * this,{datum:d},i); return r; } catch (e) { alert(e); return null; }
 		 * }); } catch (e) { alert(e); return null; }
@@ -642,7 +642,7 @@ public class Force extends JavaScriptObject {
 	 * @param callback
 	 * @return
 	 */
-	public Selection on(String name, DatumFunction<?> callback) {
+	public Selection on(String name, DataFunction<?> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 
@@ -651,7 +651,7 @@ public class Force extends JavaScriptObject {
 		 * try { return this .on( name, function(d, i) { try {
 		 * 
 		 * var r =
-		 * callback.@com.github.gwtd3.api.functions.DatumFunction::apply(Lcom/
+		 * callback.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/
 		 * google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(
 		 * this,{datum:d},i); //r.@java.lang.Object::toString()(); return r; }
 		 * catch (e) { alert(e); return null; } }); } catch (e) { alert(e);

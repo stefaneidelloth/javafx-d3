@@ -81,10 +81,10 @@ public class BarChartCallback implements DsvCallback<BarChartData> {
 					.enter() //
 					.append("rect") //
 					.attr("class", "bar") //
-					.attr("x", new BarChartXDatumFunction(webEngine, barChart)) //
+					.attr("x", new BarChartXDataFunction(webEngine, barChart)) //
 					.attr("width", x.rangeBand()) //
-					.attr("y", new BarChartYDatumFunction(webEngine, barChart))
-					.attr("height", new BarChartHeightDatumFunction(webEngine, barChart));
+					.attr("y", new BarChartYDataFunction(webEngine, barChart))
+					.attr("height", new BarChartHeightDataFunction(webEngine, barChart));
 
 		});
 

@@ -35,8 +35,8 @@ public class Event extends JavaScriptObject implements JsFunction {
 	/**
 	 * @return
 	 */
-	public Selection getEventTarget(){
-		JSObject result = call("this.eventTarget");
+	public Selection getEventTarget(){		
+		JSObject result = getMember("target");
 		return new Selection(webEngine, result);
 	}
 

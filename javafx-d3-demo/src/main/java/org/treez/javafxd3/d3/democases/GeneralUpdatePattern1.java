@@ -7,7 +7,7 @@ import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.UpdateSelection;
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 
 import com.sun.glass.ui.Timer;
@@ -108,7 +108,7 @@ public class GeneralUpdatePattern1 extends AbstractDemoCase {
 		// ENTER
 		// Create new elements as needed.
 		selection.enter().append("text").attr("class", "enter")
-				.attr("x", new DatumFunction<Integer>() {
+				.attr("x", new DataFunction<Integer>() {
 					@Override
 					public Integer apply(final Object context, final Object datum, final int index) {
 						return index * 32;
@@ -121,7 +121,7 @@ public class GeneralUpdatePattern1 extends AbstractDemoCase {
 		// entering elements; so, operations on the update selection after
 		// appending to
 		// the enter selection will apply to both entering and updating nodes.
-		selection.text(new DatumFunction<String>() {
+		selection.text(new DataFunction<String>() {
 			@Override
 			public String apply(final Object context, final Object d, final int index) {
 				

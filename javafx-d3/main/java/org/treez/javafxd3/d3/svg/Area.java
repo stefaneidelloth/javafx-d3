@@ -1,6 +1,6 @@
 package org.treez.javafxd3.d3.svg;
 
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -87,7 +87,7 @@ public class Area extends PathDataGenerator {
 	 * @param datumFunction
 	 * @return
 	 */
-	public Area x(final DatumFunction<Double> callback) {
+	public Area x(final DataFunction<Double> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 
@@ -123,11 +123,11 @@ public class Area extends PathDataGenerator {
 	}
 
 	/**
-	 * @see #x(DatumFunction).
+	 * @see #x(DataFunction).
 	 * @param callback
 	 * @return
 	 */
-	public Area x0(final DatumFunction<Double> callback) {
+	public Area x0(final DataFunction<Double> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 
@@ -156,11 +156,11 @@ public class Area extends PathDataGenerator {
 	}
 
 	/**
-	 * @see #x(DatumFunction).
+	 * @see #x(DataFunction).
 	 * @param callback
 	 * @return
 	 */
-	public Area x1(final DatumFunction<Double> callback) {
+	public Area x1(final DataFunction<Double> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 
@@ -209,7 +209,7 @@ public class Area extends PathDataGenerator {
 	}
 
 	/**
-	 * See {@link #x(DatumFunction)}.
+	 * See {@link #x(DataFunction)}.
 	 * <p>
 	 * Note that, like most other graphics libraries, SVG uses the top-left
 	 * corner as the origin and thus higher values of y are lower on the screen.
@@ -220,7 +220,7 @@ public class Area extends PathDataGenerator {
 	 * @param callback
 	 * @return the current area
 	 */
-	public Area y(final DatumFunction<Double> callback) {
+	public Area y(final DataFunction<Double> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 
@@ -236,7 +236,7 @@ public class Area extends PathDataGenerator {
 	}
 
 	/**
-	 * See {@link #y(DatumFunction)}.
+	 * See {@link #y(DataFunction)}.
 	 * <p>
 	 * Note that, like most other graphics libraries, SVG uses the top-left
 	 * corner as the origin and thus higher values of y are lower on the screen.
@@ -247,7 +247,7 @@ public class Area extends PathDataGenerator {
 	 * @param callback
 	 * @return the current area
 	 */
-	public Area y0(final DatumFunction<Double> callback) {
+	public Area y0(final DataFunction<Double> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 
@@ -261,7 +261,7 @@ public class Area extends PathDataGenerator {
 	}
 
 	/**
-	 * See {@link #y(DatumFunction)}.
+	 * See {@link #y(DataFunction)}.
 	 * <p>
 	 * Note that, like most other graphics libraries, SVG uses the top-left
 	 * corner as the origin and thus higher values of y are lower on the screen.
@@ -272,7 +272,7 @@ public class Area extends PathDataGenerator {
 	 * @param callback
 	 * @return the current area
 	 */
-	public Area y1(final DatumFunction<Double> callback) {
+	public Area y1(final DataFunction<Double> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 
@@ -300,7 +300,7 @@ public class Area extends PathDataGenerator {
 	 * @param callback
 	 * @return
 	 */
-	public Line defined(final DatumFunction<Boolean> callback) {
+	public Line defined(final DataFunction<Boolean> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 

@@ -265,7 +265,7 @@ public class D3 extends JavaScriptObject {
 
 	// /**
 	// * Create an animated transition. In the context of
-	// * {@link Transition#each(com.github.gwtd3.api.functions.DatumFunction)},
+	// * {@link Transition#each(com.github.gwtd3.api.functions.DataFunction)},
 	// * this method will create a new transition for the specified selection
 	// that
 	// * inherits the delay, duration and other properties of the parent

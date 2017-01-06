@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.democases.svg.line;
 
 import org.treez.javafxd3.d3.coords.Coords;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -62,16 +62,16 @@ public  class CustomCoords extends Coords {
 
 	//#region METHODS
 
-	public static DatumFunction<Double> xAccessor(WebEngine webEngine) {
-		return new XAccessorDatumFunction(webEngine);
+	public static DataFunction<Double> xAccessor(WebEngine webEngine) {
+		return new XAccessorDataFunction(webEngine);
 	}
 
-	public static DatumFunction<Double> yAccessor(WebEngine webEngine) {
-		return new YAccessorDatumFunction(webEngine);
+	public static DataFunction<Double> yAccessor(WebEngine webEngine) {
+		return new YAccessorDataFunction(webEngine);
 	}
 
-	public static DatumFunction<Boolean> definedAccessor(WebEngine webEngine) {
-		return new DefinedDatumFunction(webEngine);
+	public static DataFunction<Boolean> definedAccessor(WebEngine webEngine) {
+		return new DefinedDataFunction(webEngine);
 	}
 	
 	/**

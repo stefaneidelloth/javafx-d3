@@ -6,7 +6,7 @@ import org.treez.javafxd3.d3.DemoCase;
 import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.layout.Cluster;
 import org.treez.javafxd3.d3.svg.Diagonal;
 import org.treez.javafxd3.d3.wrapper.Element;
@@ -66,7 +66,7 @@ public class ClusterDendogram extends AbstractDemoCase {
 
 		final Cluster cluster = d3.layout().cluster().size(height, width - 160);
 
-		final Diagonal diagonal = d3.svg().diagonal().projection(new DatumFunction<Double[]>() {
+		final Diagonal diagonal = d3.svg().diagonal().projection(new DataFunction<Double[]>() {
 			@Override
 			public Double[] apply(final Object context, final Object d, final int index) {
 				
@@ -103,7 +103,7 @@ public class ClusterDendogram extends AbstractDemoCase {
 								.attr("class", "link").attr("d", diagonal);
 
 						Selection node = svg.selectAll("." + "node").data(nodes).enter().append("g")
-								.attr("class", "node").attr("transform", new DatumFunction<String>() {
+								.attr("class", "node").attr("transform", new DataFunction<String>() {
 							@Override
 							public String apply(final Element context, final Value value, final int index) {
 								return "translate(" + value.asCoords().y() + "," + value.asCoords().x() + ")";
@@ -112,12 +112,12 @@ public class ClusterDendogram extends AbstractDemoCase {
 
 						node.append("circle").attr("r", 4.5);
 
-						node.append("text").attr("dx", new DatumFunction<Integer>() {
+						node.append("text").attr("dx", new DataFunction<Integer>() {
 							@Override
 							public Integer apply(final Element context, final Value d, final int index) {
 								return d.<Node> as().children() != null ? -8 : 8;
 							}
-						}).attr("dy", 3).style("text-anchor", new DatumFunction<String>() {
+						}).attr("dy", 3).style("text-anchor", new DataFunction<String>() {
 							@Override
 							public String apply(final Element context, final Value d, final int index) {
 								return d.<Node> as().children() != null ? "end" : "start";

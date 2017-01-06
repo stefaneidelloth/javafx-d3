@@ -2,7 +2,7 @@ package org.treez.javafxd3.d3.behaviour;
 
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.coords.Coords;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.DragFunction;
 import org.treez.javafxd3.d3.functions.JsFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
@@ -75,7 +75,7 @@ public class Drag extends JavaScriptObject implements JsFunction {
 	 * @param listener
 	 * @return
 	 */
-	public Drag on(DragEventType type, DatumFunction<Void> listener) {
+	public Drag on(DragEventType type, DataFunction<Void> listener) {
 
 		String listenerName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
@@ -195,7 +195,7 @@ public class Drag extends JavaScriptObject implements JsFunction {
 	 *            attributes.
 	 * @return the object Drag.
 	 */
-	public Drag origin(DatumFunction<Coords> originAccesor) {
+	public Drag origin(DataFunction<Coords> originAccesor) {
 
 		String originAccesorName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
@@ -211,7 +211,7 @@ public class Drag extends JavaScriptObject implements JsFunction {
 	 * Provide access to the properties of a drag event.
 	 * <p>
 	 * Use {@link D3#dragEvent()} from within a
-	 * {@link Drag#on(DragEventType, DatumFunction)} listener.
+	 * {@link Drag#on(DragEventType, DataFunction)} listener.
 	 * <p>
 	 * 
 	 * 

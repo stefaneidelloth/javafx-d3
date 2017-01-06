@@ -2,9 +2,8 @@ package org.treez.javafxd3.d3.selection;
 
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.democases.InputElementFactory;
+import org.treez.javafxd3.d3.selection.datafunction.PrefixPlusIndexDataFunction;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
-
-import org.treez.javafxd3.d3.selection.datumfunction.PrefixPlusIndexDatumFunction;
 
 @SuppressWarnings("javadoc")
 public class SelectionTextTest extends AbstractSelectionTest {
@@ -21,12 +20,12 @@ public class SelectionTextTest extends AbstractSelectionTest {
 		// works with single selection
 		Selection selection = givenASimpleNodeFactory(new InputElementFactory());
 		final String value = "foo bar";
-		selection.text(new PrefixPlusIndexDatumFunction(value));
+		selection.text(new PrefixPlusIndexDataFunction(value));
 		assertEquals(value + "0", getElementInnerText(0));
 
 		// works with multiple selection
 		selection = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
-		selection.text(new PrefixPlusIndexDatumFunction(value));
+		selection.text(new PrefixPlusIndexDataFunction(value));
 		assertEquals(value + "0", getElementInnerText(0));
 		assertEquals(value + "1", getElementInnerText(1));
 		assertEquals(value + "2", getElementInnerText(2));

@@ -2,7 +2,7 @@ package org.treez.javafxd3.d3.selection;
 
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.democases.DivElementFactory;
-import org.treez.javafxd3.d3.selection.datumfunction.PrefixPlusIndexDatumFunction;
+import org.treez.javafxd3.d3.selection.datafunction.PrefixPlusIndexDataFunction;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
 
 public class SelectionHtmlTest extends AbstractSelectionTest {
@@ -53,12 +53,12 @@ public class SelectionHtmlTest extends AbstractSelectionTest {
 		// works with single selection
 		Selection selection = givenASimpleNodeFactory(new DivElementFactory());
 		final String html = "<div name=\"test\" style=\"background-color:red;\"></div>";
-		selection.html(new PrefixPlusIndexDatumFunction(html));
+		selection.html(new PrefixPlusIndexDataFunction(html));
 		assertEquals(html + "0", getElementInnerHtml(0));
 
 		// works with multiple selection
 		selection = givenMultipleNodeFactories(new DivElementFactory(), new DivElementFactory(), new DivElementFactory());
-		selection.html(new PrefixPlusIndexDatumFunction(html));
+		selection.html(new PrefixPlusIndexDataFunction(html));
 		assertEquals(html + "0", getElementInnerHtml(0));
 		assertEquals(html + "1", getElementInnerHtml(1));
 		assertEquals(html + "2", getElementInnerHtml(2));

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -300,13 +301,13 @@ public class Array<T> extends JavaScriptObject  {
 
 	public <D> D get(int index, Class<D> classObj) {
 		Object resultObj = getAsObject(index);
-		D result = convertObjectTo(resultObj, classObj);
+		D result = ConversionUtil.convertObjectTo(resultObj, classObj, webEngine);
 		return result;
 	}
 
 	public <D> D get(int rowIndex, int columnIndex, Class<D> classObj) {
 		Object resultObj = getAsObject(rowIndex, columnIndex);
-		D result = convertObjectTo(resultObj, classObj);
+		D result = ConversionUtil.convertObjectTo(resultObj, classObj, webEngine);
 		return result;
 	}
 

@@ -87,8 +87,8 @@ public class HullDemo extends AbstractDemoCase {
 		svg = d3.select("svg") //
 				.attr("width", width) //
 				.attr("height", height) //
-				.on("mousemove", new HullMouseMoveDatumFunction(webEngine, vertices, d3, () -> redraw())) //
-				.on("click", new HullMouseClickDatumFunction(webEngine, vertices, d3, () -> redraw()));
+				.on("mousemove", new HullMouseMoveDataFunction(webEngine, vertices, d3, () -> redraw())) //
+				.on("click", new HullMouseClickDataFunction(webEngine, vertices, d3, () -> redraw()));
 
 		svg.append("rect") //
 				.attr("width", width) //
@@ -110,10 +110,10 @@ public class HullDemo extends AbstractDemoCase {
 
 			Array<MyCoords> coordinates = hullModel.apply(vertices);
 
-			hull.datum(coordinates).attr("d", new HullDatumFunction(webEngine));
+			hull.datum(coordinates).attr("d", new HullDataFunction(webEngine));
 			UpdateSelection circles = circle.data(vertices);
 			circles.enter().append("circle").attr("r", 3);
-			circle = circles.attr("transform", new HullTransformDatumFunction(webEngine)) //
+			circle = circles.attr("transform", new HullTransformDataFunction(webEngine)) //
 					.attr("class", "hulldemo");
 			circle = circles;
 		} catch (Exception e) {

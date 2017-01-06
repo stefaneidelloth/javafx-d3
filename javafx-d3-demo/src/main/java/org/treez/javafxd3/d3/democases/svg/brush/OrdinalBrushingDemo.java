@@ -7,16 +7,22 @@ import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.DemoCase;
 import org.treez.javafxd3.d3.DemoFactory;
+import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.democases.Margin;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
+import org.treez.javafxd3.d3.functions.data.wrapper.DataFunctionWrapper;
 import org.treez.javafxd3.d3.scales.OrdinalScale;
+import org.treez.javafxd3.d3.svg.Axis;
 import org.treez.javafxd3.d3.svg.Axis.Orientation;
+import org.treez.javafxd3.d3.svg.Brush;
 import org.treez.javafxd3.d3.svg.Brush.BrushEvent;
+import org.treez.javafxd3.d3.svg.Symbol;
 import org.treez.javafxd3.d3.svg.SymbolType;
+import org.treez.javafxd3.d3.wrapper.Inspector;
 
 import javafx.scene.layout.VBox;
+import netscape.javascript.JSObject;
 
 /**
  * 
@@ -33,18 +39,8 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 */
 	public OrdinalBrushingDemo(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
-		// this.css = Bundle.INSTANCE.css(); @Source("OrdinalBrushingDemo.css")
-		// ob, selecting, selected, axis, brush
-
-		//this.addStyleName("ob");
 	}
 
 	//#end region
@@ -53,8 +49,9 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 
 	/**
 	 * Factory provider
-	 * @param d3 
-	 * @param demoPreferenceBox 
+	 * 
+	 * @param d3
+	 * @param demoPreferenceBox
 	 * @return
 	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
@@ -75,60 +72,78 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 		final int height = 500 - margin.top - margin.bottom;
 
 		List<String> stringList = new ArrayList<>();
-		for(SymbolType dataValue:data){
-			stringList.add(dataValue.getValue());
+		for (SymbolType dataValue : data) {
+			stringList.add(dataValue.toString());
 		}
 		String[] array = stringList.toArray(new String[data.length]);
-		
-		x = d3.scale().ordinal().domain(array).rangePoints(0, width, 1);
 
-		svg = d3.select("root").append("svg").attr("width", width + margin.right + margin.left)
-				.attr("height", height + margin.top + margin.bottom).append("g")
+		x = d3.scale() //
+				.ordinal() //
+				.domain(array) //
+				.rangePoints(0, width, 1);
+
+		svg = d3.select("#svg") //				
+				.attr("width", width + margin.right + margin.left) //
+				.attr("height", height + margin.top + margin.bottom) //
+				.append("g") //
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-		svg.append("g").attr("class", "x " + "axis").attr("transform", "translate(0," + height + ")")
-				.call(d3.svg().axis().scale(x).orient(Orientation.BOTTOM));
+		Axis axis = d3.svg().axis() //
+				.scale(x) //
+				.orient(Orientation.BOTTOM);
 
-		symbol = svg.append("g").selectAll("path").data(data).enter().append("path")
-				.attr("transform", new DatumFunction<String>() {
-					@Override
-					public String apply(final Object context, final Object d, final int index) {
-						
-						Value datum = (Value) d;
-						
-						String value = datum.<SymbolType> as().getValue();
-						return "translate(" + x.apply(value).asDouble() + "," + (height / 2) + ")";
-					}
-				}).attr("d", d3.svg().symbol().type(new DatumFunction<SymbolType>() {
-					@Override
-					public SymbolType apply(final Object context, final Object d, final int index) {
-						
-						Value datum = (Value) d;
-						
-						return datum.<SymbolType> as();
-					}
-				}).size(200));
+		svg.append("g") //
+				.attr("class", "x " + "axis") //
+				.attr("transform", "translate(0," + height + ")").call(axis);
 
-		svg.append("g").attr("class", "brush")
-				.call(d3.svg().brush().x(x).on(BrushEvent.BRUSH_START, new DatumFunction<Void>() {
-					@Override
-					public Void apply(final Object context, final Object d, final int index) {
-						brushstart();
-						return null;
-					}
-				}).on(BrushEvent.BRUSH, new DatumFunction<Void>() {
-					@Override
-					public Void apply(final Object context, final Object d, final int index) {
-						brushmove();
-						return null;
-					}
-				}).on(BrushEvent.BRUSH_END, new DatumFunction<Void>() {
-					@Override
-					public Void apply(final Object context, final Object d, final int index) {
-						brushend();
-						return null;
-					}
-				})).selectAll("rect").attr("height", height);
+		DataFunction<String> transformFunction = new DataFunctionWrapper<>(SymbolType.class, webEngine, (symbolType) -> {			
+			Double scaledX = x.apply(symbolType).asDouble();
+			String translation =  "translate(" + scaledX + "," + (height / 2) + ")";
+			return translation;
+		});
+
+		DataFunction<SymbolType> symbolTypeFunction = new DataFunctionWrapper<>(SymbolType.class, webEngine,
+				(symbolType) -> {
+					return symbolType;
+				});
+
+		Symbol pathSymbol = d3.svg() //
+				.symbol() //
+				.type(symbolTypeFunction) //
+				.size(200);
+
+		symbol = svg.append("g") //
+				.selectAll("path") //
+				.data(data) //
+				.enter() //
+				.append("path") //
+				.attr("transform", transformFunction) //
+				.attr("d", pathSymbol);
+
+		DataFunction<Void> brushStartFunction = new DataFunctionWrapper<>(() -> {
+			brushStart();
+		});
+
+		DataFunction<Void> brushMoveFunction = new DataFunctionWrapper<>(() -> {
+			brushMove();
+		});
+
+		DataFunction<Void> brushEndFunction = new DataFunctionWrapper<>(() -> {
+			brushend();
+		});
+
+		Brush brush = d3.svg()//
+				.brush() //
+				.x(x) //
+				.on(BrushEvent.BRUSH_START, brushStartFunction) //
+				.on(BrushEvent.BRUSH, brushMoveFunction) //
+				.on(BrushEvent.BRUSH_END, brushEndFunction);
+
+		svg.append("g") //
+				.attr("class", "brush") //
+				.call(brush) //
+				.selectAll("rect") //
+				.attr("height", height);
 	}
 
 	@Override
@@ -136,40 +151,34 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 
 	}
 
-	private void brushstart() {
+	private void brushStart() {
 		svg.classed("selecting", true);
 	}
 
-	private void brushmove() {
+	private void brushMove() {
 		Selection target = d3.event().getEventTarget();
-		
-		throw new IllegalStateException("not yet implemented");
-		
-		/*
-		
-		final Array<Double> extent = target.<Brush> cast().extent();
-		symbol.classed("selected", new DatumFunction<Boolean>() {
-			@Override
-			public Boolean apply(final Object context, final Object d, final int index) {
-				
-				Value datum = (Value) d;
-				
-				double value = x.apply(datum.<Type> as().getValue()).asDouble();
-				return extent.get(0, Double.class) <= value && value <= extent.get(1, Double.class);
-			}
-		});
-		
-		*/
+	
+		JSObject jsBrush = target.getJsObject();
+		Brush brush = new Brush(webEngine, jsBrush);
+
+		final Array<Double> extent = brush.extent();
+
+		DataFunction<Boolean> selectionDataFunction = new DataFunctionWrapper<>(JSObject.class, webEngine,
+				(jsDatum) -> {
+					double value = x.apply(jsDatum).asDouble();
+					return extent.get(0, Double.class) <= value && value <= extent.get(1, Double.class);
+				});
+
+		symbol.classed("selected", selectionDataFunction);
+
 	}
 
 	private void brushend() {
-		
-throw new IllegalStateException("not yet implemented");
-		
-		/*
-		svg.classed("selecting", !(d3.event().getEventTarget().<Brush> cast()).empty());
-		
-		*/
+
+		Selection brush = d3.event().getEventTarget();
+
+		svg.classed("selecting", !(brush).empty());
+
 	}
 
 	//#end region

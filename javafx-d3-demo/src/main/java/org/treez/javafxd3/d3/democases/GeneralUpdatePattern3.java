@@ -7,7 +7,7 @@ import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.UpdateSelection;
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.KeyFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 
@@ -115,7 +115,7 @@ public class GeneralUpdatePattern3 extends AbstractDemoCase {
 		// UPDATE
 		// Update old elements as needed.
 		selection.attr("class", "updateD3Content").transition().duration(750).attr("x",
-				new DatumFunction<Integer>() {
+				new DataFunction<Integer>() {
 					@Override
 					public Integer apply(final Object context, final Object d, final int index) {
 						return index * 32;
@@ -125,12 +125,12 @@ public class GeneralUpdatePattern3 extends AbstractDemoCase {
 		// ENTER
 		// Create new elements as needed.
 		selection.enter().append("text").attr("class", "enter").attr("dy", ".35em").attr("y", -60)
-				.attr("x", new DatumFunction<Integer>() {
+				.attr("x", new DataFunction<Integer>() {
 					@Override
 					public Integer apply(final Object context, final Object d, final int index) {
 						return index * 32;
 					}
-				}).style("fill-opacity", 0.01D).text(new DatumFunction<String>() {
+				}).style("fill-opacity", 0.01D).text(new DataFunction<String>() {
 					@Override
 					public String apply(final Object context, final Object d, final int index) {
 						

@@ -15,7 +15,7 @@ import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.dsv.DsvCallback;
 import org.treez.javafxd3.d3.dsv.DsvRow;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.scales.OrdinalScale;
 import org.treez.javafxd3.d3.svg.Axis;
@@ -170,7 +170,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				xAxis.tickSize(size * n);
 				yAxis.tickSize(-size * n);
 
-				brush = d3.svg().brush().x(x).y(y).on(BrushEvent.BRUSH_START, new DatumFunction<Void>() {
+				brush = d3.svg().brush().x(x).y(y).on(BrushEvent.BRUSH_START, new DataFunction<Void>() {
 					@Override
 					public Void apply(final Object context, final Object d, final int index) {
 						
@@ -180,7 +180,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 						brushstart(element, datum.<Point> as());
 						return null;
 					}
-				}).on(BrushEvent.BRUSH, new DatumFunction<Void>() {
+				}).on(BrushEvent.BRUSH, new DataFunction<Void>() {
 					@Override
 					public Void apply(final Object context, final Object d, final int index) {
 						
@@ -189,7 +189,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 						brushmove(datum.<Point> as());
 						return null;
 					}
-				}).on(BrushEvent.BRUSH_END, new DatumFunction<Void>() {
+				}).on(BrushEvent.BRUSH_END, new DataFunction<Void>() {
 					@Override
 					public Void apply(final Object context, final Object d, final int index) {
 						brushend();
@@ -202,12 +202,12 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 						.attr("transform", "translate(" + padding + "," + padding / 2 + ")");
 
 				svg.selectAll(".x." + "axis").data(traits).enter().append("g").attr("class", "x " + "axis")
-						.attr("transform", new DatumFunction<String>() {
+						.attr("transform", new DataFunction<String>() {
 					@Override
 					public String apply(final Object context, final Object d, final int index) {
 						return "translate(" + (n - index - 1) * size + ",0)";
 					}
-				}).each(new DatumFunction<Void>() {
+				}).each(new DataFunction<Void>() {
 					@Override
 					public Void apply(final Object context, final Object d, final int index) {
 						
@@ -221,12 +221,12 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				});
 
 				svg.selectAll(".y." + "axis").data(traits).enter().append("g").attr("class", "y " + "axis")
-						.attr("transform", new DatumFunction<String>() {
+						.attr("transform", new DataFunction<String>() {
 					@Override
 					public String apply(final Object context, final Object d, final int index) {
 						return "translate(0," + index * size + ")";
 					}
-				}).each(new DatumFunction<Void>() {
+				}).each(new DataFunction<Void>() {
 					@Override
 					public Void apply(final Object context, final Object d, final int index) {
 						
@@ -240,7 +240,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				});
 
 				Selection cell = svg.selectAll(".cell").data(cross(traits, traits)).enter().append("g")
-						.attr("class", "cell").attr("transform", new DatumFunction<String>() {
+						.attr("class", "cell").attr("transform", new DataFunction<String>() {
 					@Override
 					public String apply(final Object context, final Object d, final int index) {
 						
@@ -249,7 +249,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 						
 						return "translate(" + (n - datum.<Point> as().i - 1) * size + "," + datum.<Point> as().j * size + ")";
 					}
-				}).each(new DatumFunction<Void>() {
+				}).each(new DataFunction<Void>() {
 					@Override
 					public Void apply(final Object context, final Object d, final int index) {
 						
@@ -262,7 +262,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				});
 
 				// Titles for the diagonal.
-				cell.filter(new DatumFunction<Element>() {
+				cell.filter(new DataFunction<Element>() {
 					@Override
 					public Element apply(final Object context, final Object d, final int index) {
 						
@@ -272,7 +272,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 						return datum.<Point> as().i == datum.<Point> as().j ? element : null;
 					}
 				}).append("text").attr("x", padding).attr("y", padding).attr("dy", ".71em")
-						.text(new DatumFunction<String>() {
+						.text(new DataFunction<String>() {
 					@Override
 					public String apply(final Object context, final Object d, final int index) {
 						
@@ -305,7 +305,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 		cell.append("rect").attr("class", "frame").attr("x", padding / 2).attr("y", padding / 2)
 				.attr("width", size - padding).attr("height", size - padding);
 
-		cell.selectAll("circle").data(data).enter().append("circle").attr("cx", new DatumFunction<String>() {
+		cell.selectAll("circle").data(data).enter().append("circle").attr("cx", new DataFunction<String>() {
 			@Override
 			public String apply(final Object context, final Object d, final int index) {
 				
@@ -316,7 +316,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				String asString = x.apply(v.asDouble()).asString();
 				return asString;
 			}
-		}).attr("cy", new DatumFunction<String>() {
+		}).attr("cy", new DataFunction<String>() {
 			@Override
 			public String apply(final Object context, final Object d, final int index) {
 				
@@ -327,7 +327,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				String asString = y.apply(asDouble).asString();
 				return asString;
 			}
-		}).attr("r", 3).style("fill", new DatumFunction<String>() {
+		}).attr("r", 3).style("fill", new DataFunction<String>() {
 			@Override
 			public String apply(final Object context, final Object d, final int index) {
 				
@@ -353,7 +353,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 	// Highlight the selected circles.
 	private void brushmove(final Point p) {
 		final Array<Double> e = brush.extent();
-		svg.selectAll("circle").classed("hidden", new DatumFunction<Boolean>() {
+		svg.selectAll("circle").classed("hidden", new DataFunction<Boolean>() {
 			@Override
 			public Boolean apply(final Object context, final Object d, final int index) {
 				

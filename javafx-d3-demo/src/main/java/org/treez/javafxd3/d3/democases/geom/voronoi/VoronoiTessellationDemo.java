@@ -81,7 +81,7 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 				.classed("vt", true) //
 				.attr("width", width) //
 				.attr("height", height) //
-				.on("mousemove", new MouseMoveDatumFunction(webEngine, d3, vertices, () -> redraw()));
+				.on("mousemove", new MouseMoveDataFunction(webEngine, d3, vertices, () -> redraw()));
 
 		path = svg.append("g") //
 				.selectAll("path");
@@ -90,7 +90,7 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 				.data(vertices) //
 				.enter() //
 				.append("circle") //
-				.attr("transform", new TransformDatumFunction(webEngine)) //
+				.attr("transform", new TransformDataFunction(webEngine)) //
 				.attr("r", 1.5);
 
 		redraw();
@@ -106,8 +106,8 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 
 		upd.enter() //
 				.append("path") //
-				.attr("class", new ClassDatumFunction()) //
-				.attr("d", new PolygonDatumFunction(webEngine));
+				.attr("class", new ClassDataFunction()) //
+				.attr("d", new PolygonDataFunction(webEngine));
 
 		upd.order();
 		this.path = upd;

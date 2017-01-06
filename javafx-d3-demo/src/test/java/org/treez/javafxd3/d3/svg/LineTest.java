@@ -6,11 +6,11 @@ import java.util.List;
 import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.coords.Coords;
-import org.treez.javafxd3.d3.svg.datumfunction.IndexFactorDatumFunction;
-import org.treez.javafxd3.d3.svg.datumfunction.IndexSwitchDatumFunction;
-import org.treez.javafxd3.d3.svg.datumfunction.XCaptureDatumFunction;
-import org.treez.javafxd3.d3.svg.datumfunction.YCaptureDatumFunction;
-import org.treez.javafxd3.d3.svg.datumfunction.YCoordsCounterDatumFunction;
+import org.treez.javafxd3.d3.svg.datafunction.IndexFactorDataFunction;
+import org.treez.javafxd3.d3.svg.datafunction.IndexSwitchDataFunction;
+import org.treez.javafxd3.d3.svg.datafunction.XCaptureDataFunction;
+import org.treez.javafxd3.d3.svg.datafunction.YCaptureDataFunction;
+import org.treez.javafxd3.d3.svg.datafunction.YCoordsCounterDataFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 @SuppressWarnings("javadoc")
@@ -43,9 +43,9 @@ public class LineTest extends AbstractTestCase {
         assertEquals("svg path","M0,0.9Q0.7999999999999999,0.89,1,1Q1.2,1.11,2,2", svgPath);
 
         // x and y
-        line.x(new XCaptureDatumFunction(webEngine, xCapture) );
+        line.x(new XCaptureDataFunction(webEngine, xCapture) );
 
-        line.y(new YCaptureDatumFunction(webEngine, yCapture));
+        line.y(new YCaptureDataFunction(webEngine, yCapture));
         
         List<JavaScriptObject> coordsData = new ArrayList<>();
         coordsData.add(new Coords(webEngine,1, 1));
@@ -71,11 +71,11 @@ public class LineTest extends AbstractTestCase {
                 .generate(coordsData);
         // System.out.println("defined : " + d);
 
-        line.defined(new IndexSwitchDatumFunction());
+        line.defined(new IndexSwitchDataFunction());
         
         final Coords counter = new Coords(webEngine, 0, 0);
         // not called
-        line.y(new YCoordsCounterDatumFunction(webEngine, yCapture, counter));
+        line.y(new YCoordsCounterDataFunction(webEngine, yCapture, counter));
 
         // does not assertEquals(2, counter.y);
         // Smoke test radial line
@@ -83,7 +83,7 @@ public class LineTest extends AbstractTestCase {
         RadialLine radial = d3.svg().radialLine();
         radial.angle(3.5);
         radial.radius(56);
-        radial.radius(new IndexFactorDatumFunction(25.6));
+        radial.radius(new IndexFactorDataFunction(25.6));
 
     }
 

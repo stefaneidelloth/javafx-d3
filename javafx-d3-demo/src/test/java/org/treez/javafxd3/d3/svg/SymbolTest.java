@@ -1,11 +1,10 @@
 package org.treez.javafxd3.d3.svg;
 
 
-import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
 import org.treez.javafxd3.d3.svg.Symbol;
-
-import org.treez.javafxd3.d3.svg.datumfunction.IndexDatumFunction;
+import org.treez.javafxd3.d3.svg.datafunction.IndexDataFunction;
 import org.treez.javafxd3.d3.AbstractTestCase;
+import org.treez.javafxd3.d3.functions.data.ConstantDataFunction;
 
 
 public class SymbolTest extends AbstractTestCase {
@@ -31,10 +30,10 @@ public class SymbolTest extends AbstractTestCase {
 
 		Symbol symbol = d3.svg().symbol();
 		symbol.size(32);
-		symbol.size(new IndexDatumFunction());
+		symbol.size(new IndexDataFunction());
 
 		symbol.type(SymbolType.CIRCLE);
-		symbol.type(new ConstantDatumFunction<SymbolType>(SymbolType.CIRCLE));
+		symbol.type(new ConstantDataFunction<SymbolType>(SymbolType.CIRCLE));
 	}
 	
 	/**

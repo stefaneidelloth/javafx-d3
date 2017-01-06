@@ -2,10 +2,9 @@ package org.treez.javafxd3.d3.layout;
 
 
 import org.treez.javafxd3.d3.arrays.Array;
+import org.treez.javafxd3.d3.functions.DataFunction;
+import org.treez.javafxd3.d3.functions.data.DelegatingDataFunction;
 import org.treez.javafxd3.d3.wrapper.Sort;
-
-import org.treez.javafxd3.d3.functions.DatumFunction;
-import org.treez.javafxd3.d3.functions.DelegatingDatumFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -143,7 +142,7 @@ public class Tree extends HierarchicalLayout {
 	 *            a datum function describing how to compute children
 	 * @return this tree object
 	 */
-	public  Tree children(DatumFunction<Array<Node>> function) {		
+	public  Tree children(DataFunction<Array<Node>> function) {		
 		String functionName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(functionName, function);
@@ -164,7 +163,7 @@ public class Tree extends HierarchicalLayout {
 	 *            a datum function describing how to access node values
 	 * @return this tree object
 	 */
-	public  Tree value(DatumFunction<?> function) {
+	public  Tree value(DataFunction<?> function) {
 		
 		assertObjectIsNotAnonymous(function);
 		
@@ -183,9 +182,9 @@ public class Tree extends HierarchicalLayout {
 	 * 
 	 * @return the current datum function registered for calculating node values
 	 */
-	public DatumFunction<?> value() {
+	public DataFunction<?> value() {
 		JSObject result = call("value");
-		DatumFunction<?> datumFunction = new DelegatingDatumFunction(result);
+		DataFunction<?> datumFunction = new DelegatingDataFunction(result);
 		return datumFunction;		
 	}
 }

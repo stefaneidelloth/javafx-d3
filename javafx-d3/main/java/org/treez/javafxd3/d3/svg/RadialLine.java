@@ -1,6 +1,6 @@
 package org.treez.javafxd3.d3.svg;
 
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -53,7 +53,7 @@ public class RadialLine extends Line {
 	 * @param datumFunction
 	 * @return the current line
 	 */
-	public RadialLine radius(final DatumFunction<Double> callback) {
+	public RadialLine radius(final DataFunction<Double> callback) {
 
 		assertObjectIsNotAnonymous(callback);
 
@@ -92,7 +92,7 @@ public class RadialLine extends Line {
 	 * @param datumFunction
 	 * @return the current line
 	 */
-	public RadialLine angle(final DatumFunction<Double> callback) {
+	public RadialLine angle(final DataFunction<Double> callback) {
 
 		assertObjectIsNotAnonymous(callback);
 

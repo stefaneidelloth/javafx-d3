@@ -7,7 +7,7 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transition;
 import org.treez.javafxd3.d3.dsv.DsvCallback;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.svg.Area;
 import org.treez.javafxd3.d3.svg.Axis;
@@ -138,7 +138,7 @@ public class DataDsvCallback implements DsvCallback<DsvData> {
 				.text(firstData.getSymbol());
 
 		// On click, update the x-axis.
-		svg.on("click", new DatumFunction<Void>() {
+		svg.on("click", new DataFunction<Void>() {
 			@Override
 			public Void apply(final Object context, final Object d, final int index) {
 				int n = valueList.size() - 1;

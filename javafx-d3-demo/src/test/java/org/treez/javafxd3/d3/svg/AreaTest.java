@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.coords.Coords;
-import org.treez.javafxd3.d3.svg.datumfunction.IndexSwitchDatumFunction;
-import org.treez.javafxd3.d3.svg.datumfunction.XCaptureDatumFunction;
-import org.treez.javafxd3.d3.svg.datumfunction.XDatumFunction;
-import org.treez.javafxd3.d3.svg.datumfunction.YCaptureDatumFunction;
-import org.treez.javafxd3.d3.svg.datumfunction.YCoordsCounterDatumFunction;
-import org.treez.javafxd3.d3.svg.datumfunction.YDatumFunction;
+import org.treez.javafxd3.d3.svg.datafunction.IndexSwitchDataFunction;
+import org.treez.javafxd3.d3.svg.datafunction.XCaptureDataFunction;
+import org.treez.javafxd3.d3.svg.datafunction.XDataFunction;
+import org.treez.javafxd3.d3.svg.datafunction.YCaptureDataFunction;
+import org.treez.javafxd3.d3.svg.datafunction.YCoordsCounterDataFunction;
+import org.treez.javafxd3.d3.svg.datafunction.YDataFunction;
 
 public class AreaTest extends AbstractTestCase {
 
@@ -33,17 +33,17 @@ public class AreaTest extends AbstractTestCase {
 		area.apply(new Object[] { new Integer[] { 0, 0 }, new Integer[] { 1, 1 }, new Integer[] { 2, 2 } });
 
 		// x and y
-		area.x(new XDatumFunction(webEngine));
+		area.x(new XDataFunction(webEngine));
 
-		area.x0(new XCaptureDatumFunction(webEngine, xCapture));
+		area.x0(new XCaptureDataFunction(webEngine, xCapture));
 
-		area.x1(new XDatumFunction(webEngine));
+		area.x1(new XDataFunction(webEngine));
 
-		area.y(new YDatumFunction(webEngine));
+		area.y(new YDataFunction(webEngine));
 
-		area.y0(new YCaptureDatumFunction(webEngine, yCapture));
+		area.y0(new YCaptureDataFunction(webEngine, yCapture));
 
-		area.y1(new YDatumFunction(webEngine));
+		area.y1(new YDataFunction(webEngine));
 
 		area.apply(
 				new Object[] { new Coords(webEngine, 1, 1), new Coords(webEngine, 2, 2), new Coords(webEngine, 3, 3) });
@@ -70,12 +70,12 @@ public class AreaTest extends AbstractTestCase {
 		// TODO: tension
 
 		// defined : it does not seem to work
-		area.defined(new IndexSwitchDatumFunction());
+		area.defined(new IndexSwitchDataFunction());
 
 		final Coords counter = new Coords(webEngine, 0, 0);
 
 		// not called
-		area.y(new YCoordsCounterDatumFunction(webEngine, yCapture, counter));
+		area.y(new YCoordsCounterDataFunction(webEngine, yCapture, counter));
 
 		// does not assertEquals(2, counter.y);
 

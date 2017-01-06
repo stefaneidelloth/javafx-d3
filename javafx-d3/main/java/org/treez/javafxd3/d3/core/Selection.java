@@ -11,7 +11,7 @@ import java.util.Map;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.ArrayUtils;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.KeyFunction;
 import org.treez.javafxd3.d3.functions.MouseClickFunction;
 import org.treez.javafxd3.d3.svg.PathDataGenerator;
@@ -43,7 +43,7 @@ import netscape.javascript.JSObject;
  * the document with D3. That's because you operate on entire selections at
  * once, rather than looping over individual elements. However, you can still
  * loop over elements manually if you wish: there's an
- * {@link #each(DatumFunction)} operator which invokes an arbitrary function,
+ * {@link #each(DataFunction)} operator which invokes an arbitrary function,
  * and selections are arrays, so elements can be accessed directly (e.g.,
  * selection.get(0).get(0)).
  * <p>
@@ -212,7 +212,7 @@ public class Selection extends EnteringSelection {
 	 * @param func
 	 * @return
 	 */
-	public <T extends Element> Selection selectAll(DatumFunction<T[]> func) {
+	public <T extends Element> Selection selectAll(DataFunction<T[]> func) {
 
 		assertObjectIsNotAnonymous(func);
 
@@ -409,7 +409,7 @@ public class Selection extends EnteringSelection {
 	 *            the function used to compute the new value of the attribute
 	 * @return the current selection
 	 */
-	public Selection attr(final String name, final DatumFunction<?> callback) {
+	public Selection attr(final String name, final DataFunction<?> callback) {
 
 		assertObjectIsNotAnonymous(callback);
 
@@ -498,7 +498,7 @@ public class Selection extends EnteringSelection {
 	 * @param callback
 	 * @return
 	 */
-	public Selection style(String name, DatumFunction<?> callback) {
+	public Selection style(String name, DataFunction<?> callback) {
 
 		assertObjectIsNotAnonymous(callback);
 
@@ -545,7 +545,7 @@ public class Selection extends EnteringSelection {
 	 *            otherwise
 	 * @return the current selection
 	 */
-	public Selection style(String name, DatumFunction<?> callback, boolean important) {
+	public Selection style(String name, DataFunction<?> callback, boolean important) {
 
 		assertObjectIsNotAnonymous(callback);
 
@@ -635,7 +635,7 @@ public class Selection extends EnteringSelection {
 	 *            boolean indicating to assign or not the class to the element
 	 * @return the current selection
 	 */
-	public Selection classed(String classNames, DatumFunction<Boolean> assignSwitchFunction) {
+	public Selection classed(String classNames, DataFunction<Boolean> assignSwitchFunction) {
 
 		assertObjectIsNotAnonymous(assignSwitchFunction);
 
@@ -757,7 +757,7 @@ public class Selection extends EnteringSelection {
 	 * supports svg, xhtml, xlink, xml, and xmlns namespaces. Additional
 	 * namespaces can be registered by adding to d3.ns.prefix.
 	 * <p>
-	 * Note: if you provide a DatumFunction<T> parameterized with a wrapper
+	 * Note: if you provide a DataFunction<T> parameterized with a wrapper
 	 * type, such as java.lang.Double or java.lang.Boolean, when getting the
 	 * property value ( {@link #property(String)}), you should use
 	 * {@link Value#as(Class)} with the corresponding Class object, such as
@@ -770,7 +770,7 @@ public class Selection extends EnteringSelection {
 	 *            the function used to compute the new value of the attribute
 	 * @return the current selection
 	 */
-	public Selection property(final String name, final DatumFunction<?> callback) {
+	public Selection property(final String name, final DataFunction<?> callback) {
 
 		assertObjectIsNotAnonymous(callback);
 
@@ -833,7 +833,7 @@ public class Selection extends EnteringSelection {
 	 *            the function used to compute the new text property
 	 * @return the current selection
 	 */
-	public Selection text(final DatumFunction<String> callback) {
+	public Selection text(final DataFunction<String> callback) {
 
 		assertObjectIsNotAnonymous(callback);
 
@@ -889,7 +889,7 @@ public class Selection extends EnteringSelection {
 	 *            the function used to compute the new inner html property
 	 * @return the current selection
 	 */
-	public Selection html(final DatumFunction<String> callback) {
+	public Selection html(final DataFunction<String> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 
@@ -1025,7 +1025,7 @@ public class Selection extends EnteringSelection {
 	 *            the callback function
 	 * @return the current selection
 	 */
-	public Selection each(DatumFunction<Void> function) {
+	public Selection each(DataFunction<Void> function) {
 
 		assertObjectIsNotAnonymous(function);
 
@@ -1116,7 +1116,7 @@ public class Selection extends EnteringSelection {
 	 * the selection has multiple groups (such as a {@link D3#selectAll}
 	 * followed by a {@link Selection#selectAll}), and if you want different
 	 * data for each group, you should rather use the method
-	 * {@link #data(DatumFunction)}.
+	 * {@link #data(DataFunction)}.
 	 * <p>
 	 * When data is assigned to an element, it is stored in the property
 	 * {@link #DATA_PROPERTY}, thus making the data "sticky" so that the data is
@@ -1275,7 +1275,7 @@ public class Selection extends EnteringSelection {
 	 *            the data of the parent node of the group.
 	 * @return the {@link UpdateSelection}
 	 */
-	public <T> UpdateSelection data(DatumFunction<T> callback) {
+	public <T> UpdateSelection data(DataFunction<T> callback) {
 
 		assertObjectIsNotAnonymous(callback);
 
@@ -1900,7 +1900,7 @@ public class Selection extends EnteringSelection {
 	 *            function providing the datum
 	 * @return the current selection
 	 */
-	public <T> Selection datum(DatumFunction<T> datumFunction) {
+	public <T> Selection datum(DataFunction<T> datumFunction) {
 
 		if (datumFunction != null) {
 
@@ -1983,7 +1983,7 @@ public class Selection extends EnteringSelection {
 	 *            the function to be used as a filter
 	 * @return a new selection containing the filtered elements
 	 */
-	public Selection filter(final DatumFunction<Element> datumFunction) {
+	public Selection filter(final DataFunction<Element> datumFunction) {
 
 		assertObjectIsNotAnonymous(datumFunction);
 
@@ -2105,14 +2105,14 @@ public class Selection extends EnteringSelection {
 	// =================== ACTION ===============
 
 	/**
-	 * Same as {@link #on(String, DatumFunction, boolean)} with false for the
+	 * Same as {@link #on(String, DataFunction, boolean)} with false for the
 	 * useCapture flag.
 	 *
 	 * @param eventType
 	 * @param listener
 	 * @return
 	 */
-	public Selection on(String eventType, DatumFunction<Void> listener) {
+	public Selection on(String eventType, DataFunction<Void> listener) {
 
 		assertObjectIsNotAnonymous(listener);
 
@@ -2175,7 +2175,7 @@ public class Selection extends EnteringSelection {
 	 *            trigger an EventListener designated to use capture."
 	 * @return the current selection
 	 */
-	public Selection on(String eventType, DatumFunction<Void> listener, boolean useCapture) {
+	public Selection on(String eventType, DataFunction<Void> listener, boolean useCapture) {
 
 		assertObjectIsNotAnonymous(listener);
 

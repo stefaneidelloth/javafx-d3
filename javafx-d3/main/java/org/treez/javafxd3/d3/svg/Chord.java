@@ -1,6 +1,6 @@
 package org.treez.javafxd3.d3.svg;
 
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -50,8 +50,8 @@ public class Chord extends PathDataGenerator {
 	 * <p>
 	 * The purpose of the source accessor is to return an object that describes
 	 * the starting arc of the chord. The returned object is subsequently passed
-	 * to the {@link #radius(DatumFunction)}, {@link #startAngle(DatumFunction)}
-	 * and {@link #endAngle(DatumFunction)} accessors.
+	 * to the {@link #radius(DataFunction)}, {@link #startAngle(DataFunction)}
+	 * and {@link #endAngle(DataFunction)} accessors.
 	 * <p>
 	 * This allows these other accessors to be reused for both the source and
 	 * target arc descriptions.
@@ -67,7 +67,7 @@ public class Chord extends PathDataGenerator {
 	 *            the function returning the source arc object
 	 * @return the current chord generator
 	 */
-	public Chord source(final DatumFunction<?> accessor) {
+	public Chord source(final DataFunction<?> accessor) {
 
 		assertObjectIsNotAnonymous(accessor);
 
@@ -89,8 +89,8 @@ public class Chord extends PathDataGenerator {
 	 * <p>
 	 * The purpose of the target accessor is to return an object that describes
 	 * the ending arc of the chord. The returned object is subsequently passed
-	 * to the {@link #radius(DatumFunction)}, {@link #startAngle(DatumFunction)}
-	 * and {@link #endAngle(DatumFunction)} accessors.
+	 * to the {@link #radius(DataFunction)}, {@link #startAngle(DataFunction)}
+	 * and {@link #endAngle(DataFunction)} accessors.
 	 * <p>
 	 * This allows these other accessors to be reused for both the source and
 	 * target arc descriptions.
@@ -106,7 +106,7 @@ public class Chord extends PathDataGenerator {
 	 *            the function returning the target arc object
 	 * @return the current chord generator
 	 */
-	public Chord target(final DatumFunction<?> accessor) {
+	public Chord target(final DataFunction<?> accessor) {
 
 		assertObjectIsNotAnonymous(accessor);
 
@@ -134,7 +134,7 @@ public class Chord extends PathDataGenerator {
 	 *            the function returning the radius
 	 * @return the current chord generator
 	 */
-	public Chord radius(final DatumFunction<Double> accessor) {
+	public Chord radius(final DataFunction<Double> accessor) {
 
 		assertObjectIsNotAnonymous(accessor);
 
@@ -178,7 +178,7 @@ public class Chord extends PathDataGenerator {
 	 *            the function returning the start angle
 	 * @return the current chord generator
 	 */
-	public Chord startAngle(final DatumFunction<Double> accessor) {
+	public Chord startAngle(final DataFunction<Double> accessor) {
 
 		assertObjectIsNotAnonymous(accessor);
 
@@ -225,7 +225,7 @@ public class Chord extends PathDataGenerator {
 	 *            the function returning the end angle
 	 * @return the current chord generator
 	 */
-	public Chord endAngle(final DatumFunction<Double> accessor) {
+	public Chord endAngle(final DataFunction<Double> accessor) {
 
 		assertObjectIsNotAnonymous(accessor);
 

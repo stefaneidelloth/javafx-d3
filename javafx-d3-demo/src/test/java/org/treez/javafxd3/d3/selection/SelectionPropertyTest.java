@@ -3,7 +3,7 @@ package org.treez.javafxd3.d3.selection;
 import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.democases.InputElementFactory;
-import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
+import org.treez.javafxd3.d3.functions.data.ConstantDataFunction;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
@@ -93,12 +93,12 @@ public class SelectionPropertyTest extends AbstractSelectionTest {
 		// works with single selection
 		Selection selection = givenASimpleNodeFactory(new InputElementFactory());
 		final String value = "1";
-		selection.property(SelectionPropertyTest.STRING_PROPERTY, new ConstantDatumFunction<String>(value));
+		selection.property(SelectionPropertyTest.STRING_PROPERTY, new ConstantDataFunction<String>(value));
 		assertEquals(value, getElementProperty(0, SelectionPropertyTest.STRING_PROPERTY).asString());
 
 		// works with multiple selection
 		Selection selection2 = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
-		selection2.property(SelectionPropertyTest.STRING_PROPERTY, new ConstantDatumFunction<String>(value));
+		selection2.property(SelectionPropertyTest.STRING_PROPERTY, new ConstantDataFunction<String>(value));
 		assertEquals(value, getElementProperty(0, SelectionPropertyTest.STRING_PROPERTY).asString());
 		assertEquals(value, getElementProperty(1, SelectionPropertyTest.STRING_PROPERTY).asString());
 		assertEquals(value, getElementProperty(2, SelectionPropertyTest.STRING_PROPERTY).asString());
@@ -108,12 +108,12 @@ public class SelectionPropertyTest extends AbstractSelectionTest {
 		// works with single selection
 		Selection selection = givenASimpleNodeFactory(new InputElementFactory());
 		final String value = "1.56";
-		selection.property(SelectionPropertyTest.STRING_PROPERTY, new ConstantDatumFunction<String>(value));
+		selection.property(SelectionPropertyTest.STRING_PROPERTY, new ConstantDataFunction<String>(value));
 		assertEquals(value, selection.property(SelectionPropertyTest.STRING_PROPERTY).asString());
 
 		// works with multiple selection
 		Selection selection2 = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
-		selection2.property(SelectionPropertyTest.STRING_PROPERTY, new ConstantDatumFunction<String>(value));
+		selection2.property(SelectionPropertyTest.STRING_PROPERTY, new ConstantDataFunction<String>(value));
 		assertEquals(value, selection.property(SelectionPropertyTest.STRING_PROPERTY).asString());
 	}
 	

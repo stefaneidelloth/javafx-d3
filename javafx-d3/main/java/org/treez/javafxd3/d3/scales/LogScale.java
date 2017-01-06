@@ -2,7 +2,7 @@ package org.treez.javafxd3.d3.scales;
 
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Formatter;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -158,7 +158,7 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 *            the function used to format the tick label
 	 * @return a number format
 	 */
-	public synchronized Formatter tickFormat(int count, DatumFunction<String> function) {
+	public synchronized Formatter tickFormat(int count, DataFunction<String> function) {
 
 		String functionName = "temp__tickformat__function";
 		JSObject d3 = (JSObject) webEngine.executeScript("d3");

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.democases.InputElementFactory;
-import org.treez.javafxd3.d3.functions.ConstantDatumFunction;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
+import org.treez.javafxd3.d3.functions.data.ConstantDataFunction;
 import org.treez.javafxd3.d3.svg.PathDataGenerator;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
@@ -113,7 +113,7 @@ public class SelectionAttrTest extends AbstractSelectionTest {
 		Selection selection = givenASimpleNodeFactory(new InputElementFactory());
 		
 		final String value = "1";
-		DatumFunction<String> datumFunction = new ConstantDatumFunction<String>(value);
+		DataFunction<String> datumFunction = new ConstantDataFunction<String>(value);
 			
 		selection.attr(ATTRIBUTE, datumFunction);
 		assertEquals(value, getElementAttribute(0, ATTRIBUTE));

@@ -1,13 +1,11 @@
 package org.treez.javafxd3.d3.scales;
 
+import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.ArrayUtils;
-import org.treez.javafxd3.d3.interpolators.Interpolator;
-import org.treez.javafxd3.d3.wrapper.Inspector;
-import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
-
-import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Value;
+import org.treez.javafxd3.d3.interpolators.Interpolator;
+import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -224,7 +222,14 @@ public abstract class Scale<S extends Scale<?>> extends JavaScriptObject {
      */
     public  Value apply(JSObject d){
     	JSObject result = call("this", d);
+    	if(result==null){
+    		return null;
+    	}
     	return new Value(webEngine, result);		
+    }
+    
+    public  Value apply(JavaScriptObject d){
+    	return apply(d.getJsObject());    			
     }
 
     /**
@@ -244,8 +249,7 @@ public abstract class Scale<S extends Scale<?>> extends JavaScriptObject {
      *            the input value
      * @return the output value
      */
-    public  Value apply(double d){
-    	Inspector.inspect(this);
+    public  Value apply(double d){    	
     	String command = "this(" + d + ")";
     	Object result = eval(command);
     	
@@ -280,8 +284,12 @@ public abstract class Scale<S extends Scale<?>> extends JavaScriptObject {
     	Object result = eval(command);
     	
     	Value value = Value.create(webEngine,  result);
-    	return value;
-    	
+    	return value;    	
+    }
+    
+    public  Value apply(Enum<?> enumValue){
+    	String stringValue = enumValue.toString();
+    	return apply(stringValue);    			
     }
     
     public  Double applyForDouble(String d){

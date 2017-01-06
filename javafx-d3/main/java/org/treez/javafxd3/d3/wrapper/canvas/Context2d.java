@@ -1,6 +1,5 @@
 package org.treez.javafxd3.d3.wrapper.canvas;
 
-import org.treez.javafxd3.d3.wrapper.Inspector;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -18,8 +17,7 @@ public class Context2d extends JavaScriptObject {
 	
 	//#region METHODS
 	
-	public void save() {
-		Inspector.inspect(this);
+	public void save() {		
 		call("save");		
 	}
 	

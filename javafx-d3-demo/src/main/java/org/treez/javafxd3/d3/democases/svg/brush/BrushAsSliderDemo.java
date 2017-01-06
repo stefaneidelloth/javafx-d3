@@ -8,7 +8,7 @@ import org.treez.javafxd3.d3.color.Colors;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.democases.Margin;
-import org.treez.javafxd3.d3.functions.DatumFunction;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.svg.Axis;
 import org.treez.javafxd3.d3.svg.Axis.Orientation;
@@ -71,7 +71,7 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 
 		x = d3.scale().linear().domain(0, 180).range(0, width).clamp(true);
 
-		brush = d3.svg().brush().x(x).extent(0, 0).on(BrushEvent.BRUSH, new DatumFunction<Void>() {
+		brush = d3.svg().brush().x(x).extent(0, 0).on(BrushEvent.BRUSH, new DataFunction<Void>() {
 			@Override
 			public Void apply(final Object context, final Object d, final int index) {
 				
@@ -90,7 +90,7 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 		
 			Selection svg2 = svg.append("g").attr("class", "x " + "axis").attr("transform", "translate(0," + height / 2 + ")");
 			
-			Axis axis = d3.svg().axis().scale(x).orient(Orientation.BOTTOM).tickFormat(new DatumFunction<String>() {
+			Axis axis = d3.svg().axis().scale(x).orient(Orientation.BOTTOM).tickFormat(new DataFunction<String>() {
 				@Override
 				public String apply(final Object context, final Object d, final int index) {
 					
@@ -99,7 +99,7 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 				}
 			}).tickSize(0).tickPadding(12);
 			
-			DatumFunction<Element> datumFunction = new DatumFunction<Element>() {
+			DataFunction<Element> datumFunction = new DataFunction<Element>() {
 				@Override
 				public Element apply(final Object context, final Object d, final int index) {
 					
