@@ -1,5 +1,11 @@
 package org.treez.javafxd3.d3.arrays;
 
+import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.core.Value;
+import org.treez.javafxd3.d3.wrapper.Sort;
+
+import javafx.scene.web.WebEngine;
+
 /**
  * Convenient methods to deal with arrays.
  * <p>
@@ -45,11 +51,10 @@ public class Arrays {
 	 *            the array to be evaluated
 	 * @return the maximum as a {@link Value} object
 	 */
-	// public static Value max(JavaScriptObject array) {
-	// return {
-	// datum : $wnd.d3.max(array)
-	// };
-	// };
+	public static Value max(Array<?> array, WebEngine webEngine) {
+		D3 d3 = new D3(webEngine);
+		return d3.max(array);
+	};
 
 	/**
 	 * Transform the values in the given array using the specified
@@ -145,11 +150,10 @@ public class Arrays {
 	 *            the array to be evaluated
 	 * @return the minimum as a {@link Value} object
 	 */
-	// public static final native Value min(JavaScriptObject array) {
-	// return {
-	// datum : $wnd.d3.min(array)
-	// };
-	// };
+	public static Value min(Array<?> array, WebEngine webEngine) {
+		D3 d3 = new D3(webEngine);
+		return d3.min(array);
+	};
 
 	/**
 	 * Transform the values in the given array using the specified
@@ -302,9 +306,10 @@ public class Arrays {
 	 *
 	 * @return
 	 */
-	// public static Sort ascending() {
-	// return $wnd.d3.ascending;
-	// };
+	public static Sort ascending(WebEngine webEngine) {
+		D3 d3 = new D3(webEngine);
+		return d3.ascending();
+	};
 
 	/**
 	 * Compare two values for sorting.
@@ -313,9 +318,10 @@ public class Arrays {
 	 *
 	 * @return
 	 */
-	// public static Sort descending() {
-	// return $wnd.d3.descending;
-	// };
+	public static Sort descending(WebEngine webEngine) {
+		D3 d3 = new D3(webEngine);
+		return d3.descending();
+	}
 
 	/**
 	 * Generate a range of <code>stop-1</code> numeric values, stored in an
@@ -326,9 +332,10 @@ public class Arrays {
 	 *            the maximum value (excluded)
 	 * @return the array
 	 */
-	// public static Array<Integer> range(double stop) {
-	// return $wnd.d3.range(stop);
-	// };
+	public static Array<Double> range(double stop, WebEngine webEngine) {
+		D3 d3 = new D3(webEngine);
+		return d3.range(stop);
+	};
 
 	/**
 	 * Generate a range of numeric values, stored in an array, going from 0 to
@@ -344,9 +351,10 @@ public class Arrays {
 	 *            the step between each value
 	 * @return the array
 	 */
-	// public static Array<?> range(double stop, double step) {
-	// return $wnd.d3.range(stop, step);
-	// };
+	public static Array<Double> range(double stop, double step, WebEngine webEngine) {
+		D3 d3 = new D3(webEngine);
+		return d3.range(stop, step);
+	};
 
 	/**
 	 * Generate a range of numeric values.
@@ -373,9 +381,9 @@ public class Arrays {
 	 *            the step between each value
 	 * @return
 	 */
-	// public static final native JavaScriptObject range(double start,
-	// double stop, double step) {
-	// return $wnd.d3.range(start, stop, step);
-	// };
+	public static Array<Double> range(double start, double stop, double step, WebEngine webEngine) {
+		D3 d3 = new D3(webEngine);
+		return d3.range(start, stop, step);
+	};
 
 }

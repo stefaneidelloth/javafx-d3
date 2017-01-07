@@ -19,6 +19,7 @@ import org.treez.javafxd3.d3.core.Prefix;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transform;
 import org.treez.javafxd3.d3.core.Transition;
+import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.dsv.Dsv;
 import org.treez.javafxd3.d3.dsv.DsvCallback;
 import org.treez.javafxd3.d3.dsv.DsvObjectAccessor;
@@ -37,6 +38,7 @@ import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 import org.treez.javafxd3.d3.wrapper.JsArrayMixed;
 import org.treez.javafxd3.d3.wrapper.Node;
 import org.treez.javafxd3.d3.wrapper.NodeList;
+import org.treez.javafxd3.d3.wrapper.Sort;
 import org.treez.javafxd3.d3.wrapper.Widget;
 import org.treez.javafxd3.d3.wrapper.WidgetCollection;
 
@@ -263,18 +265,6 @@ public class D3 extends JavaScriptObject {
 		return new Transform(webEngine, result);
 	}
 
-	// /**
-	// * Create an animated transition. In the context of
-	// * {@link Transition#each(com.github.gwtd3.api.functions.DataFunction)},
-	// * this method will create a new transition for the specified selection
-	// that
-	// * inherits the delay, duration and other properties of the parent
-	// * transition. This is useful for implementing reusable components that
-	// can
-	// * be called either on selections or on transitions, in the latter case
-	// * supporting deriving concurrent transitions. An example of this is	
-	// return $wnd.d3.transition(selection);
-	// };
 
 	// =========== Math ==============
 
@@ -339,6 +329,9 @@ public class D3 extends JavaScriptObject {
 	 */
 	public SVG svg() {
 		JSObject result = getMember("svg");
+		if(result==null){
+			return null;
+		}
 		return new SVG(webEngine, result);
 	};
 
@@ -347,7 +340,10 @@ public class D3 extends JavaScriptObject {
 	 * @return the layout module
 	 */
 	public Layout layout() {
-		JSObject result = call("layout");
+		JSObject result = getMember("layout");
+		if(result==null){
+			return null;
+		}
 		return new Layout(webEngine, result);
 	};
 
@@ -356,6 +352,9 @@ public class D3 extends JavaScriptObject {
 	 */
 	public Geometry geom() {
 		JSObject result = getMember("geom");
+		if(result==null){
+			return null;
+		}
 		return new Geometry(webEngine, result);
 	};
 
@@ -364,6 +363,9 @@ public class D3 extends JavaScriptObject {
 	 */
 	public Geography geo() {
 		JSObject result = getMember("geo");
+		if(result==null){
+			return null;
+		}
 		return new Geography(webEngine, result);
 	};
 
@@ -621,11 +623,8 @@ public class D3 extends JavaScriptObject {
 	 */
 	public double mouseX(Node container) {
 		JSObject containerObject = container.getJsObject();
-		JSObject coordObj = call("mouse", containerObject);
-		//Inspector.inspect(coordObj);
-
+		JSObject coordObj = call("mouse", containerObject);	
 		Object result = coordObj.getMember("0");
-
 		Double x = Double.parseDouble("" + result);
 		return x;
 	};
@@ -1133,6 +1132,32 @@ public class D3 extends JavaScriptObject {
 		//Object val = eval(variableName);
 		//boolean isOk = val.equals(value);
 	}
+	
+	public Sort ascending() {
+		JSObject result = getMember("ascending");
+		return new Sort(webEngine, result);
+	}
+	
+	public Sort descending() {
+		JSObject result = getMember("descending");
+		return new Sort(webEngine, result);
+	}
+	
+	public Value max(Array<?> array) {
+		JSObject result = call("max", array.getJsObject());
+		if(result==null){
+			return null;
+		}
+		return new Value(webEngine, result);
+	}
+	
+	public Value min(Array<?> array) {
+		JSObject result = call("min", array.getJsObject());
+		if(result==null){
+			return null;
+		}
+		return new Value(webEngine, result);
+	}
 
 	//#end region
 
@@ -1144,6 +1169,10 @@ public class D3 extends JavaScriptObject {
 	public WebEngine getWebEngine() {
 		return webEngine;
 	}
+
+	
+
+	
 
 	//#end region
 

@@ -32,9 +32,7 @@ public class DsvRow extends JavaScriptObject {
 	 * @param field
 	 * @return
 	 */
-	public Value get(String field) {
-		
-		//Inspector.inspect(this);
+	public Value get(String field) {		
 		
 		String command = "this['" + field + "']";
 		Object resultObj = eval(command);		

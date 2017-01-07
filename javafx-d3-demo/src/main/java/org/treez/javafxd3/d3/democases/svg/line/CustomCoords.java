@@ -39,7 +39,7 @@ public  class CustomCoords extends Coords {
 		
 		d3.eval(varName + " = null;");
 		
-		//Inspector.inspect(result);
+		
 		
 		setJsObject(result);
 		

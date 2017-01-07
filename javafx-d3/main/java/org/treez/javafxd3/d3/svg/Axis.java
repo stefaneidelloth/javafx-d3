@@ -371,10 +371,7 @@ public class Axis extends JavaScriptObject implements JsFunction {
 	 *            the selection to apply the axis to
 	 * @return the current axis.
 	 */
-	public Axis apply(Selection selection) {
-		
-		//Inspector.inspect(this);
-		
+	public Axis apply(Selection selection) {				
 		selection.call(this);
 		return this;		
 	}

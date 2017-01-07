@@ -28,7 +28,7 @@ public class TransformDataFunction implements DataFunction<String> {
 	public String apply(final Object context, final Object d, final int index) {		
 		JSObject datum = (JSObject) d;		
 		Value value = new Value(webEngine, datum);	
-		//Inspector.inspect(datum);
+		
 		String transform =  "translate(" + value.asString() + ")";
 		return transform;
 	}

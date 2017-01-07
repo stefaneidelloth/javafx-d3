@@ -33,8 +33,12 @@ public class Element extends Node {
 
 	//#region METHODS
 
-	public Node cloneNode(boolean b) {
-		throw new IllegalStateException("not yet implemented");
+	public Node cloneNode(boolean deep) {
+		JSObject result = call("cloneNode", deep);
+		if(result==null){
+			return null;
+		}
+		return new Node(webEngine, result);
 	}
 
 	public String getTagName() {
@@ -42,8 +46,8 @@ public class Element extends Node {
 		return result;
 	}
 
-	public Node getParentNode() {
-		String command = "d3.select(this).parentNode";
+	public Node getParentNode() {		
+		String command = "d3.select(this).node().parentNode";
 		JSObject result = evalForJsObject(command);
 		return new Node(webEngine, result);
 	}

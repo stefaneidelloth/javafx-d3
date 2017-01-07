@@ -92,23 +92,23 @@ public class EnteringSelection extends JavaScriptObject {
 	 */
 	public Selection append(String name) {
 		JSObject result = call("append", name);
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Selection(webEngine, result);
 	}
-	
+
 	public Selection append(DataFunction<JSObject> function) {
-		
+
 		String funcName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, function);
 
 		String command = "this.append(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
-		
-		d3JsObject.removeMember(funcName);	
-		
+
+		d3JsObject.removeMember(funcName);
+
 		return new Selection(webEngine, result);
 	}
 
@@ -165,17 +165,22 @@ public class EnteringSelection extends JavaScriptObject {
 	 * @throws Exception
 	 */
 	public Selection select(DataFunction<Element> func) {
-		
+
 		String funcName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, func);
 
-		String command = "this.select(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		String command = "this.select(function(d, i) { " + //
+				"     var element = d3." + funcName + ".apply(this,{datum:d},i);" + //
+				"     var jsElement = element.getJsObject();" + //
+				"     return jsElement; " + //
+				"   }" + //
+				")";
 		JSObject result = evalForJsObject(command);
-		
+
 		d3JsObject.removeMember(funcName);
-		
-		return new Selection(webEngine, result);		
+
+		return new Selection(webEngine, result);
 	}
 
 	/**
@@ -231,15 +236,14 @@ public class EnteringSelection extends JavaScriptObject {
 	 */
 	public Selection call(JsFunction jsFunction) {
 		boolean isJavaScriptObject = jsFunction instanceof JavaScriptObject;
-		if(!isJavaScriptObject){
+		if (!isJavaScriptObject) {
 			String message = "The interface JsFunction must only by implemented "
 					+ "by JavaScriptObjects. However its type is" + jsFunction.getClass().getName();
 			throw new IllegalStateException(message);
 		}
 		JavaScriptObject javaScriptObject = (JavaScriptObject) jsFunction;
-		JSObject functionJsObject = javaScriptObject.getJsObject();		
-		
-		
+		JSObject functionJsObject = javaScriptObject.getJsObject();
+
 		JSObject result = call("call", functionJsObject);
 		return new Selection(webEngine, result);
 	}
@@ -268,9 +272,9 @@ public class EnteringSelection extends JavaScriptObject {
 	 * @return
 	 */
 	public Element parentNode(int index) {
-		String command = "this["+index+"].parentNode";
+		String command = "this[" + index + "].parentNode";
 		JSObject result = evalForJsObject(command);
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Element(webEngine, result);
@@ -295,11 +299,11 @@ public class EnteringSelection extends JavaScriptObject {
 	 */
 	public final int groupCount() {
 		Array<JSObject> array = asElementArray();
-		if(array==null){
+		if (array == null) {
 			return 0;
 		}
 		int size = array.length();
-		return size;		
+		return size;
 	}
 
 	/**
@@ -309,10 +313,14 @@ public class EnteringSelection extends JavaScriptObject {
 	 * @return this selection as an array of array of elements
 	 */
 	public final Array<JSObject> asElementArray() { //equivalent to Array<Element> but not wrapped
-		return new Array<>(webEngine, getJsObject());
+		
+		JSObject result = evalForJsObject("this[0]");
+		if(result==null){
+			return null;
+		}
+		
+		return new Array<>(webEngine, result);
 	}
-	
-	
 
 	//#end region
 }

@@ -27,8 +27,7 @@ public class DefinedDataFunction implements DataFunction<Boolean> {
 	@Override
 	public Boolean apply(Object context, Object d, int index) {
 		
-		JSObject datum = (JSObject) d;
-		//Inspector.inspect(datum);
+		JSObject datum = (JSObject) d;		
 		Value value = new Value(webEngine, datum);
 		
 		CustomCoords coords = value.<CustomCoords> as(CustomCoords.class);

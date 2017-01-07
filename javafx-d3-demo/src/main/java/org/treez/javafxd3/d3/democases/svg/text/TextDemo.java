@@ -10,7 +10,7 @@ import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.DemoCase;
 import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.democases.InputElementFactory;
+import org.treez.javafxd3.d3.democases.SvgTextElementFactory;
 
 import javafx.scene.layout.VBox;
 import netscape.javascript.JSObject;
@@ -21,18 +21,10 @@ import netscape.javascript.JSObject;
  */
 public class TextDemo extends AbstractDemoCase {
 
-	//#region ATTRIBUTES
-
-	//#end region
+	
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 */
 	public TextDemo(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
 
@@ -42,13 +34,6 @@ public class TextDemo extends AbstractDemoCase {
 
 	//#region METHODS
 
-	/**
-	 * Provides a factory for this demo case
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 * @return
-	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
 			@Override
@@ -63,10 +48,11 @@ public class TextDemo extends AbstractDemoCase {
 
 		Selection svg = getSvg();
 
-		InputElementFactory labelFactory = new InputElementFactory("Svg text label");
+		SvgTextElementFactory labelFactory = new SvgTextElementFactory("Svg text label");
 
 		Selection text = labelFactory.createInParentSelection(svg);
-		Selection movedText = text.attr("y", "15").attr("x", "0");
+		Selection movedText = text.attr("y", "100") //
+				.attr("x", "50");
 
 		final String ATTRIBUTE = "data-myAttr";
 		Boolean value = true;
@@ -79,8 +65,7 @@ public class TextDemo extends AbstractDemoCase {
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	/**
@@ -92,14 +77,11 @@ public class TextDemo extends AbstractDemoCase {
 	 * @return
 	 */
 	public Selection getElement(final int index) {
-		return getSvg().selectAll("*").get(index);
+		return getSvg() //
+				.selectAll("*") //
+				.get(index);
 	}
 
-	/**
-	 * @param index
-	 * @param attribute
-	 * @return
-	 */
 	public String getElementAttribute(final int index, final String attribute) {
 		Selection element = getElement(index).get(0);
 
@@ -107,8 +89,6 @@ public class TextDemo extends AbstractDemoCase {
 			String message = "Could not retrieve element with index " + index;
 			throw new IllegalArgumentException(message);
 		}
-
-		//Inspector.inspect(element);
 
 		Map<String,String> attributeMap = getDomAttributes(element);
 		if(attributeMap.containsKey(attribute)){

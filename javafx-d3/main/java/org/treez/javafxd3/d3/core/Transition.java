@@ -450,7 +450,7 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition style(String name, double value) {
-		JSObject result = call("style", name, value);
+		JSObject result = call("style", name,  value);
 		return new Transition(webEngine, result);
 	}
 

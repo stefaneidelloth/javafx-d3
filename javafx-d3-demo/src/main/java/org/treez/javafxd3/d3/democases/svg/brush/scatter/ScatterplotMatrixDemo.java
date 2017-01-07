@@ -1,4 +1,4 @@
-package org.treez.javafxd3.d3.democases.svg.brush;
+package org.treez.javafxd3.d3.democases.svg.brush.scatter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,12 +28,6 @@ import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 import javafx.scene.layout.VBox;
 import netscape.javascript.JSObject;
 
-/**
- * FIXME find another Slider component
- *
- * 
- *
- */
 public class ScatterplotMatrixDemo extends AbstractDemoCase {
 
 	//#region ATTRIBUTES
@@ -60,32 +54,14 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 */
 	public ScatterplotMatrixDemo(D3 d3, VBox demoPreferenceBox) {
-		super(d3, demoPreferenceBox);
-		// this.css = Bundle.INSTANCE.css();
-		// @Source("ScatterPlotMatrixDemo.css")
-		// spm, axis, frame, hidden
-
-		// this.addStyleName("spm");
+		super(d3, demoPreferenceBox);		
 	}
 
 	//#end region
 
 	//#region METHODS
 
-	/**
-	 * Factory provider
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 * @return
-	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
 			@Override
@@ -101,15 +77,24 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 		size = 150;
 		padding = 19.5;
 
-		x = d3.scale().linear().range(padding / 2, size - padding / 2);
+		x = d3.scale() //
+				.linear() //
+				.range(padding / 2, size - padding / 2);
 
-		y = d3.scale().linear().range(size - padding / 2, padding / 2);
+		y = d3.scale() //
+				.linear() //
+				.range(size - padding / 2, padding / 2);
 
-		final Axis xAxis = d3.svg().axis().scale(x).orient(Orientation.BOTTOM).ticks(5);
+		final Axis xAxis = d3.svg().axis() //
+				.scale(x) //
+				.orient(Orientation.BOTTOM).ticks(5);
 
-		final Axis yAxis = d3.svg().axis().scale(y).orient(Orientation.LEFT).ticks(5);
+		final Axis yAxis = d3.svg().axis() //
+				.scale(y) //
+				.orient(Orientation.LEFT).ticks(5);
 
-		color = d3.scale().category10();
+		color = d3.scale() //
+				.category10();
 
 		d3.csv("demo-data/flowers.csv", new DsvCallback<DsvRow>() {
 
@@ -302,10 +287,18 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 		x.domain(domainByTrait.get(p.x));
 		y.domain(domainByTrait.get(p.y));
 
-		cell.append("rect").attr("class", "frame").attr("x", padding / 2).attr("y", padding / 2)
-				.attr("width", size - padding).attr("height", size - padding);
+		cell.append("rect") //
+		.attr("class", "frame") //
+		.attr("x", padding / 2) //
+		.attr("y", padding / 2) //
+				.attr("width", size - padding) //
+				.attr("height", size - padding);
 
-		cell.selectAll("circle").data(data).enter().append("circle").attr("cx", new DataFunction<String>() {
+		cell.selectAll("circle") //
+		.data(data) //
+		.enter() //
+		.append("circle") //
+		.attr("cx", new DataFunction<String>() {
 			@Override
 			public String apply(final Object context, final Object d, final int index) {
 				
@@ -316,7 +309,8 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				String asString = x.apply(v.asDouble()).asString();
 				return asString;
 			}
-		}).attr("cy", new DataFunction<String>() {
+		}) //
+		.attr("cy", new DataFunction<String>() {
 			@Override
 			public String apply(final Object context, final Object d, final int index) {
 				
@@ -327,7 +321,8 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				String asString = y.apply(asDouble).asString();
 				return asString;
 			}
-		}).attr("r", 3).style("fill", new DataFunction<String>() {
+		}) //
+		.attr("r", 3).style("fill", new DataFunction<String>() {
 			@Override
 			public String apply(final Object context, final Object d, final int index) {
 				
@@ -343,9 +338,13 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 	private void brushstart(final Element context, final Point p) {
 		// Clear the previously-active brush, if any.
 		if (brushCell != context) {
-			d3.select(brushCell).call(brush.clear());
+			d3.select(brushCell) //
+			.call(brush.clear());
+			
 			x.domain(domainByTrait.get(p.x));
+			
 			y.domain(domainByTrait.get(p.y));
+			
 			brushCell = context;
 		}
 	}
@@ -353,7 +352,8 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 	// Highlight the selected circles.
 	private void brushmove(final Point p) {
 		final Array<Double> e = brush.extent();
-		svg.selectAll("circle").classed("hidden", new DataFunction<Boolean>() {
+		svg.selectAll("circle") //
+		.classed("hidden", new DataFunction<Boolean>() {
 			@Override
 			public Boolean apply(final Object context, final Object d, final int index) {
 				
@@ -379,7 +379,8 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 	// If the brush is empty, select all circles.
 	private void brushend() {
 		if (brush.empty()) {
-			svg.selectAll(".hidden").classed("hidden", false);
+			svg.selectAll(".hidden") //
+			.classed("hidden", false);
 		}
 	}
 
@@ -394,14 +395,8 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 			this.i = i;
 			this.j = j;
 		}
-
 	}
-
-	/**
-	 * @param a
-	 * @param b
-	 * @return
-	 */
+	
 	private Object[] cross(final String[] a, final String[] b) {
 		Point[] c = new Point[a.length];
 		int n = a.length;

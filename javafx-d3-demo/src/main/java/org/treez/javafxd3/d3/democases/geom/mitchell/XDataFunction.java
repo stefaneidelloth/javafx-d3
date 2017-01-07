@@ -29,7 +29,7 @@ public class XDataFunction implements DataFunction<Double>{
 	public Double apply(final Object context, final Object d, final int index) {
 
 		JSObject datum = (JSObject) d;
-		//Inspector.inspect(datum);
+		
 		
 		Value value = new Value(webEngine, datum);
 		Circle circle = value.<Circle> as(Circle.class);

@@ -459,7 +459,7 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return true if the brush extent is empty.
 	 */
 	public boolean empty() {
-		return !!this.empty();
+		return callForBoolean("empty");
 	}
 
 	//#end region

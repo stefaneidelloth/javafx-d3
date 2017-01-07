@@ -25,8 +25,7 @@ public class CxDataFunction implements DataFunction<Double> {
 	@Override
 	public Double apply(Object context, Object value, int index) {
 
-		JSObject datum = (JSObject) value;
-		//Inspector.inspect(datum);
+		JSObject datum = (JSObject) value;		
 		Value valueObj = new Value(webEngine, datum);
 		
 		CustomCoords coords = valueObj.<CustomCoords> as(CustomCoords.class);

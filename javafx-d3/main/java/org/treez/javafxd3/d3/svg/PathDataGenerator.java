@@ -84,9 +84,7 @@ public abstract class PathDataGenerator extends JavaScriptObject implements JsFu
 	public String generate(JavaScriptObject data) {
 
 		// get and store JSObject
-		JSObject dataObj = data.getJsObject();
-
-		//Inspector.inspect(dataObj);
+		JSObject dataObj = data.getJsObject();		
 
 		String memberName = createNewTemporaryInstanceName();
 		JSObject d3JsObj = getD3();

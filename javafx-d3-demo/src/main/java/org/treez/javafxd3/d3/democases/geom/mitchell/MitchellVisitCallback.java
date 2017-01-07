@@ -43,14 +43,14 @@ public class MitchellVisitCallback implements Callback<Circle> {
 	//#region METHODS
 
 	@Override
-	public boolean visit(final Object quadObj, final double x1, final double y1, final double x2, final double y2) {
+	public boolean visit(Object quadObj, Double x1, Double y1, Double x2, Double y2) {
 		
 		if (quadObj==null){
 			return false;
 		}
 		
 		JSObject jsQuad = (JSObject) quadObj;
-		//Inspector.inspect(jsQuad);
+		
 		
 		Node<Circle> quad = new Node<Circle>(webEngine, jsQuad);
 		

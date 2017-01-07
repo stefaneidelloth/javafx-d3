@@ -43,7 +43,7 @@ public class Plotly extends JavaScriptObject {
 	
 	public PlotResult newPlot(String targetDiv, Array<Data> data, Layout layout, Configuration configuration){
 		JSObject dataObj = data.getJsObject();
-		//Inspector.inspect(dataObj);
+	
 		JSObject layoutObj = layout.getJsObject();
 		JSObject configurationObj = configuration.getJsObject();		
 		JSObject result = call("newPlot", targetDiv, dataObj, layoutObj, configurationObj);

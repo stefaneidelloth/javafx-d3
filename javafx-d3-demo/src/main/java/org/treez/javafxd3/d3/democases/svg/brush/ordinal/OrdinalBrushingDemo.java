@@ -1,4 +1,4 @@
-package org.treez.javafxd3.d3.democases.svg.brush;
+package org.treez.javafxd3.d3.democases.svg.brush.ordinal;
 
 import java.util.ArrayList;
 import java.util.List;

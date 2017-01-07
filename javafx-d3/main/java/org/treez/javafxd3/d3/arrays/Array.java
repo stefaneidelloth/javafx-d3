@@ -61,9 +61,7 @@ public class Array<T> extends JavaScriptObject  {
 			boolean isJavaScriptObject = value instanceof JavaScriptObject;
 			if (isJavaScriptObject) {
 				JavaScriptObject javaScriptObject = (JavaScriptObject) value;
-				JSObject wrappedJsObject = javaScriptObject.getJsObject();
-
-				//Inspector.inspect(wrappedJsObject);
+				JSObject wrappedJsObject = javaScriptObject.getJsObject();				
 
 				tempArray.setSlot(index, wrappedJsObject);
 			} else {

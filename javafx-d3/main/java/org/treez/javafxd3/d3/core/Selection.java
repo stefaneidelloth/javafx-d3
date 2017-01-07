@@ -27,7 +27,7 @@ import netscape.javascript.JSObject;
  * CSS3 to select elements. See {@link D3#select(String)} and D3#select(Node)
  * methods for creating {@link Selection}.
  * <p>
-  * After selecting elements, you apply operators to them to do stuff. These
+ * After selecting elements, you apply operators to them to do stuff. These
  * operators can get or set {@link #attr attributes}, {@link #style styles},
  * {@link #property(String, String) properties}, {@link #html(String) HTML} and
  * {@link #text text} content. Attribute values and such are specified as either
@@ -43,8 +43,8 @@ import netscape.javascript.JSObject;
  * the document with D3. That's because you operate on entire selections at
  * once, rather than looping over individual elements. However, you can still
  * loop over elements manually if you wish: there's an
- * {@link #each(DataFunction)} operator which invokes an arbitrary function,
- * and selections are arrays, so elements can be accessed directly (e.g.,
+ * {@link #each(DataFunction)} operator which invokes an arbitrary function, and
+ * selections are arrays, so elements can be accessed directly (e.g.,
  * selection.get(0).get(0)).
  * <p>
  * D3 supports method chaining for brevity when applying multiple operators: the
@@ -58,14 +58,14 @@ import netscape.javascript.JSObject;
  * to integrate with GWT {@link Element} API.
  * <p>
  * <h1>Operating on selections</h1> Selections are arrays of
- * elementsâ€�?literally. D3 binds additional methods to the array so that
- * you can apply operators to the selected elements, such as setting an
- * attribute on all the selected elements. One nuance is that selections are
- * grouped: rather than a one-dimensional array, each selection is an array of
- * arrays of elements. This preserves the hierarchical structure of
- * subselections. Most of the time, you can ignore this detail, but that's why a
- * single-element selection looks like [[node]] rather than [node]. For more on
- * nested selections, see Nested Selections.
+ * elementsâ€�?literally. D3 binds additional methods to the array so that you
+ * can apply operators to the selected elements, such as setting an attribute on
+ * all the selected elements. One nuance is that selections are grouped: rather
+ * than a one-dimensional array, each selection is an array of arrays of
+ * elements. This preserves the hierarchical structure of subselections. Most of
+ * the time, you can ignore this detail, but that's why a single-element
+ * selection looks like [[node]] rather than [node]. For more on nested
+ * selections, see Nested Selections.
  * <p>
  * If you want to learn how selections work, try selecting elements
  * interactively using your browser's developer console. You can inspect the
@@ -121,20 +121,20 @@ public class Selection extends EnteringSelection {
 	 *         the selection is empty.
 	 */
 	public final Element node() {
-		
-		JSObject result = call("node");		
 
-		if (result == null) {			
-			
+		JSObject result = call("node");
+
+		if (result == null) {
+
 			result = getJsObject();
-			if(result == null){
+			if (result == null) {
 				return null;
-			}				
-			
-			boolean isElement = result instanceof org.w3c.dom.Element; 
-			if(!isElement){
+			}
+
+			boolean isElement = result instanceof org.w3c.dom.Element;
+			if (!isElement) {
 				return null;
-			}			
+			}
 		}
 		return new Element(webEngine, result);
 	}
@@ -207,7 +207,7 @@ public class Selection extends EnteringSelection {
 	 * You can see the parent node of each group by inspecting the parentNode
 	 * property of each group array, such as selection[0].parentNode, or by
 	 * using the {@link #parentNode(int)} method.
-	 * <p>	
+	 * <p>
 	 *
 	 * @param func
 	 * @return
@@ -295,7 +295,7 @@ public class Selection extends EnteringSelection {
 		}
 		return Double.parseDouble(attribute);
 	}
-	
+
 	/**
 	 * Removes the attribute with the given name
 	 */
@@ -414,8 +414,8 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
-		
-		JSObject d3jsObj = getD3();		
+
+		JSObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
 		// tell x to use the callback
@@ -424,7 +424,7 @@ public class Selection extends EnteringSelection {
 				+ "})";
 
 		JSObject result = evalForJsObject(command);
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Selection(webEngine, result);
@@ -475,7 +475,7 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public Selection style(String name, String value) {
-		JSObject result = (JSObject) eval("this.style('" + name + "','"+ value + "')");
+		JSObject result = (JSObject) eval("this.style('" + name + "','" + value + "')");
 		return new Selection(webEngine, result);
 	}
 
@@ -508,17 +508,16 @@ public class Selection extends EnteringSelection {
 
 		String command = "this.style('" + name + "', " + //
 				"      function(d, i) { " + //
-				"        try { "+ //
-				"               var result = d3." + funcName + ".apply(this,{datum:d},i);"+ //
-				"               return result; "+
-				"             } " +//
-				"         catch (exception) {"+//
-				"            alert(exception);"+	//
-				"            return null; "+ //
-				"         } "+//
-				"      }"+//
+				"        try { " + //
+				"               var result = d3." + funcName + ".apply(this,{datum:d},i);" + //
+				"               return result; " + "             } " + //
+				"         catch (exception) {" + //
+				"            alert(exception);" + //
+				"            return null; " + //
+				"         } " + //
+				"      }" + //
 				"    );";
-				
+
 		JSObject result = evalForJsObject(command);
 		return new Selection(webEngine, result);
 	}
@@ -553,12 +552,12 @@ public class Selection extends EnteringSelection {
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, callback);
 
-		String command = "var imp = "+important+" ? 'important' : null; " +//
+		String command = "var imp = " + important + " ? 'important' : null; " + //
 				"this.style('" + name + "', function(d, i) { " + //
 				"   var r = d3." + funcName + ".apply(this,{datum:d},i);" + //
 				"   return r?r.toString():null;" + //
-			    "}, imp);";
-		
+				"}, imp);";
+
 		JSObject result = evalForJsObject(command);
 		return new Selection(webEngine, result);
 
@@ -668,10 +667,10 @@ public class Selection extends EnteringSelection {
 	 *            the name of the property
 	 * @return the value of the property
 	 */
-	public Value property(final String name) {	
-		
-		Object result = getJsObject().call("property", name);		
-		if(result==null){
+	public Value property(final String name) {
+
+		Object result = getJsObject().call("property", name);
+		if (result == null) {
 			return null;
 		}
 		return Value.create(webEngine, result);
@@ -711,7 +710,7 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public Selection property(final String name, double value) {
-		JSObject result = call("property", name, value);		
+		JSObject result = call("property", name, value);
 		return new Selection(webEngine, result);
 	}
 
@@ -738,8 +737,8 @@ public class Selection extends EnteringSelection {
 	 *            the value
 	 * @return the current selection
 	 */
-	public <T> Selection property(final String name, boolean value) {		
-		JSObject result = call("property", name, value);	
+	public <T> Selection property(final String name, boolean value) {
+		JSObject result = call("property", name, value);
 		return new Selection(webEngine, result);
 	}
 
@@ -757,9 +756,9 @@ public class Selection extends EnteringSelection {
 	 * supports svg, xhtml, xlink, xml, and xmlns namespaces. Additional
 	 * namespaces can be registered by adding to d3.ns.prefix.
 	 * <p>
-	 * Note: if you provide a DataFunction<T> parameterized with a wrapper
-	 * type, such as java.lang.Double or java.lang.Boolean, when getting the
-	 * property value ( {@link #property(String)}), you should use
+	 * Note: if you provide a DataFunction<T> parameterized with a wrapper type,
+	 * such as java.lang.Double or java.lang.Boolean, when getting the property
+	 * value ( {@link #property(String)}), you should use
 	 * {@link Value#as(Class)} with the corresponding Class object, such as
 	 * Value.as(Double) or Value.as(Boolean) to get the property value.
 	 *
@@ -890,12 +889,12 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public Selection html(final DataFunction<String> callback) {
-		
+
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
-		
-		JSObject d3jsObj = getD3();		
+
+		JSObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
 		// tell x to use the callback
@@ -904,7 +903,7 @@ public class Selection extends EnteringSelection {
 				+ "})";
 
 		JSObject result = evalForJsObject(command);
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Selection(webEngine, result);
@@ -927,10 +926,10 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection html(String value) {
 		JSObject result = call("html", value);
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
-		return new Selection(webEngine, result);		
+		return new Selection(webEngine, result);
 	}
 
 	/**
@@ -943,7 +942,7 @@ public class Selection extends EnteringSelection {
 	 * @return the value of the text property
 	 */
 	public String html() {
-		String result = callForString("html");		
+		String result = callForString("html");
 		return result;
 	}
 
@@ -980,10 +979,10 @@ public class Selection extends EnteringSelection {
 	/**
 	 * Removes the elements in the current selection from the current document.
 	 * Returns the current selection (the same elements that were removed) which
-	 * are now â€œoff-screenâ€�, detached from the DOM. Note that there
-	 * is not currently a dedicated API to add removed elements back to the
-	 * document; however, you can pass a function to selection.each or
-	 * selection.select to re-add elements.
+	 * are now â€œoff-screenâ€�, detached from the DOM. Note that there is not
+	 * currently a dedicated API to add removed elements back to the document;
+	 * however, you can pass a function to selection.each or selection.select to
+	 * re-add elements.
 	 * <p>
 	 * The elements are removed from the DOM but still remains in the selection.
 	 * <p>
@@ -1078,6 +1077,20 @@ public class Selection extends EnteringSelection {
 		return data(arrayString);
 	}
 
+	public final UpdateSelection data(Array<?> array) {		
+		JSObject jsArray = array.getJsObject();
+		return data(jsArray);	
+	}
+
+	public final UpdateSelection data(JSObject data) {
+		JSObject result = call("data", data);
+		
+		if (result == null) {
+			return null;
+		}
+		return new UpdateSelection(webEngine, result);
+	}
+
 	/**
 	 * Joins the specified array of data with the current selection using the
 	 * default by-index key mapping.
@@ -1087,10 +1100,10 @@ public class Selection extends EnteringSelection {
 	 *            the data array to map to the selection
 	 * @return the update selection
 	 */
-	public UpdateSelection data(String dataArrayString) {	
-		String command = "this.data("+dataArrayString+")";
+	public UpdateSelection data(String dataArrayString) {
+		String command = "this.data(" + dataArrayString + ")";
 		JSObject result = evalForJsObject(command);
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new UpdateSelection(webEngine, result);
@@ -1150,7 +1163,7 @@ public class Selection extends EnteringSelection {
 
 		return new UpdateSelection(webEngine, result);
 	}
-	
+
 	public UpdateSelection dataObjectCollection(Collection<Object> collection) {
 
 		JSObject d3JsObject = getD3();
@@ -1158,7 +1171,7 @@ public class Selection extends EnteringSelection {
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 		for (Object object : collection) {
-			String varName = createNewTemporaryInstanceName();			
+			String varName = createNewTemporaryInstanceName();
 			d3JsObject.setMember(varName, object);
 			fullVarNames.add("d3." + varName);
 			varNames.add(varName);
@@ -1173,8 +1186,6 @@ public class Selection extends EnteringSelection {
 
 		return new UpdateSelection(webEngine, result);
 	}
-	
-
 
 	/**
 	 * Same as #data(JSObject) but let the user control how to map data to the
@@ -1388,9 +1399,8 @@ public class Selection extends EnteringSelection {
 	 * @return the update selection
 	 */
 	public final UpdateSelection data(final Object[] array, final KeyFunction<?> keyFunction) {
-		
-		
-		JSObject d3JsObject = getD3();		
+
+		JSObject d3JsObject = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
@@ -1401,20 +1411,18 @@ public class Selection extends EnteringSelection {
 			fullVarNames.add("d3." + varName);
 			varNames.add(varName);
 		}
-		
+
 		String arrayCommand = "[" + String.join(",", fullVarNames) + "]";
 		JSObject jsArrayObject = evalForJsObject(arrayCommand);
-		
-		for(String varName: varNames){
+
+		for (String varName : varNames) {
 			d3JsObject.removeMember(varName);
 		}
-		
-		
+
 		JavaScriptObject arrayObject = new JavaScriptObject(webEngine, jsArrayObject);
-		
-		return data(arrayObject, keyFunction);	
-		
-		
+
+		return data(arrayObject, keyFunction);
+
 	}
 
 	/**
@@ -1449,8 +1457,7 @@ public class Selection extends EnteringSelection {
 		String methodName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(methodName, keyFunction);
-		
-		
+
 		String arrayString = ArrayUtils.createArrayString(array);
 		String command = "this.data(" + arrayString + ",d3." + methodName + ")";
 		JSObject result = evalForJsObject(command);
@@ -1749,7 +1756,7 @@ public class Selection extends EnteringSelection {
 	 */
 	public final UpdateSelection data(final List<?> list, final KeyFunction<?> keyFunction) {
 
-		JSObject d3JsObject = getD3();		
+		JSObject d3JsObject = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
@@ -1760,18 +1767,16 @@ public class Selection extends EnteringSelection {
 			fullVarNames.add("d3." + varName);
 			varNames.add(varName);
 		}
-		
+
 		String arrayCommand = "[" + String.join(",", fullVarNames) + "]";
 		JSObject jsArrayObject = evalForJsObject(arrayCommand);
-		
-		for(String varName: varNames){
+
+		for (String varName : varNames) {
 			d3JsObject.removeMember(varName);
-		}		
-		
+		}
+
 		JavaScriptObject arrayObject = new JavaScriptObject(webEngine, jsArrayObject);
-		
-		
-		
+
 		return data(arrayObject, keyFunction);
 
 	}
@@ -1806,8 +1811,8 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(dataName);
-		
-		if(result==null){
+
+		if (result == null) {
 			return null;
 		}
 
@@ -1826,8 +1831,8 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(dataName);
-		
-		if(result==null){
+
+		if (result == null) {
 			return null;
 		}
 
@@ -1845,8 +1850,8 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(dataName);
-		
-		if(result==null){
+
+		if (result == null) {
 			return null;
 		}
 
@@ -1854,18 +1859,18 @@ public class Selection extends EnteringSelection {
 
 	}
 
-	public Selection datum(Array<? extends JavaScriptObject> array) {		
+	public Selection datum(Array<? extends JavaScriptObject> array) {
 
 		JSObject d3JsObject = getD3();
 		List<String> fullVarNames = new ArrayList<>();
-		List<String> varNames = new ArrayList<>();		
-		
-		array.forEach((element)->{			
-			JSObject jsElement= (JSObject) element;			
+		List<String> varNames = new ArrayList<>();
+
+		array.forEach((element) -> {
+			JSObject jsElement = (JSObject) element;
 			String varName = createNewTemporaryInstanceName();
 			d3JsObject.setMember(varName, jsElement);
 			fullVarNames.add("d3." + varName);
-		});		
+		});
 
 		String command = "this.datum([" + String.join(",", fullVarNames) + "])";
 		JSObject result = evalForJsObject(command);
@@ -1873,8 +1878,8 @@ public class Selection extends EnteringSelection {
 		for (String varName : varNames) {
 			d3JsObject.removeMember(varName);
 		}
-		
-		if(result==null){
+
+		if (result == null) {
 			return null;
 		}
 
@@ -1925,8 +1930,8 @@ public class Selection extends EnteringSelection {
 
 		d3JsObject.removeMember(varName);
 		d3JsObject.removeMember(methodName);
-		
-		if(result==null){
+
+		if (result == null) {
 			return null;
 		}
 
@@ -1962,8 +1967,8 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection filter(String selector) {
 		JSObject result = call("filter", selector);
-		
-		if(result==null){
+
+		if (result == null) {
 			return null;
 		}
 		return new Selection(webEngine, result);
@@ -1998,8 +2003,8 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(methodName);
-		
-		if(result==null){
+
+		if (result == null) {
 			return null;
 		}
 
@@ -2055,7 +2060,7 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection order() {
 		JSObject result = call("order");
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Selection(webEngine, result);
@@ -2072,7 +2077,7 @@ public class Selection extends EnteringSelection {
 	 */
 	public Transition transition() {
 		JSObject result = call("transition");
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Transition(webEngine, result);
@@ -2096,7 +2101,7 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection interrupt() {
 		JSObject result = call("interrupt");
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Selection(webEngine, result);
@@ -2214,14 +2219,14 @@ public class Selection extends EnteringSelection {
 		return new Selection(webEngine, result);
 
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		JSObject jsObject = getJsObject();
-		if(jsObject==null){
+		if (jsObject == null) {
 			return "!!Selection with missing JSObject!!";
-		}		
-		return Inspector.getInspectionInfo(jsObject);		
+		}
+		return Inspector.getInspectionInfo(jsObject);
 	}
 
 	//#end region

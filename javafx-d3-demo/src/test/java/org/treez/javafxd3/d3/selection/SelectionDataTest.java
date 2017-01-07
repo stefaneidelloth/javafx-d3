@@ -46,12 +46,14 @@ public class SelectionDataTest extends AbstractSelectionTest {
 	 */
 	protected Selection givenANestedSelection() {
 		clearSvg();
-		Selection tr = d3.select("#root").append("table").selectAll("tr").data(MATRIX).enter().append("tr");
+		Selection tr = d3.select("#root") //
+				.append("table") //
+				.selectAll("tr") //
+				.data(MATRIX) //
+				.enter() //
+				.append("tr");		
 		
-		//Inspector.inspect(tr);
-		Selection tds = tr.selectAll("td");
-		
-		//Inspector.inspect(tds);
+		Selection tds = tr.selectAll("td");		
 		
 		Selection withInteger = tds.data(new IntegerArrayDataFunction(webEngine));
 						
@@ -221,15 +223,10 @@ public class SelectionDataTest extends AbstractSelectionTest {
 
 	protected void assertDataPropertyEqualsTo(final Object expectedData, final Selection selection,
 			final int elementIndex) {
-
-		//Inspector.inspect(selection);
 		
-		Selection selectionArray = selection.get(0);
-		//Inspector.inspect(selectionArray);
+		Selection selectionArray = selection.get(0);		
 		Selection childSelection = selectionArray.get(elementIndex);
-		
-		//Inspector.inspect(childSelection);
-		
+				
 		JSObject jsObject = childSelection.getJsObject();
 		String command = "this." + Selection.DATA_PROPERTY;
 		Object result = jsObject.eval(command);			
@@ -240,8 +237,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 	protected void assertDataPropertyEqualsTo(final String expectedData, final Selection selection,
 			final int elementIndex) {
 		
-		Selection selectionArray = selection.get(0);
-		//Inspector.inspect(selectionArray);
+		Selection selectionArray = selection.get(0);		
 		Selection childSelection = selectionArray.get(elementIndex);
 		
 		JSObject jsObject = childSelection.getJsObject();

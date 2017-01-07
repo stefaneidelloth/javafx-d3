@@ -452,7 +452,7 @@ public class Quadtree extends JavaScriptObject {
 		 *            the bottom right y coordinate
 		 * @return false if children should be visited, true otherwise
 		 */
-		public boolean visit(Object node, double x1, double y1, double x2, double y2);
+		public boolean visit(Object node, Double x1, Double y1, Double x2, Double y2);
 
 	}
 }
