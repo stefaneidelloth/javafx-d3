@@ -81,6 +81,11 @@ public class JsDate extends JavaScriptObject {
 		int result = callForInteger("getMonth");
 		return result;
 	}
+	
+	public Double doubleValue(){
+		Double result = callForDouble("doubleValue");
+		return result;
+	}
 
 	/**
 	 * Returns the day of the week as number (e.g. 1 for monday)

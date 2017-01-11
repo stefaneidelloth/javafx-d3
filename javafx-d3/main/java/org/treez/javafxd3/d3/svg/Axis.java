@@ -387,7 +387,7 @@ public class Axis extends JavaScriptObject implements JsFunction {
 	 * @return the current axis.
 	 */
 	public Axis apply(Transition transition) {
-		JSObject result = call("this", transition.getJsObject());
+		JSObject result = callThisForJsObject(transition.getJsObject());
 		return new Axis(webEngine, result);
 	}
 

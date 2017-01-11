@@ -101,7 +101,7 @@ public class SubSelectionsTest extends AbstractSelectionTest {
 		assertEquals(1, firstZorgs.size());
 		assertEquals(1, firstZorgs.groupCount());
 		assertParentNodeIsRootHtml(firstZorgs);
-		Array<JSObject> array = firstZorgs.asElementArray();
+		Array<Element> array = firstZorgs.asElementArray();
 		assertEquals(1, (int) array.sizes().get(1));
 
 		JSObject firstElement = array.get(0, JSObject.class);

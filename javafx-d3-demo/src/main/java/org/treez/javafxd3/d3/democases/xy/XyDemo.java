@@ -1,10 +1,10 @@
 package org.treez.javafxd3.d3.democases.xy;
 
-import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
+import org.treez.javafxd3.d3.demo.AbstractDemoCase;
+import org.treez.javafxd3.d3.demo.DemoCase;
+import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.svg.Axis;
 import org.treez.javafxd3.d3.svg.Axis.Orientation;
@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
  * Original example at http://stackoverflow.com/questions/10440646/a-simple-scatterplot-example-in-d3-js
  * 
  */
-public class Xy extends AbstractDemoCase {
+public class XyDemo extends AbstractDemoCase {
 	
 	//#region CONSTRUCTORS
 
@@ -28,7 +28,7 @@ public class Xy extends AbstractDemoCase {
 	 * @param d3
 	 * @param demoPreferenceBox
 	 */
-	public Xy(D3 d3, VBox demoPreferenceBox) {
+	public XyDemo(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);		
 	}
 
@@ -47,7 +47,7 @@ public class Xy extends AbstractDemoCase {
 		return new DemoFactory() {
 			@Override
 			public DemoCase newInstance() {
-				return new Xy(d3, demoPreferenceBox);
+				return new XyDemo(d3, demoPreferenceBox);
 			}
 		};
 	}

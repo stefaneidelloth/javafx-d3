@@ -87,7 +87,7 @@ public class Area extends PathDataGenerator {
 	 * @param datumFunction
 	 * @return
 	 */
-	public Area x(final DataFunction<Double> callback) {
+	public Area x(final DataFunction<?> callback) {
 		
 		assertObjectIsNotAnonymous(callback);
 

@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.selection;
 
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.democases.InputElementFactory;
+import org.treez.javafxd3.d3.demo.InputElementFactory;
 import org.treez.javafxd3.d3.selection.datafunction.StringBuilderFunction;
 
 public class SelectionControlsTest extends AbstractSelectionTest {

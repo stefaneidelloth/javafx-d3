@@ -1,9 +1,7 @@
-package org.treez.javafxd3.d3.arrays;
+package org.treez.javafxd3.d3.arrays.foreach;
 
-import org.treez.javafxd3.d3.core.Value;
-
-
-public interface ForEachCallback<T> {
+public interface ForEachCallback<R> {
+	
 	/**
 	 * Executed for each element of the array with an assigned value.
 	 * <p>
@@ -15,11 +13,6 @@ public interface ForEachCallback<T> {
 	 * 
 	 * https:US/docs/JavaScript/Reference/Global_Objects/Array/forEach
 	 * 
-	 * @param thisArg
-	 * @param element
-	 * @param index
-	 * @param array
-	 * @return 
 	 */
-	T forEach(Object thisArg, Value element, int index, Object[] array);
+	R forEach(Object context, Object element, int index, Object array);
 }

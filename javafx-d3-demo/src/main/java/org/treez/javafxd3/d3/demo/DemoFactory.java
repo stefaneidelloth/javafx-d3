@@ -1,4 +1,4 @@
-package org.treez.javafxd3.d3;
+package org.treez.javafxd3.d3.demo;
 
 /**
  * Creates a new instance of a javafx-d3 demo that is used with the JavaFxD3DemoSuite

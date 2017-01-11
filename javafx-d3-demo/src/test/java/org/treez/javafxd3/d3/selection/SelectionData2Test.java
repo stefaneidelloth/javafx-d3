@@ -6,7 +6,7 @@ import java.util.List;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.UpdateSelection;
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.democases.InputElementFactory;
+import org.treez.javafxd3.d3.demo.InputElementFactory;
 import org.treez.javafxd3.d3.selection.comparator.ValueComparator;
 import org.treez.javafxd3.d3.selection.datafunction.AssertCounterDataFunction;
 import org.treez.javafxd3.d3.selection.datafunction.AssertNullStringDataFunction;

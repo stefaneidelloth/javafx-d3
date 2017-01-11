@@ -20,35 +20,25 @@ public class DsvData extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 	
-	/**
-	 * Constructor
-	 * 
-	 * @param symbol
-	 * @param date
-	 * @param price
-	 */
+	
 	public DsvData(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);		
 		JSObject jsDate = (JSObject) wrappedJsObject.getMember("date");
 		this.date = new JsDate(webEngine, jsDate);
-		this.price =(Double) wrappedJsObject.getMember("price");
+		this.price =Double.parseDouble(wrappedJsObject.getMember("price").toString());
 		this.symbol = (String) wrappedJsObject.getMember("symbol");				
 	}
 
-	/**
-	 * Constructor
-	 * 
-	 * @param symbol
-	 * @param date
-	 * @param price
-	 */
+	
 	public DsvData(WebEngine webEngine, final String symbol, final JsDate date, final double price) {
 		super(webEngine);		
 		this.date = date;
 		this.price = price;
 		this.symbol = symbol;
-		String command = "{date: null, price: null, symbol: null}";
-		JSObject jsObject = evalForJsObject(command);
+		
+		
+		String command = "new Object()";
+		JSObject jsObject = (JSObject) webEngine.executeScript(command);		
 		JSObject jsDate = date.getJsObject();
 		jsObject.setMember("date", jsDate);
 		jsObject.setMember("price", price);

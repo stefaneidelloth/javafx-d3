@@ -1,6 +1,7 @@
 package org.treez.javafxd3.d3.arrays;
 
 import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.arrays.foreach.ForEachCallback;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.wrapper.Sort;
 
@@ -81,19 +82,10 @@ public class Arrays {
 	 *            array to a transformed value
 	 * @return the maximum of the transformed values as a {@link Value} object
 	 */
-	// public static final native Value max(JavaScriptObject array,
-	// ForEachCallback<?> accessor) {
-	// var rs = $wnd.d3
-	// .max(
-	// array,
-	// function(d, i, a) {
-	// return
-	// accessor.@com.github.gwtd3.api.arrays.ForEachCallback::forEach(Ljava/lang/Object;Lcom/github/gwtd3/api/core/Value;ILcom/github/gwtd3/api/arrays/Array;)(this,{datum:d},i,a);
-	// });
-	// return {
-	// datum : rs
-	// };
-	// };
+	public static Value max(Array<?> array, ForEachCallback<?> accessor, WebEngine webEngine) {
+		D3 d3 = new D3(webEngine);
+		return d3.max(array, accessor);
+	};
 
 	/**
 	 * Transform the values in the given array using the specified
@@ -241,9 +233,10 @@ public class Arrays {
 	 * @return the minimum and maximum value in the given array using natural
 	 *         order.
 	 */
-	// public static final native JsArrayMixed extent(JavaScriptObject array) {
-	// return $wnd.d3.extent(array);
-	// };
+	public static <T> Array<T> extent(Array<T> array, WebEngine webEngine) {
+		D3 d3 = new D3(webEngine);		
+		return d3.extent(array);
+	};
 
 	/**
 	 * Find the minimum and maximum value in an array. This is equivalent to

@@ -1,58 +1,46 @@
-package org.treez.javafxd3.d3.democases;
+package org.treez.javafxd3.d3.democases.update;
 
-import org.treez.javafxd3.d3.AbstractDemoCase;
+import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.UpdateSelection;
-import org.treez.javafxd3.d3.core.Value;
+import org.treez.javafxd3.d3.demo.AbstractDemoCase;
+import org.treez.javafxd3.d3.demo.DemoCase;
+import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.functions.DataFunction;
-import org.treez.javafxd3.d3.wrapper.Element;
+import org.treez.javafxd3.d3.functions.data.wrapper.DataFunctionWrapper;
+import org.treez.javafxd3.d3.functions.data.wrapper.IndexDataFunctionWrapper;
 
-import com.sun.glass.ui.Timer;
-
+import javafx.application.Platform;
 import javafx.scene.layout.VBox;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
- *
- * 
- *
  */
 public class GeneralUpdatePattern1 extends AbstractDemoCase {
 
 	//#region ATTRIBUTES
 
 	private Timer timer;
-	private Selection svg;	
+	private TimerTask timerTask;
+
+	private Selection svg;
 
 	//#end region
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 */
 	public GeneralUpdatePattern1(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
-		//@Source("GeneralUpdatePattern1Styles.css")
-		//gup1, updateD3Content, enter
 	}
 
 	//#end region
 
 	//#region METHODS
 
-	/**
-	 * Factory provider
-	 * @param d3
-	 * @param demoPreferenceBox
-	 * @return
-	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
 			@Override
@@ -66,19 +54,25 @@ public class GeneralUpdatePattern1 extends AbstractDemoCase {
 	public void start() {
 		String source = "abcdefghijklmnopqrstuvwxyz";
 		final char[] alphabet = new char[source.length()];
+		
+		
 		source.getChars(0, source.length(), alphabet, 0);
 
 		int width = 960, height = 500;
 
-		svg = d3.select("root").append("svg").classed("gup1", true).attr("width", width)
-				.attr("height", height).append("g").attr("transform", "translate(32," + (height / 2) + ")");
+		svg = d3.select("svg") //
+				.classed("gup1", true) //
+				.attr("width", width) //
+				.attr("height", height) //
+				.append("g") //
+				.attr("transform", "translate(32," + (height / 2) + ")");
 
 		// The initial display.
 		update(alphabet);
-		
-		/*
 
-		timer = new Timer() {
+		timer = new Timer();
+
+		timerTask = new TimerTask() {
 			@Override
 			public void run() {
 				// Grab a random sample of letters from the alphabet, in
@@ -87,19 +81,20 @@ public class GeneralUpdatePattern1 extends AbstractDemoCase {
 				char[] range = new char[(int) Math.floor(Math.random() * 26)];
 				System.arraycopy(alphabet, 0, range, 0, range.length);
 				Arrays.sort(range);
-				update(range);
+				Platform.runLater(()->{update(range);});				
 			}
 		};
-		timer.scheduleRepeating(1500);
-		
-		*/
+
+		timer.schedule(timerTask, 0, 1500);
+
 	}
 
 	public void update(final char[] data) {
 
 		// DATA JOIN
 		// Join new data with old elements, if any.
-		UpdateSelection selection = svg.selectAll("text").data(data);
+		UpdateSelection selection = svg.selectAll("text") //
+				.data(data);
 
 		// UPDATE
 		// Update old elements as needed.
@@ -107,13 +102,16 @@ public class GeneralUpdatePattern1 extends AbstractDemoCase {
 
 		// ENTER
 		// Create new elements as needed.
-		selection.enter().append("text").attr("class", "enter")
-				.attr("x", new DataFunction<Integer>() {
-					@Override
-					public Integer apply(final Object context, final Object datum, final int index) {
-						return index * 32;
-					}
-				}).attr("dy", ".35em");
+
+		DataFunction<Integer> xFunction = new IndexDataFunctionWrapper<>((index) -> {
+			return index * 32;
+		});
+
+		selection.enter() //
+				.append("text") //
+				.attr("class", "enter") //
+				.attr("x", xFunction) //
+				.attr("dy", ".35em");
 
 		// ENTER + UPDATE
 		// Appending to the enter selection expands the update selection to
@@ -121,16 +119,12 @@ public class GeneralUpdatePattern1 extends AbstractDemoCase {
 		// entering elements; so, operations on the update selection after
 		// appending to
 		// the enter selection will apply to both entering and updating nodes.
-		selection.text(new DataFunction<String>() {
-			@Override
-			public String apply(final Object context, final Object d, final int index) {
-				
-				Value datum = (Value) d;						
-				Element element =(Element) context;
-				
-				return Character.toString(datum.asChar());
-			}
+
+		DataFunction<String> textFunction = new DataFunctionWrapper<>(String.class, webEngine, (value) -> {			
+			return value;
 		});
+
+		selection.text(textFunction);
 
 		// EXIT
 		// Remove old elements as needed.
@@ -140,11 +134,11 @@ public class GeneralUpdatePattern1 extends AbstractDemoCase {
 	@Override
 	public void stop() {
 		if (timer != null) {
-			//timer.cancel();
+			timer.cancel();
 			timer = null;
 		}
 	}
-	
+
 	//#end region
 
 }

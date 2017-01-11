@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.democases.axis;
 
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.democases.test.Data;
+import org.treez.javafxd3.d3.demo.Data;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
 

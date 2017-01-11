@@ -3,6 +3,8 @@ package org.treez.javafxd3.d3;
 import java.util.List;
 
 import org.treez.javafxd3.d3.core.Selection;
+import org.treez.javafxd3.d3.demo.DemoCase;
+import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.democases.arcTween.ArcTween;
 import org.treez.javafxd3.d3.democases.barchart.BarChart;
 import org.treez.javafxd3.d3.democases.behaviors.DragMultiples;
@@ -19,7 +21,10 @@ import org.treez.javafxd3.d3.democases.svg.brush.slider.BrushAsSliderDemo;
 import org.treez.javafxd3.d3.democases.svg.line.LineDemo;
 import org.treez.javafxd3.d3.democases.svg.symbol.SymbolDemo;
 import org.treez.javafxd3.d3.democases.svg.text.TextDemo;
-import org.treez.javafxd3.d3.democases.xy.Xy;
+import org.treez.javafxd3.d3.democases.update.GeneralUpdatePattern1;
+import org.treez.javafxd3.d3.democases.update.GeneralUpdatePattern2;
+import org.treez.javafxd3.d3.democases.update.GeneralUpdatePattern3;
+import org.treez.javafxd3.d3.democases.xy.XyDemo;
 import org.treez.javafxd3.javafx.JavaFxD3Browser;
 
 import javafx.application.Application;
@@ -152,19 +157,18 @@ public class JavaFxD3DemoSuite extends Application {
 		menuChildren.add(new DemoMenuButton("Voronoi Tessellation", VoronoiTessellationDemo.factory(d3, prefBox)));
 
 		// CHART
-		menuChildren.add(new DemoMenuButton("XY plot", Xy.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("XY plot", XyDemo.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Bar chart", BarChart.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Function plot", FunctionPlotDemo.factory(d3, prefBox)));
 		//menuChildren.add(new DemoMenuButton("Axis Component", AxisComponent.factory(d3, prefBox)));
-		//menuChildren.add(new DemoMenuButton("General Update Pattern I", GeneralUpdatePattern1.factory(d3, prefBox)));
-		//menuChildren.add(new DemoMenuButton("General Update Pattern II", GeneralUpdatePattern2.factory(d3, prefBox)));
-		//menuChildren.add(new DemoMenuButton("General Update Pattern III", GeneralUpdatePattern3.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("General Update Pattern I", GeneralUpdatePattern1.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("General Update Pattern II", GeneralUpdatePattern2.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("General Update Pattern III", GeneralUpdatePattern3.factory(d3, prefBox)));
 
 		//menuChildren.add(new DemoMenuButton("Focus And Context", FocusAndContext.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Chord diagram", ChordDiagram.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Lorenz System", LorenzSystem.factory(d3, prefBox)));
-		//menuChildren.add(new DemoMenuButton("Shape Tweening", ShapeTweeningDemo.factory(d3, prefBox)));
-
+		
 		//menuChildren.add(new DemoMenuButton("Collapsible Tree", TreeDemo.factory(d3, prefBox)));
 
 		// BEHAVIOR

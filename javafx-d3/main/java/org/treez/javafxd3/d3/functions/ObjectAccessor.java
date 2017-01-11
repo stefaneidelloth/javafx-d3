@@ -1,4 +1,4 @@
-package org.treez.javafxd3.d3.core;
+package org.treez.javafxd3.d3.functions;
 
 import org.treez.javafxd3.d3.dsv.DsvRow;
 

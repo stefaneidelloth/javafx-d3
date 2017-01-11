@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.arrays.foreach.CompleteForEachCallbackWrapper;
+import org.treez.javafxd3.d3.arrays.foreach.ForEachCallback;
+import org.treez.javafxd3.d3.arrays.foreach.ForEachObjectDelegate;
+import org.treez.javafxd3.d3.arrays.foreach.ForEachObjectDelegateWrapper;
 import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
@@ -292,6 +296,34 @@ public class Array<T> extends JavaScriptObject  {
 				")";
 		eval(command);
 	}
+	
+	public <R> Array<R> map(ForEachCallback<R> callback, Class<R> resultElementClass) {
+		
+		ForEachCallback<R> callbackWrapper = new CompleteForEachCallbackWrapper<>(callback);
+		
+		D3 d3 = new D3(webEngine);
+		JSObject d3Obj = d3.getJsObject();
+		String callbackName = createNewTemporaryInstanceName();
+		d3Obj.setMember(callbackName, callbackWrapper);
+
+		String command ="this.map(" + //
+				"  function(d, i, a){" + //			
+				"    var elementResult = d3." + callbackName + ".forEach(this, {datum: d}, i, a);" + //				
+				"    return elementResult; " + //
+				"  }" + //
+				")";
+		
+		
+		JSObject jsResult = evalForJsObject(command);
+		if(jsResult==null){
+			return null;
+		}
+		
+		return new Array<>(webEngine, jsResult);
+					
+	}	
+	
+	
 
 	//#end region
 
@@ -369,7 +401,9 @@ public class Array<T> extends JavaScriptObject  {
 		}
 		String displayString = "[" + String.join(",", stringList) + "]";
 		return displayString;
-	}	
+	}
+
+	
 
 	//#end region
 

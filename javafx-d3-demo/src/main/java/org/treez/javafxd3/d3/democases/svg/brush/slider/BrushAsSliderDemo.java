@@ -1,13 +1,13 @@
 package org.treez.javafxd3.d3.democases.svg.brush.slider;
 
-import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.color.Colors;
 import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.democases.Margin;
+import org.treez.javafxd3.d3.demo.AbstractDemoCase;
+import org.treez.javafxd3.d3.demo.DemoCase;
+import org.treez.javafxd3.d3.demo.DemoFactory;
+import org.treez.javafxd3.d3.demo.Margin;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.data.wrapper.CompleteDataFunctionWrapper;
 import org.treez.javafxd3.d3.functions.data.wrapper.DataFunctionWrapper;

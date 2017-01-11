@@ -3,7 +3,7 @@ package org.treez.javafxd3.d3.transition;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transition;
 import org.treez.javafxd3.d3.core.Transition.EventType;
-import org.treez.javafxd3.d3.democases.InputElementFactory;
+import org.treez.javafxd3.d3.demo.InputElementFactory;
 import org.treez.javafxd3.d3.ease.Easing;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.data.ConstantDataFunction;

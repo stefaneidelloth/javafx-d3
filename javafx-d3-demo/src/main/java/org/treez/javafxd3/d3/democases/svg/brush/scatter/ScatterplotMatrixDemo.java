@@ -4,18 +4,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.arrays.Array;
-import org.treez.javafxd3.d3.arrays.ForEachCallback;
-import org.treez.javafxd3.d3.core.ObjectAccessor;
+import org.treez.javafxd3.d3.arrays.foreach.ForEachCallback;
+import org.treez.javafxd3.d3.arrays.foreach.ForEachCallbackWrapper;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
+import org.treez.javafxd3.d3.demo.AbstractDemoCase;
+import org.treez.javafxd3.d3.demo.DemoCase;
+import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.dsv.DsvCallback;
 import org.treez.javafxd3.d3.dsv.DsvRow;
 import org.treez.javafxd3.d3.functions.DataFunction;
+import org.treez.javafxd3.d3.functions.ObjectAccessor;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.scales.OrdinalScale;
 import org.treez.javafxd3.d3.svg.Axis;
@@ -127,28 +128,29 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				
 				
 				
-				ForEachCallback<Void> forEachCallback = new ForEachCallback<Void>() {
-					@Override
-					public Void forEach(final Object thisArg, final Value trait, final int index,
-							final Object[] array) {
-						// for the current trait, get the extent=domain=(min and
-						// max), and save it in the map
-						// save the domain
-						
-						
-						ObjectAccessor<DsvRow, Double> accessor = new ObjectAccessor<DsvRow, Double>() {
-							@Override
-							public Double apply(final DsvRow data, final int index) {
-								return data.get(trait.asString()).asDouble();
-							}
-						};
-						Value value = null; //Arrays.extent(data, accessor);
-						
-						
-						domainByTrait.put(trait.asString(), value );
-						return null;
-					}
-				};
+				ForEachCallback<Void> forEachCallback = new ForEachCallbackWrapper<Void, String>(String.class, webEngine, (trait)->{
+					// for the current trait, get the extent=domain=(min and
+					// max), and save it in the map
+					// save the domain
+					
+					
+					ObjectAccessor<DsvRow, Double> accessor = new ObjectAccessor<DsvRow, Double>() {
+						@Override
+						public Double apply(final DsvRow data, final int index) {
+							return data.get(trait).asDouble();
+						}
+					};
+					
+					Value value = null; //Arrays.extent(data, accessor);
+					
+					
+					domainByTrait.put(trait, value );
+					return null;
+					
+				});
+				
+				
+				
 
 				//traits.forEach(forEachCallback);
 

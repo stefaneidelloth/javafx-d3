@@ -2,7 +2,7 @@ package org.treez.javafxd3.d3.dsv;
 
 /**
  * When the DSV data is available, the specified callback will be invoked with
- * the parsed rows as the argument. If an error occurs, the callback function
+ * the parsed row array as the argument. If an error occurs, the callback function
  * will instead be invoked with null.
  * 
  * 
@@ -22,5 +22,5 @@ public interface DsvCallback<T> {
 	 * @param data 
 	 * @param rows the rows values, or null if an error occurs.
 	 */
-	void get(Object error, Object data);
+	void get(Object error, Object rowsArray);
 }

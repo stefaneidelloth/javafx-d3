@@ -3,14 +3,14 @@ package org.treez.javafxd3.d3.democases.svg.symbol;
 import java.util.Random;
 import java.util.Stack;
 
-import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.color.Colors;
 import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transform;
+import org.treez.javafxd3.d3.demo.AbstractDemoCase;
+import org.treez.javafxd3.d3.demo.DemoCase;
+import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.svg.Symbol;
 import org.treez.javafxd3.d3.svg.SymbolType;
 

@@ -1,4 +1,4 @@
-package org.treez.javafxd3.d3.arrays;
+package org.treez.javafxd3.d3.arrays.foreach;
 
 /**
  * Wraps a ForEachObjectDelegate in a named class so that it can 

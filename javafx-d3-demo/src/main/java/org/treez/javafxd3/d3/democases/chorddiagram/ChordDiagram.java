@@ -2,15 +2,15 @@ package org.treez.javafxd3.d3.democases.chorddiagram;
 
 import java.util.List;
 
-import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.Arrays;
 import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
+import org.treez.javafxd3.d3.demo.AbstractDemoCase;
+import org.treez.javafxd3.d3.demo.DemoCase;
+import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.data.wrapper.CompleteDataFunctionWrapper;
 import org.treez.javafxd3.d3.functions.data.wrapper.DataFunctionWrapper;
@@ -231,8 +231,10 @@ public class ChordDiagram extends AbstractDemoCase {
 			public Void apply(Object context, Object datum, int idx) {
 
 				Selection selection = svg.selectAll(".chord path");
-				Array<JSObject> array = selection.asElementArray();
-
+				Array<Element> array2d = selection.asElementArray();
+				JSObject arrayObj = array2d.get(0,  JSObject.class);
+                Array<Element> array = new Array<>(webEngine, arrayObj);
+				
 				D3 d3 = new D3(webEngine);
 
 				array.forEach((object) -> {

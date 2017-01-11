@@ -1,4 +1,4 @@
-package org.treez.javafxd3.d3.democases;
+package org.treez.javafxd3.d3.demo;
 
 import java.util.HashMap;
 import java.util.Map;

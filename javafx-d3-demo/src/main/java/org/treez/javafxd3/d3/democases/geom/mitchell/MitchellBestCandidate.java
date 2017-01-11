@@ -2,13 +2,12 @@
 package org.treez.javafxd3.d3.democases.geom.mitchell;
 
 import org.treez.javafxd3.d3.geom.Quadtree.RootNode;
-
-import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.democases.Margin;
+import org.treez.javafxd3.d3.demo.AbstractDemoCase;
+import org.treez.javafxd3.d3.demo.DemoCase;
+import org.treez.javafxd3.d3.demo.DemoFactory;
+import org.treez.javafxd3.d3.demo.Margin;
 import org.treez.javafxd3.d3.functions.TimerFunction;
 
 import javafx.scene.layout.VBox;

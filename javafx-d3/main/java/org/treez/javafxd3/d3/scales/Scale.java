@@ -5,6 +5,7 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.ArrayUtils;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.interpolators.Interpolator;
+import org.treez.javafxd3.d3.wrapper.Inspector;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -104,11 +105,44 @@ public abstract class Scale<S extends Scale<?>> extends JavaScriptObject {
      * @return the current scale
      */
     public  S domain(JavaScriptObject object){
-    	JSObject jsObject = object.getJsObject();
+    	
+    	boolean isArray = object instanceof Array;
+    	if(isArray){
+    		Array<?> array = (Array<?>) object;
+    		return domainWithArray(array);
+    	}
+    	
+    	JSObject jsObject = object.getJsObject();    	
     	JSObject result = call("domain", jsObject);
     	S scaleResult = createScale(webEngine, result);   
     	return scaleResult;
     }
+
+	private S domainWithArray(Array<?> array) {
+		
+		Object min = array.get(0, Object.class);
+		
+		Object max = array.get(1,  Object.class);
+		
+		String minName = createNewTemporaryInstanceName();
+		String maxName = createNewTemporaryInstanceName();
+
+		JSObject d3jsObj = getD3();
+		d3jsObj.setMember(minName, min);
+		d3jsObj.setMember(maxName, max);
+		    		
+		JSObject result = evalForJsObject("this.domain([d3."+ minName + ", d3." + maxName + "])");
+		
+		d3jsObj.removeMember(minName);
+		d3jsObj.removeMember(maxName);
+		
+		if(result==null){
+			return null;
+		}
+		
+		S scaleResult = createScale(webEngine, result);   
+		return scaleResult;
+	}
 
     /**
      * Returns the current scale's input domain.
@@ -116,12 +150,12 @@ public abstract class Scale<S extends Scale<?>> extends JavaScriptObject {
      *
      * @return the current domain
      */
-    public  <T> Array<Value> domain(){
+    public  <T> Array<T> domain(){
     	JSObject result = call("domain");
     	if(result==null){
     		return null;
     	}
-    	return new Array<Value>(webEngine, result);
+    	return new Array<>(webEngine, result);
     }
 
     // ==================== range ====================
@@ -221,11 +255,20 @@ public abstract class Scale<S extends Scale<?>> extends JavaScriptObject {
      * @return the output value
      */
     public  Value apply(JSObject d){
-    	JSObject result = call("this", d);
+    	Inspector.inspect(this);
+    	Object result = callThis(d);
     	if(result==null){
     		return null;
     	}
-    	return new Value(webEngine, result);		
+    	
+    	boolean isJsObject = result instanceof JSObject;
+    	if(isJsObject){
+    		JSObject jsResult = (JSObject) result;
+    		return new Value(webEngine, jsResult);	
+    	} else {
+    		return Value.create(webEngine, result);
+    	}    	
+    		
     }
     
     public  Value apply(JavaScriptObject d){

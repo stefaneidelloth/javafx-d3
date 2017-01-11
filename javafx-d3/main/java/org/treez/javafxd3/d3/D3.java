@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Random;
 
 import org.treez.javafxd3.d3.arrays.Array;
+import org.treez.javafxd3.d3.arrays.foreach.ForEachCallback;
 import org.treez.javafxd3.d3.behaviour.Behavior;
 import org.treez.javafxd3.d3.behaviour.Drag;
 import org.treez.javafxd3.d3.behaviour.Drag.DragEvent;
@@ -265,7 +266,6 @@ public class D3 extends JavaScriptObject {
 		return new Transform(webEngine, result);
 	}
 
-
 	// =========== Math ==============
 
 	// =========== shuffle ==============
@@ -329,7 +329,7 @@ public class D3 extends JavaScriptObject {
 	 */
 	public SVG svg() {
 		JSObject result = getMember("svg");
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new SVG(webEngine, result);
@@ -341,7 +341,7 @@ public class D3 extends JavaScriptObject {
 	 */
 	public Layout layout() {
 		JSObject result = getMember("layout");
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Layout(webEngine, result);
@@ -352,7 +352,7 @@ public class D3 extends JavaScriptObject {
 	 */
 	public Geometry geom() {
 		JSObject result = getMember("geom");
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Geometry(webEngine, result);
@@ -363,7 +363,7 @@ public class D3 extends JavaScriptObject {
 	 */
 	public Geography geo() {
 		JSObject result = getMember("geo");
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Geography(webEngine, result);
@@ -623,7 +623,7 @@ public class D3 extends JavaScriptObject {
 	 */
 	public double mouseX(Node container) {
 		JSObject containerObject = container.getJsObject();
-		JSObject coordObj = call("mouse", containerObject);	
+		JSObject coordObj = call("mouse", containerObject);
 		Object result = coordObj.getMember("0");
 		Double x = Double.parseDouble("" + result);
 		return x;
@@ -804,7 +804,7 @@ public class D3 extends JavaScriptObject {
 	 */
 	public <T> Dsv<T> tsv() {
 		JSObject result = getMember("tsv"); //call("dsvFormat", "\t");
-		if(result==null){
+		if (result == null) {
 			throw new IllegalStateException("Could not get tsv");
 		}
 		return new Dsv<T>(webEngine, result);
@@ -842,8 +842,8 @@ public class D3 extends JavaScriptObject {
 	};
 
 	/**
-	 * Issues an HTTP GET request for the tab-separated values (TSV) file at
-	 * the specified url.
+	 * Issues an HTTP GET request for the tab-separated values (TSV) file at the
+	 * specified url.
 	 * <p>
 	 * The file contents are assumed to be RFC4180-compliant. The mime type of
 	 * the request will be "text/tsv". The request is processed asynchronously,
@@ -879,7 +879,7 @@ public class D3 extends JavaScriptObject {
 				+ "});";
 		JSObject result = evalForJsObject(command);
 		return new Dsv<T>(webEngine, result);
-		
+
 	};
 
 	/**
@@ -913,7 +913,7 @@ public class D3 extends JavaScriptObject {
 				+ " });";
 		JSObject result = evalForJsObject(command);
 		return new Dsv<T>(webEngine, result);
-		
+
 	};
 
 	/**
@@ -1132,28 +1132,107 @@ public class D3 extends JavaScriptObject {
 		//Object val = eval(variableName);
 		//boolean isOk = val.equals(value);
 	}
-	
+
 	public Sort ascending() {
 		JSObject result = getMember("ascending");
 		return new Sort(webEngine, result);
 	}
-	
+
 	public Sort descending() {
 		JSObject result = getMember("descending");
 		return new Sort(webEngine, result);
 	}
-	
+
+	public <T> Array<T> extent(Array<T> array) {
+
+		if (array.length() > 0) {
+			Object firstElement = array.get(0, Object.class);
+			boolean isJavaScriptObject = firstElement instanceof JavaScriptObject;
+			if (isJavaScriptObject) {
+				List<JSObject> elementList = extractJsObjectElements(array);
+				return extent(elementList);
+			}
+		}
+
+		JSObject result = call("extent", array.getJsObject());
+
+		if (result == null) {
+			return null;
+		}
+		return new Array<>(webEngine, result);
+	}
+
+	private <T> Array<T> extent(Collection<JSObject> elements) {
+
+		JSObject d3JsObject = getD3();
+
+		List<String> fullVarNames = new ArrayList<>();
+		List<String> varNames = new ArrayList<>();
+		for (JSObject jsObject : elements) {
+			String varName = createNewTemporaryInstanceName();
+			d3JsObject.setMember(varName, jsObject);
+			fullVarNames.add("d3." + varName);
+			varNames.add(varName);
+		}
+
+		String command = "this.extent([" + String.join(",", fullVarNames) + "])";
+		JSObject result = evalForJsObject(command);
+
+		for (String varName : varNames) {
+			d3JsObject.removeMember(varName);
+		}
+
+		return new Array<>(webEngine, result);
+	}
+
+	private <T> List<JSObject> extractJsObjectElements(Array<T> array) {
+		List<JSObject> elementList = new ArrayList<>();
+		array.forEach((object) -> {
+			JavaScriptObject wrapper = (JavaScriptObject) object;
+			JSObject rawElement = wrapper.getJsObject();
+			elementList.add(rawElement);
+		});
+		return elementList;
+	}
+
 	public Value max(Array<?> array) {
 		JSObject result = call("max", array.getJsObject());
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Value(webEngine, result);
 	}
-	
+
+	public Value max(Array<?> array, ForEachCallback<?> accessor) {
+
+		assertObjectIsNotAnonymous(accessor);
+
+		String arrayMemberName = createNewTemporaryInstanceName();
+		String accessorMemberName = createNewTemporaryInstanceName();
+
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(arrayMemberName, array.getJsObject());
+		jsObj.setMember(accessorMemberName, accessor);
+
+		String command = "d3.max(d3." + arrayMemberName + ", function(d, index, array) { " + //
+				"   return d3." + accessorMemberName + ".forEach(this, {datum:d}, index, array);" + //
+				"}); ";
+
+		Object valueResult = eval(command);
+
+		jsObj.removeMember(arrayMemberName);
+		jsObj.removeMember(accessorMemberName);
+
+		if (valueResult == null) {
+			return null;
+		}
+		return Value.create(webEngine, valueResult);
+
+	}
+
 	public Value min(Array<?> array) {
 		JSObject result = call("min", array.getJsObject());
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Value(webEngine, result);
@@ -1169,10 +1248,6 @@ public class D3 extends JavaScriptObject {
 	public WebEngine getWebEngine() {
 		return webEngine;
 	}
-
-	
-
-	
 
 	//#end region
 

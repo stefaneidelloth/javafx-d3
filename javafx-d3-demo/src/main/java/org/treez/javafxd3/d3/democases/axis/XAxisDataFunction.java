@@ -35,7 +35,9 @@ public class XAxisDataFunction implements DataFunction<Double> {
 		
 		JSObject datum = (JSObject) d;
 		Value value = new Value(webEngine, datum);
-		JsDate date = value.as();
+		JSObject jsDate = value.as();
+		
+		JsDate date = new JsDate(webEngine, jsDate);
 		Value outputValue = xScale.apply(date.getDate());
 		Double result = outputValue.asDouble();
 		return result;

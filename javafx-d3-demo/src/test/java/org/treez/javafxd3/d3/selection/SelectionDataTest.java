@@ -6,6 +6,7 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.functions.KeyFunction;
 import org.treez.javafxd3.d3.functions.data.ConstantDataFunction;
+import org.treez.javafxd3.d3.functions.key.KeyFunctionWrapper;
 import org.treez.javafxd3.d3.selection.datafunction.IntegerArrayDataFunction;
 import org.treez.javafxd3.d3.selection.datafunction.ObjectArrayDataFunction;
 import org.treez.javafxd3.d3.selection.datafunction.StringDataFunction;
@@ -207,8 +208,13 @@ public class SelectionDataTest extends AbstractSelectionTest {
 		assertDataPropertyEqualsTo(107, selection, 2);
 
 		// JSO
+		
+		KeyFunction<Integer> charFunction = new KeyFunctionWrapper<Integer, Character>(Character.class, webEngine, (character)->{
+			return Character.getNumericValue(character);
+		});
+		
 		selection.data(new char[] { 'b', 'z', 'g' });
-		selection.data(new char[] { 'b', 'z', 'g' }, func);
+		selection.data(new char[] { 'b', 'z', 'g' }, charFunction);
 		assertDataPropertyEqualsTo("b", selection, 0);
 		assertDataPropertyEqualsTo("z", selection, 1);
 		assertDataPropertyEqualsTo("g", selection, 2);

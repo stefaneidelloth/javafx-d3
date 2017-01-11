@@ -1,9 +1,12 @@
 package org.treez.javafxd3.d3.arrays;
 
 
-import org.treez.javafxd3.d3.arrays.ForEachCallback;
-import org.treez.javafxd3.d3.arrays.NumericForEachCallback;
+import org.treez.javafxd3.d3.arrays.foreach.ForEachCallback;
+import org.treez.javafxd3.d3.arrays.foreach.ForEachCallbackWrapper;
+import org.treez.javafxd3.d3.arrays.foreach.NumericForEachCallback;
 import org.treez.javafxd3.d3.core.Value;
+
+import javafx.scene.web.WebEngine;
 
 /**
  * 
@@ -17,15 +20,15 @@ public class Callbacks {
      * @param than
      * @return
      */
-    public static ForEachCallback<Boolean> greaterThan(final double than) {
-        return new ForEachCallback<Boolean>() {
-            @Override
-            public Boolean forEach(final Object thisArg, final Value element, final int index, final Object[] array) {
-                System.out.println("received " + element.asDouble() + " > " + than + " : "
-                        + (element.asDouble() > than));
-                return element.asDouble() > than;
-            }
-        };
+    public static ForEachCallback<Boolean> greaterThan(final double than, WebEngine webEngine) {
+        return new ForEachCallbackWrapper<>(Double.class, webEngine, (value)->{
+        	 System.out.println("received " + value + " > " + than + " : "
+                     + (value > than));
+             return value > than;
+        });
+        
+        
+       
     }
 
     /**
@@ -34,11 +37,13 @@ public class Callbacks {
      * @param i the number to add
      * @return the callback
      */
-    public static NumericForEachCallback add(final int i) {
+    public static NumericForEachCallback add(final int i, WebEngine webEngine) {
         return new NumericForEachCallback() {
             @Override
-            public double forEach(final Object thisArg, final Value element, final int index, final Object[] array) {
-                return element.asDouble() + i;
+            public Double forEach(final Object thisArg, final Object element, final int index, final Object array) {
+            	
+            	Value value = (Value) element;
+                return value.asDouble() + i;
             }
         };
     }

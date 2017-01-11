@@ -3,7 +3,7 @@ package org.treez.javafxd3.d3.selection;
 import java.util.ArrayList;
 
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.democases.InputElementFactory;
+import org.treez.javafxd3.d3.demo.InputElementFactory;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.data.ConstantDataFunction;
 import org.treez.javafxd3.d3.svg.PathDataGenerator;

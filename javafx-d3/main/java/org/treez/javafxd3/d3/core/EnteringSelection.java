@@ -298,7 +298,7 @@ public class EnteringSelection extends JavaScriptObject {
 	 * @return the number of groups
 	 */
 	public final int groupCount() {
-		Array<JSObject> array = asElementArray();
+		Array<Element> array = asElementArray();
 		if (array == null) {
 			return 0;
 		}
@@ -307,14 +307,15 @@ public class EnteringSelection extends JavaScriptObject {
 	}
 
 	/**
-	 * Return the internal structure of the selection.
+	 * Return the internal structure of the selection
+	 * which is typically a 2d array of elements.
 	 * <p>
 	 * 
 	 * @return this selection as an array of array of elements
 	 */
-	public final Array<JSObject> asElementArray() { //equivalent to Array<Element> but not wrapped
+	public final Array<Element> asElementArray() { //equivalent to Array<Element> but not wrapped
 		
-		JSObject result = evalForJsObject("this[0]");
+		JSObject result = getJsObject();
 		if(result==null){
 			return null;
 		}

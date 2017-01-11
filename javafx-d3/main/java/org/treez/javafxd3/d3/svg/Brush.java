@@ -128,7 +128,7 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return the current brush
 	 */
 	public Brush apply(Selection selection) {
-		JSObject result = call("this", selection.getJsObject());
+		JSObject result = callThisForJsObject(selection.getJsObject());
 		return new Brush(webEngine, result);
 	}
 
@@ -148,7 +148,7 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return the current brush
 	 */
 	public Brush apply(Transition transition) {
-		JSObject result = call("this", transition.getJsObject());
+		JSObject result = callThisForJsObject(transition.getJsObject());
 		return new Brush(webEngine, result);
 	}
 

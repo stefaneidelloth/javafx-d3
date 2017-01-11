@@ -1,4 +1,4 @@
-package org.treez.javafxd3.d3.democases;
+package org.treez.javafxd3.d3.demo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,13 +11,11 @@ import org.treez.javafxd3.d3.wrapper.Style;
  * A d3 svg label factory
  *
  */
-public class DivElementFactory implements D3NodeFactory {
+public class InputElementFactory implements D3NodeFactory {
 	
 	//#region ATTRIBUTES
 	
-	private String text = "";
-	
-	private String innerHtml = "";		
+	private String text = "";	
 	
 	private Style style = new Style();
 	
@@ -34,11 +32,11 @@ public class DivElementFactory implements D3NodeFactory {
 	
 	//#region CONSTRUCTORS
 	
-	public DivElementFactory(){
+	public InputElementFactory(){
 		
 	}	
 	
-	public DivElementFactory(String text){
+	public InputElementFactory(String text){
 		this.text = text;
 	}
 	
@@ -48,11 +46,9 @@ public class DivElementFactory implements D3NodeFactory {
 
 	@Override
 	public Selection createInParentSelection(Selection selection) {
-		inputElementSelection = selection.append("div")
-				.text(text)	
-				.html(innerHtml)					
-				.attr("class", styleClass);
-		
+		inputElementSelection = selection.append("input")
+				.text(text)										
+				.attr("class", styleClass);		
 		
 		style.apply(inputElementSelection);
 		
@@ -90,15 +86,7 @@ public class DivElementFactory implements D3NodeFactory {
 			inputElementSelection = inputElementSelection.attr(attr, value);
 		}
 		additionalAttributes.put(attr, value);		
-	}
-
-
-	public void setInnerHTML(String value) {
-		if (inputElementSelection!=null){
-			inputElementSelection = inputElementSelection.html(value);
-		}
-		innerHtml = value;		
-	}
+	}	
 	
 	public void setText(String value) {
 		if (inputElementSelection!=null){

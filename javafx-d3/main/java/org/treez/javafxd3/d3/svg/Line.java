@@ -114,7 +114,7 @@ public class Line extends PathDataGenerator {
 	 * 
 	 * @return
 	 */
-	public Line x(final DataFunction<Double> callback) {
+	public Line x(final DataFunction<?> callback) {
 		JSObject result = applyDataFunction("x", callback);
 		return new Line(webEngine, result);
 	}
@@ -146,12 +146,12 @@ public class Line extends PathDataGenerator {
 	 * @param callback
 	 * @return
 	 */
-	public Line y(final DataFunction<Double> callback) {
+	public Line y(final DataFunction<?> callback) {
 		JSObject result = applyDataFunction("y", callback);
 		return new Line(webEngine, result);
 	}
 
-	private JSObject applyDataFunction(String methodName, final DataFunction<Double> callback) {
+	private JSObject applyDataFunction(String methodName, final DataFunction<?> callback) {
 
 		assertObjectIsNotAnonymous(callback);
 

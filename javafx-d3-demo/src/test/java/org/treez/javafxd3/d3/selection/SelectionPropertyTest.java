@@ -2,7 +2,7 @@ package org.treez.javafxd3.d3.selection;
 
 import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.democases.InputElementFactory;
+import org.treez.javafxd3.d3.demo.InputElementFactory;
 import org.treez.javafxd3.d3.functions.data.ConstantDataFunction;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;

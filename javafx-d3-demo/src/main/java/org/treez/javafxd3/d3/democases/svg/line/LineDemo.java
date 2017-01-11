@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
-import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.EnteringSelection;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.UpdateSelection;
+import org.treez.javafxd3.d3.demo.AbstractDemoCase;
+import org.treez.javafxd3.d3.demo.DemoCase;
+import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.svg.InterpolationMode;
 import org.treez.javafxd3.d3.svg.Line;

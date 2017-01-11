@@ -8,9 +8,8 @@ import org.treez.javafxd3.d3.behaviour.Drag;
 import org.treez.javafxd3.d3.behaviour.Drag.DragEventType;
 import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.Selection;
-
-import org.treez.javafxd3.d3.AbstractDemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
+import org.treez.javafxd3.d3.demo.AbstractDemoCase;
+import org.treez.javafxd3.d3.demo.DemoFactory;
 
 import javafx.scene.layout.VBox;
 

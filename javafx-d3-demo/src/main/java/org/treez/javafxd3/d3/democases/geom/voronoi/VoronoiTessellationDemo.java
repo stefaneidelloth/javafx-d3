@@ -5,14 +5,13 @@ import java.util.List;
 
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.geom.Voronoi;
-
-import org.treez.javafxd3.d3.AbstractDemoCase;
 import org.treez.javafxd3.d3.D3;
-import org.treez.javafxd3.d3.DemoCase;
-import org.treez.javafxd3.d3.DemoFactory;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.UpdateSelection;
 import org.treez.javafxd3.d3.core.Value;
+import org.treez.javafxd3.d3.demo.AbstractDemoCase;
+import org.treez.javafxd3.d3.demo.DemoCase;
+import org.treez.javafxd3.d3.demo.DemoFactory;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;

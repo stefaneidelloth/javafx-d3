@@ -1,7 +1,8 @@
-package org.treez.javafxd3.d3;
+package org.treez.javafxd3.d3.demo;
 
 import java.net.URL;
 
+import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Selection;
 
 import javafx.event.ActionEvent;

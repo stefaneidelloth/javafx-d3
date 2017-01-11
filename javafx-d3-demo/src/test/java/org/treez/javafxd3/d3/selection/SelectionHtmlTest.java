@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.selection;
 
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.democases.DivElementFactory;
+import org.treez.javafxd3.d3.demo.DivElementFactory;
 import org.treez.javafxd3.d3.selection.datafunction.PrefixPlusIndexDataFunction;
 import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
 

@@ -1,4 +1,4 @@
-package org.treez.javafxd3.d3.arrays;
+package org.treez.javafxd3.d3.arrays.foreach;
 
 public interface ForEachObjectDelegate {
 	

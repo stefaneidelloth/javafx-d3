@@ -11,11 +11,7 @@ public class CompleteDataFunctionWrapper<R> implements DataFunction<R> {
 	//#end region
 
 	//#region CONSTRUCTORS	
-
-	/**
-	 * Wraps an action that needs all available information. The datum object
-	 * might need to be converted manually.
-	 */
+	
 	public CompleteDataFunctionWrapper(DataFunction<R> wrappedFunction) {
 		this.wrappedFunction = wrappedFunction;
 	}
