@@ -3,6 +3,7 @@ package org.treez.javafxd3.d3.arrays;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.foreach.ForEachCallback;
 import org.treez.javafxd3.d3.core.Value;
+import org.treez.javafxd3.d3.functions.data.wrapper.PlainDataFunction;
 import org.treez.javafxd3.d3.wrapper.Sort;
 
 import javafx.scene.web.WebEngine;
@@ -234,7 +235,7 @@ public class Arrays {
 	 *         order.
 	 */
 	public static <T> Array<T> extent(Array<T> array, WebEngine webEngine) {
-		D3 d3 = new D3(webEngine);		
+		D3 d3 = new D3(webEngine);
 		return d3.extent(array);
 	};
 
@@ -244,20 +245,13 @@ public class Arrays {
 	 *
 	 * @param array
 	 *            the given array.
-	 * @return the minimum and maximum value in the given array using natural
-	 *         order.
+	 * @return the minimum and maximum value in the given array using the accessor
+	 * method
 	 */
-	// public static final native <D, R> JsArrayMixed extent(
-	// JavaScriptObject array, ObjectAccessor<D, R> accessor) {
-	// return $wnd.d3
-	// .extent(
-	// array,
-	// function(d, i) {
-	// return
-	// accessor.@com.github.gwtd3.api.core.ObjectAccessor::apply(Ljava/lang/Object;I)(d,
-	// i);
-	// });
-	// };
+	 public static <A, R> Array<R> extent(Array<A> array, PlainDataFunction<R, A> accessor, WebEngine webEngine) {
+		 D3 d3 = new D3(webEngine);
+		return d3.extent(array, accessor);	
+	 };
 
 	/**
 	 * Find the minimum and maximum value in an array. This is equivalent to

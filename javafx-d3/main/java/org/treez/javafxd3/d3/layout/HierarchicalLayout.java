@@ -96,12 +96,7 @@ public class HierarchicalLayout extends JavaScriptObject {
 
 		//#region CONSTRUCTORS
 
-		/**
-		 * Constructor
-		 * 
-		 * @param webEngine
-		 * @param wrappedJsObject
-		 */
+	
 		public Node(WebEngine webEngine, JSObject wrappedJsObject) {
 			super(webEngine, wrappedJsObject);
 		}

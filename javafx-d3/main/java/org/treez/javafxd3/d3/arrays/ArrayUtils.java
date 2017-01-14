@@ -113,6 +113,15 @@ public class ArrayUtils {
 		return arrayString;
 	}
 	
+	public static String createArrayString(Short[] numbers) {
+		List<String> list = new java.util.ArrayList<>();
+    	for (Object number: numbers){
+    		list.add(""+number);
+    	}
+    	String arrayString = "[" + String.join(",", list) + "]";
+		return arrayString;
+	}
+	
 	/**
 	 * Creates a string that contains the given values as array in square brackets
 	 * @param numbers

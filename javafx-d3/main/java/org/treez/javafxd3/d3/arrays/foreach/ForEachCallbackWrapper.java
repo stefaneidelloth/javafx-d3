@@ -37,8 +37,7 @@ public class ForEachCallbackWrapper<R, A> implements ForEachCallback<R> {
 	@Override
 	public R forEach(Object context, Object arrayElement, int index, Object array) {
 		A data = ConversionUtil.convertObjectTo(arrayElement, plainClass, webEngine);
-		R result = plainDataFunction.apply(data);
-		return result;
+		return plainDataFunction.apply(data);		
 	}
 
 	//#end region

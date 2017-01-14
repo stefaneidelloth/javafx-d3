@@ -532,14 +532,14 @@ public class Axis extends JavaScriptObject implements JsFunction {
 	 *            the values
 	 * @return the current axis
 	 */
-	public final Axis tickValues(Object[] values) {
-		throw new IllegalStateException("not yet implemented");
-
-		/*
-		 * String arrayString = ArrayUtils.createArrayString(values); String
-		 * command = "this.tickValues(" + arrayString + ");"; JSObject result =
-		 * evalForJsObject(command); return new Axis(webEngine, result);
-		 */
+	public final Axis tickValues(Array<Object> values) {
+		
+		JSObject result = call("tickValues", values.getJsObject());
+		if(result==null){
+			return null;
+		}
+		return new Axis(webEngine, result);		
+		
 	}
 
 	//#end region

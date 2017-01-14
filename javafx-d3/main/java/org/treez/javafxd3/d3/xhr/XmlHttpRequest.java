@@ -6,7 +6,7 @@ import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
 /**
- * Overlay type for an XmlHttpRequest error. 
+ * Overlay type for an XmlHttpRequest error.
  */
 public class XmlHttpRequest extends JavaScriptObject {
 
@@ -40,7 +40,7 @@ public class XmlHttpRequest extends JavaScriptObject {
 	 */
 	public int status() {
 		Integer result = getMemberForInteger("status");
-		return result;		
+		return result;
 	}
 
 	/**
@@ -48,18 +48,17 @@ public class XmlHttpRequest extends JavaScriptObject {
 	 */
 	public String response() {
 		String result = getMemberForString("response");
-		return result;		
+		return result;
 	}
 
-	/**
-	 * @return
-	 */
 	public ResponseType responseType() {
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return @com.github.gwtd3.api.xhr.XmlHttpRequest.ResponseType::
-		 * fromString(Ljava/lang/String;)(this.responseType());
-		 */
+
+		String result = callForString("responseType");
+		if (result == null) {
+			return null;
+		}
+		return ResponseType.fromString(result);
+
 	}
 
 	/**
@@ -67,53 +66,37 @@ public class XmlHttpRequest extends JavaScriptObject {
 	 * @return
 	 */
 	public XmlHttpRequest responseType(ResponseType type) {
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * if(type==null){ return this.responseType(""); } else{ var stype =
-		 * type.@com.github.gwtd3.api.xhr.XmlHttpRequest.ResponseType::name()();
-		 * stype = stype.@java.lang.String::toLowerCase()(); return
-		 * this.responseType(stype); }
-		 */
+
+		if (type == null) {
+			JSObject result = call("responseType", "");
+			if (result == null) {
+				return null;
+			}
+			return new XmlHttpRequest(webEngine, result);
+
+		} else {
+			String enumString = type.toString().toLowerCase();
+			JSObject result = call("responseType", enumString);
+			if (result == null) {
+				return null;
+			}
+			return new XmlHttpRequest(webEngine, result);
+		}
+
 	}
 
 	//#end region
 
 	//#region ENUM
 
-	/**
-	 * 
-	 *
-	 */
 	public static enum ResponseType {
-		/**
-		 * 
-		 */
-		ARRAYBUFFER, 
 		
-		/**
-		 * 
-		 */
-		BLOB, 
-		
-		/**
-		 * 
-		 */
-		JSON, 
-		
-		/**
-		 * 
-		 */
-		TEXT, 
-		
-		/**
-		 * 
-		 */
+		ARRAYBUFFER,		
+		BLOB,		
+		JSON,	
+		TEXT,	
 		DOCUMENT;
-
-		/**
-		 * @param s
-		 * @return
-		 */
+		
 		public static ResponseType fromString(final String s) {
 			if ((s == null) || s.trim().isEmpty()) {
 				return null;

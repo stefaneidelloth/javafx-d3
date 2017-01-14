@@ -2,7 +2,7 @@ package org.treez.javafxd3.d3.functions;
 
 import org.treez.javafxd3.d3.dsv.DsvRow;
 
-public interface ObjectAccessor<D, T> {
+public interface ObjectAccessor<A, R> {
 	
     /**
      * The accessor function which transform a {@link DsvRow} in an other type
@@ -14,5 +14,5 @@ public interface ObjectAccessor<D, T> {
      *            index of the current DSV row
      * @return
      */
-    T apply(D data, int index);
+    R apply(A data, int index);
 }

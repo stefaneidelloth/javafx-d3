@@ -9,6 +9,7 @@ import java.util.Random;
 
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.foreach.ForEachCallback;
+import org.treez.javafxd3.d3.arrays.foreach.ForEachCallbackWrapper;
 import org.treez.javafxd3.d3.behaviour.Behavior;
 import org.treez.javafxd3.d3.behaviour.Drag;
 import org.treez.javafxd3.d3.behaviour.Drag.DragEvent;
@@ -27,6 +28,7 @@ import org.treez.javafxd3.d3.dsv.DsvObjectAccessor;
 import org.treez.javafxd3.d3.event.D3Event;
 import org.treez.javafxd3.d3.event.Event;
 import org.treez.javafxd3.d3.functions.TimerFunction;
+import org.treez.javafxd3.d3.functions.data.wrapper.PlainDataFunction;
 import org.treez.javafxd3.d3.geo.Geography;
 import org.treez.javafxd3.d3.geom.Geometry;
 import org.treez.javafxd3.d3.interpolators.Interpolators;
@@ -41,7 +43,6 @@ import org.treez.javafxd3.d3.wrapper.Node;
 import org.treez.javafxd3.d3.wrapper.NodeList;
 import org.treez.javafxd3.d3.wrapper.Sort;
 import org.treez.javafxd3.d3.wrapper.Widget;
-import org.treez.javafxd3.d3.wrapper.WidgetCollection;
 
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -184,22 +185,31 @@ public class D3 extends JavaScriptObject {
 	 * @return the selection
 	 */
 	public Selection selectAll(Element... nodes) {
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call("selectAll", (Object[]) nodes);
-		//return new Selection(webEngine, result);
-	};
+				
+		JSObject d3JsObject = getD3();
 
-	/**
-	 * Selects the specified elementMatrices.
-	 *
-	 * @param elementMatrices
-	 *            the elements
-	 * @return the selection
-	 */
-	public Selection selectAll(Element[][]... elementMatrices) {
-		throw new IllegalStateException("not yet implemented");
-		//JSObject result = call("selectAll", (Object[]) nodes);
-		//return new Selection(webEngine, result);
+		List<String> fullVarNames = new ArrayList<>();
+		List<String> varNames = new ArrayList<>();
+		for (Element element : nodes) {
+			String varName = createNewTemporaryInstanceName();
+			d3JsObject.setMember(varName, element.getJsObject());
+			fullVarNames.add("d3." + varName);
+			varNames.add(varName);
+		}
+
+		String command = "this.selectAll([" + String.join(",", fullVarNames) + "])";
+		JSObject result = evalForJsObject(command);
+
+		for (String varName : varNames) {
+			d3JsObject.removeMember(varName);
+		}
+		
+		if(result==null){
+			return null;
+		}
+
+		return new Selection(webEngine, result);	
+		
 	};
 
 	/**
@@ -230,20 +240,7 @@ public class D3 extends JavaScriptObject {
 		return selectAll(elements);
 	}
 
-	/**
-	 * Selects the specified collection of elements.
-	 *
-	 * @param widgets
-	 *            the elements
-	 * @return the selection
-	 */
-	public final Selection selectAll(final WidgetCollection widgets) {
-		List<Element> elements = new ArrayList<Element>();
-		for (Widget widget : widgets) {
-			elements.add(widget.getElement());
-		}
-		return selectAll(elements);
-	}
+
 
 	/**
 	 * Create an animated transition.
@@ -414,16 +411,16 @@ public class D3 extends JavaScriptObject {
 	 *            the delay to expires before the command should start being
 	 *            invoked (may be negative if markMillis is in the future)
 	 */
-	public void timer(TimerFunction command, int delayMillis) {
+	public void timer(TimerFunction timerFunction, int delayMillis) {
+		
+		assertObjectIsNotAnonymous(timerFunction);
 
-		throw new IllegalStateException("not yet implemented");
+		String funcName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(funcName, timerFunction);
 
-		/*
-		 * JSObject result = call($wnd.d3 .timer( function() { return
-		 * command.@com.github.gwtd3.api.functions.TimerFunction::execute()();
-		 * }, delayMillis);
-		 * 
-		 */
+		String command = "this.timer(function(d, i) { return d3." + funcName + ".execute();}, "+delayMillis+");";
+		eval(command);		
 	};
 
 	/**
@@ -463,16 +460,18 @@ public class D3 extends JavaScriptObject {
 	 * @param markMillis
 	 *            the timestamp from which the delay starts
 	 */
-	public void timer(TimerFunction command, int delayMillis, int markMillis) {
+	public void timer(TimerFunction timerFunction, int delayMillis, int markMillis) {
 
-		throw new IllegalStateException("not yet implemented");
+		assertObjectIsNotAnonymous(timerFunction);
 
-		/*
-		 * JSObject result = call($wnd.d3 .timer( function() { return
-		 * command.@com.github.gwtd3.api.functions.TimerFunction::execute()();
-		 * }, delayMillis, markMillis);
-		 * 
-		 */
+		String funcName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(funcName, timerFunction);
+
+		String command = "this.timer(function(d, i) { return d3." + funcName + ".execute();}, "+delayMillis+", " +markMillis+");";
+		eval(command);	
+
+		
 	};
 
 	/**
@@ -945,10 +944,9 @@ public class D3 extends JavaScriptObject {
 	 *            the object to convert to an array
 	 * @return an array containing the property names.
 	 */
-	public <T> String[] keys(JavaScriptObject object) {
-		//JSObject result = call("keys", object);
-		throw new IllegalStateException("not yet implemented");
-		//return new Array<String>(webEngine, result);
+	public <T> Array<String> keys(JavaScriptObject object) {
+		JSObject result = call("keys", object.getJsObject());		
+		return new Array<String>(webEngine, result);
 	};
 
 	// =================== format methods ====================
@@ -1184,6 +1182,49 @@ public class D3 extends JavaScriptObject {
 
 		return new Array<>(webEngine, result);
 	}
+	
+	
+	public <R,A> Array<R> extent(Array<A> array, PlainDataFunction<R, A> accessor) {		 
+		 
+		int length = array.length();
+		if(length==0){
+			return null;
+		}
+		Object firstElement = array.getAsObject(0);
+		@SuppressWarnings("unchecked")
+		Class<A> argumentClass = (Class<A>) firstElement.getClass();		
+		
+		ForEachCallback<R> accessorWrapper = new ForEachCallbackWrapper<>(argumentClass, webEngine, accessor);
+		return extent(array, accessorWrapper);		
+	}
+	
+	public <R,A> Array<R> extent(Array<A> array, ForEachCallback<R> accessor) {
+
+		assertObjectIsNotAnonymous(accessor);
+
+		String arrayMemberName = createNewTemporaryInstanceName();
+		String accessorMemberName = createNewTemporaryInstanceName();
+
+		JSObject jsObj = getJsObject();
+		jsObj.setMember(arrayMemberName, array.getJsObject());
+		jsObj.setMember(accessorMemberName, accessor);
+
+		String command = "d3.extent(d3." + arrayMemberName + ", function(d, index, array) { " + //
+				"   return d3." + accessorMemberName + ".forEach(this, {datum:d}, index, array);" + //
+				"}); ";
+
+		JSObject result = evalForJsObject(command);
+
+		jsObj.removeMember(arrayMemberName);
+		jsObj.removeMember(accessorMemberName);
+
+		if (result == null) {
+			return null;
+		}
+		return new Array<>(webEngine, result);
+
+	}
+	
 
 	private <T> List<JSObject> extractJsObjectElements(Array<T> array) {
 		List<JSObject> elementList = new ArrayList<>();
@@ -1248,6 +1289,8 @@ public class D3 extends JavaScriptObject {
 	public WebEngine getWebEngine() {
 		return webEngine;
 	}
+
+	
 
 	//#end region
 

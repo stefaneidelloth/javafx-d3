@@ -361,20 +361,20 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public Selection attr(final String name, PathDataGenerator generator) {
-		
+
 		JSObject jsObject = generator.getJsObject();
 		String memberName = createNewTemporaryInstanceName();
 
 		JSObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, jsObject);
-		
-		String command = "this.attr('"+name+"',d3." + memberName + ")";
+
+		String command = "this.attr('" + name + "',d3." + memberName + ")";
 		JSObject result = evalForJsObject(command);
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
-		
-		return new Selection(webEngine, result);		
+
+		return new Selection(webEngine, result);
 	}
 
 	/**
@@ -654,8 +654,10 @@ public class Selection extends EnteringSelection {
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(methodName, assignSwitchFunction);
 
-		String command = "this.classed('" + classNames + "', function(d, i) { " + "var r = d3." + methodName
-				+ ".apply(this,{datum:d},i);" + "return r == null ? false : r; " + "});";
+		String command = "this.classed('" + classNames + "', function(d, i) { " + //
+				"   var r = d3." + methodName + ".apply(this,{datum:d},i);" + //
+				"   return r == null ? false : r; " + //
+				"});";
 		JSObject result = evalForJsObject(command);
 		return new Selection(webEngine, result);
 

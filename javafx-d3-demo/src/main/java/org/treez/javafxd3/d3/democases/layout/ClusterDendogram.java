@@ -1,38 +1,41 @@
 package org.treez.javafxd3.d3.democases.layout;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
 import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.arrays.Array;
+import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.core.Selection;
-import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.demo.AbstractDemoCase;
 import org.treez.javafxd3.d3.demo.DemoCase;
 import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.functions.DataFunction;
+import org.treez.javafxd3.d3.functions.data.PropertyValueDataFunction;
+import org.treez.javafxd3.d3.functions.data.wrapper.DataFunctionWrapper;
 import org.treez.javafxd3.d3.layout.Cluster;
+import org.treez.javafxd3.d3.layout.HierarchicalLayout.Node;
+import org.treez.javafxd3.d3.layout.Link;
 import org.treez.javafxd3.d3.svg.Diagonal;
-import org.treez.javafxd3.d3.wrapper.Element;
 
 import javafx.scene.layout.VBox;
+import netscape.javascript.JSObject;
 
-/**
- * 
- */
 public class ClusterDendogram extends AbstractDemoCase {
 
 	//#region ATTRIBUTES
 
-	private static final String JSON_URL = // GWT.getModuleBaseURL() +
-	"demo-data/flare.json";
+	private static final String JSON_URL = "https://raw.githubusercontent.com/stefaneidelloth/javafx-d3/master/javafx-d3-demo/src/main/resources/demo-data/flare.json";
 
 	//#end region
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 */
 	public ClusterDendogram(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
 		// css = Bundle.INSTANCE.css(); @Source("ClusterDendogram.css")
@@ -43,13 +46,6 @@ public class ClusterDendogram extends AbstractDemoCase {
 
 	//#region METHODS
 
-	/**
-	 * Factory provider
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 * @return
-	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
 			@Override
@@ -64,79 +60,124 @@ public class ClusterDendogram extends AbstractDemoCase {
 		int width = 960;
 		final int height = 2200;
 
-		final Cluster cluster = d3.layout().cluster().size(height, width - 160);
+		final Cluster cluster = d3.layout() //
+				.cluster() //
+				.size(height, width - 160);
 
-		final Diagonal diagonal = d3.svg().diagonal().projection(new DataFunction<Double[]>() {
-			@Override
-			public Double[] apply(final Object context, final Object d, final int index) {
-				
-				Value datum = (Value) d;						
-				Element element =(Element) context;
-				
-				return new Double[]{datum.asCoords().y(), datum.asCoords().x()};
-			}
-		});
+		DataFunction<Double[]> coordsFunction = new DataFunctionWrapper<>(org.treez.javafxd3.d3.coords.Coords.class,
+				webEngine, (coords) -> {
+					return new Double[] { coords.y(), coords.x() };
+				});
 
-		final Selection svg = d3.select("root").append("svg").attr("width", width).attr("height", height).append("g")
-				.attr("transform", "translate(40,0)");
+		final Diagonal diagonal = d3.svg() //
+				.diagonal() //
+				.projection(coordsFunction);
+
+		final Selection svg = d3.select("svg") //
+				.attr("width", width) //
+				.attr("height", height) //
+				.append("g").attr("transform", "translate(40,0)");
 
 		// Send request to server and catch any errors.
-		
-		/*
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, JSON_URL);
 
+		HttpURLConnection connection = createHttpConnection(JSON_URL);
+
+		int responseCode;
 		try {
-			Request request = builder.sendRequest(null, new RequestCallback() {
-				@Override
-				public void onError(final Request request, final Throwable exception) {
-					Window.alert("Couldn't retrieve JSON");
-				}
-
-				@Override
-				public void onResponseReceived(final Request request, final Response response) {
-					if (200 == response.getStatusCode()) {
-						Node root = JsonUtils.safeEval(response.getText());
-						Node[] nodes = cluster.nodes(root);
-						Link[] links = cluster.links(nodes);
-
-						Selection link = svg.selectAll("." + "link").data(links).enter().append("path")
-								.attr("class", "link").attr("d", diagonal);
-
-						Selection node = svg.selectAll("." + "node").data(nodes).enter().append("g")
-								.attr("class", "node").attr("transform", new DataFunction<String>() {
-							@Override
-							public String apply(final Element context, final Value value, final int index) {
-								return "translate(" + value.asCoords().y() + "," + value.asCoords().x() + ")";
-							}
-						});
-
-						node.append("circle").attr("r", 4.5);
-
-						node.append("text").attr("dx", new DataFunction<Integer>() {
-							@Override
-							public Integer apply(final Element context, final Value d, final int index) {
-								return d.<Node> as().children() != null ? -8 : 8;
-							}
-						}).attr("dy", 3).style("text-anchor", new DataFunction<String>() {
-							@Override
-							public String apply(final Element context, final Value d, final int index) {
-								return d.<Node> as().children() != null ? "end" : "start";
-							}
-						}).text(PropertyValueFunction.<String> forProperty("name"));
-
-						d3.select("root").select("svg").style("height", height + "px");
-
-					} else {
-						Window.alert("Couldn't retrieve JSON (" + response.getStatusText() + ")");
-					}
-				}
-			});
-		} catch (Exception e) {
-			System.err.println("Couldn't retrieve JSON"+ e.getMessage());
+			responseCode = connection.getResponseCode();
+		} catch (IOException e) {
+			throw new IllegalStateException("Could not get response code", e);
 		}
-		
-		*/
 
+		
+		StringBuffer response = new StringBuffer();
+		try(BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));){
+			String inputLine;
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+		} catch (IOException e) {
+			throw new IllegalStateException("Could not read response", e);
+		}		
+
+		if (200 == responseCode) {
+			
+
+           String jsonText  = response.toString();
+			JSObject jsResult = ConversionUtil.createJsObject(jsonText, webEngine); 
+			Node root = new Node(webEngine, jsResult);  //= JsonUtils.safeEval(response.toString());
+			Array<Node> nodes = cluster.nodes(root);
+			Array<Link> links = cluster.links(nodes);
+
+			svg.selectAll("." + "link") //
+					.data(links) //
+					.enter() //
+					.append("path") //
+					.attr("class", "link")
+					.attr("d", diagonal);
+			
+			DataFunction<String> transformFunction = new DataFunctionWrapper<>(org.treez.javafxd3.d3.coords.Coords.class,
+					webEngine, (coords) -> {
+						return "translate(" + coords.y() + "," + coords.x() + ")";
+					});
+
+			Selection node = svg.selectAll("." + "node") //
+					.data(nodes) //
+					.enter() //
+					.append("g") //
+					.attr("class", "node")
+					.attr("transform", transformFunction);
+
+			node.append("circle")//
+			.attr("r", 4.5);
+			
+			DataFunction<Integer> dxFunction = new DataFunctionWrapper<>(Node.class, webEngine, (layoutNode)->{
+				return layoutNode.children() != null ? -8 : 8;
+			});
+			
+			DataFunction<String> styleFunction = new DataFunctionWrapper<>(Node.class, webEngine, (layoutNode)->{
+				return layoutNode.children() != null ? "end" : "start";
+			});
+			
+			DataFunction<String> nameFunction = PropertyValueDataFunction.<String> forProperty(webEngine, "name");
+
+			node.append("text") //
+			.attr("dx", dxFunction) //
+			.attr("dy", 3)
+			.style("text-anchor", styleFunction) //
+			.text(nameFunction);
+
+			d3.select("svg") //
+			.style("height", height + "px");
+
+		} else {
+			throw new IllegalStateException("Couldn't retrieve JSON");
+		}
+	
+
+	}
+
+	private HttpURLConnection createHttpConnection(String url) {
+		URL obj;
+		try {
+			obj = new URL(url);
+		} catch (MalformedURLException e) {
+			throw new IllegalStateException("Could not create url", e);
+		}
+
+		HttpURLConnection connection;
+		try {
+			connection = (HttpURLConnection) obj.openConnection();
+		} catch (IOException e) {
+			throw new IllegalStateException("Could not open connection", e);
+		}
+		try {
+			connection.setRequestMethod("GET");
+		} catch (ProtocolException e) {
+			throw new IllegalStateException("Could not set request method", e);
+		}
+		connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+		return connection;
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 @external .extent;
 
-.spm svg {
+svg {
   font: 10px sans-serif;
   padding: 10px;
 }
@@ -23,11 +23,11 @@
   stroke: #aaa;
 }
 
-.spm circle {
+circle {
   fill-opacity: .7;
 }
 
-.spm circle.hidden {
+circle.hidden {
   fill: #ccc !important;
 }
 

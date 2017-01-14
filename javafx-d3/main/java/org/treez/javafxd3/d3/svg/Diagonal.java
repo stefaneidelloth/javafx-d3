@@ -54,9 +54,12 @@ public class Diagonal extends PathDataGenerator {
 	 * 
 	 * @return the accessor function registered with the diagonal generator
 	 */
-	public DataFunction<?> projection() {
-		throw new IllegalStateException("not yet implemented");
-		//return this.projection();
+	public Diagonal projection() {
+		JSObject result = call("projection");
+		if(result==null){
+			return null;
+		}
+		return new Diagonal(webEngine, result);		
 	}
 
 	/**
@@ -82,15 +85,17 @@ public class Diagonal extends PathDataGenerator {
 		
 		assertObjectIsNotAnonymous(function);
 
-		throw new IllegalStateException("not yet implemented");
+		String funcName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(funcName, function);
 
-		/*
-		 * return this .projection(function(d, i) { return
-		 * df.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/google/
-		 * gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{
-		 * datum:d},i); });
-		 * 
-		 */
+		String command = "this.projection(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		JSObject result = evalForJsObject(command);
+
+		//d3JsObject.removeMember(funcName);
+
+		return new Diagonal(webEngine, result);
+
 	}
 
 	/**
@@ -165,15 +170,18 @@ public class Diagonal extends PathDataGenerator {
 		
 		assertObjectIsNotAnonymous(function);
 
-		throw new IllegalStateException("not yet implemented");
+		String funcName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(funcName, function);
 
-		/*
-		 * return this .source(function(d, i) { return
-		 * df.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/google/
-		 * gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{
-		 * datum:d},i); });
-		 * 
-		 */
+		String command = "this.source(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		JSObject result = evalForJsObject(command);
+
+		d3JsObject.removeMember(funcName);
+
+		return new Diagonal(webEngine, result);
+		
+		
 	}
 
 	/**
@@ -192,15 +200,16 @@ public class Diagonal extends PathDataGenerator {
 		
 		assertObjectIsNotAnonymous(function);
 
-		throw new IllegalStateException("not yet implemented");
+		String funcName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(funcName, function);
 
-		/*
-		 * return this .target(function(d, i) { return
-		 * df.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/google/
-		 * gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{
-		 * datum:d},i); });
-		 * 
-		 */
+		String command = "this.target(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		JSObject result = evalForJsObject(command);
+
+		d3JsObject.removeMember(funcName);
+
+		return new Diagonal(webEngine, result);
 	}
 
 	//#end region

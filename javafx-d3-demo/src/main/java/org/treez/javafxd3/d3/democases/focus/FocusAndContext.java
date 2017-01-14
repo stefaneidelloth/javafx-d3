@@ -183,15 +183,12 @@ public class FocusAndContext extends AbstractDemoCase {
 					return new FocusAndContextData(dateFormat.parse(date), price);
 				});
 
-		DsvCallback<FocusAndContextData> callback = new DsvCallbackWrapper<>(webEngine, (dataRows) -> {
-
-			ForEachCallback<JsDate> dateCallback = new ForEachCallbackWrapper<>(FocusAndContextData.class, webEngine,
-					(focusAndContextData) -> {
-						JsDate date = focusAndContextData.getDate();
-						return date;
-					});
-
-			Array<JsDate> jsDateArray = dataRows.map(dateCallback, JsDate.class);
+		DsvCallback<FocusAndContextData> callback = new DsvCallbackWrapper<>(FocusAndContextData.class, webEngine, (dataRows) -> {
+			
+			Array<JsDate> jsDateArray = dataRows.map((focusAndContextData) -> {
+				JsDate date = focusAndContextData.getDate();
+				return date;
+			});
 
 			Array<JsDate> limits = Arrays.extent(jsDateArray, webEngine);
 			x.domain(limits);

@@ -2,6 +2,7 @@ package org.treez.javafxd3.d3.svg;
 
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.ArrayUtils;
+import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transition;
 import org.treez.javafxd3.d3.event.D3Event;
@@ -70,11 +71,14 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 *
 	 * @return the brushs x-scale.
 	 */
-	public <T extends Scale<T>> T x() {
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this.x();
-		 */
+	public <T extends Scale<T>> T x(Class<T> clazz) {
+		
+		JSObject jsResult = call("x");
+		if(jsResult==null){
+			return null;
+		}
+		T result = ConversionUtil.convertObjectTo(jsResult, clazz, webEngine);
+		return result;				
 	}
 
 	/**
@@ -108,11 +112,13 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 *
 	 * @return the brushs y-scale.
 	 */
-	public <T extends Scale<T>> T y() {
-		throw new IllegalStateException("not yet implemented");
-		/*
-		 * return this.y();
-		 */
+	public <T extends Scale<T>> T y(Class<T> clazz) {
+		JSObject jsResult = call("y");
+		if(jsResult==null){
+			return null;
+		}
+		T result = ConversionUtil.convertObjectTo(jsResult, clazz, webEngine);
+		return result;	
 	}
 
 	/**
@@ -321,8 +327,10 @@ public class Brush extends JavaScriptObject implements JsFunction {
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(memberName, listener);
 
-		String command = "this.on('" + eventString + "', function(d, i) {" //
-				+ "d3." + memberName + ".apply(this,{datum:d},i);" //
+		String command = "this.on('" + eventString + "', function(d, i) {" //	
+				+ "  if(d){"
+				+ "    d3." + memberName + ".apply(this,{datum:d},i);" //
+				+ "  }"
 				+ "});";
 
 		JSObject result = evalForJsObject(command);

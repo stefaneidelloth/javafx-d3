@@ -19,7 +19,6 @@ import org.treez.javafxd3.d3.svg.Brush;
 import org.treez.javafxd3.d3.svg.Brush.BrushEvent;
 import org.treez.javafxd3.d3.svg.Symbol;
 import org.treez.javafxd3.d3.svg.SymbolType;
-import org.treez.javafxd3.d3.wrapper.Inspector;
 
 import javafx.scene.layout.VBox;
 import netscape.javascript.JSObject;

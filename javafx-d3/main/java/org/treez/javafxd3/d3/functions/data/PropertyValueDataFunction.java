@@ -33,7 +33,6 @@ public class PropertyValueDataFunction<T> implements DataFunction<T> {
 	public PropertyValueDataFunction(WebEngine webEngine, String propertyName) {
 		this.webEngine = webEngine;
 		this.propertyName=propertyName;
-
 	}
 
 	//#end region
@@ -66,8 +65,8 @@ public class PropertyValueDataFunction<T> implements DataFunction<T> {
 		d3JsObject.setMember(varName, valueObj);
 		
 		String command = "{datum:d3." +varName +".datum['"+ propName+ "']};";
-		JSObject result = d3.evalForJsObject(command);
-		return new Value(webEngine, result);
+		Object result = d3.eval(command);
+		return Value.create(webEngine, result);
 	}
 
 	//#end region

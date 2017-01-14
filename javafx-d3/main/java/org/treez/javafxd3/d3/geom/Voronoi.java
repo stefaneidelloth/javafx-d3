@@ -126,14 +126,22 @@ public class Voronoi extends JavaScriptObject {
      */
     public  Voronoi x(DataFunction<Double> xAccessor){
     	
-    	throw new IllegalStateException("not yet implemented");
-    	/*
-		return this
-				.x(function(d, i) {
-					return xAccessor.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
-				});
-				
-		*/
+    	assertObjectIsNotAnonymous(xAccessor);
+
+		String funcName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(funcName, xAccessor);
+
+		String command = "this.x(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		JSObject result = evalForJsObject(command);
+
+		d3JsObject.removeMember(funcName);
+
+		if(result==null){
+			return null;
+		}
+		return new Voronoi(webEngine, result);   	
+    	
     }
 
     /**
@@ -149,14 +157,21 @@ public class Voronoi extends JavaScriptObject {
 
     public  Voronoi y(DataFunction<Double> yAccessor){
     	
-    	throw new IllegalStateException("not yet implemented");
-    	/*
-		return this
-				.y(function(d, i) {
-					return yAccessor.@com.github.gwtd3.api.functions.DataFunction::apply(Lcom/google/gwt/dom/client/Element;Lcom/github/gwtd3/api/core/Value;I)(this,{datum:d},i);
-				});
-				
-		*/
+    	assertObjectIsNotAnonymous(yAccessor);
+
+		String funcName = createNewTemporaryInstanceName();
+		JSObject d3JsObject = getD3();
+		d3JsObject.setMember(funcName, yAccessor);
+
+		String command = "this.y(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		JSObject result = evalForJsObject(command);
+
+		d3JsObject.removeMember(funcName);
+
+		if(result==null){
+			return null;
+		}
+		return new Voronoi(webEngine, result); 
     }
 
     /**
@@ -167,9 +182,14 @@ public class Voronoi extends JavaScriptObject {
      * @return
      * @experimental
      */
-    public  Link[] links(Object[] nodes){
-    	throw new IllegalStateException("not yet implemented");
-    	//return this.links();
+    public  Array<Link> links(Object[] nodes){
+    	
+    	JSObject result = call("links");
+    	if(result==null){
+    		return null;
+    	}
+    	return new Array<>(webEngine, result);
+    	
     }
 
     /**
@@ -180,9 +200,12 @@ public class Voronoi extends JavaScriptObject {
      * @return
      * @experimental
      */
-    public  Link[] triangles(Object[] nodes){
-    	throw new IllegalStateException("not yet implemented");
-    	// 	return this.links();
+    public  Array<Link> triangles(Object[] nodes){
+    	JSObject result = call("triangles");
+    	if(result==null){
+    		return null;
+    	}
+    	return new Array<>(webEngine, result);
     }
 
 }

@@ -3,6 +3,7 @@ package org.treez.javafxd3.d3.core;
 import java.lang.reflect.Constructor;
 import java.util.Date;
 
+import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.time.JsDate;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
@@ -337,6 +338,20 @@ public class ConversionUtil {
 	public static JsDate createJsDate(Date date, WebEngine webEngine) {		
 		long time   = date.getTime();		
 		return JsDate.create(webEngine, time);		
+	}
+
+	public static JSObject createJsObject(String objectCommand, WebEngine webEngine) {
+		
+		D3 d3 = new D3(webEngine);
+		
+		String command = "this.temp_obj_var=" + objectCommand + ";";
+		d3.eval(command);
+		JSObject result = d3.evalForJsObject("this.temp_obj_var");
+		
+		d3.eval("this.temp_obj_var=undefined");
+		
+		return result;
+		
 	}
 
 }
