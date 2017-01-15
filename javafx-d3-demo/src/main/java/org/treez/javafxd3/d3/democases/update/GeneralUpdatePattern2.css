@@ -1,11 +1,11 @@
-.gup2 text {
+text {
   font: bold 48px monospace;
 }
 
-.gup2 .enter {
+.enter {
   fill: green;
 }
 
-.gup2 .update {
+.update {
   fill: #333;
 }

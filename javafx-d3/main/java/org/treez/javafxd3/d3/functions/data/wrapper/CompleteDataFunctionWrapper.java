@@ -21,7 +21,7 @@ public class CompleteDataFunctionWrapper<R> implements DataFunction<R> {
 	//#region METHODS
 
 	@Override
-	public R apply(Object context, Object datum, int index) {
+	public synchronized R apply(Object context, Object datum, int index) {
 		return wrappedFunction.apply(context, datum, index);
 	}
 

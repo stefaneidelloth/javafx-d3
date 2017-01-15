@@ -2,8 +2,14 @@ package org.treez.javafxd3.d3.democases.barchart;
 
 public class BarChartData {
 
-	private final String letter;
-	private final double frequency;
+	//#region ATTRIBUTES
+
+	private String letter;
+	private double frequency;
+
+	//#end region
+
+	//#region CONSTRUCTORS
 
 	public BarChartData(final String letter, final double frequency) {
 		super();
@@ -12,6 +18,10 @@ public class BarChartData {
 		this.frequency = frequency;
 	}
 
+	//#end region
+
+	//#region ACCESSORS
+
 	public String getLetter() {
 		return letter;
 	}
@@ -19,5 +29,7 @@ public class BarChartData {
 	public double getFrequency() {
 		return frequency;
 	}
+
+	//#end region
 
 }

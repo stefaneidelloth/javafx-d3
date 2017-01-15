@@ -22,7 +22,7 @@ public class ArcTween extends AbstractDemoCase {
 
 	//#region ATTRIBUTES
 
-	private static final String INTRO_TEXT = "Demonstrate the SVG Arc API with Transition API and interpolator.";
+	private static final String INTRO_TEXT = "Demonstrate the SVG Arc API.";
 
 	private Timer timer;
 	private TimerTask timerTask;
@@ -31,7 +31,7 @@ public class ArcTween extends AbstractDemoCase {
 	private Arc arc;
 	private Selection centroidText;
 	private double newAngle;
-	
+
 	private int textWidth;
 
 	//#end region
@@ -57,12 +57,14 @@ public class ArcTween extends AbstractDemoCase {
 
 	@Override
 	public void start() {
-		int width = 960, height = 500;
+		int width = 960;
+		int height = 500;
 
 		final double TWO_PI = 2 * Math.PI; // http://tauday.com/tau-manifesto
 
-		d3.select("#root").insert("svg", "svg") //
-				.attr("height", 40).append("text") //
+		d3.select("#svg") //
+				.attr("height", 40) //
+				.append("text") //
 				.attr("x", 30) //
 				.attr("y", 30) //
 				.text(INTRO_TEXT);
@@ -118,7 +120,7 @@ public class ArcTween extends AbstractDemoCase {
 				.style("stroke", "black") //
 				.style("font-size", "30px");
 
-		 textWidth = getTextWidth(centroidText.node());
+		textWidth = getTextWidth(centroidText.node());
 		// Every so often, start a transition to a new random angle. Use //
 		// transition.call // (identical to selection.call) so that we can
 		// encapsulate the logic for tweening the arc in a separate
@@ -130,28 +132,26 @@ public class ArcTween extends AbstractDemoCase {
 
 			@Override
 			public void run() {
-				
-				Platform.runLater(()->{
-					
+
+				Platform.runLater(() -> {
+
 					Transition transition = foreground //
 							.transition() //							
-							.duration(750);					
+							.duration(750);
 
 					newAngle = Math.random() * TWO_PI;
 					doTransition(transition, newAngle);
 
-					centroidText. //
-					transition() //
+					centroidText //
+							.transition() //
 							.duration(750) //
 							.attr("transform", new ArcTweenDataFunction(webEngine, ArcTween.this));
 				});
-				
+
 			}
 		};
-		
-		timer.schedule(timerTask, 0, 1500);
 
-		
+		timer.schedule(timerTask, 0, 1500);
 
 	}
 
@@ -164,8 +164,8 @@ public class ArcTween extends AbstractDemoCase {
 	}
 
 	protected synchronized void doTransition(final Transition transition, final double newAngle) {
-		transition.attrTween("d", new ArcTweenFunction(webEngine, ArcTween.this));		
-	}	
+		transition.attrTween("d", new ArcTweenFunction(webEngine, ArcTween.this));
+	}
 
 	@Override
 	public void stop() {

@@ -9,12 +9,18 @@ import netscape.javascript.JSObject;
 
 public class BrushTransitionsDemoCallback implements Callback<Point> {
 
+	//#region ATTRIBUTES
+
 	private WebEngine webEngine;
 
 	private double x0;
 	private double y0;
 	private double x3;
 	private double y3;
+
+	//#end region
+
+	//#region CONSTURCTORS
 
 	public BrushTransitionsDemoCallback(WebEngine webEngine, final double x0, final double y0, final double x3,
 			final double y3) {
@@ -24,6 +30,10 @@ public class BrushTransitionsDemoCallback implements Callback<Point> {
 		this.x3 = x3;
 		this.y3 = y3;
 	}
+
+	//#end region
+
+	//#region METHODS
 
 	@Override
 	public boolean visit(Object nodeObj, Double x1, Double y1, Double x2, Double y2) {
@@ -37,5 +47,7 @@ public class BrushTransitionsDemoCallback implements Callback<Point> {
 		}
 		return x1 >= x3 || y1 >= y3 || x2 < x0 || y2 < y0;
 	}
+
+	//#end region
 
 }

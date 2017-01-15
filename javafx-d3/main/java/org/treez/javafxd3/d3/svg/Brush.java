@@ -327,10 +327,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(memberName, listener);
 
-		String command = "this.on('" + eventString + "', function(d, i) {" //	
-				+ "  if(d){"
-				+ "    d3." + memberName + ".apply(this,{datum:d},i);" //
-				+ "  }"
+		String command = "this.on('" + eventString + "', function(d, i) {" //				
+				+ "    d3." + memberName + ".apply(this,{datum:d},i);" //				
 				+ "});";
 
 		JSObject result = evalForJsObject(command);

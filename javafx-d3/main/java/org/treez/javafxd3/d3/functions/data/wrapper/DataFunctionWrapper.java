@@ -45,7 +45,7 @@ public class DataFunctionWrapper<R, A> implements DataFunction<R> {
 	//#region METHODS
 
 	@Override
-	public R apply(Object context, Object datum, int index) {
+	public synchronized R apply(Object context, Object datum, int index) {
 		if (runnable != null) {
 			try {
 				runnable.run();
@@ -56,13 +56,17 @@ public class DataFunctionWrapper<R, A> implements DataFunction<R> {
 			}
 			return null;
 		} else {
-			A convertedDatum = ConversionUtil.convertObjectTo(datum, plainClass, webEngine);		
-			
+			A convertedDatum = ConversionUtil.convertObjectTo(datum, plainClass, webEngine);
+
 			try {
-				return plainDataFunction.apply(convertedDatum);
-			} catch (Exception exception) {
+				if (convertedDatum != null) {
+					return plainDataFunction.apply(convertedDatum);
+				} else {
+					return null;
+				}
+			} catch (Exception exception) {				
 				String message = "Could not execute wrapped data function!";
-				System.out.println("DataFunctionWrapper: " + message );
+				System.out.println("DataFunctionWrapper: " + message);
 				exception.printStackTrace();
 				throw new IllegalStateException(message, exception);
 			}

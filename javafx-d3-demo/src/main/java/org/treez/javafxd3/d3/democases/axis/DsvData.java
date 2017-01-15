@@ -18,8 +18,7 @@ public class DsvData extends JavaScriptObject {
 
 	//#end region
 
-	//#region CONSTRUCTORS
-	
+	//#region CONSTRUCTORS	
 	
 	public DsvData(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);		
@@ -28,14 +27,12 @@ public class DsvData extends JavaScriptObject {
 		this.price =Double.parseDouble(wrappedJsObject.getMember("price").toString());
 		this.symbol = (String) wrappedJsObject.getMember("symbol");				
 	}
-
 	
 	public DsvData(WebEngine webEngine, final String symbol, final JsDate date, final double price) {
 		super(webEngine);		
 		this.date = date;
 		this.price = price;
-		this.symbol = symbol;
-		
+		this.symbol = symbol;		
 		
 		String command = "new Object()";
 		JSObject jsObject = (JSObject) webEngine.executeScript(command);		
@@ -43,8 +40,7 @@ public class DsvData extends JavaScriptObject {
 		jsObject.setMember("date", jsDate);
 		jsObject.setMember("price", price);
 		jsObject.setMember("symbol", symbol);
-		setJsObject(jsObject);
-				
+		setJsObject(jsObject);				
 	}
 
 	//#end region
@@ -60,23 +56,14 @@ public class DsvData extends JavaScriptObject {
 
 	//#region ACCESSORS
 
-	/**
-	 * @return
-	 */
 	public String getSymbol() {
 		return symbol;
 	}
 
-	/**
-	 * @return
-	 */
 	public JsDate getDate() {
 		return date;
 	}
 
-	/**
-	 * @return
-	 */
 	public double getPrice() {
 		return price;
 	}

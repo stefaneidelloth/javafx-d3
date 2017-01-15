@@ -1,4 +1,3 @@
-@external .tick,.major,.minor;
 
 text{
 	font: 10px sans-serif;
@@ -9,15 +8,13 @@ text{
   margin: 0;
 }
 
-
-
 path.line {
   fill: none;
   stroke: #666;
   stroke-width: 1.5px;
 }
 
-path.area {
+.area {
   fill: #e7e7e7;
 }
 

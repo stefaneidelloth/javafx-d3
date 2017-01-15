@@ -17,7 +17,6 @@ public class DataDsvObjectAccessor implements DsvObjectAccessor<DsvData> {
 	private TimeFormat format;
 	
 	//#end region
-
 	
 	//#region CONSTRUCTORS
 	

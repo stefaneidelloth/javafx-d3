@@ -12,18 +12,16 @@ import org.treez.javafxd3.d3.demo.AbstractDemoCase;
 import org.treez.javafxd3.d3.demo.DemoCase;
 import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.functions.DataFunction;
-import org.treez.javafxd3.d3.functions.data.wrapper.CompleteDataFunctionWrapper;
 import org.treez.javafxd3.d3.functions.data.wrapper.DataFunctionWrapper;
+import org.treez.javafxd3.d3.functions.data.wrapper.IndexDataFunctionWrapper;
 import org.treez.javafxd3.d3.layout.Chord;
 import org.treez.javafxd3.d3.layout.Chord.ChordItem;
 import org.treez.javafxd3.d3.layout.Chord.Group;
 import org.treez.javafxd3.d3.scales.OrdinalScale;
 import org.treez.javafxd3.d3.svg.Arc;
 import org.treez.javafxd3.d3.wrapper.Element;
-import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
 public class ChordDiagram extends AbstractDemoCase {
@@ -65,7 +63,7 @@ public class ChordDiagram extends AbstractDemoCase {
 		double innerRadius = Math.min(width, height) * .35;
 		final double outerRadius = innerRadius * 1.1;
 
-		final OrdinalScale fill = d3.scale() //
+		final OrdinalScale fillScale = d3.scale() //
 				.ordinal() //
 				.domain(Arrays.range(4, webEngine)) //
 				.range("#000000", "#FFDD89", "#957244", "#F26223");
@@ -76,24 +74,11 @@ public class ChordDiagram extends AbstractDemoCase {
 				.append("g") //
 				.attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")");
 
-		DataFunction<String> fillFunction = new CompleteDataFunctionWrapper<String>(new DataFunction<String>() {
-			@Override
-			public String apply(Object context, Object d, int index) {
-				try {
-
-					JSObject datum = (JSObject) d;
-					Value value = new Value(webEngine, datum);
-					Group group = value.as(Group.class);
-					int i = group.index();
-
-					Value apply = fill.apply(i);
-					String fillString = apply.asString();
-					return fillString;
-				} catch (Exception e) {
-					throw new IllegalStateException("Culd not get fill", e);
-
-				}
-			}
+		DataFunction<String> fillFunction = new DataFunctionWrapper<>(Group.class, webEngine, (group) -> {
+			int i = group.index();
+			Value scaledValue = fillScale.apply(i);
+			String fillString = scaledValue.asString();
+			return fillString;
 		});
 
 		Arc arc = d3.svg().arc() //
@@ -191,7 +176,7 @@ public class ChordDiagram extends AbstractDemoCase {
 			DataFunction<String> fillStyleFunction = new DataFunctionWrapper<>(ChordItem.class, webEngine,
 					(chordItem) -> {
 						int index = chordItem.target().index();
-						String style = fill.apply(index).asString();
+						String style = fillScale.apply(index).asString();
 						return style;
 					});
 
@@ -225,41 +210,39 @@ public class ChordDiagram extends AbstractDemoCase {
 
 	private DataFunction<Void> fade(final Selection svg, double opacity) {
 
-		return new CompleteDataFunctionWrapper<Void>(new DataFunction<Void>() {
+		return new IndexDataFunctionWrapper<>((index) -> {
 
-			@Override
-			public Void apply(Object context, Object datum, int idx) {
+			Selection selection = svg.selectAll(".chord path");
+			Array<Element> array2d = selection.asElementArray();
+			JSObject arrayObj = array2d.get(0, JSObject.class);
+			Array<Element> array = new Array<>(webEngine, arrayObj);
 
-				Selection selection = svg.selectAll(".chord path");
-				Array<Element> array2d = selection.asElementArray();
-				JSObject arrayObj = array2d.get(0,  JSObject.class);
-                Array<Element> array = new Array<>(webEngine, arrayObj);
-				
-				D3 d3 = new D3(webEngine);
+			D3 d3 = new D3(webEngine);
 
-				array.forEach((object) -> {
+			array.forEach((object) -> {
 
-					JSObject jsObject = (JSObject) object;
-					Element element = new Element(webEngine, jsObject);
+				JSObject jsObject = (JSObject) object;
+				Element element = new Element(webEngine, jsObject);
 
-					Array<JSObject> elementData = d3.select(element).data();
+				Array<JSObject> elementData = d3.select(element).data();
 
-					JSObject jsData = elementData.get(0, JSObject.class);
-					ChordItem chordItem = new ChordItem(webEngine, jsData);
+				JSObject jsData = elementData.get(0, JSObject.class);
+				ChordItem chordItem = new ChordItem(webEngine, jsData);
 
-					int sourceIndex = chordItem.source().index();
-					int targetIndex = chordItem.target().index();
-					boolean hideItem = (sourceIndex != idx) && (targetIndex != idx);
-					if (hideItem) {
-						d3.select(element) //
-								.transition() //
-								.style("opacity", opacity);
-					}
+				int sourceIndex = chordItem.source().index();
+				int targetIndex = chordItem.target().index();
+				boolean hideItem = (sourceIndex != index) && (targetIndex != index);
+				if (hideItem) {
+					d3.select(element) //
+							.transition() //
+							.style("opacity", opacity);
+				}
 
-				});
-				return null;
-			}
+			});
+			return null;
+
 		});
+
 	}
 
 	@Override
@@ -267,43 +250,7 @@ public class ChordDiagram extends AbstractDemoCase {
 	}
 
 	//#end region
+	
 
-	//#region CLASSES
-
-	private static class GroupTick extends JavaScriptObject {
-
-		public GroupTick(WebEngine webEngine, JSObject wrappedJsObject) {
-			super(webEngine, wrappedJsObject);
-		}
-
-		public static GroupTick create(double angle, String label, WebEngine webEngine) {
-
-			D3 d3 = new D3(webEngine);
-
-			String command = "d3.new_group_tick = {" + //
-					"angle: " + angle + ", " + //
-					"label: '" + label + "'" + //
-					"};";
-
-			d3.eval(command);
-			JSObject result = d3.evalForJsObject("d3.new_group_tick");
-
-			d3.eval("d3.new_group_tick=undefined");
-			return new GroupTick(webEngine, result);
-		}
-
-		public double angle() {
-			Double angle = getMemberForDouble("angle");
-			return angle;
-		}
-
-		public String label() {
-			String label = getMemberForString("label");
-			return label;
-		}
-
-	}
-
-	//#end region
 
 }

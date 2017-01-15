@@ -13,10 +13,6 @@ public class DsvRow extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * @param webEngine
-	 * @param wrappedJsObject
-	 */
 	public DsvRow(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
@@ -39,4 +35,7 @@ public class DsvRow extends JavaScriptObject {
 		Value entryValue =  Value.create(webEngine, resultObj);
 		return entryValue;
 	}
+
+	
+	//#end region
 }

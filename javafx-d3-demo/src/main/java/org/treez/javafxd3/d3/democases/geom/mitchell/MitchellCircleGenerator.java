@@ -50,8 +50,7 @@ public class MitchellCircleGenerator implements CircleGenerator {
 			final double y = (Math.random() * height);
 			
 
-			minDistance = maxRadius; // minimum distance for this
-										// candidate
+			minDistance = maxRadius; // minimum distance for this candidate
 
 			quadtree.visit(new MitchellVisitCallback(webEngine, this,x,y));
 

@@ -53,7 +53,8 @@ public class LorenzSystem extends AbstractDemoCase {
 				.domain(0, 20, 30, 50) //
 				.range("yellow", "orange", "brown", "purple");
 
-		JSObject jsCanvas = canvas.node().getJsObject();
+		JSObject jsCanvas = canvas.node()//
+				.getJsObject();
 
 		CanvasElement canvasElement = new CanvasElement(webEngine, jsCanvas);
 

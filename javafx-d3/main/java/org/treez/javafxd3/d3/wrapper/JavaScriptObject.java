@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.treez.javafxd3.d3.core.ConversionUtil;
+
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
@@ -335,8 +337,12 @@ public class JavaScriptObject {
 	 * @return
 	 */
 	protected Integer getMemberForInteger(String name) {
-		Integer result = (Integer) jsObject.getMember(name);
-		return result;
+		Object result = jsObject.getMember(name);
+		if(result==null){
+			return null;
+		}
+		Integer intResult = ConversionUtil.convertObjectTo(result, Integer.class, webEngine); 
+		return intResult;
 	}
 
 	/**

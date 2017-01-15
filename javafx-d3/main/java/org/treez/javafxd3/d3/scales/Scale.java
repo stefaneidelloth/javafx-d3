@@ -5,7 +5,6 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.ArrayUtils;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.interpolators.Interpolator;
-import org.treez.javafxd3.d3.wrapper.Inspector;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
@@ -254,21 +253,18 @@ public abstract class Scale<S extends Scale<?>> extends JavaScriptObject {
      *            the input value
      * @return the output value
      */
-    public  Value apply(JSObject d){
-    	Inspector.inspect(this);
+    public  Value apply(JSObject d){    	
     	Object result = callThis(d);
     	if(result==null){
     		return null;
-    	}
-    	
+    	}    	
     	boolean isJsObject = result instanceof JSObject;
     	if(isJsObject){
     		JSObject jsResult = (JSObject) result;
     		return new Value(webEngine, jsResult);	
     	} else {
     		return Value.create(webEngine, result);
-    	}    	
-    		
+    	}       		
     }
     
     public  Value apply(JavaScriptObject d){

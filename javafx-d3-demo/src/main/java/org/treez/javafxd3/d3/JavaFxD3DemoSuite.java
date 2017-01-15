@@ -6,18 +6,23 @@ import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.demo.DemoCase;
 import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.democases.arcTween.ArcTween;
+import org.treez.javafxd3.d3.democases.axis.AxisComponent;
 import org.treez.javafxd3.d3.democases.barchart.BarChart;
 import org.treez.javafxd3.d3.democases.behaviors.DragMultiples;
 import org.treez.javafxd3.d3.democases.behaviors.ZoomDemo;
 import org.treez.javafxd3.d3.democases.chorddiagram.ChordDiagram;
+import org.treez.javafxd3.d3.democases.focus.FocusAndContext;
 import org.treez.javafxd3.d3.democases.functionplotter.FunctionPlotDemo;
 import org.treez.javafxd3.d3.democases.geom.hull.HullDemo;
 import org.treez.javafxd3.d3.democases.geom.mitchell.MitchellBestCandidate;
 import org.treez.javafxd3.d3.democases.geom.voronoi.VoronoiTessellationDemo;
 import org.treez.javafxd3.d3.democases.helloworld.HelloWorldDemo;
+import org.treez.javafxd3.d3.democases.layout.ClusterDendogram;
 import org.treez.javafxd3.d3.democases.lorenz.LorenzSystem;
 import org.treez.javafxd3.d3.democases.svg.brush.ordinal.OrdinalBrushingDemo;
+import org.treez.javafxd3.d3.democases.svg.brush.scatter.ScatterPlotMatrixDemo;
 import org.treez.javafxd3.d3.democases.svg.brush.slider.BrushAsSliderDemo;
+import org.treez.javafxd3.d3.democases.svg.brush.transitions.BrushTransitionsDemo;
 import org.treez.javafxd3.d3.democases.svg.line.LineDemo;
 import org.treez.javafxd3.d3.democases.svg.symbol.SymbolDemo;
 import org.treez.javafxd3.d3.democases.svg.text.TextDemo;
@@ -160,29 +165,27 @@ public class JavaFxD3DemoSuite extends Application {
 		menuChildren.add(new DemoMenuButton("XY plot", XyDemo.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Bar chart", BarChart.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Function plot", FunctionPlotDemo.factory(d3, prefBox)));
-		//menuChildren.add(new DemoMenuButton("Axis Component", AxisComponent.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("Axis Component", AxisComponent.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("General Update Pattern I", GeneralUpdatePattern1.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("General Update Pattern II", GeneralUpdatePattern2.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("General Update Pattern III", GeneralUpdatePattern3.factory(d3, prefBox)));
 
-		//menuChildren.add(new DemoMenuButton("Focus And Context", FocusAndContext.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("Focus And Context", FocusAndContext.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Chord diagram", ChordDiagram.factory(d3, prefBox)));
-		menuChildren.add(new DemoMenuButton("Lorenz System", LorenzSystem.factory(d3, prefBox)));
-		
-		//menuChildren.add(new DemoMenuButton("Collapsible Tree", TreeDemo.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("Lorenz System", LorenzSystem.factory(d3, prefBox)));		
 
 		// BEHAVIOR
 		menuChildren.add(new DemoMenuButton("Drag Multiples", DragMultiples.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Zoom", ZoomDemo.factory(d3, prefBox)));
 
 		//LAYOUT
-		//menuChildren.add(new DemoMenuButton("Cluster Dendogram", ClusterDendogram.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("Cluster Dendogram", ClusterDendogram.factory(d3, prefBox)));
 
 		// BRUSHES
 		menuChildren.add(new DemoMenuButton("Brush As Slider", BrushAsSliderDemo.factory(d3, prefBox)));
-		//menuChildren.add(new DemoMenuButton("Scatterplot Matrix Brushing", ScatterplotMatrixDemo.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("Scatterplot Matrix Brushing", ScatterPlotMatrixDemo.factory(d3, prefBox)));
 		menuChildren.add(new DemoMenuButton("Ordinal Brushing", OrdinalBrushingDemo.factory(d3, prefBox)));
-		//menuChildren.add(new DemoMenuButton("Brush Transitions", BrushTransitionsDemo.factory(d3, prefBox)));
+		menuChildren.add(new DemoMenuButton("Brush Transitions", BrushTransitionsDemo.factory(d3, prefBox)));
 
 	}
 

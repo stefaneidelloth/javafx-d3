@@ -38,8 +38,6 @@ public class ClusterDendogram extends AbstractDemoCase {
 
 	public ClusterDendogram(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
-		// css = Bundle.INSTANCE.css(); @Source("ClusterDendogram.css")
-		// link, node
 	}
 
 	//#end region
@@ -76,7 +74,8 @@ public class ClusterDendogram extends AbstractDemoCase {
 		final Selection svg = d3.select("svg") //
 				.attr("width", width) //
 				.attr("height", height) //
-				.append("g").attr("transform", "translate(40,0)");
+				.append("g") //
+				.attr("transform", "translate(40,0)");
 
 		// Send request to server and catch any errors.
 
@@ -89,23 +88,21 @@ public class ClusterDendogram extends AbstractDemoCase {
 			throw new IllegalStateException("Could not get response code", e);
 		}
 
-		
 		StringBuffer response = new StringBuffer();
-		try(BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));){
+		try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));) {
 			String inputLine;
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
 		} catch (IOException e) {
 			throw new IllegalStateException("Could not read response", e);
-		}		
+		}
 
 		if (200 == responseCode) {
-			
 
-           String jsonText  = response.toString();
-			JSObject jsResult = ConversionUtil.createJsObject(jsonText, webEngine); 
-			Node root = new Node(webEngine, jsResult);  //= JsonUtils.safeEval(response.toString());
+			String jsonText = response.toString();
+			JSObject jsResult = ConversionUtil.createJsObject(jsonText, webEngine);
+			Node root = new Node(webEngine, jsResult);
 			Array<Node> nodes = cluster.nodes(root);
 			Array<Link> links = cluster.links(nodes);
 
@@ -113,11 +110,11 @@ public class ClusterDendogram extends AbstractDemoCase {
 					.data(links) //
 					.enter() //
 					.append("path") //
-					.attr("class", "link")
+					.attr("class", "link") //
 					.attr("d", diagonal);
-			
-			DataFunction<String> transformFunction = new DataFunctionWrapper<>(org.treez.javafxd3.d3.coords.Coords.class,
-					webEngine, (coords) -> {
+
+			DataFunction<String> transformFunction = new DataFunctionWrapper<>(
+					org.treez.javafxd3.d3.coords.Coords.class, webEngine, (coords) -> {
 						return "translate(" + coords.y() + "," + coords.x() + ")";
 					});
 
@@ -125,35 +122,34 @@ public class ClusterDendogram extends AbstractDemoCase {
 					.data(nodes) //
 					.enter() //
 					.append("g") //
-					.attr("class", "node")
+					.attr("class", "node") //
 					.attr("transform", transformFunction);
 
 			node.append("circle")//
-			.attr("r", 4.5);
-			
-			DataFunction<Integer> dxFunction = new DataFunctionWrapper<>(Node.class, webEngine, (layoutNode)->{
+					.attr("r", 4.5);
+
+			DataFunction<Integer> dxFunction = new DataFunctionWrapper<>(Node.class, webEngine, (layoutNode) -> {
 				return layoutNode.children() != null ? -8 : 8;
 			});
-			
-			DataFunction<String> styleFunction = new DataFunctionWrapper<>(Node.class, webEngine, (layoutNode)->{
+
+			DataFunction<String> styleFunction = new DataFunctionWrapper<>(Node.class, webEngine, (layoutNode) -> {
 				return layoutNode.children() != null ? "end" : "start";
 			});
-			
+
 			DataFunction<String> nameFunction = PropertyValueDataFunction.<String> forProperty(webEngine, "name");
 
 			node.append("text") //
-			.attr("dx", dxFunction) //
-			.attr("dy", 3)
-			.style("text-anchor", styleFunction) //
-			.text(nameFunction);
+					.attr("dx", dxFunction) //
+					.attr("dy", 3) //
+					.style("text-anchor", styleFunction) //
+					.text(nameFunction);
 
 			d3.select("svg") //
-			.style("height", height + "px");
+					.style("height", height + "px");
 
 		} else {
 			throw new IllegalStateException("Couldn't retrieve JSON");
 		}
-	
 
 	}
 

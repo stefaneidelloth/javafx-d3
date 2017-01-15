@@ -17,11 +17,8 @@ import netscape.javascript.JSObject;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
- * 
  */
 public class TextDemo extends AbstractDemoCase {
-
-	
 
 	//#region CONSTRUCTORS
 
@@ -51,7 +48,9 @@ public class TextDemo extends AbstractDemoCase {
 		SvgTextElementFactory labelFactory = new SvgTextElementFactory("Svg text label");
 
 		Selection text = labelFactory.createInParentSelection(svg);
-		Selection movedText = text.attr("y", "100") //
+
+		Selection movedText = text //
+				.attr("y", "100") //
 				.attr("x", "50");
 
 		final String ATTRIBUTE = "data-myAttr";
@@ -65,7 +64,7 @@ public class TextDemo extends AbstractDemoCase {
 
 	@Override
 	public void stop() {
-		
+
 	}
 
 	/**
@@ -90,30 +89,28 @@ public class TextDemo extends AbstractDemoCase {
 			throw new IllegalArgumentException(message);
 		}
 
-		Map<String,String> attributeMap = getDomAttributes(element);
-		if(attributeMap.containsKey(attribute)){
+		Map<String, String> attributeMap = getDomAttributes(element);
+		if (attributeMap.containsKey(attribute)) {
 			String result = attributeMap.get(attribute);
 			return result;
 		}
 
 		return null;
-		
+
 	}
 
-	private Map<String,String> getDomAttributes(Selection element) {
-		Map<String,String> attributeMap = new HashMap<>();
-		JSObject attributes = element.getMember("attributes");		
+	private Map<String, String> getDomAttributes(Selection element) {
+		Map<String, String> attributeMap = new HashMap<>();
+		JSObject attributes = element.getMember("attributes");
 		int length = (int) attributes.getMember("length");
-		for(int attributeIndex = 0; attributeIndex<length;attributeIndex++){
+		for (int attributeIndex = 0; attributeIndex < length; attributeIndex++) {
 			JSObject attributeObj = (JSObject) attributes.getMember("" + attributeIndex);
 			String attributeName = attributeObj.getMember("name").toString();
 			String attributeValue = attributeObj.getMember("value").toString();
-			attributeMap.put(attributeName,  attributeValue);			
+			attributeMap.put(attributeName, attributeValue);
 		}
 		return attributeMap;
 	}
-
-	
 
 	//#end region
 

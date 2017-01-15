@@ -3,19 +3,23 @@ package org.treez.javafxd3.d3.democases.geom.voronoi;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.treez.javafxd3.d3.arrays.Array;
-import org.treez.javafxd3.d3.geom.Voronoi;
 import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.UpdateSelection;
-import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.demo.AbstractDemoCase;
 import org.treez.javafxd3.d3.demo.DemoCase;
 import org.treez.javafxd3.d3.demo.DemoFactory;
+import org.treez.javafxd3.d3.functions.DataFunction;
+import org.treez.javafxd3.d3.functions.KeyFunction;
+import org.treez.javafxd3.d3.functions.data.wrapper.ContextDataFunctionWrapper;
+import org.treez.javafxd3.d3.functions.data.wrapper.DataFunctionWrapper;
+import org.treez.javafxd3.d3.functions.data.wrapper.IndexDataFunctionWrapper;
+import org.treez.javafxd3.d3.functions.key.KeyFunctionWrapper;
+import org.treez.javafxd3.d3.geom.Voronoi;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
@@ -32,12 +36,6 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 */
 	public VoronoiTessellationDemo(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
 	}
@@ -46,13 +44,6 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 
 	//#region METHODS
 
-	/**
-	 * Factory provider
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 * @return
-	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
 			@Override
@@ -75,21 +66,37 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 		voronoi = d3.geom() //
 				.voronoi() //
 				.clipExtent(0, 0, width, height);
+		
+		
+		DataFunction<Void> mouseMoveFunction = new ContextDataFunctionWrapper<>(webEngine, (element)->{
+			Array<Double> jsArray = d3.mouse(element);
+			List<? extends Double> list = jsArray.asList(Double.class);
+			Double[] array = list.toArray(new Double[list.size()]);
+			
+			vertices[0] = array;
+			redraw();
+			return null;
+		});
 
 		Selection svg = d3.select("svg") //
 				.classed("vt", true) //
 				.attr("width", width) //
 				.attr("height", height) //
-				.on("mousemove", new MouseMoveDataFunction(webEngine, d3, vertices, () -> redraw()));
+				.on("mousemove", mouseMoveFunction);
 
 		path = svg.append("g") //
 				.selectAll("path");
+		
+		DataFunction<String> transformDataFunction = new DataFunctionWrapper<>(String.class, webEngine, (value)->{
+			String transform =  "translate(" + value + ")";
+			return transform;
+		});
 
 		svg.selectAll("circle") //
 				.data(vertices) //
 				.enter() //
 				.append("circle") //
-				.attr("transform", new TransformDataFunction(webEngine)) //
+				.attr("transform", transformDataFunction) //
 				.attr("r", 1.5);
 
 		redraw();
@@ -97,26 +104,49 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 	}
 
 	private void redraw() {
+		
+		
+		
 		Array<Double> polygons = voronoi.apply(vertices);
-		UpdateSelection upd = this.path.data(polygons, new PolygonKeyFunction(webEngine));
+		
+		KeyFunction<String> polygonKeyFunction = new KeyFunctionWrapper<>(Array.class, webEngine, (value)->{
+			
+			@SuppressWarnings("unchecked")
+			Array<String> stringArray = (Array<String>) value;
+			String polygon = VoronoiTessellationDemo.polygon(webEngine, stringArray);
+			return polygon;
+		});		
+		
+		UpdateSelection upd = this.path.data(polygons, polygonKeyFunction);
 
 		upd.exit() //
 				.remove();
+		
+		DataFunction<String> classDataFunction = new IndexDataFunctionWrapper<>((index)->{
+			String className =  "q" + index % 9 + "-9";
+			return className;
+		});
+		
+		
+		DataFunction<String> polygonDataFunction = new DataFunctionWrapper<>(Array.class, webEngine, (value)->{
+			
+			@SuppressWarnings("unchecked")
+			Array<String> stringArray = (Array<String>) value;
+			String polygon = VoronoiTessellationDemo.polygon(webEngine, stringArray);
+			return polygon;
+		});
 
 		upd.enter() //
 				.append("path") //
-				.attr("class", new ClassDataFunction()) //
-				.attr("d", new PolygonDataFunction(webEngine));
+				.attr("class", classDataFunction) //
+				.attr("d", polygonDataFunction);
 
 		upd.order();
 		this.path = upd;
 	}
 
-	public static String polygon(WebEngine webEngine, Value datum) {
-
-		JSObject jsDatum = datum.as();
-		Array<String> strings = new Array<String>(webEngine, jsDatum);
-
+	public static String polygon(WebEngine webEngine, Array<String> strings) {
+		
 		List<String> stringList = new ArrayList<>();
 
 		int size = strings.sizes().get(0);

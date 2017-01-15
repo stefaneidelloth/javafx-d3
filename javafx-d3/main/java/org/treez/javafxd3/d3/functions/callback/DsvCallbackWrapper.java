@@ -1,13 +1,10 @@
 package org.treez.javafxd3.d3.functions.callback;
 
-import java.util.List;
-
 import org.treez.javafxd3.d3.arrays.Array;
+import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.dsv.DsvCallback;
-import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
 
 public class DsvCallbackWrapper<A> implements DsvCallback<A> {
 
@@ -15,18 +12,15 @@ public class DsvCallbackWrapper<A> implements DsvCallback<A> {
 
 	private WebEngine webEngine = null;
 
-	private PlainCallback<A> plainCallback = null;	
-	
-	private Class<A> elementClass;
+	private PlainCallback<Array<A>> plainCallback = null;
 
 	//#end region
 
 	//#region CONSTRUCTORS
 
-	public DsvCallbackWrapper(Class<A> elementClass, WebEngine webEngine, PlainCallback<A> plainCallback) {
+	public DsvCallbackWrapper(WebEngine webEngine, PlainCallback<Array<A>> plainCallback) {
 		this.webEngine = webEngine;
 		this.plainCallback = plainCallback;		
-		this.elementClass = elementClass;
 	}
 
 	//#end region
@@ -35,21 +29,9 @@ public class DsvCallbackWrapper<A> implements DsvCallback<A> {
 
 	@Override
 	public void get(Object error, Object dataArrayObj) {
-		
-		JSObject jsDataArray = (JSObject) dataArrayObj;	
-		
-		Array<A> dataArray;
-		boolean isJavaScriptObjectArray = JavaScriptObject.class.isAssignableFrom(elementClass);
-		if(!isJavaScriptObjectArray){
-			//use element objects directly
-			dataArray = new Array<>(webEngine, jsDataArray);
-		} else {
-			//convert each element to the required class
-			Array<JSObject> jsArray = new Array<>(webEngine, jsDataArray);
-			List<A> convertedList = jsArray.asList(elementClass);
-			dataArray = Array.fromListDirectly(webEngine, convertedList);
-		}		
-		
+
+		@SuppressWarnings("unchecked")
+		Array<A> dataArray = (Array<A>) ConversionUtil.convertObjectTo(dataArrayObj, Array.class, webEngine);
 		plainCallback.call(dataArray);
 	}
 

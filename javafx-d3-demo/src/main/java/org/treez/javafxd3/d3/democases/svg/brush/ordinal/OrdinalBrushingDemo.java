@@ -23,9 +23,6 @@ import org.treez.javafxd3.d3.svg.SymbolType;
 import javafx.scene.layout.VBox;
 import netscape.javascript.JSObject;
 
-/**
- * 
- */
 public class OrdinalBrushingDemo extends AbstractDemoCase {
 
 	//#region ATTRIBUTES
@@ -46,13 +43,6 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 
 	//#region METHODS
 
-	/**
-	 * Factory provider
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 * @return
-	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
 			@Override
@@ -162,10 +152,12 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 
 		final Array<Double> extent = brush.extent();
 
-		DataFunction<Boolean> selectionDataFunction = new DataFunctionWrapper<>(JSObject.class, webEngine,
-				(jsDatum) -> {
-					double value = x.apply(jsDatum).asDouble();
+		DataFunction<Boolean> selectionDataFunction = new DataFunctionWrapper<>(SymbolType.class, webEngine,
+				(symbolType) -> {
+					
+					double value = x.apply(symbolType).asDouble();
 					return extent.get(0, Double.class) <= value && value <= extent.get(1, Double.class);
+					
 				});
 
 		symbol.classed("selected", selectionDataFunction);

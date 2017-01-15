@@ -8,11 +8,12 @@ import org.treez.javafxd3.d3.demo.AbstractDemoCase;
 import org.treez.javafxd3.d3.demo.DemoCase;
 import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.demo.Margin;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.TimerFunction;
+import org.treez.javafxd3.d3.functions.data.wrapper.DataFunctionWrapper;
 
 import javafx.scene.layout.VBox;
 
-@SuppressWarnings("javadoc")
 public class MitchellBestCandidate extends AbstractDemoCase {
 
 	//#region ATTRIBUTES
@@ -32,12 +33,6 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 
 	//#region CONSTRUTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 */
 	public MitchellBestCandidate(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
 	}
@@ -46,13 +41,6 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 
 	//#region METHODS
 
-	/**
-	 * Factory provider
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 * @return
-	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
 			@Override
@@ -85,11 +73,25 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 	}
 
 	private CircleGenerator createBestCircleGenerator(final double maxRadius, final double padding) {
+		
+		DataFunction<Double> xDataFunction = new DataFunctionWrapper<>(Circle.class, webEngine, (circle)->{
+			if (circle==null){
+				return null;
+			}			
+			return circle.x;			
+		});
+		
+		DataFunction<Double> yDataFunction = new DataFunctionWrapper<>(Circle.class, webEngine, (circle)->{
+			if (circle==null){
+				return null;
+			}			
+			return circle.y;			
+		});
 
 		final RootNode<Circle> quadtree = d3.geom() //
 				.quadtree() //
-				.x(new XDataFunction(webEngine)) //
-				.y(new YDataFunction(webEngine)) //
+				.x(xDataFunction) //
+				.y(yDataFunction) //
 				.extent(0, 0, width, height) //
 				.apply(new Circle[1]);
 

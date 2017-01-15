@@ -6,19 +6,17 @@ import java.util.List;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.coords.Coords;
-import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.demo.AbstractDemoCase;
 import org.treez.javafxd3.d3.demo.DemoCase;
 import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.functions.DataFunction;
-import org.treez.javafxd3.d3.functions.data.wrapper.CompleteDataFunctionWrapper;
+import org.treez.javafxd3.d3.functions.data.wrapper.ContextDataFunctionWrapper;
 import org.treez.javafxd3.d3.functions.data.wrapper.DataFunctionWrapper;
 import org.treez.javafxd3.d3.geom.Quadtree.RootNode;
 import org.treez.javafxd3.d3.scales.IdentityScale;
 import org.treez.javafxd3.d3.svg.Brush;
 import org.treez.javafxd3.d3.svg.Brush.BrushEvent;
-import org.treez.javafxd3.d3.wrapper.Element;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
@@ -89,49 +87,39 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
 				.identity() //
 				.domain(0, height);
 
-		DataFunction<Void> brushFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
-			@Override
-			public Void apply(final Object context, final Object d, final int index) {
-				Array<Double> extent = brush.extent();
+		DataFunction<Void> brushFunction = new DataFunctionWrapper<>(()->{
+			Array<Double> extent = brush.extent();
 
-				DataFunction<Void> unselectFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
-					point.setSelected(false);
-					return null;
-				});
-
-				point.each(unselectFunction);
-				search(quadtree, extent.get(0, 0, Double.class), extent.get(0, 1, Double.class),
-						extent.get(1, 0, Double.class), extent.get(1, 1, Double.class));
-
-				DataFunction<Boolean> isSelectedFunction = new DataFunctionWrapper<>(Point.class, webEngine,
-						(point) -> {
-							return point.isSelected();
-						});
-
-				point.classed("selected", isSelectedFunction);
+			DataFunction<Void> unselectFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
+				point.setSelected(false);
 				return null;
-			}
-		});
+			});
 
-		DataFunction<Void> brushEndFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
-			@Override
-			public Void apply(final Object context, final Object d, final int index) {
-				if (d3.event().sourceEvent() == null) {
-					return null; // only transition after input
-				}
+			point.each(unselectFunction);
+			search(quadtree, extent.get(0, 0, Double.class), extent.get(0, 1, Double.class),
+					extent.get(1, 0, Double.class), extent.get(1, 1, Double.class));
 
-				Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
+			DataFunction<Boolean> isSelectedFunction = new DataFunctionWrapper<>(Point.class, webEngine,
+					(point) -> {
+						return point.isSelected();
+					});
 
-				d3.select(element) //
-						.transition() //
-						.duration(brush.empty() ? 0 : 750) //
-						.call(brush.extent(defaultExtent)) //
-						.call(brush.event());
+			point.classed("selected", isSelectedFunction);
+		});	
 
-				return null;
+		DataFunction<Void> brushEndFunction = new ContextDataFunctionWrapper<>(webEngine, (element)->{
+			if (d3.event().sourceEvent() == null) {
+				return null; // only transition after input
+			}		
 
-			}
-		});
+			d3.select(element) //
+					.transition() //
+					.duration(brush.empty() ? 0 : 750) //
+					.call(brush.extent(defaultExtent)) //
+					.call(brush.event());
+
+			return null;
+		});		
 
 		brush = d3.svg() //
 				.brush() //
@@ -187,9 +175,6 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
 
 	//#region CLASSES
 
-	/**
-	 * Represents a point that can be selected
-	 */
 	public static class Point extends Coords {
 
 		//#region CONSTRUCTORS

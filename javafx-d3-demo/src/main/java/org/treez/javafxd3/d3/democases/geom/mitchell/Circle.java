@@ -1,7 +1,16 @@
 package org.treez.javafxd3.d3.democases.geom.mitchell;
 
 public class Circle {
-	double x, y, r;
+
+	//#region ATTRIBUTES
+
+	public double x;
+	public double y;
+	public double r;
+
+	//#end region
+
+	//#region CONSTRUCTORS
 
 	public Circle(final double x, final double y, final double r) {
 		super();
@@ -9,5 +18,7 @@ public class Circle {
 		this.y = y;
 		this.r = r;
 	}
+
+	//#end region
 
 }

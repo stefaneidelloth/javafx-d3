@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.democases.geom.hull.HullDemo.MyCoords;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
 import javafx.scene.web.WebEngine;
@@ -32,6 +31,7 @@ public class HullDataFunction implements DataFunction<String> {
 	@Override
 	public String apply(final Object context, final Object d, final int i) {
 
+		
 		JSObject datum = (JSObject) d;
 		Value value = new Value(webEngine, datum);
 
@@ -39,14 +39,14 @@ public class HullDataFunction implements DataFunction<String> {
 		JSObject jsCoordsList = value.as();
 		
 		//Array<MyCoords> coordsList = value.<Array<MyCoords>> as();
-		Array<MyCoords> coordsList = new Array<MyCoords>(webEngine, jsCoordsList);
+		Array<HullCoords> coordsList = new Array<>(webEngine, jsCoordsList);
 				
 		int size = coordsList.sizes().get(1);
 				
 		List<String> coordsStringList = new ArrayList<>();
 		for (int index = 0; index < size; index++) {
 			JSObject jsCoords = coordsList.get(index, JSObject.class);
-			MyCoords coords = new MyCoords(webEngine, jsCoords);
+			HullCoords coords = new HullCoords(webEngine, jsCoords);
 			String coordsString = coords.toString();
 			coordsStringList.add(coordsString);
 		}

@@ -1,10 +1,10 @@
 package org.treez.javafxd3.d3.democases.barchart;
 
+import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.dsv.DsvObjectAccessor;
 import org.treez.javafxd3.d3.dsv.DsvRow;
 
 import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
 
 public class BarChartObjectAccessor implements DsvObjectAccessor<BarChartData> {
 	
@@ -17,9 +17,9 @@ public class BarChartObjectAccessor implements DsvObjectAccessor<BarChartData> {
 
 		@Override
 		public BarChartData apply(final Object row, final int index) {
-
-			JSObject jsRow = (JSObject) row;
-			DsvRow dsvRow = new DsvRow(webEngine, jsRow);
+		
+			DsvRow dsvRow = ConversionUtil.convertObjectTo(row, DsvRow.class, webEngine);
+			
 			String letter = dsvRow.get("letter").asString();
 			Double frequency = dsvRow.get("frequency").asDouble();
 

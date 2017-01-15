@@ -94,6 +94,22 @@ public class BarChart extends AbstractDemoCase {
 
 		Dsv<BarChartData> tsv = d3.<BarChartData> tsv();
 
+		String tsvData = getTsvData();
+
+		Array<BarChartData> data = tsv.parse(tsvData, accessor);
+		callback.get(null, data.getJsObject());
+
+		//TODO: reading the text file from url does not work yet:
+		//String dataUrl = "http://raw.githubusercontent.com/stefaneidelloth/javafx-d3/master/javafx-d3-demo/src/main/resources/demo-data/data.tsv"; //
+		//d3.tsv(dataUrl,accessor ,callback );
+	}	
+
+	@Override
+	public void stop() {
+
+	}
+	
+	private String getTsvData() {
 		String tsvData = "letter	frequency\n" + //
 				"A	.08167\n" + //
 				"B	.01492\n" + //
@@ -121,18 +137,7 @@ public class BarChart extends AbstractDemoCase {
 				"X	.00150\n" + //
 				"Y	.01971\n" + //
 				"Z	.00074\n";
-
-		Array<BarChartData> data = tsv.parse(tsvData, accessor);
-		callback.get(null, data.getJsObject());
-
-		//TODO: reading the text file from url does not work yet:
-		//String dataUrl = "http://raw.githubusercontent.com/stefaneidelloth/javafx-d3/master/javafx-d3-demo/src/main/resources/demo-data/data.tsv"; //
-		//d3.tsv(dataUrl,accessor ,callback );
-	}
-
-	@Override
-	public void stop() {
-
+		return tsvData;
 	}
 
 	//#end region

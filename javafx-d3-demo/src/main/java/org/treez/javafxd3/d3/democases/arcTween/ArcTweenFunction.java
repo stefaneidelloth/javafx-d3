@@ -1,6 +1,6 @@
 package org.treez.javafxd3.d3.democases.arcTween;
 
-import org.treez.javafxd3.d3.core.Value;
+import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.interpolators.Interpolator;
 import org.treez.javafxd3.d3.svg.Arc;
 import org.treez.javafxd3.d3.tweens.TweenFunction;
@@ -25,12 +25,9 @@ public class ArcTweenFunction implements TweenFunction<String> {
 	public JSObject apply(final Object context, final Object datum, final int index,
 			final Object currentAttributeValue) {
 		
-		try {
-			
-			JSObject jsDatum = (JSObject) datum;			
-			Value value = new Value(webEngine, jsDatum);			
-			JSObject arcObject = value.as();			
-			arcDatum = new Arc(webEngine, arcObject);
+		try {			
+						
+			arcDatum = ConversionUtil.convertObjectTo(datum,  Arc.class, webEngine);	
 			
 			endAngle = arcDatum.endAngle();			
 			newAngle = arcTween.getNewAngle();

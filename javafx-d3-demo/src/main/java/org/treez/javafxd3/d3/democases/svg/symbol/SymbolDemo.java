@@ -18,9 +18,6 @@ import javafx.scene.layout.VBox;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
- * 
- * 
- * 
  */
 public class SymbolDemo extends AbstractDemoCase {
 
@@ -36,30 +33,14 @@ public class SymbolDemo extends AbstractDemoCase {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 */
 	public SymbolDemo(D3 d3, VBox demoPreferenceBox) {
-		super(d3, demoPreferenceBox);
-
-		//css = Bundle.INSTANCE.css();@Source("SymbolDemo.css")
-		// symboldemo
+		super(d3, demoPreferenceBox);		
 	}
 
 	//#end region
 
 	//#region METHODS
 
-	/**
-	 * Factory provider
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 * @return
-	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
 			@Override
@@ -69,21 +50,20 @@ public class SymbolDemo extends AbstractDemoCase {
 		};
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.github.gwtd3.demo.client.D3Demo#start()
-	 */
 	@Override
 	public void start() {
-		symbols = d3.svg().symbol();
-		
+		symbols = d3.svg() //
+				.symbol();
+
 		// create the things
-		
+
 		deleteOldPreferenceChildren();
 		createButton("Add symbol", (event) -> addSymbol());
 
-		svg = d3.select("svg").attr("width", width).attr("height", height).append("g");
+		svg = d3.select("svg") //
+				.attr("width", width) //
+				.attr("height", height) //
+				.append("g");
 	}
 
 	protected void addSymbol() {
@@ -97,13 +77,19 @@ public class SymbolDemo extends AbstractDemoCase {
 
 		int x = random.nextInt(width);
 		int y = random.nextInt(height);
-		String transformString = transform.parse("").translate(x, y).toString();
 
-		Selection selection = svg.append("path").classed("symboldemo", true).attr("transform", transformString);
+		String transformString = transform.parse("") //
+				.translate(x, y) //
+				.toString();
+
+		Selection selection = svg.append("path") //
+				.classed("symboldemo", true) //
+				.attr("transform", transformString);
 
 		String dString = symbols.generate(1.0);
-		selection.attr("d", dString).style("fill",
-				colors.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255)).toHexaString());
+		selection.attr("d", dString) //
+				.style("fill", colors.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255)) //
+						.toHexaString());
 	}
 
 	@Override

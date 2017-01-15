@@ -1,10 +1,9 @@
-@external .extent;
 
-.ob svg {
+svg {
   font: 10px sans-serif;
 }
 
-.ob path {
+path {
   -webkit-transition: fill-opacity 250ms linear;
 }
 

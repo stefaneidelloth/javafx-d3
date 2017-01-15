@@ -106,14 +106,14 @@ public class DataDsvCallback implements DsvCallback<DsvData> {
 
 		// Add the clip path.
 		svg.append("svg:clipPath") //
-				.attr("id", "clip") //
+				.attr("id", "clip") //				
 				.append("svg:rect") //
 				.attr("width", w) //
 				.attr("height", h);
 
 		// Add the area path.
 		svg.append("svg:path") //
-				.attr("class", "area") //
+				.classed("area", true) //
 				.attr("clip-path", "url(#clip)") //
 				.attr("d", area.apply(values));
 

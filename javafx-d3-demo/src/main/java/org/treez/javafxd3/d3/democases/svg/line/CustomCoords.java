@@ -16,15 +16,6 @@ public  class CustomCoords extends Coords {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param webEngine
-	 * 
-	 * @param x
-	 * @param y
-	 * @param defined
-	 */
 	public CustomCoords(WebEngine webEngine, double x, double y, boolean defined) {
 		super(webEngine, x, y);
 		this.defined = defined;
@@ -37,46 +28,25 @@ public  class CustomCoords extends Coords {
 		Object resultObj = d3.eval(varName);
 		JSObject result = (JSObject) resultObj;
 		
-		d3.eval(varName + " = null;");
-		
-		
+		d3.eval(varName + " = null;");		
 		
 		setJsObject(result);
 		
 	}
 	
-	/**
-	 * Constructor
-	 * 
-	 * @param webEngine
-	 * @param wrappedJsObject
-	 * 
-	 */
 	public CustomCoords(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine, wrappedJsObject);		
-		this.defined = getMemberForBoolean("defined");
-		
+		this.defined = getMemberForBoolean("defined");		
 	}
 
 	//#end region
 
-	//#region METHODS
-
-	public static DataFunction<Double> xAccessor(WebEngine webEngine) {
-		return new XAccessorDataFunction(webEngine);
-	}
-
-	public static DataFunction<Double> yAccessor(WebEngine webEngine) {
-		return new YAccessorDataFunction(webEngine);
-	}
+	//#region METHODS	
 
 	public static DataFunction<Boolean> definedAccessor(WebEngine webEngine) {
 		return new DefinedDataFunction(webEngine);
 	}
 	
-	/**
-	 * @return the y coordinates
-	 */
 	public Boolean defined() {
 		return defined;
 	}

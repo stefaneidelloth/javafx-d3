@@ -1,7 +1,6 @@
 package org.treez.javafxd3.d3.democases.geom.hull;
 
 import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.democases.geom.hull.HullDemo.MyCoords;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
 import javafx.scene.web.WebEngine;
@@ -37,7 +36,7 @@ public class HullTransformDataFunction implements DataFunction<String> {
 		boolean isJsObject = jsCoords instanceof JSObject;
 		if (isJsObject) {
 			JSObject coordObj = (JSObject) jsCoords;
-			MyCoords coords = new MyCoords(webEngine, coordObj);
+			HullCoords coords = new HullCoords(webEngine, coordObj);
 			String result = "translate(" + coords.toString() + ")";
 			return result;
 		} else {

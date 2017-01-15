@@ -12,12 +12,7 @@ import javafx.scene.layout.VBox;
 public class FunctionPlotDemo extends AbstractDemoCase {
 
 	//#region CONSTRUCTORS
-	/**
-	 * Constructor
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 */
+
 	public FunctionPlotDemo(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
 	}
@@ -26,13 +21,6 @@ public class FunctionPlotDemo extends AbstractDemoCase {
 
 	//#region METHODS
 
-	/**
-	 * Factory provider
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 * @return
-	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
 			@Override

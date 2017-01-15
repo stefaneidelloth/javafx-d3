@@ -59,9 +59,9 @@ public class GeneralUpdatePattern2 extends AbstractDemoCase {
 
 		int width = 960, height = 500;
 
-		svg = d3.select("svg") //
-				.classed("gup2", true) //
-				.attr("width", width).attr("height", height) //
+		svg = d3.select("svg") //				
+				.attr("width", width) //
+				.attr("height", height) //
 				.append("g") //
 				.attr("transform", "translate(32," + (height / 2) + ")");
 
@@ -100,7 +100,7 @@ public class GeneralUpdatePattern2 extends AbstractDemoCase {
 
 		// UPDATE
 		// Update old elements as needed.
-		selection.attr("class", "updateD3Content");
+		selection.attr("class", "update");
 
 		// ENTER
 		// Create new elements as needed.

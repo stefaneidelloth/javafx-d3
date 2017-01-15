@@ -58,6 +58,9 @@ public class Area extends PathDataGenerator {
 	 */
 	public InterpolationMode interpolate() {
 		String mode = callForString("interpolate");
+		if (mode == null) {
+			return null;
+		}
 		InterpolationMode result = InterpolationMode.fromValue(mode);
 		return result;
 	}
@@ -70,9 +73,11 @@ public class Area extends PathDataGenerator {
 	 * @return the current area
 	 */
 	public Area interpolate(final InterpolationMode mode) {
-
 		String modeString = mode.getValue();
 		JSObject result = call("interpolate", modeString);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 	}
 
@@ -88,15 +93,20 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Area x(final DataFunction<?> callback) {
-		
+
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
 		JSObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
-		String command = "this.x(function(d, i) { return d3." + memberName + ".apply(this,{datum:d},i); });";
+		String command = "this.x(function(d, i) { " + //
+				"   return d3." + memberName + ".apply(this,{datum:d},i); " + //
+				"});";
 		JSObject result = evalForJsObject(command);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 	}
 
@@ -108,6 +118,9 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area x(double d) {
 		JSObject result = call("x", d);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 	}
 
@@ -128,17 +141,20 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Area x0(final DataFunction<Double> callback) {
-		
+
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
 		JSObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
-		String command = "this.x0(function(d, i) { "//
-				+ "return d3." + memberName + ".apply(this,{datum:d},i); "//
-				+ "});";
+		String command = "this.x0(function(d, i) { " + //
+				"  return d3." + memberName + ".apply(this,{datum:d},i); " + //
+				"});";
 		JSObject result = evalForJsObject(command);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 
 	}
@@ -151,6 +167,9 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area x1(double d) {
 		JSObject result = call("x1", d);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 
 	}
@@ -161,17 +180,20 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Area x1(final DataFunction<Double> callback) {
-		
+
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
 		JSObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
-		String command = "this.x1(function(d, i) { "//
-				+ "return d3." + memberName + ".apply(this,{datum:d},i); "//
-				+ "});";
+		String command = "this.x1(function(d, i) { " + //
+				"  return d3." + memberName + ".apply(this,{datum:d},i); " + //
+				"});";
 		JSObject result = evalForJsObject(command);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 	}
 
@@ -183,6 +205,9 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area y(double d) {
 		JSObject result = call("y", d);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 	}
 
@@ -194,6 +219,9 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area y0(double d) {
 		JSObject result = call("y0", d);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 	}
 
@@ -205,6 +233,9 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area y1(double d) {
 		JSObject result = call("y1", d);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 	}
 
@@ -221,17 +252,20 @@ public class Area extends PathDataGenerator {
 	 * @return the current area
 	 */
 	public Area y(final DataFunction<Double> callback) {
-		
+
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
 		JSObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
-		String command = "this.y(function(d, i) { "//
-				+ "return d3." + memberName + ".apply(this,{datum:d},i); "//
-				+ "});";
+		String command = "this.y(function(d, i) { " + //
+				"   return d3." + memberName + ".apply(this,{datum:d},i); " + //
+				"});";
 		JSObject result = evalForJsObject(command);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 	}
 
@@ -248,15 +282,20 @@ public class Area extends PathDataGenerator {
 	 * @return the current area
 	 */
 	public Area y0(final DataFunction<Double> callback) {
-		
+
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
 		JSObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
-		String command = "this.y0(function(d, i) { return d3." + memberName + ".apply(this,{datum:d},i); });";
+		String command = "this.y0(function(d, i) { " + //
+				"   return d3." + memberName + ".apply(this,{datum:d},i); " + //
+				"});";
 		JSObject result = evalForJsObject(command);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 	}
 
@@ -273,15 +312,20 @@ public class Area extends PathDataGenerator {
 	 * @return the current area
 	 */
 	public Area y1(final DataFunction<Double> callback) {
-		
+
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
 		JSObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
-		String command = "this.y1(function(d, i) { return d3." + memberName + ".apply(this,{datum:d},i); });";
+		String command = "this.y1(function(d, i) { " + //
+				"   return d3." + memberName + ".apply(this,{datum:d},i); " + //
+				" });";
 		JSObject result = evalForJsObject(command);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 
 	}
@@ -301,7 +345,7 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Line defined(final DataFunction<Boolean> callback) {
-		
+
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
@@ -314,6 +358,9 @@ public class Area extends PathDataGenerator {
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
+		if (result == null) {
+			return null;
+		}
 		return new Line(webEngine, result);
 
 	}
@@ -349,6 +396,9 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area tension(double tension) {
 		JSObject result = call("tension", tension);
+		if (result == null) {
+			return null;
+		}
 		return new Area(webEngine, result);
 	}
 
@@ -388,5 +438,5 @@ public class Area extends PathDataGenerator {
 	}
 
 	//#end region
-	
+
 }

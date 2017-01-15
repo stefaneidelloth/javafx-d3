@@ -6,8 +6,8 @@ import org.treez.javafxd3.d3.functions.data.wrapper.PlainDataFunction;
 import javafx.scene.web.WebEngine;
 
 /**
- * Wraps a ForEachCallback that only needs the element as argument. 
- * The type of the element is converted to the required type A
+ * Wraps a ForEachCallback that only needs the element as argument. The type of
+ * the element is converted to the required type A
  */
 public class ForEachCallbackWrapper<R, A> implements ForEachCallback<R> {
 
@@ -17,7 +17,7 @@ public class ForEachCallbackWrapper<R, A> implements ForEachCallback<R> {
 
 	private PlainDataFunction<R, A> plainDataFunction = null;
 
-	private Class<A> plainClass = null;	
+	private Class<A> plainClass = null;
 
 	//#end region
 
@@ -37,7 +37,11 @@ public class ForEachCallbackWrapper<R, A> implements ForEachCallback<R> {
 	@Override
 	public R forEach(Object context, Object arrayElement, int index, Object array) {
 		A data = ConversionUtil.convertObjectTo(arrayElement, plainClass, webEngine);
-		return plainDataFunction.apply(data);		
+		if (data != null) {
+			return plainDataFunction.apply(data);
+		} else {
+			return null;
+		}
 	}
 
 	//#end region

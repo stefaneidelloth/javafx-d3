@@ -1,15 +1,15 @@
-.gup3 .enter {
+.enter {
   fill: green;
   font: bold 48px monospace;
 }
 
-.gup3 .update {
+.update {
   fill: #333;
   font: bold 48px monospace;
 }
 
 
-.gup3 .exit {
+.exit {
   fill: brown;
   font: bold 48px monospace;
 }

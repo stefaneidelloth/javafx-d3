@@ -1,12 +1,12 @@
-.gup1 text {
+text {
   font: bold 48px monospace;
 }
 
-.gup1 .enter {
+.enter {
   fill: green;
 }
 
-.gup1 .update {
+.update {
   fill: #333;
 }
 

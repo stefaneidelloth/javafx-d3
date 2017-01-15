@@ -25,11 +25,11 @@ import org.treez.javafxd3.d3.time.TimeScale;
 import javafx.scene.layout.VBox;
 
 public class AxisComponent extends AbstractDemoCase {
-	
+
 	//#region CONSTRUCTORS
 
 	public AxisComponent(D3 d3, VBox demoPreferenceBox) {
-		super(d3, demoPreferenceBox);		
+		super(d3, demoPreferenceBox);
 	}
 
 	//#end region
@@ -52,7 +52,8 @@ public class AxisComponent extends AbstractDemoCase {
 		final int w = 960 - m[1] - m[3];
 		final int h = 500 - m[0] - m[2];
 
-		final TimeFormat format = d3.time().format("%b %Y");
+		final TimeFormat format = d3.time() //
+				.format("%b %Y");
 
 		// Scales and axes. Note the inverted domain for the y-scale: bigger is
 		// up!
@@ -64,14 +65,12 @@ public class AxisComponent extends AbstractDemoCase {
 		final LinearScale y = d3.scale() //
 				.linear() //
 				.range(h, 0);
-		
+
 		final Axis xAxis = d3.svg() //
 				.axis() //
 				.scale(x) //
-				.tickSize(-h);
-		
-		// removed .tickSubdivide(1);
-		
+				.tickSize(-h);		
+
 		final Axis yAxis = d3.svg() //
 				.axis() //
 				.scale(y) //
@@ -79,37 +78,37 @@ public class AxisComponent extends AbstractDemoCase {
 				.ticks(4);
 
 		// An area generator, for the light fill.
-		
-		
-		DataFunction<Double> xFunction = new DataFunctionWrapper<>(DsvData.class, webEngine, (dsvData)->{
+
+		DataFunction<Double> xFunction = new DataFunctionWrapper<>(DsvData.class, webEngine, (dsvData) -> {
 			JsDate date = dsvData.getDate();
 			Value scaledValue = x.apply(date);
 			Double xResult = scaledValue.asDouble();
 			return xResult;
 		});
-		
-		DataFunction<Double> yFunction = new DataFunctionWrapper<>(DsvData.class, webEngine, (dsvData)->{
+
+		DataFunction<Double> yFunction = new DataFunctionWrapper<>(DsvData.class, webEngine, (dsvData) -> {
 			Double price = dsvData.getPrice();
 			Value scaledValue = y.apply(price);
 			Double yResult = scaledValue.asDouble();
 			return yResult;
 		});
-		
-		final Area area = d3.svg().area().interpolate(InterpolationMode.MONOTONE)				
+
+		final Area area = d3.svg() //
+				.area() //
+				.interpolate(InterpolationMode.MONOTONE) //
 				.x(xFunction) //
-				.y0(h)				
+				.y0(h) //
 				.y1(yFunction);
 
 		// A line generator, for the dark stroke.
-		final Line line = d3.svg().line().interpolate(InterpolationMode.MONOTONE)	
-				.x(xFunction)				
-				.y(xFunction);
-		
-				
+		final Line line = d3.svg() //
+				.line() //
+				.interpolate(InterpolationMode.MONOTONE) //
+				.x(xFunction) //
+				.y(yFunction);
+
 		Selection svg = d3.select("svg");
-		
-		
-		
+
 		DsvObjectAccessor<DsvData> accessor = new DataDsvObjectAccessor(webEngine, format);
 		DsvCallback<DsvData> callback = new DataDsvCallback(webEngine, svg, x, y, xAxis, yAxis, line, area, m, w, h);
 
@@ -117,15 +116,14 @@ public class AxisComponent extends AbstractDemoCase {
 		Dsv<DsvData> csv = d3.<DsvData> csv();
 		Array<DsvData> data = csv.parse(csvData, accessor);
 		callback.get(null, data.getJsObject());
-		
-				
-        //String relativeUrl = "readme.csv";		
+
+		//String relativeUrl = "readme.csv";		
 		//URL url = getClass().getClassLoader().getResource(relativeUrl);
 		//String fileUrl = url.toString();
 		//d3.csv(fileUrl,accessor ,callback);
 
 	}
-	
+
 	@Override
 	public void stop() {
 	}
@@ -939,8 +937,6 @@ public class AxisComponent extends AbstractDemoCase {
 				"AAPL,Feb 2010,204.62\n" + //
 				"AAPL,Mar 2010,223.02\n";
 	}
-
-
 
 	//#end region	
 

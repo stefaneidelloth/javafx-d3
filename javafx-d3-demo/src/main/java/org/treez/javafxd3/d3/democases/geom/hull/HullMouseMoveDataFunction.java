@@ -3,13 +3,11 @@ package org.treez.javafxd3.d3.democases.geom.hull;
 import java.util.List;
 
 import org.treez.javafxd3.d3.D3;
+import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 
-import org.treez.javafxd3.d3.democases.geom.hull.HullDemo.MyCoords;
-import org.treez.javafxd3.d3.functions.DataFunction;
-
 import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
 
 public class HullMouseMoveDataFunction implements DataFunction<Void> {
 
@@ -17,7 +15,7 @@ public class HullMouseMoveDataFunction implements DataFunction<Void> {
 
 	private WebEngine webEngine;
 
-	private List<MyCoords> vertices;
+	private List<HullCoords> vertices;
 
 	private D3 d3;
 	
@@ -29,7 +27,7 @@ public class HullMouseMoveDataFunction implements DataFunction<Void> {
 
 	public HullMouseMoveDataFunction(
 				WebEngine webEngine, 
-				List<MyCoords> vertices, 
+				List<HullCoords> vertices, 
 				D3 d3,
 				Runnable redrawRunnable
 		){
@@ -45,10 +43,9 @@ public class HullMouseMoveDataFunction implements DataFunction<Void> {
 
 	@Override
 	public Void apply(final Object context, final Object d, final int index) {
-
-		JSObject jsContext = (JSObject) context;
-		Element element = new Element(webEngine, jsContext);
-		MyCoords coords = new MyCoords(webEngine, d3.mouseX(element), d3.mouseY(element));
+		
+		Element element = ConversionUtil.convertObjectTo(context,  Element.class, webEngine);
+		HullCoords coords = new HullCoords(webEngine, d3.mouseX(element), d3.mouseY(element));
 		vertices.set(0, coords);
 		redrawRunnable.run();
 		return null;

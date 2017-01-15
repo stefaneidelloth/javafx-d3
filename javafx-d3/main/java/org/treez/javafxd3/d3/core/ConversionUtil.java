@@ -24,10 +24,21 @@ public class ConversionUtil {
 		if (isUndefined) {
 			return null;
 		}
-
-		Object resultObj = extractDataIfObjectIsWrapperAndTargetIsNotValue(object, classObj);
 		
-		if(resultObj==null){
+		boolean objectAlreadyHasWantedType = object.getClass().equals(classObj);
+		if (objectAlreadyHasWantedType) {
+			T convertedResult = (T) object;
+			return convertedResult;
+		}
+		
+		boolean targetIsValue = classObj.equals(Value.class);
+		if (targetIsValue) {
+			T result = (T) convertToValue(object, webEngine);
+			return result;
+		}
+
+		Object resultObj = extractDataIfObjectIsWrapper(object);
+		if (resultObj == null) {
 			return null;
 		}
 
@@ -71,13 +82,7 @@ public class ConversionUtil {
 		if (targetIsCharacter) {
 			T result = (T) convertToCharacter(resultObj);
 			return result;
-		}
-
-		boolean targetIsValue = classObj.equals(Value.class);
-		if (targetIsValue) {
-			T result = (T) convertToValue(resultObj, webEngine);
-			return result;
-		}
+		}		
 
 		boolean targetIsJavaScriptObject = JavaScriptObject.class.isAssignableFrom(classObj);
 		if (targetIsJavaScriptObject) {
@@ -120,14 +125,11 @@ public class ConversionUtil {
 
 	}
 
-	private static <T> Object extractDataIfObjectIsWrapperAndTargetIsNotValue(Object resultObj, Class<T> classObj) {
+	private static <T> Object extractDataIfObjectIsWrapper(Object resultObj) {
 		Object result = resultObj;
-		boolean targetIsNotValue = !classObj.equals(Value.class);
-		if (targetIsNotValue) {
-			boolean isWrappingDatumObject = isJsDataObject(resultObj);
-			if (isWrappingDatumObject) {
-				result = extractDatum(resultObj);
-			}
+		boolean isWrappingDatumObject = isJsDataObject(resultObj);
+		if (isWrappingDatumObject) {
+			result = extractDatum(resultObj);
 		}
 		return result;
 	}
@@ -247,8 +249,16 @@ public class ConversionUtil {
 	}
 
 	public static Value convertToValue(Object resultObj, WebEngine webEngine) {
-		Value value = Value.create(webEngine, resultObj);
-		return value;
+
+		boolean isJsObject = resultObj instanceof JSObject;
+		if (isJsObject) {
+			JSObject jsValue = (JSObject) resultObj;			
+			Value value = new Value(webEngine, jsValue);
+			return value;
+		} else {
+			Value value = Value.create(webEngine, resultObj);
+			return value;
+		}
 	}
 
 	public static <T> T convertToJavaScriptObject(Object resultObj, Class<T> classObj, WebEngine webEngine) {
@@ -258,14 +268,14 @@ public class ConversionUtil {
 		return newJavaScriptObject;
 	}
 
-	private static Object extractDatum(Object resultObj) {		
-		JSObject jsObject = (JSObject) resultObj;		
+	private static Object extractDatum(Object resultObj) {
+		JSObject jsObject = (JSObject) resultObj;
 		return jsObject.eval("this.datum");
 	}
 
 	private static boolean isJsDataObject(Object resultObj) {
 
-		boolean isJsObject = JSObject.class.isAssignableFrom(resultObj.getClass());
+		boolean isJsObject = resultObj instanceof JSObject;
 		if (!isJsObject) {
 			return false;
 		}
@@ -334,24 +344,24 @@ public class ConversionUtil {
 			throw new IllegalStateException(message, exception);
 		}
 	}
-	
-	public static JsDate createJsDate(Date date, WebEngine webEngine) {		
-		long time   = date.getTime();		
-		return JsDate.create(webEngine, time);		
+
+	public static JsDate createJsDate(Date date, WebEngine webEngine) {
+		long time = date.getTime();
+		return JsDate.create(webEngine, time);
 	}
 
 	public static JSObject createJsObject(String objectCommand, WebEngine webEngine) {
-		
+
 		D3 d3 = new D3(webEngine);
-		
+
 		String command = "this.temp_obj_var=" + objectCommand + ";";
 		d3.eval(command);
 		JSObject result = d3.evalForJsObject("this.temp_obj_var");
-		
+
 		d3.eval("this.temp_obj_var=undefined");
-		
+
 		return result;
-		
+
 	}
 
 }

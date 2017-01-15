@@ -9,6 +9,8 @@ import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.demo.AbstractDemoCase;
 import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.demo.Margin;
+import org.treez.javafxd3.d3.functions.DataFunction;
+import org.treez.javafxd3.d3.functions.data.wrapper.DataFunctionWrapper;
 import org.treez.javafxd3.d3.scales.LinearScale;
 
 import javafx.scene.layout.VBox;
@@ -41,12 +43,6 @@ public class ZoomDemo extends AbstractDemoCase {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 */
 	public ZoomDemo(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
 		init();
@@ -56,13 +52,6 @@ public class ZoomDemo extends AbstractDemoCase {
 
 	//#region METHODS
 
-	/**
-	 * Factory provider
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 * @return
-	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
 			@Override
@@ -108,22 +97,32 @@ public class ZoomDemo extends AbstractDemoCase {
 		translateLabel = selection //
 				.append("div") //
 				.text("translate:");
-
-		//.x(x) //
-		//.y(y) //
-
-		svg = d3.select("#svg") //
+		
+		svg = d3.select("svg") //
 				.attr("width", width + margin.left + margin.right) //
 				.attr("height", height + margin.top + margin.bottom) //
 				.append("g") //
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 		// create zoom behavior
+		
+		DataFunction<Void> zoomDataFunction = new DataFunctionWrapper<>(()->{
+			// print the current scale and translate
+			scaleLabel.text("scale:" + d3.zoomEvent().scale());
+			String translation = d3.zoomEvent().translate().toString();
+			translateLabel.text("translate:" + translation);
+
+			// apply zoom and panning on x and y axes		
+			svg.select(".x.axis").call(xAxis);
+			svg.select(".y.axis").call(yAxis);
+		});
+		
+		
 		Zoom zoom = d3.behavior() //
 				.zoom() //	
 				.x(x)
 				.y(y)
-				.on(ZoomEventType.ZOOM, new ZoomDataFunction(d3, scaleLabel, translateLabel, svg, xAxis, yAxis));
+				.on(ZoomEventType.ZOOM, zoomDataFunction);
 
 		svg.call(zoom);
 
@@ -142,21 +141,11 @@ public class ZoomDemo extends AbstractDemoCase {
 
 	}
 
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see org.treez.javafxd3.d3.demo.DemoCase#start()
-	 */
 	@Override
 	public void start() {
 
 	}
 
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see org.treez.javafxd3.d3.demo.DemoCase#stop()
-	 */
 	@Override
 	public void stop() {
 

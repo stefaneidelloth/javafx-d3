@@ -174,7 +174,7 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public Selection selectAll(String selector) {
-		JSObject result = call("selectAll", selector);
+		JSObject result = evalForJsObject("this.selectAll('" + selector + "');");
 		return new Selection(webEngine, result);
 	}
 
@@ -654,9 +654,9 @@ public class Selection extends EnteringSelection {
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(methodName, assignSwitchFunction);
 
-		String command = "this.classed('" + classNames + "', function(d, i) { " + //
-				"   var r = d3." + methodName + ".apply(this,{datum:d},i);" + //
-				"   return r == null ? false : r; " + //
+		String command = "this.classed('" + classNames + "', function(d, i) { " + //		
+				"   var r = d3." + methodName + ".apply(this,d,i);" + //
+				"   return r == null ? false : r; " + //			
 				"});";
 		JSObject result = evalForJsObject(command);
 		return new Selection(webEngine, result);

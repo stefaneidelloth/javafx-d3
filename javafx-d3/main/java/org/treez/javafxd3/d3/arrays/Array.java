@@ -202,7 +202,7 @@ public class Array<T> extends JavaScriptObject {
 	 * @return
 	 */
 	public int length() {
-		int result = getMemberForInteger("length");
+		Integer result = getMemberForInteger("length");
 		return result;
 	}
 
@@ -212,7 +212,7 @@ public class Array<T> extends JavaScriptObject {
 	 * 
 	 * @return
 	 */
-	public List<Integer> sizes() {
+	public List<Integer> sizes() {		
 		int length = length();
 		if (length == 0) {
 			List<Integer> zeroSizes = createZeroSizes();

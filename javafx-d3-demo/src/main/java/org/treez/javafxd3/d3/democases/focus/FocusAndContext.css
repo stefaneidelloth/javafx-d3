@@ -1,10 +1,9 @@
-@external .extent;
 
-svg.fac {
+svg {
   font: 10px sans-serif;
 }
 
-.fac path {
+path {
   fill: steelblue;
 }
 

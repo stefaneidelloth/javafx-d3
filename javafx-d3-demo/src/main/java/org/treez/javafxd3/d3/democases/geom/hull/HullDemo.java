@@ -6,7 +6,6 @@ import java.util.Random;
 
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.Array;
-import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.UpdateSelection;
 import org.treez.javafxd3.d3.demo.AbstractDemoCase;
@@ -15,14 +14,9 @@ import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.geom.Hull;
 
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
- * 
- * 
- * 
  */
 public class HullDemo extends AbstractDemoCase {
 
@@ -31,7 +25,7 @@ public class HullDemo extends AbstractDemoCase {
 	private Selection svg;
 	private Selection hull;
 	private Selection circle;
-	private List<MyCoords> vertices;
+	private List<HullCoords> vertices;
 	private Hull hullModel;
 
 	private static int width = 700;
@@ -41,12 +35,6 @@ public class HullDemo extends AbstractDemoCase {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 */
 	public HullDemo(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
 	}
@@ -55,13 +43,6 @@ public class HullDemo extends AbstractDemoCase {
 
 	//#region METHODS
 
-	/**
-	 * Factory provider
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 * @return
-	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
 
@@ -75,9 +56,9 @@ public class HullDemo extends AbstractDemoCase {
 	@Override
 	public void start() {
 
-		List<MyCoords> coordsList = new ArrayList<>();
+		List<HullCoords> coordsList = new ArrayList<>();
 		for (int index = 0; index < 10; index++) {
-			MyCoords coords = new MyCoords(webEngine, randomX(), randomY());
+			HullCoords coords = new HullCoords(webEngine, randomX(), randomY());
 			coordsList.add(coords);
 		}
 
@@ -99,7 +80,10 @@ public class HullDemo extends AbstractDemoCase {
 
 		circle = svg.selectAll("circle");
 
-		hullModel = d3.geom().hull().x(MyCoords.getXAccessor(webEngine)).y(MyCoords.getYAccessor(webEngine));
+		hullModel = d3.geom() //
+				.hull() //
+				.x(HullCoords.getXAccessor(webEngine)) //
+				.y(HullCoords.getYAccessor(webEngine));
 
 		redraw();
 	}
@@ -107,13 +91,21 @@ public class HullDemo extends AbstractDemoCase {
 	private void redraw() {
 		try {
 
-			Array<MyCoords> coordinates = hullModel.apply(vertices);
+			Array<HullCoords> coordinates = hullModel.apply(vertices);
 
-			hull.datum(coordinates).attr("d", new HullDataFunction(webEngine));
-			UpdateSelection circles = circle.data(vertices);
-			circles.enter().append("circle").attr("r", 3);
+			hull.datum(coordinates) //
+					.attr("d", new HullDataFunction(webEngine));
+
+			UpdateSelection circles = circle //
+					.data(vertices);
+
+			circles.enter() //
+					.append("circle") //
+					.attr("r", 3);
+
 			circle = circles.attr("transform", new HullTransformDataFunction(webEngine)) //
 					.attr("class", "hulldemo");
+
 			circle = circles;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,35 +139,6 @@ public class HullDemo extends AbstractDemoCase {
 
 	//#end region
 
-	//#regon CLASSES
 
-	public static class MyCoords extends Coords {
-		
-		//#region CONSTRUCTORS
-		
-		public MyCoords(WebEngine webEngine, JSObject wrappedJsObject){
-			super(webEngine, wrappedJsObject);
-		}
-
-		public MyCoords(WebEngine webEngine, double x, double y) {
-			super(webEngine, x, y);
-		}
-		
-		//#end region
-		
-		//#region METHODS
-
-		
-
-		@Override
-		public String toString() {
-			return x() + "," + y();
-		}
-		
-		//#end region
-		
-	}
-
-	//#end region
 
 }

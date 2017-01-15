@@ -1,7 +1,5 @@
 package org.treez.javafxd3.d3.democases.svg.line;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,7 +29,6 @@ import javafx.scene.layout.VBox;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
- * 
  */
 public class LineDemo extends AbstractDemoCase {
 
@@ -58,27 +55,14 @@ public class LineDemo extends AbstractDemoCase {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 */
 	public LineDemo(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
-	}	
+	}
 
 	//#end region
 
 	//#region METHODS
 
-	/**
-	 * Provides a factory for this demo case
-	 * 
-	 * @param d3
-	 * @param demoPreferenceBox
-	 * @return
-	 */
 	public static DemoFactory factory(D3 d3, VBox demoPreferenceBox) {
 		return new DemoFactory() {
 			@Override
@@ -95,16 +79,25 @@ public class LineDemo extends AbstractDemoCase {
 
 		// create initial d3 content
 
-		DataFunction<Double> xAccessor = CustomCoords.xAccessor(webEngine);
-		DataFunction<Double> yAcccessor = CustomCoords.yAccessor(webEngine);
+		DataFunction<Double> xAccessor = Coords.getXAccessor(webEngine);
+		DataFunction<Double> yAcccessor = Coords.getYAccessor(webEngine);
 		DataFunction<Boolean> isDefinedAccessor = CustomCoords.definedAccessor(webEngine);
-		line = d3.svg().line().x(xAccessor).y(yAcccessor).defined(isDefinedAccessor);
 
-		svg = d3.select("svg").attr("width", width).attr("height", height).append("g");
+		line = d3.svg() //
+				.line() //
+				.x(xAccessor) //
+				.y(yAcccessor) //
+				.defined(isDefinedAccessor);
+
+		svg = d3.select("svg") //
+				.attr("width", width) //
+				.attr("height", height) //
+				.append("g");
 
 		String cssClassName = "linedemo";
-		path = svg.append("path").classed(cssClassName, true);
-		
+		path = svg.append("path") //
+				.classed(cssClassName, true);
+
 		deleteOldPreferenceChildren();
 
 		// create preferences and buttons
@@ -178,7 +171,7 @@ public class LineDemo extends AbstractDemoCase {
 	}
 
 	private void createInterpolationModeWidget(InterpolationMode[] values) {
-		
+
 		ToggleGroup rbGroup = new ToggleGroup();
 
 		boolean first = true;
@@ -212,8 +205,6 @@ public class LineDemo extends AbstractDemoCase {
 
 	protected void addPoint(boolean defined) {
 
-		System.out.println("Adding point");
-
 		Random random = new Random();
 		double x = random.nextInt(width);
 		double y = random.nextInt(height);
@@ -229,19 +220,12 @@ public class LineDemo extends AbstractDemoCase {
 		updateD3Content();
 	}
 
-	/**
-	 * 
-	 */
 	public void updateD3Content() {
-
-		System.out.println("Updating content");
 
 		line = line.interpolate(mode);
 		line = line.tension(tension);
 
 		List<Coords> coordsList = new ArrayList<>(points);
-
-		// Double[] values = new Double[]{20.0,20.0};
 
 		String coordinates = line.generate(coordsList);
 		path.attr("d", coordinates);
@@ -255,18 +239,24 @@ public class LineDemo extends AbstractDemoCase {
 
 		UpdateSelection updateSelection = getSvg().selectAll("circle").data(data);
 
-		DataFunction<Double> cxFunction = new CxDataFunction(webEngine);
+		DataFunction<Double> cxFunction = Coords.getXAccessor(webEngine);
 
-		DataFunction<Double> cyFunction = new CyDataFunction(webEngine);
+		DataFunction<Double> cyFunction = Coords.getYAccessor(webEngine);
 
 		EnteringSelection enter = updateSelection.enter();
 		if (enter != null) {
-			enter.append("circle").attr("cx", cxFunction).attr("cy", cyFunction).attr("r", 10);			
-			updateSelection.exit().remove();
+
+			enter.append("circle") //
+					.attr("cx", cxFunction) //
+					.attr("cy", cyFunction) //
+					.attr("r", 10);
+
+			updateSelection.exit() //
+					.remove();
 		}
 
 	}
 
 	//#end region
-	
+
 }

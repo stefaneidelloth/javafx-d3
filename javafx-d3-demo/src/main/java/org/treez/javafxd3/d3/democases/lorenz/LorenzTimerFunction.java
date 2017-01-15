@@ -8,6 +8,8 @@ import org.treez.javafxd3.d3.wrapper.canvas.Context2d;
 import javafx.scene.web.WebEngine;
 
 public class LorenzTimerFunction implements TimerFunction {
+	
+	//#region ATTRIBUTES
 
 	private WebEngine webEngine;
 
@@ -24,6 +26,10 @@ public class LorenzTimerFunction implements TimerFunction {
 	private double width;
 	private double height;
 	private LinearScale colorScale;
+	
+	//#end region
+	
+	//#region CONSTRUCTORS
 
 	public LorenzTimerFunction(WebEngine webEngine, LorenzSystem lorenzSystem) {
 		this.webEngine = webEngine;
@@ -34,6 +40,10 @@ public class LorenzTimerFunction implements TimerFunction {
 		this.height = lorenzSystem.getHeight();
 		this.colorScale = lorenzSystem.getColorScale();
 	}
+	
+	//#end region
+	
+	//#region METHODS
 
 	@Override
 	public boolean execute() {
@@ -70,5 +80,7 @@ public class LorenzTimerFunction implements TimerFunction {
 		context.restore();
 		return lorenzSystem.getStopped();
 	}
+	
+	//#end region
 
 }

@@ -62,9 +62,9 @@ public class GeneralUpdatePattern3 extends AbstractDemoCase {
 
 		int width = 960, height = 500;
 
-		svg = d3.select("svg") //
-				.classed("gup3", true) //
-				.attr("width", width).attr("height", height) //
+		svg = d3.select("svg") //				
+				.attr("width", width) //
+				.attr("height", height) //
 				.append("g") //
 				.attr("transform", "translate(32," + (height / 2) + ")");
 
@@ -100,7 +100,8 @@ public class GeneralUpdatePattern3 extends AbstractDemoCase {
 			return Character.getNumericValue(value);
 		});
 
-		UpdateSelection selection = svg.selectAll("text") //
+		UpdateSelection selection = svg //
+				.selectAll("text") //
 				.data(data, dataFunction);
 
 		// UPDATE
@@ -110,7 +111,7 @@ public class GeneralUpdatePattern3 extends AbstractDemoCase {
 			return index * 32;
 		});
 
-		selection.attr("class", "updateD3Content") //
+		selection.attr("class", "update") //
 				.transition() //
 				.duration(750) //
 				.attr("x", xFunction);

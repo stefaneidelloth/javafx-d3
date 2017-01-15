@@ -1184,15 +1184,8 @@ public class D3 extends JavaScriptObject {
 	}
 	
 	
-	public <R,A> Array<R> extent(Array<A> array, PlainDataFunction<R, A> accessor) {		 
-		 
-		int length = array.length();
-		if(length==0){
-			return null;
-		}
-		Object firstElement = array.getAsObject(0);
-		@SuppressWarnings("unchecked")
-		Class<A> argumentClass = (Class<A>) firstElement.getClass();		
+	public <R,A> Array<R> extent(Array<A> array, Class<A> argumentClass, PlainDataFunction<R, A> accessor) {	 
+				
 		
 		ForEachCallback<R> accessorWrapper = new ForEachCallbackWrapper<>(argumentClass, webEngine, accessor);
 		return extent(array, accessorWrapper);		

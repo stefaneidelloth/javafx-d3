@@ -9,9 +9,9 @@ package org.treez.javafxd3.d3.dsv;
  * 
  *            the type of the parsed DSV line (if no accessor is provided, the
  *            type will be {@link DsvRow})
- * @param <T> 
+ * @param <A> 
  */
-public interface DsvCallback<T> {
+public interface DsvCallback<A> {
 	
 	/**
 	 * When the CSV data is available, the specified callback will be invoked

@@ -248,9 +248,9 @@ public class Arrays {
 	 * @return the minimum and maximum value in the given array using the accessor
 	 * method
 	 */
-	 public static <A, R> Array<R> extent(Array<A> array, PlainDataFunction<R, A> accessor, WebEngine webEngine) {
+	 public static <A, R> Array<R> extent(Array<A> array, Class<A> argumentClass, PlainDataFunction<R, A> accessor, WebEngine webEngine) {
 		 D3 d3 = new D3(webEngine);
-		return d3.extent(array, accessor);	
+		return d3.extent(array, argumentClass, accessor);	
 	 };
 
 	/**

@@ -30,9 +30,10 @@ import org.treez.javafxd3.d3.svg.Brush;
 import org.treez.javafxd3.d3.svg.Brush.BrushEvent;
 import org.treez.javafxd3.d3.wrapper.Element;
 
+import javafx.application.Platform;
 import javafx.scene.layout.VBox;
 
-public class ScatterplotMatrixDemo extends AbstractDemoCase {
+public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 
 	//#region ATTRIBUTES
 
@@ -58,7 +59,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 
 	//#region CONSTRUCTORS
 
-	public ScatterplotMatrixDemo(D3 d3, VBox demoPreferenceBox) {
+	public ScatterPlotMatrixDemo(D3 d3, VBox demoPreferenceBox) {
 		super(d3, demoPreferenceBox);
 	}
 
@@ -70,7 +71,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 		return new DemoFactory() {
 			@Override
 			public DemoCase newInstance() {
-				return new ScatterplotMatrixDemo(d3, demoPreferenceBox);
+				return new ScatterPlotMatrixDemo(d3, demoPreferenceBox);
 			}
 		};
 	}
@@ -102,209 +103,24 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 		color = d3.scale() //
 				.category10();
 
-		DsvCallback<DsvRow> csvCallback = new DsvCallbackWrapper<>(DsvRow.class, webEngine, (array) -> {
+		DsvCallback<DsvRow> csvCallback = new DsvCallbackWrapper<>(webEngine, (array) -> {
+									
+			Array<String> traits = getTraits(array);
+			storeDomainsByTraits(array, traits);
 
-			domainByTrait = new HashMap<>();
-
-			DsvRow firstRow = array.get(0);
-			Array<String> traits = d3.keys(firstRow);
-
-			Array<String> filteredTraits = traits.filter((element) -> {
-				Boolean includeElement = !"species".equals(element);
-				return includeElement;
-			});
-
-			final int n = filteredTraits.length();
-
-			filteredTraits.forEach((traitObj) -> {
-
-				String trait = (String) traitObj;
-				// for the current trait, get the extent=domain=(min and
-				// max), and save it in the map					
-
-				Array<Double> value = Arrays.extent(array, (dsvRow) -> {
-					if(dsvRow==null){
-						return null;
-					}
-					return dsvRow.get(trait).asDouble();
-				}, webEngine);
-
-				domainByTrait.put(trait, value);
-
-			});
-
+			final int n = traits.length();
 			xAxis.tickSize(size * n);
 			yAxis.tickSize(-size * n);
 
-			DataFunction<Void> brushStartFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
-				@Override
-				public Void apply(final Object context, final Object d, final int index) {
+			createBrush(); //the brush listens to mouse selections
 
-					if (context == null) {
-						return null;
-					}
+			createSubPlots(xAxis, yAxis, traits, n);
 
-					if (d == null) {
-						return null;
-					}
+			Selection subPlots = plotCsvData(array, traits, n);
 
-					Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
-					Point point = ConversionUtil.convertObjectTo(d, Point.class, webEngine);
+			setTitleForDiagonalSubPlots(subPlots);
 
-					brushstart(element, point);
-					return null;
-				}
-			});
-
-			DataFunction<Void> brushFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
-				if (point == null) {
-					return null;
-				}
-				try {
-					brushmove(point);
-				} catch (Exception exception) {
-					System.out.println("Could not execute point move");
-					return null;
-				}
-				return null;
-			});
-
-			DataFunction<Void> brushEndFunction = new DataFunctionWrapper<>(() -> {
-				brushend();
-			});
-
-			brush = d3.svg() //
-					.brush() //
-					.x(x) //
-					.y(y) //
-					.on(BrushEvent.BRUSH_START, brushStartFunction) //
-					.on(BrushEvent.BRUSH, brushFunction) //
-					.on(BrushEvent.BRUSH_END, brushEndFunction);
-
-			//create sub plots
-			svg = d3.select("svg") //
-					.attr("width", size * n + padding) //
-					.attr("height", size * n + padding) //
-					.append("g") //
-					.attr("transform", "translate(" + padding + "," + padding / 2 + ")");
-
-			//draw x axis
-			DataFunction<String> xTransformFunction = new IndexDataFunctionWrapper<>((index) -> {
-				return "translate(" + (n - index - 1) * size + ",0)";
-			});
-
-			DataFunction<Void> xAxisDataFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
-				@Override
-				public Void apply(final Object context, final Object d, final int index) {
-
-					Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
-					String trait = ConversionUtil.convertObjectTo(d, String.class, webEngine);
-
-					Array<Double> domain = domainByTrait.get(trait);
-					if (domain != null) {
-						x.domain(domain);
-						d3.select(element).call(xAxis);
-					}
-					return null;
-				}
-			});
-
-			svg.selectAll(".x.axis") //
-					.data(traits) //
-					.enter() //
-					.append("g") //
-					.attr("class", "x axis") //
-					.attr("transform", xTransformFunction) //
-					.each(xAxisDataFunction);
-
-			//draw y axis
-			DataFunction<String> yTransformFunction = new IndexDataFunctionWrapper<>((index) -> {
-				return "translate(0," + index * size + ")";
-			});
-
-			DataFunction<Void> yAxisDataFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
-				@Override
-				public Void apply(final Object context, final Object d, final int index) {
-
-					Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
-					String trait = ConversionUtil.convertObjectTo(d, String.class, webEngine);
-
-					Array<Double> domain = domainByTrait.get(trait);
-					if (domain != null) {
-						y.domain(domain);
-						d3.select(element).call(yAxis);
-					}
-
-					return null;
-				}
-			});
-
-			svg.selectAll(".y.axis") //
-					.data(traits) //
-					.enter() //
-					.append("g") //
-					.attr("class", "y axis") //
-					.attr("transform", yTransformFunction) //
-					.each(yAxisDataFunction);
-
-			//plot points
-			Array<Point> crossArray = cross(traits, traits);
-
-			DataFunction<String> transformFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
-				return "translate(" + (n - point.i - 1) * size + "," + point.j * size + ")";
-			});
-
-			DataFunction<Void> plotFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
-				@Override
-				public Void apply(final Object context, final Object d, final int index) {
-
-					Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
-					Point point = ConversionUtil.convertObjectTo(d, Point.class, webEngine);
-					if (point == null) {
-						return null;
-					}
-
-					plot(element, point, array);
-					return null;
-				}
-			});
-
-			Selection cell = svg.selectAll(".cell") //
-					.data(crossArray) //
-					.enter() //
-					.append("g") //
-					.attr("class", "cell") //
-					.attr("transform", transformFunction) //
-					.each(plotFunction);
-
-			//titles for the diagonal sub plots			
-			DataFunction<Element> diagonalFilterFunction = new CompleteDataFunctionWrapper<>(
-					new DataFunction<Element>() {
-						@Override
-						public Element apply(final Object context, final Object d, final int index) {
-
-							Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
-							Point point = ConversionUtil.convertObjectTo(d, Point.class, webEngine);
-							if (point == null) {
-								return null;
-							}
-
-							return point.i == point.j ? element : null;
-						}
-					});
-
-			DataFunction<String> textFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
-				return point.xTrait;
-			});
-
-			cell.filter(diagonalFilterFunction) //
-					.append("text") //
-					.attr("x", padding) //
-					.attr("y", padding) //
-					.attr("dy", ".71em") //
-					.text(textFunction);
-
-			cell.call(brush);
+			subPlots.call(brush);
 
 			d3.select("svg") //
 					.style("height", size * n + padding + 20 + "px");
@@ -322,12 +138,204 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 
 	}
 
+	private void createBrush() {
+
+		DataFunction<Void> brushStartFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
+			@Override
+			public Void apply(final Object context, final Object d, final int index) {
+
+				Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
+				Point point = ConversionUtil.convertObjectTo(d, Point.class, webEngine);
+
+				brushstart(element, point);
+				return null;
+			}
+		});
+
+		DataFunction<Void> brushFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
+
+			try {
+				brushmove(point);
+			} catch (Exception exception) {
+				System.out.println("Could not execute point move");
+				exception.printStackTrace();
+				return null;
+			}
+			return null;
+		});
+
+		DataFunction<Void> brushEndFunction = new DataFunctionWrapper<>(() -> {
+			brushend();
+		});
+
+		brush = d3.svg() //
+				.brush() //
+				.x(x) //
+				.y(y) //
+				.on(BrushEvent.BRUSH_START, brushStartFunction) //
+				.on(BrushEvent.BRUSH, brushFunction) //
+				.on(BrushEvent.BRUSH_END, brushEndFunction);
+	}
+
+	private void createSubPlots(final Axis xAxis, final Axis yAxis, Array<String> traits, final int n) {
+		svg = d3.select("svg") //
+				.attr("width", size * n + padding) //
+				.attr("height", size * n + padding) //
+				.append("g") //
+				.attr("transform", "translate(" + padding + "," + padding / 2 + ")");
+
+		//draw x axis
+		DataFunction<String> xTransformFunction = new IndexDataFunctionWrapper<>((index) -> {
+			return "translate(" + (n - index - 1) * size + ",0)";
+		});
+
+		DataFunction<Void> xAxisDataFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
+			@Override
+			public Void apply(final Object context, final Object d, final int index) {
+
+				Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
+				String trait = ConversionUtil.convertObjectTo(d, String.class, webEngine);
+
+				Array<Double> domain = domainByTrait.get(trait);
+				if (domain != null) {
+					x.domain(domain);
+					d3.select(element).call(xAxis);
+				}
+				return null;
+			}
+		});
+
+		svg.selectAll(".x.axis") //
+				.data(traits) //
+				.enter() //
+				.append("g") //
+				.attr("class", "x axis") //
+				.attr("transform", xTransformFunction) //
+				.each(xAxisDataFunction);
+
+		//draw y axis
+		DataFunction<String> yTransformFunction = new IndexDataFunctionWrapper<>((index) -> {
+			return "translate(0," + index * size + ")";
+		});
+
+		DataFunction<Void> yAxisDataFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
+			@Override
+			public Void apply(final Object context, final Object d, final int index) {
+
+				Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
+				String trait = ConversionUtil.convertObjectTo(d, String.class, webEngine);
+
+				Array<Double> domain = domainByTrait.get(trait);
+				if (domain != null) {
+					y.domain(domain);
+					d3.select(element).call(yAxis);
+				}
+
+				return null;
+			}
+		});
+
+		svg.selectAll(".y.axis") //
+				.data(traits) //
+				.enter() //
+				.append("g") //
+				.attr("class", "y axis") //
+				.attr("transform", yTransformFunction) //
+				.each(yAxisDataFunction);
+	}
+
+	private Selection plotCsvData(Array<DsvRow> array, Array<String> traits, final int n) {
+		Array<Point> points = points(traits, traits);
+
+		DataFunction<String> transformFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
+			return "translate(" + (n - point.i - 1) * size + "," + point.j * size + ")";
+		});
+
+		DataFunction<Void> plotFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
+			@Override
+			public Void apply(final Object context, final Object d, final int index) {
+
+				Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
+				Point point = ConversionUtil.convertObjectTo(d, Point.class, webEngine);
+				if (point == null) {
+					return null;
+				}
+
+				plot(element, point, array);
+				return null;
+			}
+		});
+
+		Selection subPlots = svg.selectAll(".cell") //
+				.data(points) //
+				.enter() //
+				.append("g") //
+				.attr("class", "cell") //
+				.attr("transform", transformFunction) //
+				.each(plotFunction);
+		return subPlots;
+	}
+
+	private void setTitleForDiagonalSubPlots(Selection subPlots) {
+		DataFunction<Element> diagonalFilterFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Element>() {
+			@Override
+			public Element apply(final Object context, final Object d, final int index) {
+
+				Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
+				Point point = ConversionUtil.convertObjectTo(d, Point.class, webEngine);
+				if (point == null) {
+					return null;
+				}
+
+				return point.i == point.j ? element : null;
+			}
+		});
+
+		DataFunction<String> textFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
+			return point.xTrait;
+		});
+
+		subPlots.filter(diagonalFilterFunction) //
+				.append("text") //
+				.attr("x", padding) //
+				.attr("y", padding) //
+				.attr("dy", ".71em") //
+				.text(textFunction);
+	}
+
+	private void storeDomainsByTraits(Array<DsvRow> array, Array<String> traits) {
+		domainByTrait = new HashMap<>();
+		traits.forEach((traitObj) -> {
+
+			String trait = (String) traitObj;
+			// for the current trait, get the extent=domain=(min and
+			// max), and save it in the map					
+
+			Array<Double> domain = Arrays.extent(array, DsvRow.class, (dsvRow) -> {				
+				return dsvRow.get(trait).asDouble();
+			}, webEngine);
+
+			domainByTrait.put(trait, domain);
+		});
+	}
+
+	private Array<String> getTraits(Array<DsvRow> array) {
+		DsvRow firstRow = array.get(0, DsvRow.class);
+		Array<String> traits = d3.keys(firstRow);
+
+		Array<String> filteredTraits = traits.filter((element) -> {
+			Boolean includeElement = !"species".equals(element);
+			return includeElement;
+		});
+		return filteredTraits;
+	}
+
 	@Override
 	public void stop() {
 
 	}
 
-	private void plot(final Element context, final Point p, final Array<DsvRow> data) {
+	private void plot(Element context, Point p, Array<DsvRow> dsvRows) {
 		Selection cell = d3.select(context);
 
 		if (p == null) {
@@ -379,7 +387,7 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 		});
 
 		cell.selectAll("circle") //
-				.data(data) //
+				.data(dsvRows) //
 				.enter() //
 				.append("circle") //
 				.attr("cx", cxDataFunction) //
@@ -419,9 +427,6 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 		DataFunction<Boolean> hideFunction = new DataFunctionWrapper<>(DsvRow.class, webEngine, (row) -> {
 
 			try {
-				if (row == null) {
-					return false;
-				}
 
 				// the plot coords			
 				Value x = row.get(p.xTrait);
@@ -439,26 +444,34 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				// hide it (returns true) if the plot is outside the brush
 				// extent
 				boolean b = ex0 > px || px > ex1 || ey0 > py || py > ey1;
+				
+			
 				return b;
 			} catch (Exception exception) {
-				return true;
+				throw new IllegalStateException("Could not determine hidden value", exception);
+
 			}
 		});
 
-		svg.selectAll("circle") //				
-				.classed("hidden", hideFunction);
+		Selection circles = svg.selectAll("circle");	
+		Platform.runLater(() -> {
+			circles.classed("hidden", hideFunction);
+		});
 	}
 
 	// If the brush is empty, select all circles.
 	private void brushend() {
 		if (brush.empty()) {
-			svg.selectAll(".hidden") //
-					.classed("hidden", false);
+			Platform.runLater(() -> {
+				svg.selectAll(".hidden") //
+						.classed("hidden", false);
+			});
+
 		}
 	}
 
-	private Array<Point> cross(final Array<String> a, final Array<String> b) {
-		List<Point> crossArray = new ArrayList<>(); //Point[a.length];
+	private Array<Point> points(final Array<String> a, final Array<String> b) {
+		List<Point> points = new ArrayList<>();
 		int n = a.length();
 		int m = b.length();
 		for (int i = -1; ++i < n;) {
@@ -468,11 +481,11 @@ public class ScatterplotMatrixDemo extends AbstractDemoCase {
 				String y = b.get(j, String.class);
 
 				Point point = new Point(x, y, i, j);
-				crossArray.add(point);
+				points.add(point);
 
 			}
 		}
-		return Array.fromList(webEngine, crossArray);
+		return Array.fromList(webEngine, points);
 	}
 
 	//#end region

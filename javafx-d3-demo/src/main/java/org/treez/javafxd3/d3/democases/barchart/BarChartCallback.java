@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Selection;
+import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.dsv.DsvCallback;
+import org.treez.javafxd3.d3.functions.DataFunction;
+import org.treez.javafxd3.d3.functions.data.wrapper.DataFunctionWrapper;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.scales.OrdinalScale;
 import org.treez.javafxd3.d3.svg.Axis;
@@ -60,31 +63,57 @@ public class BarChartCallback implements DsvCallback<BarChartData> {
 			Axis xAxis = barChart.getXAxis();
 
 			svgGroup.append("g") //
-					.attr("class", "x" + " " + "axis") //
+					.attr("class", "x axis") //
 					.attr("transform", "translate(0," + height + ")") //
 					.call(xAxis);
 
 			Axis yAxis = barChart.getYAxis();
 
 			svgGroup.append("g") //
-					.attr("class", "y" + " " + "axis") //
-					.call(yAxis).append("text") //
+					.attr("class", "y axis") //
+					.call(yAxis) //
+					.append("text") //
 					.attr("transform", "rotate(-90)") //
-					.attr("y", 6).attr("dy", ".71em") //
+					.attr("y", 6) //
+					.attr("dy", ".71em") //
 					.style("text-anchor", "end") //
 					.text("Frequency");
 
 			List<Object> objectCollection = values.asList(Object.class);
+			
+			DataFunction<Double> xDataFunction = new DataFunctionWrapper<>(BarChartData.class, webEngine, (data)->{
+				String letter = data.getLetter();					
+				OrdinalScale xScale = barChart.getXScale();
+				return xScale.apply(letter).asDouble();
+			});
+			
+			DataFunction<Double> yDataFunction = new DataFunctionWrapper<>(BarChartData.class, webEngine, (data)->{
+				String letter = data.getLetter();					
+				LinearScale yScale = barChart.getYScale();
+				return yScale.apply(letter).asDouble();
+			});
+			
+			DataFunction<Double> heightDataFunction = new DataFunctionWrapper<>(BarChartData.class, webEngine, (data)->{
+				Double frequency = data.getFrequency();		
+				
+				LinearScale yScale = barChart.getYScale();			
+				Value scaledValue = yScale.apply(frequency);			
+				Double scaledDoubleValue = scaledValue.asDouble();	
+				
+				int totalHeight = barChart.getHeight();
+				double result = totalHeight -scaledDoubleValue ;
+				return result;
+			});
 
-			svgGroup.selectAll("." + "bar") //
+			svgGroup.selectAll(".bar") //
 					.dataObjectCollection(objectCollection) //
 					.enter() //
 					.append("rect") //
 					.attr("class", "bar") //
-					.attr("x", new BarChartXDataFunction(webEngine, barChart)) //
+					.attr("x", xDataFunction) //
 					.attr("width", x.rangeBand()) //
-					.attr("y", new BarChartYDataFunction(webEngine, barChart))
-					.attr("height", new BarChartHeightDataFunction(webEngine, barChart));
+					.attr("y", yDataFunction)
+					.attr("height", heightDataFunction);
 
 		});
 

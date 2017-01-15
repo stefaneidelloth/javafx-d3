@@ -58,44 +58,67 @@ public class FocusAndContext extends AbstractDemoCase {
 
 		final Margin margin = new Margin(10, 10, 100, 40);
 		final Margin margin2 = new Margin(430, 10, 20, 40);
+
 		final int width = 960 - margin.left - margin.right;
 		final int height = 500 - margin.top - margin.bottom;
 		final int height2 = 500 - margin2.top - margin2.bottom;
 
-		final TimeFormat dateFormat = d3.time().format("%b %Y");
+		final TimeFormat dateFormat = d3.time() //
+				.format("%b %Y");
 
-		final TimeScale x = d3.time().scale().range(0, width);
-		final TimeScale x2 = d3.time().scale().range(0, width);
-		final LinearScale y = d3.scale().linear().range(height, 0);
-		final LinearScale y2 = d3.scale().linear().range(height2, 0);
+		final TimeScale x = d3.time() //
+				.scale() //
+				.range(0, width);
 
-		final Axis xAxis = d3.svg().axis().scale(x).orient(Orientation.BOTTOM);
-		final Axis xAxis2 = d3.svg().axis().scale(x2).orient(Orientation.BOTTOM);
-		final Axis yAxis = d3.svg().axis().scale(y).orient(Orientation.LEFT);
+		final TimeScale x2 = d3.time() //
+				.scale() //
+				.range(0, width);
 
-		DataFunction<Double> xDataFunction = new DataFunctionWrapper<>(
-				FocusAndContextData.class, webEngine, (data) -> {
-					if (data == null) {
-						return null;
-					}
+		final LinearScale y = d3.scale() //
+				.linear() //
+				.range(height, 0);
 
-					JsDate date = data.getDate();
-					Value scaledValue = x.apply(date);
-					if (scaledValue == null) {
-						return null;
-					}
-					return scaledValue.asDouble();
-				});
+		final LinearScale y2 = d3.scale() //
+				.linear() //
+				.range(height2, 0);
+
+		final Axis xAxis = d3.svg() //
+				.axis() //
+				.scale(x) //
+				.orient(Orientation.BOTTOM);
+
+		final Axis xAxis2 = d3.svg() //
+				.axis() //
+				.scale(x2) //
+				.orient(Orientation.BOTTOM);
+
+		final Axis yAxis = d3.svg() //
+				.axis() //
+				.scale(y) //
+				.orient(Orientation.LEFT);
+
+		DataFunction<Double> xDataFunction = new DataFunctionWrapper<>(FocusAndContextData.class, webEngine, (data) -> {
+			if (data == null) {
+				return 0d;
+			}
+
+			JsDate date = data.getDate();
+			Value scaledValue = x.apply(date);
+			if (scaledValue == null) {
+				return 0d;
+			}
+			return scaledValue.asDouble();
+		});
 
 		DataFunction<Double> y1DataFunction = new DataFunctionWrapper<>(FocusAndContextData.class, webEngine,
 				(data) -> {
-					if(data==null){
-						return null;
+					if (data == null) {
+						return 0d;
 					}
 					Double price = data.getPrice();
 					Value scaledValue = y.apply(price);
 					if (scaledValue == null) {
-						return null;
+						return 0d;
 					}
 					Double y1Val = scaledValue.asDouble();
 					return y1Val;
@@ -113,7 +136,7 @@ public class FocusAndContext extends AbstractDemoCase {
 					JsDate date = data.getDate();
 					Value scaledValue = x2.apply(date);
 					if (scaledValue == null) {
-						return null;
+						return 0d;
 					}
 					return scaledValue.asDouble();
 				});
@@ -123,7 +146,7 @@ public class FocusAndContext extends AbstractDemoCase {
 					Double price = data.getPrice();
 					Value scaledValue = y2.apply(price);
 					if (scaledValue == null) {
-						return null;
+						return 0d;
 					}
 					Double y2Val = scaledValue.asDouble();
 					return y2Val;
@@ -136,8 +159,7 @@ public class FocusAndContext extends AbstractDemoCase {
 				.y0(height2) //
 				.y1(y2DataFunction);
 
-		Selection svg = d3.select("svg") //
-				.classed("fac", true) //
+		Selection svg = d3.select("svg") //				
 				.attr("width", width + margin.left + margin.right) //
 				.attr("height", height + margin.top + margin.bottom);
 
@@ -148,29 +170,27 @@ public class FocusAndContext extends AbstractDemoCase {
 				.attr("width", width) //
 				.attr("height", height);
 
-		final Selection focus = svg.append("g") //
+		Selection focus = svg.append("g") //
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-		final Selection context = svg.append("g") //
+		Selection context = svg.append("g") //
 				.attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-		final Brush brush = d3.svg() //
+		Brush brush = d3.svg() //
 				.brush() //
 				.x(x2);
 
 		DataFunction<Void> brushFunction = new DataFunctionWrapper<>(() -> {
 
-			
-				Array<JsDate> limits = brush.empty() ? x2.domain() : brush.extent();
+			Array<JsDate> limits = brush.empty() ? x2.domain() : brush.extent();
 
-				x.domain(limits);
+			x.domain(limits);
 
-				focus.select("path") //
-						.attr("d", area);
+			focus.select("path") //
+					.attr("d", area);
 
-				focus.select(".x.axis") //
-						.call(xAxis);
-			
+			focus.select(".x.axis") //
+					.call(xAxis);
 
 		});
 
@@ -183,9 +203,9 @@ public class FocusAndContext extends AbstractDemoCase {
 					return new FocusAndContextData(dateFormat.parse(date), price);
 				});
 
-		DsvCallback<FocusAndContextData> callback = new DsvCallbackWrapper<>(FocusAndContextData.class, webEngine, (dataRows) -> {
-			
-			Array<JsDate> jsDateArray = dataRows.map((focusAndContextData) -> {
+		DsvCallback<FocusAndContextData> callback = new DsvCallbackWrapper<>(webEngine, (array) -> {
+
+			Array<JsDate> jsDateArray = array.map((focusAndContextData) -> {
 				JsDate date = focusAndContextData.getDate();
 				return date;
 			});
@@ -199,7 +219,7 @@ public class FocusAndContext extends AbstractDemoCase {
 						return price;
 					});
 
-			Value maxPrice = Arrays.max(dataRows, priceCallback, webEngine);
+			Value maxPrice = Arrays.max(array, priceCallback, webEngine);
 
 			y.domain(0, maxPrice.asInt());
 
@@ -208,29 +228,30 @@ public class FocusAndContext extends AbstractDemoCase {
 			y2.domain(y.domain());
 
 			focus.append("path") //
-					.datum(dataRows) //
+					.datum(array) //
 					.attr("clip-path", "url(#clip)") //
 					.attr("d", area);
 
 			focus.append("g") //
-					.attr("class", "x " + "axis") //
+					.attr("class", "x axis") //
 					.attr("transform", "translate(0," + height + ")") //
 					.call(xAxis);
 
 			focus.append("g") //
-					.attr("class", "y " + "axis") //
+					.attr("class", "y axis") //
 					.call(yAxis);
 
 			context.append("path") //
-					.datum(dataRows).attr("d", area2);
+					.datum(array) //
+					.attr("d", area2);
 
 			context.append("g") //
-					.attr("class", "x " + "axis") //
+					.attr("class", "x axis") //
 					.attr("transform", "translate(0," + height2 + ")") //
 					.call(xAxis2);
 
 			context.append("g") //
-					.attr("class", "x " + "brush") //
+					.attr("class", "x brush") //
 					.call(brush) //
 					.selectAll("rect") //
 					.attr("y", -6) //
@@ -251,47 +272,6 @@ public class FocusAndContext extends AbstractDemoCase {
 	@Override
 	public void stop() {
 	}
-
-	//#end region
-
-	//#region CLASSES
-
-	public class FocusAndContextData {
-
-		//#region ATTRIOBUTES
-
-		private final JsDate date;
-
-		private final double price;
-
-		//#end region
-
-		//#region CONSTRUCTORS
-
-		public FocusAndContextData(final JsDate date, final double price) {
-			super();
-			this.date = date;
-			this.price = price;
-		}
-
-		//#end region
-
-		//#region ACCESSORS
-
-		public JsDate getDate() {
-			return date;
-		}
-
-		public double getPrice() {
-			return price;
-		}
-
-		//#end region
-	}
-
-	//#end region
-
-	//#region DATA
 
 	private String csvData() {
 
