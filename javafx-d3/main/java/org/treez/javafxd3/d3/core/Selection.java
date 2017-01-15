@@ -217,13 +217,13 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(func);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(funcName, func);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(funcName, func);
 
 		String command = "this.selectAll(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
 
-		d3JsObject.removeMember(funcName);
+		d3JsObj.removeMember(funcName);
 
 		return new Selection(webEngine, result);
 	}
@@ -365,11 +365,14 @@ public class Selection extends EnteringSelection {
 		JSObject jsObject = generator.getJsObject();
 		String memberName = createNewTemporaryInstanceName();
 
-		JSObject d3jsObj = getD3();
-		d3jsObj.setMember(memberName, jsObject);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(memberName, jsObject);
 
 		String command = "this.attr('" + name + "',d3." + memberName + ")";
 		JSObject result = evalForJsObject(command);
+
+		d3JsObj.removeMember(memberName);
+
 		if (result == null) {
 			return null;
 		}
@@ -427,8 +430,8 @@ public class Selection extends EnteringSelection {
 
 		String memberName = createNewTemporaryInstanceName();
 
-		JSObject d3jsObj = getD3();
-		d3jsObj.setMember(memberName, callback);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(memberName, callback);
 
 		// tell x to use the callback
 		String command = "this.attr('" + name + "', function(d,i) {" //				
@@ -436,6 +439,9 @@ public class Selection extends EnteringSelection {
 				+ "})";
 
 		JSObject result = evalForJsObject(command);
+
+		d3JsObj.removeMember(memberName);
+
 		if (result == null) {
 			return null;
 		}
@@ -515,8 +521,8 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(callback);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(funcName, callback);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(funcName, callback);
 
 		String command = "this.style('" + name + "', " + //
 				"      function(d, i) { " + //
@@ -531,6 +537,9 @@ public class Selection extends EnteringSelection {
 				"    );";
 
 		JSObject result = evalForJsObject(command);
+
+		d3JsObj.removeMember(funcName);
+
 		return new Selection(webEngine, result);
 	}
 
@@ -561,8 +570,8 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(callback);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(funcName, callback);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(funcName, callback);
 
 		String command = "var imp = " + important + " ? 'important' : null; " + //
 				"this.style('" + name + "', function(d, i) { " + //
@@ -571,6 +580,11 @@ public class Selection extends EnteringSelection {
 				"}, imp);";
 
 		JSObject result = evalForJsObject(command);
+
+		d3JsObj.removeMember(funcName);
+		if (result == null) {
+			return null;
+		}
 		return new Selection(webEngine, result);
 
 	}
@@ -651,14 +665,18 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(assignSwitchFunction);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(methodName, assignSwitchFunction);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(methodName, assignSwitchFunction);
 
 		String command = "this.classed('" + classNames + "', function(d, i) { " + //		
 				"   var r = d3." + methodName + ".apply(this,d,i);" + //
 				"   return r == null ? false : r; " + //			
 				"});";
 		JSObject result = evalForJsObject(command);
+		d3JsObj.removeMember(methodName);
+		if (result == null) {
+			return null;
+		}
 		return new Selection(webEngine, result);
 
 	}
@@ -788,13 +806,17 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(callback);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(methodName, callback);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(methodName, callback);
 
 		String command = "this.property('" + name + "', function(d, i) {" + "return d3." + methodName
 				+ ".apply(this,{datum:d},i);" + " });";
 
 		JSObject result = evalForJsObject(command);
+		d3JsObj.removeMember(methodName);
+		if (result == null) {
+			return null;
+		}
 		return new Selection(webEngine, result);
 
 	}
@@ -851,15 +873,18 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(callback);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(methodName, callback);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(methodName, callback);
 
 		String command = "this.text(function(d, i) {" + "return d3." + methodName + ".apply(this,{datum:d},i);"
 				+ " });";
 
 		JSObject result = evalForJsObject(command);
 
-		d3JsObject.removeMember(methodName);
+		d3JsObj.removeMember(methodName);
+		if (result == null) {
+			return null;
+		}
 
 		return new Selection(webEngine, result);
 
@@ -908,8 +933,8 @@ public class Selection extends EnteringSelection {
 
 		String memberName = createNewTemporaryInstanceName();
 
-		JSObject d3jsObj = getD3();
-		d3jsObj.setMember(memberName, callback);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(memberName, callback);
 
 		// tell x to use the callback
 		String command = "this.html(function(d,i) {" //				
@@ -917,6 +942,7 @@ public class Selection extends EnteringSelection {
 				+ "})";
 
 		JSObject result = evalForJsObject(command);
+		d3JsObj.removeMember(memberName);
 		if (result == null) {
 			return null;
 		}
@@ -1043,13 +1069,18 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(function);
 
 		String functionName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(functionName, function);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(functionName, function);
 
-		String command = "this.each(function(d, i) { d3." + functionName + ".apply(this,{datum:d},i); });";
+		String command = "this.each(function(d, i) { " + //
+				"   d3." + functionName + ".apply(this,{datum:d},i); " + //
+				" });";
 		JSObject result = evalForJsObject(command);
 
-		d3JsObject.removeMember(functionName);
+		d3JsObj.removeMember(functionName);
+		if (result == null) {
+			return null;
+		}
 
 		return new Selection(webEngine, result);
 	}
@@ -1156,14 +1187,14 @@ public class Selection extends EnteringSelection {
 	 */
 	public UpdateSelection data(Collection<? extends JavaScriptObject> collection) {
 
-		JSObject d3JsObject = getD3();
+		JSObject d3JsObj = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 		for (JavaScriptObject javaScriptObject : collection) {
 			String varName = createNewTemporaryInstanceName();
 			JSObject jsObject = javaScriptObject.getJsObject();
-			d3JsObject.setMember(varName, jsObject);
+			d3JsObj.setMember(varName, jsObject);
 			fullVarNames.add("d3." + varName);
 			varNames.add(varName);
 		}
@@ -1172,7 +1203,10 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		for (String varName : varNames) {
-			d3JsObject.removeMember(varName);
+			d3JsObj.removeMember(varName);
+		}
+		if (result == null) {
+			return null;
 		}
 
 		return new UpdateSelection(webEngine, result);
@@ -1180,13 +1214,13 @@ public class Selection extends EnteringSelection {
 
 	public UpdateSelection dataObjectCollection(Collection<Object> collection) {
 
-		JSObject d3JsObject = getD3();
+		JSObject d3JsObj = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 		for (Object object : collection) {
 			String varName = createNewTemporaryInstanceName();
-			d3JsObject.setMember(varName, object);
+			d3JsObj.setMember(varName, object);
 			fullVarNames.add("d3." + varName);
 			varNames.add(varName);
 		}
@@ -1195,7 +1229,10 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		for (String varName : varNames) {
-			d3JsObject.removeMember(varName);
+			d3JsObj.removeMember(varName);
+		}
+		if (result == null) {
+			return null;
 		}
 
 		return new UpdateSelection(webEngine, result);
@@ -1223,14 +1260,14 @@ public class Selection extends EnteringSelection {
 
 	public UpdateSelection data(JSObject values, KeyFunction<?> keyFunction) {
 
-		JSObject d3JsObject = getD3();
+		JSObject d3JsObj = getD3();
 
 		String methodName = createNewTemporaryInstanceName();
-		d3JsObject.setMember(methodName, keyFunction);
+		d3JsObj.setMember(methodName, keyFunction);
 
 		String arrayName = createNewTemporaryInstanceName();
 
-		d3JsObject.setMember(arrayName, values);
+		d3JsObj.setMember(arrayName, values);
 
 		String command = "this.data( d3." + arrayName + ", " + "function(d, i) {" //
 				+ "  var ctxEl = null;" + "  var newDataArray = null;" //
@@ -1244,8 +1281,11 @@ public class Selection extends EnteringSelection {
 
 		JSObject result = evalForJsObject(command);
 
-		d3JsObject.removeMember(methodName);
-		d3JsObject.removeMember(arrayName);
+		d3JsObj.removeMember(methodName);
+		d3JsObj.removeMember(arrayName);
+		if (result == null) {
+			return null;
+		}
 
 		return new UpdateSelection(webEngine, result);
 
@@ -1268,16 +1308,20 @@ public class Selection extends EnteringSelection {
 	 */
 	public UpdateSelection dataExpression(JavaScriptObject values, String keyFunctionExpression) {
 
-		JSObject d3JsObject = getD3();
+		JSObject d3JsObj = getD3();
 
 		String valuesName = createNewTemporaryInstanceName();
 		JSObject valuesJsObject = values.getJsObject();
-		d3JsObject.setMember(valuesName, valuesJsObject);
+		d3JsObj.setMember(valuesName, valuesJsObject);
 
 		String command = "this.data( d3." + valuesName + ", " + keyFunctionExpression + ");";
 
 		JSObject result = evalForJsObject(command);
-		d3JsObject.removeMember(valuesName);
+		d3JsObj.removeMember(valuesName);
+
+		if (result == null) {
+			return null;
+		}
 		return new UpdateSelection(webEngine, result);
 	}
 
@@ -1310,8 +1354,8 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(callback);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(methodName, callback);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(methodName, callback);
 
 		String command = "this.data(function(d, i) {" //
 				+ "var result = d3." + methodName + ".apply(this,{datum:d},i);" //				
@@ -1320,7 +1364,11 @@ public class Selection extends EnteringSelection {
 
 		JSObject result = evalForJsObject(command);
 
-		d3JsObject.removeMember(methodName);
+		d3JsObj.removeMember(methodName);
+
+		if (result == null) {
+			return null;
+		}
 		return new UpdateSelection(webEngine, result);
 
 	}
@@ -1384,13 +1432,13 @@ public class Selection extends EnteringSelection {
 	 */
 	public final UpdateSelection data(final Object[] array) {
 
-		JSObject d3JsObject = getD3();
+		JSObject d3JsObj = getD3();
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 
 		for (Object object : array) {
 			String varName = JavaScriptObject.createNewTemporaryInstanceName();
-			d3JsObject.setMember(varName, object);
+			d3JsObj.setMember(varName, object);
 			fullVarNames.add("d3." + varName);
 			varNames.add(varName);
 		}
@@ -1400,7 +1448,11 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		for (String varName : varNames) {
-			d3JsObject.removeMember(varName);
+			d3JsObj.removeMember(varName);
+		}
+
+		if (result == null) {
+			return null;
 		}
 
 		return new UpdateSelection(webEngine, result);
@@ -1419,14 +1471,14 @@ public class Selection extends EnteringSelection {
 	 */
 	public final UpdateSelection data(final Object[] array, final KeyFunction<?> keyFunction) {
 
-		JSObject d3JsObject = getD3();
+		JSObject d3JsObj = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 
 		for (Object object : array) {
 			String varName = createNewTemporaryInstanceName();
-			d3JsObject.setMember(varName, object);
+			d3JsObj.setMember(varName, object);
 			fullVarNames.add("d3." + varName);
 			varNames.add(varName);
 		}
@@ -1435,7 +1487,7 @@ public class Selection extends EnteringSelection {
 		JSObject jsArrayObject = evalForJsObject(arrayCommand);
 
 		for (String varName : varNames) {
-			d3JsObject.removeMember(varName);
+			d3JsObj.removeMember(varName);
 		}
 
 		JavaScriptObject arrayObject = new JavaScriptObject(webEngine, jsArrayObject);
@@ -1683,14 +1735,14 @@ public class Selection extends EnteringSelection {
 	 */
 	public final UpdateSelection data(final List<JavaScriptObject> list) {
 
-		JSObject d3JsObject = getD3();
+		JSObject d3JsObj = getD3();
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 
 		for (JavaScriptObject javaScriptObject : list) {
 			String varName = createNewTemporaryInstanceName();
 			JSObject jsObject = javaScriptObject.getJsObject();
-			d3JsObject.setMember(varName, jsObject);
+			d3JsObj.setMember(varName, jsObject);
 			fullVarNames.add("d3." + varName);
 			varNames.add(varName);
 		}
@@ -1699,7 +1751,11 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		for (String varName : varNames) {
-			d3JsObject.removeMember(varName);
+			d3JsObj.removeMember(varName);
+		}
+
+		if (result == null) {
+			return null;
 		}
 
 		return new UpdateSelection(webEngine, result);
@@ -1718,14 +1774,14 @@ public class Selection extends EnteringSelection {
 	 */
 	public final UpdateSelection data(final List<?> list, final KeyFunction<?> keyFunction) {
 
-		JSObject d3JsObject = getD3();
+		JSObject d3JsObj = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 
 		for (Object object : list) {
 			String varName = createNewTemporaryInstanceName();
-			d3JsObject.setMember(varName, object);
+			d3JsObj.setMember(varName, object);
 			fullVarNames.add("d3." + varName);
 			varNames.add(varName);
 		}
@@ -1734,7 +1790,11 @@ public class Selection extends EnteringSelection {
 		JSObject jsArrayObject = evalForJsObject(arrayCommand);
 
 		for (String varName : varNames) {
-			d3JsObject.removeMember(varName);
+			d3JsObj.removeMember(varName);
+		}
+
+		if (jsArrayObject == null) {
+			return null;
 		}
 
 		JavaScriptObject arrayObject = new JavaScriptObject(webEngine, jsArrayObject);
@@ -1767,12 +1827,12 @@ public class Selection extends EnteringSelection {
 
 		String dataName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(dataName, object);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(dataName, object);
 		String command = "this.datum(d3." + dataName + ")";
 		JSObject result = evalForJsObject(command);
 
-		d3JsObject.removeMember(dataName);
+		d3JsObj.removeMember(dataName);
 
 		if (result == null) {
 			return null;
@@ -1787,12 +1847,12 @@ public class Selection extends EnteringSelection {
 		JSObject datumObj = object.getJsObject();
 		String dataName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(dataName, datumObj);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(dataName, datumObj);
 		String command = "this.datum(d3." + dataName + ")";
 		JSObject result = evalForJsObject(command);
 
-		d3JsObject.removeMember(dataName);
+		d3JsObj.removeMember(dataName);
 
 		if (result == null) {
 			return null;
@@ -1806,12 +1866,12 @@ public class Selection extends EnteringSelection {
 
 		String dataName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(dataName, object);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(dataName, object);
 		String command = "this.datum(d3." + dataName + ")";
 		JSObject result = evalForJsObject(command);
 
-		d3JsObject.removeMember(dataName);
+		d3JsObj.removeMember(dataName);
 
 		if (result == null) {
 			return null;
@@ -1823,14 +1883,14 @@ public class Selection extends EnteringSelection {
 
 	public Selection datum(Array<? extends JavaScriptObject> array) {
 
-		JSObject d3JsObject = getD3();
+		JSObject d3JsObj = getD3();
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 
 		array.forEach((element) -> {
 			JSObject jsElement = (JSObject) element;
 			String varName = createNewTemporaryInstanceName();
-			d3JsObject.setMember(varName, jsElement);
+			d3JsObj.setMember(varName, jsElement);
 			fullVarNames.add("d3." + varName);
 		});
 
@@ -1838,7 +1898,7 @@ public class Selection extends EnteringSelection {
 		JSObject result = evalForJsObject(command);
 
 		for (String varName : varNames) {
-			d3JsObject.removeMember(varName);
+			d3JsObj.removeMember(varName);
 		}
 
 		if (result == null) {
@@ -1875,8 +1935,8 @@ public class Selection extends EnteringSelection {
 		}
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(methodName, datumFunction);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(methodName, datumFunction);
 
 		String varName = createNewTemporaryInstanceName();
 		String command = "var " + varName + " = null;" + "if (d3." + methodName + " == null) { " //
@@ -1890,8 +1950,8 @@ public class Selection extends EnteringSelection {
 		eval(command);
 		JSObject result = evalForJsObject(varName);
 
-		d3JsObject.removeMember(varName);
-		d3JsObject.removeMember(methodName);
+		d3JsObj.removeMember(varName);
+		d3JsObj.removeMember(methodName);
 
 		if (result == null) {
 			return null;
@@ -1955,8 +2015,8 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(datumFunction);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(methodName, datumFunction);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(methodName, datumFunction);
 
 		String command = "this.filter(function(d, i) { " //
 				+ "return d3." + methodName + ".apply(this,{datum:d},i);" //
@@ -1964,7 +2024,7 @@ public class Selection extends EnteringSelection {
 
 		JSObject result = evalForJsObject(command);
 
-		d3JsObject.removeMember(methodName);
+		d3JsObj.removeMember(methodName);
 
 		if (result == null) {
 			return null;
@@ -1997,8 +2057,8 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(comparator);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(methodName, comparator);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(methodName, comparator);
 
 		String command = "this.sort(function(o1, o2) { " //
 				+ "return d3." + methodName + ".compare({datum:o1},{datum:o2});" //
@@ -2006,7 +2066,11 @@ public class Selection extends EnteringSelection {
 
 		JSObject result = evalForJsObject(command);
 
-		d3JsObject.removeMember(methodName);
+		d3JsObj.removeMember(methodName);
+
+		if (result == null) {
+			return null;
+		}
 
 		return new Selection(webEngine, result);
 	}
@@ -2085,8 +2149,8 @@ public class Selection extends EnteringSelection {
 
 		String listenerName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(listenerName, listener);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(listenerName, listener);
 
 		String command = "var listenerObj = d3." + listenerName + " == null ? null : " + "function(d, i) {" //		      
 				+ "d3." + listenerName + ".apply(this,{datum:d},i);" //
@@ -2096,6 +2160,13 @@ public class Selection extends EnteringSelection {
 		String onCommand = "this.on('" + eventType + "', listenerObj);";
 
 		JSObject result = evalForJsObject(onCommand);
+
+		//hint: the "temporary" member of d3JsObj must stay as long as it is used. 
+		//don't remove it here with d3JsObj.removeMember(listenerName)
+
+		if (result == null) {
+			return null;
+		}
 		return new Selection(webEngine, result);
 
 	}
@@ -2147,8 +2218,8 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(listener);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(methodName, listener);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(methodName, listener);
 
 		String command = "var l = (d3." + methodName + " == null ? null : function(d, i) {" + "d3." + methodName
 				+ ".apply(this,{datum:d},i);" //
@@ -2156,6 +2227,13 @@ public class Selection extends EnteringSelection {
 				+ "return this.on('" + eventType + "', l, " + useCapture + ");";
 
 		JSObject result = evalForJsObject(command);
+
+		//hint: the "temporary" member of d3JsObj must stay as long as it is used. 
+		//don't remove it here with d3JsObj.removeMember(methodName)
+
+		if (result == null) {
+			return null;
+		}
 
 		return new Selection(webEngine, result);
 
@@ -2167,8 +2245,8 @@ public class Selection extends EnteringSelection {
 
 		String listenerName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(listenerName, listener);
+		JSObject d3JsObj = getD3();
+		d3JsObj.setMember(listenerName, listener);
 
 		String command = "var listenerObj = d3." + listenerName + " == null ? null : " + "function(d, i) {" //		      
 				+ "d3." + listenerName + ".handleMouseClick(this);" //
@@ -2178,6 +2256,14 @@ public class Selection extends EnteringSelection {
 		String onCommand = "this.on('click', listenerObj);";
 
 		JSObject result = evalForJsObject(onCommand);
+
+		//hint: the "temporary" member of d3JsObj must stay as long as it is used. 
+		//don't remove it here with d3JsObj.removeMember(listenerName)
+
+		if (result == null) {
+			return null;
+		}
+
 		return new Selection(webEngine, result);
 
 	}

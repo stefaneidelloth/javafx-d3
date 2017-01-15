@@ -80,6 +80,9 @@ public class Chord extends PathDataGenerator {
 				+ " });";
 		
 		JSObject result = evalForJsObject(command);
+		if(result==null){
+			return null;
+		}
 		return new Chord(webEngine, result);
 
 	}
@@ -119,6 +122,9 @@ public class Chord extends PathDataGenerator {
 				+ " });";
 		
 		JSObject result = evalForJsObject(command);
+		if(result==null){
+			return null;
+		}
 		return new Chord(webEngine, result);
 	}
 
@@ -147,6 +153,9 @@ public class Chord extends PathDataGenerator {
 				+ " });";
 		
 		JSObject result = evalForJsObject(command);
+		if(result==null){
+			return null;
+		}
 		return new Chord(webEngine, result);
 	}
 
@@ -191,6 +200,9 @@ public class Chord extends PathDataGenerator {
 				+ " });";
 		
 		JSObject result = evalForJsObject(command);
+		if(result==null){
+			return null;
+		}
 		return new Chord(webEngine, result);
 		
 	}
@@ -238,6 +250,9 @@ public class Chord extends PathDataGenerator {
 				+ " });";
 		
 		JSObject result = evalForJsObject(command);
+		if(result==null){
+			return null;
+		}
 		return new Chord(webEngine, result);
 	}
 

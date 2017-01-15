@@ -37,6 +37,9 @@ public abstract class AbstractInterpolatorFactory<O> extends JavaScriptObject im
 		d3JsObject.eval(command);		
 		
 		JSObject result = (JSObject) d3JsObject.eval("this." +jsInterpolatorName);
+		
+		
+		
 		return result;			
 			
 		

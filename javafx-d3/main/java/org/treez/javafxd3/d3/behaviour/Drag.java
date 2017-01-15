@@ -86,6 +86,11 @@ public class Drag extends JavaScriptObject implements JsFunction {
 		String command = "this.on('" + eventName + "', " + "function(d, index) { d3." + listenerName
 				+ ".apply(this,{datum:d},index); });";
 		JSObject result = evalForJsObject(command);
+		
+		if(result==null){
+			return null;
+		}
+		
 		return new Drag(webEngine, result);
 	}
 	
@@ -101,6 +106,11 @@ public class Drag extends JavaScriptObject implements JsFunction {
 		eval(command);
 		String onCommand = "this.on('dragstart', listenerObjDragStart);";
 		JSObject result = evalForJsObject(onCommand);
+		
+		if(result==null){
+			return null;
+		}
+		
 		return new Drag(webEngine, result);
 	}
 	
@@ -115,6 +125,10 @@ public class Drag extends JavaScriptObject implements JsFunction {
 		eval(command);
 		String onCommand = "this.on('drag', listenerObjDrag);";
 		JSObject result = evalForJsObject(onCommand);
+		
+		if(result==null){
+			return null;
+		}
 		return new Drag(webEngine, result);
 	}
 	
@@ -197,13 +211,19 @@ public class Drag extends JavaScriptObject implements JsFunction {
 	 */
 	public Drag origin(DataFunction<Coords> originAccesor) {
 
-		String originAccesorName = createNewTemporaryInstanceName();
+		String originAccessorName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
-		d3JsObject.setMember(originAccesorName, originAccesor);
+		d3JsObject.setMember(originAccessorName, originAccesor);
 
-		String command = "this.origin(function(d, i) { return d3." + originAccesorName
+		String command = "this.origin(function(d, i) { return d3." + originAccessorName
 				+ ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
+		
+		d3JsObject.removeMember(originAccessorName);
+		
+		if(result==null){
+			return null;
+		}
 		return new Drag(webEngine, result);
 	}
 

@@ -65,6 +65,12 @@ public class Quadtree extends JavaScriptObject {
 				+ "return d3." + methodName + ".apply(this,{datum:d},i);" //
 				+ " });";
 		JSObject result = evalForJsObject(command);
+		
+		
+
+		if (result == null) {
+			return null;
+		}
 		return new Quadtree(webEngine, result);
 
 	}
@@ -92,6 +98,12 @@ public class Quadtree extends JavaScriptObject {
 				+ "return d3." + methodName + ".apply(this,{datum:d},i);" //
 				+ " });";
 		JSObject result = evalForJsObject(command);
+		
+		
+
+		if (result == null) {
+			return null;
+		}
 		return new Quadtree(webEngine, result);
 	}
 

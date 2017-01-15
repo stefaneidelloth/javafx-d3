@@ -96,7 +96,7 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return the current zoom instance
 	 */
 	public Zoom on(ZoomEventType type, DataFunction<Void> listener) {
-		
+
 		assertObjectIsNotAnonymous(listener);
 
 		String listenerName = createNewTemporaryInstanceName();
@@ -104,12 +104,16 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 		d3JsObject.setMember(listenerName, listener);
 
 		String eventName = type.name().toLowerCase();
-		
+
 		String command = "this.on('" + eventName + "', " + "function(d, index) { " //				
 				+ "d3." + listenerName + ".apply(this,{datum:d},index);" //
-				+ " });";		
-		
+				+ " });";
+
 		JSObject result = evalForJsObject(command);
+
+		if (result == null) {
+			return null;
+		}
 		return new Zoom(webEngine, result);
 	}
 

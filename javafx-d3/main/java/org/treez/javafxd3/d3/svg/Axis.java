@@ -214,6 +214,9 @@ public class Axis extends JavaScriptObject implements JsFunction {
 		String command = "this.ticks(" + count + ", d3." + memberName + ");";
 
 		JSObject result = evalForJsObject(command);
+		if(result==null){
+			return null;
+		}
 
 		return new Axis(webEngine, result);
 	}
@@ -431,6 +434,10 @@ public class Axis extends JavaScriptObject implements JsFunction {
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
+		
+		if(result==null){
+			return null;
+		}
 
 		return new Axis(webEngine, result);
 

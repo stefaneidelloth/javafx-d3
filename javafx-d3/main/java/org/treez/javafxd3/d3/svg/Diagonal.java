@@ -92,7 +92,9 @@ public class Diagonal extends PathDataGenerator {
 		String command = "this.projection(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
 
-		//d3JsObject.removeMember(funcName);
+		if(result==null){
+			return null;
+		}
 
 		return new Diagonal(webEngine, result);
 
@@ -177,7 +179,7 @@ public class Diagonal extends PathDataGenerator {
 		String command = "this.source(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
 
-		d3JsObject.removeMember(funcName);
+		
 
 		return new Diagonal(webEngine, result);
 		
@@ -207,7 +209,7 @@ public class Diagonal extends PathDataGenerator {
 		String command = "this.target(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
 		JSObject result = evalForJsObject(command);
 
-		d3JsObject.removeMember(funcName);
+		
 
 		return new Diagonal(webEngine, result);
 	}

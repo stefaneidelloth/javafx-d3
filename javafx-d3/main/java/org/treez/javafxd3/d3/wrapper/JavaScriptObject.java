@@ -11,7 +11,6 @@ import netscape.javascript.JSObject;
 
 /**
  * Base class for all JavaScript wrappers
- *
  */
 public class JavaScriptObject {
 
@@ -31,11 +30,7 @@ public class JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * Constructor
-	 * 
-	 * @param webEngine
-	 */
+
 	public JavaScriptObject(WebEngine webEngine) {
 		this.webEngine = webEngine;
 	}
@@ -62,6 +57,7 @@ public class JavaScriptObject {
 		String dummyName = createNewTemporaryInstanceName();
 		webEngine.executeScript("var " +dummyName +"=[];");
 		JSObject emptyObject = (JSObject) webEngine.executeScript(dummyName);
+		webEngine.executeScript("var " +dummyName +"=undefined;");
 		return emptyObject;
 	}
 	
@@ -73,6 +69,7 @@ public class JavaScriptObject {
 		String dummyName = createNewTemporaryInstanceName();
 		webEngine.executeScript("var " +dummyName +"={};");
 		JSObject emptyObject = (JSObject) webEngine.executeScript(dummyName);
+		webEngine.executeScript("var " +dummyName +"=undefined;");
 		return emptyObject;
 	}
 

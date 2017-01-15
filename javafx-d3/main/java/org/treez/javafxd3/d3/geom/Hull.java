@@ -51,6 +51,11 @@ public class Hull extends JavaScriptObject {
 		String command = "this.x(function(d, i) { return d3." + accessorName + ".apply(this,{datum:d},i); });";
 
 		JSObject result = evalForJsObject(command);
+		
+	
+		if (result == null) {
+			return null;
+		}
 		return new Hull(webEngine, result);
 	}
 
@@ -77,6 +82,11 @@ public class Hull extends JavaScriptObject {
 		String command = "this.y(function(d, i) { return d3." + accessorName + ".apply(this,{datum:d},i); });";
 
 		JSObject result = evalForJsObject(command);
+		
+		
+		if (result == null) {
+			return null;
+		}
 		return new Hull(webEngine, result);
 	}
 
@@ -103,6 +113,12 @@ public class Hull extends JavaScriptObject {
 
 		String command = "this(d3." + tempVarName + ")";
 		JSObject result = evalForJsObject(command);
+		
+		d3JsObject.removeMember(tempVarName);
+
+		if (result == null) {
+			return null;
+		}
 
 		return new Array<T>(webEngine, result);
 	}

@@ -263,7 +263,7 @@ public class Force extends JavaScriptObject {
 	}
 
 	/**
-	 * Sets sets the charge strength per node. If charge is a function, then the
+	 * Sets the charge strength per node. If charge is a function, then the
 	 * function is evaluated for each node (in order), being passed the node and
 	 * its index, with the this context as the force layout; the function's
 	 * return value is then used to set each node's charge. The function is
@@ -689,9 +689,7 @@ public class Force extends JavaScriptObject {
 		d3JsObject.setMember(funcName, callback);
 
 		String command = "this.on(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
-		JSObject result = evalForJsObject(command);
-
-		d3JsObject.removeMember(funcName);
+		JSObject result = evalForJsObject(command);		
 		
 		if(result==null){
 			return null;

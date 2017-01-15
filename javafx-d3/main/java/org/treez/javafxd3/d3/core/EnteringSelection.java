@@ -108,6 +108,10 @@ public class EnteringSelection extends JavaScriptObject {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
+		
+		if(result==null){
+			return null;
+		}
 
 		return new Selection(webEngine, result);
 	}
@@ -179,6 +183,10 @@ public class EnteringSelection extends JavaScriptObject {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
+		
+		if(result==null){
+			return null;
+		}
 
 		return new Selection(webEngine, result);
 	}

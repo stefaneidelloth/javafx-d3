@@ -46,7 +46,12 @@ public class Dsv<T> extends JavaScriptObject {
 				"   return d3." + callbackName + ".get(row, index);" //
 				+ "}" +//
 				");";
-		JSObject result = evalForJsObject(command);		
+		JSObject result = evalForJsObject(command);
+		
+		
+		if (result == null) {
+			return null;
+		}
 
 		return new DsvRow(webEngine, result);
 
@@ -77,6 +82,12 @@ public class Dsv<T> extends JavaScriptObject {
 				+ "}" +//
 				");";
 		JSObject result = evalForJsObject(command);		
+		
+		
+
+		if (result == null) {
+			return null;
+		}
 
 		return new Dsv<T>(webEngine, result);		
 		
@@ -137,6 +148,11 @@ public class Dsv<T> extends JavaScriptObject {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(accessorName);
+		
+	
+		if (result == null) {
+			return null;
+		}
 
 		return new Array<T>(webEngine, result);
 	}
@@ -193,6 +209,11 @@ public class Dsv<T> extends JavaScriptObject {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(accessorName);
+		
+	
+		if (result == null) {
+			return null;
+		}
 
 		return new Array<T>(webEngine, result);
 	}

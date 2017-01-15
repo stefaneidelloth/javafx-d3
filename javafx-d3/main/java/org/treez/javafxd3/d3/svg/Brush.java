@@ -332,6 +332,9 @@ public class Brush extends JavaScriptObject implements JsFunction {
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
+		if(result==null){
+			return null;
+		}
 		return new Brush(webEngine, result);
 		
 	}

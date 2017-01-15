@@ -70,7 +70,7 @@ public class Value extends JavaScriptObject {
 		JSObject result = (JSObject) d3.eval(dummyTempVariableName);
 
 		d3.removeMember(dummyTempAttributeName);
-		d3.eval(dummyTempVariableName + "= null;");
+		d3.eval(dummyTempVariableName + "= undefined;");
 
 		return new Value(webEngine, result);
 

@@ -166,6 +166,9 @@ public class Line extends PathDataGenerator {
 		JSObject result = evalForJsObject(command);
 		
 		
+		if(result==null){
+			return null;
+		}
 				
 		return result;
 	}
@@ -199,6 +202,10 @@ public class Line extends PathDataGenerator {
 				+ "  }"//
 				+ "});";
 		JSObject result = evalForJsObject(command);
+		
+		if(result==null){
+			return null;
+		}
 		return new Line(webEngine, result);
 	}
 	

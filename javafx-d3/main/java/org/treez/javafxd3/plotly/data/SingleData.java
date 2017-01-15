@@ -33,6 +33,8 @@ public class SingleData extends Array<Data> {
 		JSObject jsObject = (JSObject) webEngine.executeScript(dummyName);
 		setJsObject(jsObject);
 		JSObject firstEntry = evalForJsObject("this[0]");
+		webEngine.executeScript("var " + dummyName + " = undefined;");
+		
 		data = new Data(webEngine, firstEntry);
 	}
 

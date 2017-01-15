@@ -80,9 +80,9 @@ public class Array<T> extends JavaScriptObject {
 		// return result as array
 		return new Array<L>(webEngine, tempArray);
 	}
-	
+
 	/**
-	 * Creates a one-dimensional Array from the given list of objects. 
+	 * Creates a one-dimensional Array from the given list of objects.
 	 * 
 	 * @param <L>
 	 * @param webEngine
@@ -103,8 +103,8 @@ public class Array<T> extends JavaScriptObject {
 
 		//fill temporary array
 		for (int index = 0; index < length; index++) {
-			Object value = data.get(index);			
-			tempArray.setSlot(index, value);			
+			Object value = data.get(index);
+			tempArray.setSlot(index, value);
 		}
 
 		//remove temp var
@@ -131,7 +131,7 @@ public class Array<T> extends JavaScriptObject {
 		// execute command and return result as Array
 		JSObject result = (JSObject) webEngine.executeScript(varName);
 
-		webEngine.executeScript(varName + " = null;");
+		webEngine.executeScript(varName + " = undefined;");
 
 		return new Array<Double>(webEngine, result);
 	}
@@ -145,7 +145,7 @@ public class Array<T> extends JavaScriptObject {
 		// execute command and return result as Array
 		JSObject result = (JSObject) webEngine.executeScript(varName);
 
-		webEngine.executeScript(varName + " = null;");
+		webEngine.executeScript(varName + " = undefined;");
 
 		return new Array<Double>(webEngine, result);
 	}
@@ -160,7 +160,7 @@ public class Array<T> extends JavaScriptObject {
 		// execute command and return result as Array
 		JSObject result = (JSObject) webEngine.executeScript(varName);
 
-		webEngine.executeScript(varName + " = null;");
+		webEngine.executeScript(varName + " = undefined;");
 
 		return new Array<String>(webEngine, result);
 	}
@@ -212,7 +212,7 @@ public class Array<T> extends JavaScriptObject {
 	 * 
 	 * @return
 	 */
-	public List<Integer> sizes() {		
+	public List<Integer> sizes() {
 		int length = length();
 		if (length == 0) {
 			List<Integer> zeroSizes = createZeroSizes();
@@ -329,23 +329,27 @@ public class Array<T> extends JavaScriptObject {
 				"  }" + //
 				")";
 		eval(command);
+
+		d3Obj.removeMember(delegateName);
+
 	}
 
 	/**
-	 * Maps this array to a new Array of type R with the help a mapping function 
+	 * Maps this array to a new Array of type R with the help a mapping function
 	 */
 	public <R> Array<R> map(PlainDataFunction<R, T> mappingFunction) {
-		
+
 		int length = length();
-		if(length==0){
+		if (length == 0) {
 			return Array.fromList(webEngine, new ArrayList<R>());
 		}
-		
+
 		Object firstElement = getAsObject(0);
 		@SuppressWarnings("unchecked")
 		Class<T> argumentClass = (Class<T>) firstElement.getClass();
 
-		ForEachCallback<R> callbackWrapper = new ForEachCallbackWrapper<R, T>(argumentClass, webEngine, mappingFunction);
+		ForEachCallback<R> callbackWrapper = new ForEachCallbackWrapper<R, T>(argumentClass, webEngine,
+				mappingFunction);
 
 		D3 d3 = new D3(webEngine);
 		JSObject d3Obj = d3.getJsObject();
@@ -360,40 +364,29 @@ public class Array<T> extends JavaScriptObject {
 				")";
 
 		JSObject jsResult = evalForJsObject(command);
+
+		d3Obj.removeMember(callbackName);
+
 		if (jsResult == null) {
 			return null;
 		}
 
-		//boolean isJavaScriptObjectElement = JavaScriptObject.class.isAssignableFrom(resultElementClass);
-		//if(!isJavaScriptObjectElement){
 		return new Array<>(webEngine, jsResult);
-		//}			
-
-		//List<R> resultList = new ArrayList<>();		
-		//Array<JSObject> jsArray = new Array<>(webEngine, jsResult);
-		//jsArray.forEach((element)->{
-		//	R convertedElement = ConversionUtil.convertObjectTo(element, resultElementClass, webEngine);
-		//	resultList.add(convertedElement);
-		//});		
-		//Array<R> resultArray = Array.fromList(webEngine, resultList);
-		//return resultArray;		
 
 	}
 
 	public Array<T> filter(PlainDataFunction<Boolean, T> callback) {
-		
+
 		int length = length();
-		if(length==0){
+		if (length == 0) {
 			return Array.fromList(webEngine, new ArrayList<T>());
 		}
-		
+
 		Object firstElement = getAsObject(0);
 		@SuppressWarnings("unchecked")
 		Class<T> elementClass = (Class<T>) firstElement.getClass();
-		
 
-		ForEachCallback<Boolean> callbackWrapper = new ForEachCallbackWrapper<>(elementClass, webEngine,
-				callback);
+		ForEachCallback<Boolean> callbackWrapper = new ForEachCallbackWrapper<>(elementClass, webEngine, callback);
 
 		D3 d3 = new D3(webEngine);
 		JSObject d3Obj = d3.getJsObject();
@@ -408,6 +401,9 @@ public class Array<T> extends JavaScriptObject {
 				")";
 
 		JSObject jsResult = evalForJsObject(command);
+
+		d3Obj.removeMember(callbackName);
+
 		if (jsResult == null) {
 			return null;
 		}
@@ -419,27 +415,24 @@ public class Array<T> extends JavaScriptObject {
 	//#end region
 
 	//#region RETRIVE ITEMS	
-	
-	
+
 	@SuppressWarnings("unchecked")
-	public T get(int index) {					
-		Object resultObj = getAsObject(index);			
+	public T get(int index) {
+		Object resultObj = getAsObject(index);
 		return (T) resultObj;
 	}
-	
 
 	public <D> D get(int index, Class<D> classObj) {
 		Object resultObj = getAsObject(index);
 		D result = ConversionUtil.convertObjectTo(resultObj, classObj, webEngine);
 		return result;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public T get(int rowIndex, int columnIndex) {
 		Object result = getAsObject(rowIndex, columnIndex);
 		return (T) result;
 	}
-	
 
 	public <D> D get(int rowIndex, int columnIndex, Class<D> classObj) {
 		Object resultObj = getAsObject(rowIndex, columnIndex);
@@ -468,13 +461,13 @@ public class Array<T> extends JavaScriptObject {
 		List<D> list = new ArrayList<>();
 		for (int index = 0; index < size; index++) {
 			D element = this.get(index, clazz);
-			if(element!=null){
+			if (element != null) {
 				list.add(element);
 			} else {
 				String message = "Empty element in list";
 				System.out.println(message);
 			}
-			
+
 		}
 		return list;
 	}

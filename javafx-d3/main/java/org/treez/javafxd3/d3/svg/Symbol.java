@@ -102,6 +102,9 @@ public class Symbol extends PathDataGenerator {
 				+ " return t.getValue();" //
 				+ " });";
 		JSObject result = evalForJsObject(command);
+		if(result==null){
+			return null;
+		}
 		return new Symbol(webEngine, result);
 
 	}
@@ -142,6 +145,12 @@ public class Symbol extends PathDataGenerator {
 				+ "return d3." + accessorName + ".apply(this,{datum:d},i);" //
 				+ " });";
 		JSObject result = evalForJsObject(command);
+		
+		d3JsObject.removeMember(accessorName);
+		if(result==null){
+			return null;
+		}
+		
 		return new Symbol(webEngine, result);
 
 	}

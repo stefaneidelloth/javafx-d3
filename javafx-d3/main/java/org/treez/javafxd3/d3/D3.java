@@ -1179,6 +1179,10 @@ public class D3 extends JavaScriptObject {
 		for (String varName : varNames) {
 			d3JsObject.removeMember(varName);
 		}
+		
+		if(result==null){
+			return null;
+		}
 
 		return new Array<>(webEngine, result);
 	}

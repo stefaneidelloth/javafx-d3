@@ -61,6 +61,10 @@ public class Link extends JavaScriptObject {
 		d3Obj.removeMember(sourceVarName);
 		d3Obj.removeMember(targetVarName);
 		
+		if(result==null){
+			return null;
+		}
+		
 		return new Link(webEngine, result);		
 	}
 

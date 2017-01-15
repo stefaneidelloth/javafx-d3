@@ -149,6 +149,11 @@ public class Tree extends HierarchicalLayout {
 		
 		String command = "this.children(function(d) { return d3."+functionName +".apply(this,{datum:d},0);})";
 		JSObject result = evalForJsObject(command);
+		
+		if(result==null){
+			return null;
+		}
+		
 		return new Tree(webEngine, result);		
 	}
 

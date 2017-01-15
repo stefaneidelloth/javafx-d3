@@ -31,19 +31,19 @@ import netscape.javascript.JSObject;
  * easy to stagger a transition for different elements, either based on data or
  * index. For example, you can sort elements and then stagger the transition for
  * better perception of element reordering during the transition. For more
- * details on these techniques, see
- * "Animated Transitions in Statistical Data Graphics" by Heer & Robertson.
+ * details on these techniques, see "Animated Transitions in Statistical Data
+ * Graphics" by Heer & Robertson.
  * <p>
  * D3 has many built-in interpolators to simplify the transitioning of arbitrary
- * values. For instance, you can transition from the font string
- * "500 12px sans-serif" to "300 42px sans-serif", and D3 will find the numbers
- * embedded within the string, interpolating both font size and weight
- * automatically. You can even interpolate arbitrary nested objects and arrays
- * or SVG path data. D3 allows custom interpolators should you find the built-in
- * ones insufficient, using the attrTween and styleTween operators. D3's
- * interpolators provide the basis for scales and can be used outside of
- * transitions; an interpolator is a function that maps a parametric value t in
- * the domain [0,1] to a color, number or arbitrary value.
+ * values. For instance, you can transition from the font string "500 12px
+ * sans-serif" to "300 42px sans-serif", and D3 will find the numbers embedded
+ * within the string, interpolating both font size and weight automatically. You
+ * can even interpolate arbitrary nested objects and arrays or SVG path data. D3
+ * allows custom interpolators should you find the built-in ones insufficient,
+ * using the attrTween and styleTween operators. D3's interpolators provide the
+ * basis for scales and can be used outside of transitions; an interpolator is a
+ * function that maps a parametric value t in the domain [0,1] to a color,
+ * number or arbitrary value.
  * <p>
  * Only one transition may be active on a given element at a given time.
  * However, multiple transitions may be scheduled on the same element; provided
@@ -137,7 +137,7 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition delay(DataFunction<Integer> func) {
-		
+
 		assertObjectIsNotAnonymous(func);
 
 		String memberName = createNewTemporaryInstanceName();
@@ -149,9 +149,13 @@ public class Transition extends JavaScriptObject {
 				+ " });";
 
 		JSObject result = evalForJsObject(command);
-		
+
 		d3JsObject.removeMember(memberName);
-		
+
+		if (result == null) {
+			return null;
+		}
+
 		return new Transition(webEngine, result);
 	}
 
@@ -165,7 +169,7 @@ public class Transition extends JavaScriptObject {
 	 */
 	public Transition duration(int milliseconds) {
 		JSObject result = call("duration", milliseconds);
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Transition(webEngine, result);
@@ -180,7 +184,7 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition duration(DataFunction<Integer> func) {
-		
+
 		assertObjectIsNotAnonymous(func);
 
 		String memberName = createNewTemporaryInstanceName();
@@ -192,9 +196,13 @@ public class Transition extends JavaScriptObject {
 				+ " });";
 
 		JSObject result = evalForJsObject(command);
-		
+
 		d3JsObject.removeMember(memberName);
-		
+
+		if (result == null) {
+			return null;
+		}
+
 		return new Transition(webEngine, result);
 	}
 
@@ -215,7 +223,7 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition ease(EasingFunction callback) {
-		
+
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
@@ -227,9 +235,13 @@ public class Transition extends JavaScriptObject {
 				+ "  })";
 
 		JSObject result = evalForJsObject(command);
-		
-		d3JsObject.removeMember(memberName);
-		
+
+	
+
+		if (result == null) {
+			return null;
+		}
+
 		return new Transition(webEngine, result);
 	}
 
@@ -322,6 +334,12 @@ public class Transition extends JavaScriptObject {
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
+
+		d3JsObject.removeMember(memberName);
+
+		if (result == null) {
+			return null;
+		}
 		return new Transition(webEngine, result);
 	}
 
@@ -371,7 +389,7 @@ public class Transition extends JavaScriptObject {
 	 *            the function used to create an interpolator
 	 */
 	public Transition attrTween(String nameOfTheAttributeToTween, TweenFunction<?> tweenFunction) {
-		
+
 		assertObjectIsNotAnonymous(tweenFunction);
 
 		String memberName = createNewTemporaryInstanceName();
@@ -388,12 +406,14 @@ public class Transition extends JavaScriptObject {
 				");";
 
 		JSObject result = evalForJsObject(command);
-		
-		
-		if(result==null){
+
+		//Do not remove the member with d3JsObject.removeMember(memberName);
+		//since it is needed later
+
+		if (result == null) {
 			return null;
 		}
-		
+
 		return new Transition(webEngine, result);
 
 	}
@@ -450,7 +470,7 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition style(String name, double value) {
-		JSObject result = call("style", name,  value);
+		JSObject result = call("style", name, value);
 		return new Transition(webEngine, result);
 	}
 
@@ -470,8 +490,8 @@ public class Transition extends JavaScriptObject {
 		String memberName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(memberName, callback);
-		
-		try{
+
+		try {
 			String command = "this.style('" + name + "', function(d, i) {" //
 					+ "             try { "//
 					+ "               var r = d3." + memberName + ".apply(this,{datum:d},i);" //
@@ -483,21 +503,20 @@ public class Transition extends JavaScriptObject {
 					+ "          });";
 
 			JSObject result = evalForJsObject(command);
-			
+
+			d3JsObject.removeMember(memberName);
+
 			if (result == null) {
 				return null;
 			}
 
 			return new Transition(webEngine, result);
-			
-		} catch (Exception exception){
+
+		} catch (Exception exception) {
 			System.out.println("Could call style in Transition:\n" + exception.getMessage());
 			return null;
 		}
 
-		
-
-		
 	}
 
 	/**
@@ -563,6 +582,8 @@ public class Transition extends JavaScriptObject {
 
 		JSObject result = evalForJsObject(command);
 
+		d3JsObject.removeMember(memberName);
+
 		if (result == null) {
 			return null;
 		}
@@ -595,7 +616,7 @@ public class Transition extends JavaScriptObject {
 	 * @return the current selection
 	 */
 	public Selection styleTween(String name, TweenFunction<?> tweenFunction, boolean important) {
-		
+
 		assertObjectIsNotAnonymous(tweenFunction);
 
 		String memberName = createNewTemporaryInstanceName();
@@ -605,7 +626,7 @@ public class Transition extends JavaScriptObject {
 		String impCommand = "var imp = " + important + " ? 'important' : null;";
 		eval(impCommand);
 
-		String command ="this.styleTween('" + name + "', " //
+		String command = "this.styleTween('" + name + "', " //
 				+ "  function(d, i, a) {" //
 				+ "    var interpolator = d3." + memberName + ".apply(this,{datum:d},i,{datum:a});" //
 				+ "    return interpolator;" //
@@ -613,6 +634,8 @@ public class Transition extends JavaScriptObject {
 				+ "imp);";
 
 		JSObject result = evalForJsObject(command);
+
+		
 
 		if (result == null) {
 			return null;
@@ -662,7 +685,7 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition text(final DataFunction<String> callback) {
-		
+
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
@@ -674,6 +697,8 @@ public class Transition extends JavaScriptObject {
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
+
+		d3JsObject.removeMember(memberName);
 
 		if (result == null) {
 			return null;
@@ -701,7 +726,7 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition tween(String name, DataFunction<Interpolator<?>> factory) {
-		
+
 		assertObjectIsNotAnonymous(factory);
 
 		String memberName = createNewTemporaryInstanceName();
@@ -713,6 +738,8 @@ public class Transition extends JavaScriptObject {
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
+
+		
 
 		if (result == null) {
 			return null;
@@ -835,7 +862,7 @@ public class Transition extends JavaScriptObject {
 	 * @return a new transition containing the filtered elements
 	 */
 	public Transition filter(final DataFunction<Element> datumFunction) {
-		
+
 		assertObjectIsNotAnonymous(datumFunction);
 
 		String memberName = createNewTemporaryInstanceName();
@@ -847,7 +874,9 @@ public class Transition extends JavaScriptObject {
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
-		
+
+		d3JsObject.removeMember(memberName);
+
 		d3JsObject.removeMember(memberName);
 
 		if (result == null) {
@@ -904,7 +933,7 @@ public class Transition extends JavaScriptObject {
 
 	/**
 	 * Type of transition event.
-	 * <p> 
+	 * <p>
 	 */
 	public static enum EventType {
 		START, END;
@@ -948,7 +977,7 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition each(EventType type, DataFunction<Void> listener) {
-		
+
 		assertObjectIsNotAnonymous(listener);
 
 		String typeString = type.getType();
@@ -962,6 +991,8 @@ public class Transition extends JavaScriptObject {
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
+
+		
 
 		if (result == null) {
 			return null;
@@ -990,7 +1021,7 @@ public class Transition extends JavaScriptObject {
 	 * @return
 	 */
 	public Transition each(DataFunction<Void> listener) {
-		
+
 		assertObjectIsNotAnonymous(listener);
 
 		String memberName = createNewTemporaryInstanceName();
@@ -1002,6 +1033,8 @@ public class Transition extends JavaScriptObject {
 				+ "});";
 
 		JSObject result = evalForJsObject(command);
+
+		
 
 		if (result == null) {
 			return null;
@@ -1017,7 +1050,7 @@ public class Transition extends JavaScriptObject {
 	 * @return the current transition
 	 */
 	public Transition call(JsFunction jsFunction) {
-		
+
 		assertObjectIsNotAnonymous(jsFunction);
 
 		boolean isJavaScriptObject = jsFunction instanceof JavaScriptObject;
@@ -1029,6 +1062,10 @@ public class Transition extends JavaScriptObject {
 		JavaScriptObject javaScriptObject = (JavaScriptObject) jsFunction;
 		JSObject functionJsObject = javaScriptObject.getJsObject();
 		JSObject result = call("call", functionJsObject);
+		
+		if(result==null){
+			return null;
+		}
 		return new Transition(webEngine, result);
 	}
 

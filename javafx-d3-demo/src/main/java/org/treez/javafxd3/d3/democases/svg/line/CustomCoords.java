@@ -28,7 +28,7 @@ public  class CustomCoords extends Coords {
 		Object resultObj = d3.eval(varName);
 		JSObject result = (JSObject) resultObj;
 		
-		d3.eval(varName + " = null;");		
+		d3.eval(varName + " = undefined;");		
 		
 		setJsObject(result);
 		
