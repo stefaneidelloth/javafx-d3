@@ -324,14 +324,19 @@ public class Brush extends JavaScriptObject implements JsFunction {
 		String eventString = event.getValue();
 
 		String memberName = createNewTemporaryInstanceName();
+		String varName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(memberName, listener);
+		
+		String command = "var "+varName+" = d3." + memberName + " == null ? null : " + "function(d, i) {" //		      
+				+ "d3." + memberName + ".apply(this,{datum:d},i);" //
+				+ " }; ";
 
-		String command = "this.on('" + eventString + "', function(d, i) {" //				
-				+ "    d3." + memberName + ".apply(this,{datum:d},i);" //				
-				+ "});";
+		eval(command);
+		String onCommand = "this.on('" + eventString + "', "+varName+");";
 
-		JSObject result = evalForJsObject(command);
+		JSObject result = evalForJsObject(onCommand);
+		
 		if(result==null){
 			return null;
 		}

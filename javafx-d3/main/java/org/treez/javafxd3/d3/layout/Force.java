@@ -44,7 +44,6 @@ public class Force extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	
 	public Force(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
@@ -97,7 +96,7 @@ public class Force extends JavaScriptObject {
 	 */
 	public double linkDistance() {
 		Double result = callForDouble("linkDistance");
-		
+
 		return result;
 	}
 
@@ -111,7 +110,7 @@ public class Force extends JavaScriptObject {
 	 */
 	public Force linkDistance(double distance) {
 		JSObject result = call("linkDistance", distance);
-		if(result==null){
+		if (result == null) {
 			return null;
 		}
 		return new Force(webEngine, result);
@@ -141,8 +140,8 @@ public class Force extends JavaScriptObject {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
-		
-		if(result==null){
+
+		if (result == null) {
 			return null;
 		}
 
@@ -195,8 +194,8 @@ public class Force extends JavaScriptObject {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
-		
-		if(result==null){
+
+		if (result == null) {
 			return null;
 		}
 
@@ -295,8 +294,8 @@ public class Force extends JavaScriptObject {
 		JSObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
-		
-		if(result==null){
+
+		if (result == null) {
 			return null;
 		}
 
@@ -685,13 +684,20 @@ public class Force extends JavaScriptObject {
 		assertObjectIsNotAnonymous(callback);
 
 		String funcName = createNewTemporaryInstanceName();
+		String varName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, callback);
 
-		String command = "this.on(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
-		JSObject result = evalForJsObject(command);		
-		
-		if(result==null){
+		String command = "var "+varName+" = d3." + funcName + " == null ? null : " + "function(d, i) {" //		      
+				+ "d3." + funcName + ".apply(this,{datum:d},i);" //
+				+ " }; ";
+
+		eval(command);
+		String onCommand = "this.on("+varName+");";
+
+		JSObject result = evalForJsObject(onCommand);
+
+		if (result == null) {
 			return null;
 		}
 

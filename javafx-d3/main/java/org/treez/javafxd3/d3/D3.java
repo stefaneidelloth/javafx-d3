@@ -185,7 +185,7 @@ public class D3 extends JavaScriptObject {
 	 * @return the selection
 	 */
 	public Selection selectAll(Element... nodes) {
-				
+
 		JSObject d3JsObject = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
@@ -203,13 +203,13 @@ public class D3 extends JavaScriptObject {
 		for (String varName : varNames) {
 			d3JsObject.removeMember(varName);
 		}
-		
-		if(result==null){
+
+		if (result == null) {
 			return null;
 		}
 
-		return new Selection(webEngine, result);	
-		
+		return new Selection(webEngine, result);
+
 	};
 
 	/**
@@ -239,8 +239,6 @@ public class D3 extends JavaScriptObject {
 		}
 		return selectAll(elements);
 	}
-
-
 
 	/**
 	 * Create an animated transition.
@@ -412,15 +410,15 @@ public class D3 extends JavaScriptObject {
 	 *            invoked (may be negative if markMillis is in the future)
 	 */
 	public void timer(TimerFunction timerFunction, int delayMillis) {
-		
+
 		assertObjectIsNotAnonymous(timerFunction);
 
 		String funcName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, timerFunction);
 
-		String command = "this.timer(function(d, i) { return d3." + funcName + ".execute();}, "+delayMillis+");";
-		eval(command);		
+		String command = "this.timer(function(d, i) { return d3." + funcName + ".execute();}, " + delayMillis + ");";
+		eval(command);
 	};
 
 	/**
@@ -468,10 +466,10 @@ public class D3 extends JavaScriptObject {
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, timerFunction);
 
-		String command = "this.timer(function(d, i) { return d3." + funcName + ".execute();}, "+delayMillis+", " +markMillis+");";
-		eval(command);	
+		String command = "this.timer(function(d, i) { return d3." + funcName + ".execute();}, " + delayMillis + ", "
+				+ markMillis + ");";
+		eval(command);
 
-		
 	};
 
 	/**
@@ -945,7 +943,7 @@ public class D3 extends JavaScriptObject {
 	 * @return an array containing the property names.
 	 */
 	public <T> Array<String> keys(JavaScriptObject object) {
-		JSObject result = call("keys", object.getJsObject());		
+		JSObject result = call("keys", object.getJsObject());
 		return new Array<String>(webEngine, result);
 	};
 
@@ -1179,23 +1177,21 @@ public class D3 extends JavaScriptObject {
 		for (String varName : varNames) {
 			d3JsObject.removeMember(varName);
 		}
-		
-		if(result==null){
+
+		if (result == null) {
 			return null;
 		}
 
 		return new Array<>(webEngine, result);
 	}
-	
-	
-	public <R,A> Array<R> extent(Array<A> array, Class<A> argumentClass, PlainDataFunction<R, A> accessor) {	 
-				
-		
+
+	public <R, A> Array<R> extent(Array<A> array, Class<A> argumentClass, PlainDataFunction<R, A> accessor) {
+
 		ForEachCallback<R> accessorWrapper = new ForEachCallbackWrapper<>(argumentClass, webEngine, accessor);
-		return extent(array, accessorWrapper);		
+		return extent(array, accessorWrapper);
 	}
-	
-	public <R,A> Array<R> extent(Array<A> array, ForEachCallback<R> accessor) {
+
+	public <R, A> Array<R> extent(Array<A> array, ForEachCallback<R> accessor) {
 
 		assertObjectIsNotAnonymous(accessor);
 
@@ -1221,7 +1217,6 @@ public class D3 extends JavaScriptObject {
 		return new Array<>(webEngine, result);
 
 	}
-	
 
 	private <T> List<JSObject> extractJsObjectElements(Array<T> array) {
 		List<JSObject> elementList = new ArrayList<>();
@@ -1276,6 +1271,42 @@ public class D3 extends JavaScriptObject {
 		return new Value(webEngine, result);
 	}
 
+	public void logNumberOfTempVars() {
+
+		String command = "var attributeNames = Object.getOwnPropertyNames(this);" + //
+				"var temp_count = 0;" + //
+				"var prefix = 'temp__instance__';" + //
+				"var prefixLength = prefix.length;" + //
+				"for(var index=0; index<attributeNames.length; index++){" + //
+				" var attributeName = attributeNames[index];  " + //	
+				"   if (attributeName.length > prefixLength){" + //
+				"     if(attributeName.substring(0, prefixLength) == prefix){" + //
+				"       temp_count++;" + //
+				"     }" + //
+				"   }" + //
+				"}";
+		eval(command);
+		int count = evalForInteger("temp_count");
+		eval("temp_count=undefined; attributeNames=undefined;");
+
+		System.out.println("D3 =>Number of temporary D3 variables: " + count);
+
+	}
+
+	public void clearTempVars() {
+
+		String command = "var attributeNames = Object.getOwnPropertyNames(this);" + //		
+				"for(var index=0; index<attributeNames.length; index++){" + //
+				" var attributeName = attributeNames[index];  " + //
+				"   if(attributeName.includes('temp__instance__')){" + //
+				"     this[attributeName]=undefined;" + //
+				"   }" + //
+				"}" + //
+				"attributeNames=undefined;";
+		eval(command);
+
+	}
+
 	//#end region
 
 	//#region ACCESSORS
@@ -1286,8 +1317,6 @@ public class D3 extends JavaScriptObject {
 	public WebEngine getWebEngine() {
 		return webEngine;
 	}
-
-	
 
 	//#end region
 

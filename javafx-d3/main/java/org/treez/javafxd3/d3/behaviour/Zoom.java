@@ -20,15 +20,6 @@ import netscape.javascript.JSObject;
  * and pan gestures on an element. Events including mouse, touch, and scroll are
  * supported.
  * <p>
- * Usage:
- * 
- * <pre>
- * {
- * 	&#064;code
- * 	Zoom zoom = D3.behavior.zoom().on(ZoomEventType.Zoom, new MyZoomListener());
- * 	mySelection.call(zoom);
- * }
- * </pre>
  * 
  * 
  * <a href="https://github.com/augbog">Augustus Yuan</a>
@@ -38,10 +29,6 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * @param webEngine
-	 * @param wrappedJsObject
-	 */
 	public Zoom(WebEngine webEngine, JSObject wrappedJsObject) {
 		super(webEngine);
 		setJsObject(wrappedJsObject);
@@ -100,16 +87,21 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 		assertObjectIsNotAnonymous(listener);
 
 		String listenerName = createNewTemporaryInstanceName();
+		String varName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(listenerName, listener);
 
 		String eventName = type.name().toLowerCase();
+				
+		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, i) {" //		      
+				+ "d3." + listenerName + ".apply(this,{datum:d},i);" //
+				+ " }; ";
 
-		String command = "this.on('" + eventName + "', " + "function(d, index) { " //				
-				+ "d3." + listenerName + ".apply(this,{datum:d},index);" //
-				+ " });";
+		eval(command);
+		String onCommand = "this.on('" + eventName + "', "+varName+");";
 
-		JSObject result = evalForJsObject(command);
+		JSObject result = evalForJsObject(onCommand);
+		
 
 		if (result == null) {
 			return null;

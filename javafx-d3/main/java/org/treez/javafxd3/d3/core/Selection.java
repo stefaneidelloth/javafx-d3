@@ -2148,16 +2148,17 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(listener);
 
 		String listenerName = createNewTemporaryInstanceName();
+		String varName = createNewTemporaryInstanceName();
 
 		JSObject d3JsObj = getD3();
 		d3JsObj.setMember(listenerName, listener);
 
-		String command = "var listenerObj = d3." + listenerName + " == null ? null : " + "function(d, i) {" //		      
+		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, i) {" //		      
 				+ "d3." + listenerName + ".apply(this,{datum:d},i);" //
 				+ " }; ";
 
 		eval(command);
-		String onCommand = "this.on('" + eventType + "', listenerObj);";
+		String onCommand = "this.on('" + eventType + "', "+varName+");";
 
 		JSObject result = evalForJsObject(onCommand);
 
@@ -2218,13 +2219,14 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(listener);
 
 		String methodName = createNewTemporaryInstanceName();
+		String varName = createNewTemporaryInstanceName();
 		JSObject d3JsObj = getD3();
 		d3JsObj.setMember(methodName, listener);
 
-		String command = "var l = (d3." + methodName + " == null ? null : function(d, i) {" + "d3." + methodName
+		String command = "var "+varName+" = (d3." + methodName + " == null ? null : function(d, i) {" + "d3." + methodName
 				+ ".apply(this,{datum:d},i);" //
 				+ " });" //
-				+ "return this.on('" + eventType + "', l, " + useCapture + ");";
+				+ "return this.on('" + eventType + "', "+varName+", " + useCapture + ");";
 
 		JSObject result = evalForJsObject(command);
 
@@ -2244,16 +2246,17 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(listener);
 
 		String listenerName = createNewTemporaryInstanceName();
+		String varName = createNewTemporaryInstanceName();
 
 		JSObject d3JsObj = getD3();
 		d3JsObj.setMember(listenerName, listener);
 
-		String command = "var listenerObj = d3." + listenerName + " == null ? null : " + "function(d, i) {" //		      
+		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, i) {" //		      
 				+ "d3." + listenerName + ".handleMouseClick(this);" //
 				+ " }; ";
 
 		eval(command);
-		String onCommand = "this.on('click', listenerObj);";
+		String onCommand = "this.on('click', "+varName+");";
 
 		JSObject result = evalForJsObject(onCommand);
 

@@ -78,6 +78,8 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 
 	@Override
 	public void start() {
+		
+		d3.logNumberOfTempVars();
 
 		size = 150;
 		padding = 19.5;
@@ -133,6 +135,8 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 		Dsv<DsvRow> csv = d3.<DsvRow> csv();
 		Array<DsvRow> data = csv.parse(csvData);
 		csvCallback.get(null, data.getJsObject());
+		
+		d3.logNumberOfTempVars();
 
 		//d3.csv("demo-data/flowers.csv", csvCallback);
 
@@ -413,6 +417,8 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 
 			brushCell = context;
 		}
+		
+		d3.logNumberOfTempVars();
 	}
 
 	// Highlight the selected circles.
@@ -457,6 +463,8 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 		Platform.runLater(() -> {
 			circles.classed("hidden", hideFunction);
 		});
+		
+		d3.logNumberOfTempVars();
 	}
 
 	// If the brush is empty, select all circles.
@@ -468,6 +476,8 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 			});
 
 		}
+		
+		d3.logNumberOfTempVars();
 	}
 
 	private Array<Point> points(final Array<String> a, final Array<String> b) {

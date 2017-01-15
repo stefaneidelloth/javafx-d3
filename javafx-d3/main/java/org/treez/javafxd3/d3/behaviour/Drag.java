@@ -14,15 +14,6 @@ import netscape.javascript.JSObject;
  * This behavior automatically creates event listeners to handle drag gestures
  * on an element. Both mouse events and touch events are supported.
  * <p>
- * Usage:
- * 
- * <pre>
- * {
- * 	&#064;code
- * 	Drag drag = D3.behavior.drag().on(DragEventType.drag, new MyDragListener());
- * 	mySelection.call(drag);
- * }
- * </pre>
  */
 public class Drag extends JavaScriptObject implements JsFunction {
 
@@ -77,15 +68,18 @@ public class Drag extends JavaScriptObject implements JsFunction {
 	 */
 	public Drag on(DragEventType type, DataFunction<Void> listener) {
 
+		String eventName = type.name().toLowerCase().replace("_", "-");
 		String listenerName = createNewTemporaryInstanceName();
+		String varName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(listenerName, listener);
+		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, index) {" //		      
+				+ "d3." + listenerName + ".apply(this,{datum:d},index);" //
+				+ " }; ";
+		eval(command);
+		String onCommand = "this.on('" + eventName + "', "+varName+");";
 
-		String eventName = type.name().toLowerCase();
-
-		String command = "this.on('" + eventName + "', " + "function(d, index) { d3." + listenerName
-				+ ".apply(this,{datum:d},index); });";
-		JSObject result = evalForJsObject(command);
+		JSObject result = evalForJsObject(onCommand);
 		
 		if(result==null){
 			return null;
@@ -98,13 +92,14 @@ public class Drag extends JavaScriptObject implements JsFunction {
 	public Drag onDragStart(DragFunction listener) {
 		assertObjectIsNotAnonymous(listener);
 		String listenerName = createNewTemporaryInstanceName();
+		String varName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(listenerName, listener);
-		String command = "var listenerObjDragStart = d3." + listenerName + " == null ? null : " + "function(d, index) {" //		      
+		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, index) {" //		      
 				+ "d3." + listenerName + ".handleDragStart(this,{datum:d},index);" //
 				+ " }; ";
 		eval(command);
-		String onCommand = "this.on('dragstart', listenerObjDragStart);";
+		String onCommand = "this.on('dragstart', "+varName+");";
 		JSObject result = evalForJsObject(onCommand);
 		
 		if(result==null){
@@ -117,13 +112,14 @@ public class Drag extends JavaScriptObject implements JsFunction {
 	public Drag onDrag(DragFunction listener) {
 		assertObjectIsNotAnonymous(listener);
 		String listenerName = createNewTemporaryInstanceName();
+		String varName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(listenerName, listener);
-		String command = "var listenerObjDrag = d3." + listenerName + " == null ? null : " + "function(d, index) {" //		      
+		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, index) {" //		      
 				+ "d3." + listenerName + ".handleDrag(this,{datum:d},index);" //
 				+ " }; ";
 		eval(command);
-		String onCommand = "this.on('drag', listenerObjDrag);";
+		String onCommand = "this.on('drag', "+varName+");";
 		JSObject result = evalForJsObject(onCommand);
 		
 		if(result==null){
@@ -135,13 +131,14 @@ public class Drag extends JavaScriptObject implements JsFunction {
 	public Drag onDragEnd(DragFunction listener) {
 		assertObjectIsNotAnonymous(listener);
 		String listenerName = createNewTemporaryInstanceName();
+		String varName = createNewTemporaryInstanceName();
 		JSObject d3JsObject = getD3();
 		d3JsObject.setMember(listenerName, listener);
-		String command = "var listenerObjDragEnd = d3." + listenerName + " == null ? null : " + "function(d, index) {" //		      
+		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, index) {" //		      
 				+ "d3." + listenerName + ".handleDragEnd(this,{datum:d},index);" //
 				+ " }; ";
 		eval(command);
-		String onCommand = "this.on('dragend', listenerObjDragEnd);";
+		String onCommand = "this.on('dragend', "+varName+");";
 		JSObject result = evalForJsObject(onCommand);
 		return new Drag(webEngine, result);
 	}
