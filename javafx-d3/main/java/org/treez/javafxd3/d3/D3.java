@@ -131,7 +131,10 @@ public class D3 extends JavaScriptObject {
 	 * @return the {@link Selection}
 	 */
 	public Selection select(Element element) {
-		JSObject jsElement = element.getJsObject();
+		JSObject jsElement=null;
+		if(element!=null){
+			jsElement = element.getJsObject();
+		}		
 		JSObject result = call("select", jsElement);
 		return new Selection(webEngine, result);
 	};
@@ -1270,8 +1273,12 @@ public class D3 extends JavaScriptObject {
 		}
 		return new Value(webEngine, result);
 	}
+	
+	public int logNumberOfTempVars() {
+		return logNumberOfTempVars("");
+	}
 
-	public void logNumberOfTempVars() {
+	public int logNumberOfTempVars(String identifier) {
 
 		String command = "var attributeNames = Object.getOwnPropertyNames(this);" + //
 				"var temp_count = 0;" + //
@@ -1289,7 +1296,8 @@ public class D3 extends JavaScriptObject {
 		int count = evalForInteger("temp_count");
 		eval("temp_count=undefined; attributeNames=undefined;");
 
-		System.out.println("D3 =>Number of temporary D3 variables: " + count);
+		System.out.println("D3 =>Number of temporary D3 variables("+identifier+"): " + count);
+		return count;
 
 	}
 

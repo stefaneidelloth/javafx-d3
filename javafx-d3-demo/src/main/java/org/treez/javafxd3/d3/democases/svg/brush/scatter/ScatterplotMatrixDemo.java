@@ -53,7 +53,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 
 	private OrdinalScale color;
 
-	private Element brushCell;
+	private Element oldBrushCell = null;
 
 	//#end region
 
@@ -78,7 +78,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 
 	@Override
 	public void start() {
-		
+
 		d3.logNumberOfTempVars();
 
 		size = 150;
@@ -106,7 +106,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 				.category10();
 
 		DsvCallback<DsvRow> csvCallback = new DsvCallbackWrapper<>(webEngine, (array) -> {
-									
+
 			Array<String> traits = getTraits(array);
 			storeDomainsByTraits(array, traits);
 
@@ -135,7 +135,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 		Dsv<DsvRow> csv = d3.<DsvRow> csv();
 		Array<DsvRow> data = csv.parse(csvData);
 		csvCallback.get(null, data.getJsObject());
-		
+
 		d3.logNumberOfTempVars();
 
 		//d3.csv("demo-data/flowers.csv", csvCallback);
@@ -315,7 +315,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 			// for the current trait, get the extent=domain=(min and
 			// max), and save it in the map					
 
-			Array<Double> domain = Arrays.extent(array, DsvRow.class, (dsvRow) -> {				
+			Array<Double> domain = Arrays.extent(array, DsvRow.class, (dsvRow) -> {
 				return dsvRow.get(trait).asDouble();
 			}, webEngine);
 
@@ -403,22 +403,21 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 	// Clear the previously-active brush, if any.
 	private void brushstart(final Element context, final Point p) {
 		// Clear the previously-active brush, if any.
-		if (brushCell != context) {
-			if (brushCell != null) {
-				d3.select(brushCell) //
-						.call(brush.clear());
+		if (context != oldBrushCell) {
+			
+			d3.select(oldBrushCell) //
+						.call(brush.clear());			
 
-				Array<Double> xDomain = domainByTrait.get(p.xTrait);
-				x.domain(xDomain);
+			Array<Double> xDomain = domainByTrait.get(p.xTrait);
+			x.domain(xDomain);
 
-				Array<Double> yDomain = domainByTrait.get(p.yTrait);
-				y.domain(yDomain);
-			}
+			Array<Double> yDomain = domainByTrait.get(p.yTrait);
+			y.domain(yDomain);
 
-			brushCell = context;
+			oldBrushCell = context;
 		}
-		
-		d3.logNumberOfTempVars();
+
+		d3.logNumberOfTempVars("after brush start");
 	}
 
 	// Highlight the selected circles.
@@ -450,8 +449,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 				// hide it (returns true) if the plot is outside the brush
 				// extent
 				boolean b = ex0 > px || px > ex1 || ey0 > py || py > ey1;
-				
-			
+
 				return b;
 			} catch (Exception exception) {
 				throw new IllegalStateException("Could not determine hidden value", exception);
@@ -459,12 +457,10 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 			}
 		});
 
-		Selection circles = svg.selectAll("circle");	
-		Platform.runLater(() -> {
-			circles.classed("hidden", hideFunction);
-		});
-		
-		d3.logNumberOfTempVars();
+		Selection circles = svg.selectAll("circle");
+		circles.classed("hidden", hideFunction);
+
+		d3.logNumberOfTempVars("after brush move");
 	}
 
 	// If the brush is empty, select all circles.
@@ -476,8 +472,8 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 			});
 
 		}
-		
-		d3.logNumberOfTempVars();
+
+		d3.logNumberOfTempVars("after brush end");
 	}
 
 	private Array<Point> points(final Array<String> a, final Array<String> b) {
