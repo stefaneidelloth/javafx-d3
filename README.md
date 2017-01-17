@@ -19,6 +19,16 @@ that is written in Java.
 
 => Please also feel free to jump in and directly contribute to the code of javafx-d3.  
 
+In terms of stability and performance javafx-d3 seems to work nicely for "smaller projects".
+If you want to transfer a lot of data between Java and JavaScript you might get into the
+limits of the JavaFx WebView. Hava a look at the scatterplot matrix example of the JavaFxD3DemoSuite
+and compare it to the original gwt demo to get an impression of the limitations of the WebView and javafx-d3:
+https://gwtd3.github.io/demo/D3Demo.html
+
+Please also see the following SO questions for more information:
+http://stackoverflow.com/questions/41488110/java-api-for-manipulating-html-javascript-dom-elements
+http://stackoverflow.com/questions/10762979/performance-of-webview-in-javafx
+
 ## How it works: ##
 
 Javafx-d3 uses the JavaFx WebView [[3]](https://docs.oracle.com/javafx/2/webview/jfxpub-webview.htm "JavaFx WebView") to display an html page and to execute JavaScript.
