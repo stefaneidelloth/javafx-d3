@@ -296,18 +296,6 @@ public class Value extends JavaScriptObject {
 		}
 	}
 
-	/**
-	 * Cast and return the wrapped value.
-	 *
-	 * @param clazz
-	 *            the clazz to cast to
-	 * @return the casted instance
-	 */
-	public final <T> T as(final Class<T> clazz) {
-		String command = "this.datum";
-		Object resultObj = eval(command);
-		return ConversionUtil.convertObjectTo(resultObj, clazz, engine);
-	}
 
 	/**
 	 *

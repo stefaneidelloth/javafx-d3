@@ -76,7 +76,7 @@ public class Chord extends PathDataGenerator {
 		d3JsObject.setMember(accessorName, accessor);
 
 		String command = "this.source(function(d, i) { " //
-				+ "return d3." + accessorName + ".apply(this,{datum:d},i);"//
+				+ "return d3." + accessorName + ".apply(this,d,i);"//
 				+ " });";
 		
 		JsObject result = evalForJsObject(command);
@@ -118,7 +118,7 @@ public class Chord extends PathDataGenerator {
 		d3JsObject.setMember(accessorName, accessor);
 
 		String command = "this.target(function(d, i) { " //
-				+ "return d3." + accessorName + ".apply(this,{datum:d},i);"//
+				+ "return d3." + accessorName + ".apply(this,d,i);"//
 				+ " });";
 		
 		JsObject result = evalForJsObject(command);
@@ -149,7 +149,7 @@ public class Chord extends PathDataGenerator {
 		d3JsObject.setMember(accessorName, accessor);
 
 		String command = "this.radius(function(d, i) { " //
-				+ "return d3." + accessorName + ".apply(this,{datum:d},i);"//
+				+ "return d3." + accessorName + ".apply(this,d,i);"//
 				+ " });";
 		
 		JsObject result = evalForJsObject(command);
@@ -196,7 +196,7 @@ public class Chord extends PathDataGenerator {
 		d3JsObject.setMember(accessorName, accessor);
 
 		String command = "this.startAngle(function(d, i) { " //
-				+ "return d3." + accessorName + ".apply(this,{datum:d},i);"//
+				+ "return d3." + accessorName + ".apply(this,d,i);"//
 				+ " });";
 		
 		JsObject result = evalForJsObject(command);
@@ -246,7 +246,7 @@ public class Chord extends PathDataGenerator {
 		d3JsObject.setMember(accessorName, accessor);
 
 		String command = "this.endAngle(function(d, i) { " //
-				+ "return d3." + accessorName + ".apply(this,{datum:d},i);"//
+				+ "return d3." + accessorName + ".apply(this,d,i);"//
 				+ " });";
 		
 		JsObject result = evalForJsObject(command);

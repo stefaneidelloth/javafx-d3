@@ -2,11 +2,9 @@ package org.treez.javafxd3.d3.selection.datafunction;
 
 import static org.junit.Assert.assertEquals;
 
-import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.functions.DataFunction;
-
+import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.core.JsEngine;
-import org.treez.javafxd3.d3.core.JsObject;
+import org.treez.javafxd3.d3.functions.DataFunction;
 
 
 
@@ -41,9 +39,8 @@ public class AssertCounterDataFunction implements DataFunction<Void> {
 
 	@Override
 	public Void apply(Object context, Object datum, int index) {
-		JsObject jsDatum = (JsObject) engine.toJsObjectIfNotSimpleType(datum);
-		Value value = new Value(engine,  jsDatum);
-		assertEquals(counter, (int) value.asInt());
+		int value = ConversionUtil.convertObjectTo(datum,  Integer.class, engine);		
+		assertEquals(counter, value);
 		counter++;
 		return null;
 	}

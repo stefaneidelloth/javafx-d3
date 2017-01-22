@@ -101,7 +101,7 @@ public class Area extends PathDataGenerator {
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.x(function(d, i) { " + //
-				"   return d3." + memberName + ".apply(this,{datum:d},i); " + //
+				"   return d3." + memberName + ".apply(this,d,i); " + //
 				"});";
 		JsObject result = evalForJsObject(command);
 		if (result == null) {
@@ -149,7 +149,7 @@ public class Area extends PathDataGenerator {
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.x0(function(d, i) { " + //
-				"  return d3." + memberName + ".apply(this,{datum:d},i); " + //
+				"  return d3." + memberName + ".apply(this,d,i); " + //
 				"});";
 		JsObject result = evalForJsObject(command);
 		if (result == null) {
@@ -188,7 +188,7 @@ public class Area extends PathDataGenerator {
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.x1(function(d, i) { " + //
-				"  return d3." + memberName + ".apply(this,{datum:d},i); " + //
+				"  return d3." + memberName + ".apply(this,d,i); " + //
 				"});";
 		JsObject result = evalForJsObject(command);
 		if (result == null) {
@@ -260,7 +260,7 @@ public class Area extends PathDataGenerator {
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.y(function(d, i) { " + //
-				"   return d3." + memberName + ".apply(this,{datum:d},i); " + //
+				"   return d3." + memberName + ".apply(this,d,i); " + //
 				"});";
 		JsObject result = evalForJsObject(command);
 		if (result == null) {
@@ -290,7 +290,7 @@ public class Area extends PathDataGenerator {
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.y0(function(d, i) { " + //
-				"   return d3." + memberName + ".apply(this,{datum:d},i); " + //
+				"   return d3." + memberName + ".apply(this,d,i); " + //
 				"});";
 		JsObject result = evalForJsObject(command);
 		if (result == null) {
@@ -320,7 +320,7 @@ public class Area extends PathDataGenerator {
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.y1(function(d, i) { " + //
-				"   return d3." + memberName + ".apply(this,{datum:d},i); " + //
+				"   return d3." + memberName + ".apply(this,d,i); " + //
 				" });";
 		JsObject result = evalForJsObject(command);
 		if (result == null) {
@@ -353,7 +353,7 @@ public class Area extends PathDataGenerator {
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.defined(function(d) { " //				
-				+ "var result = d3." + memberName + ".apply(null,{datum:d}, 0); "//				
+				+ "var result = d3." + memberName + ".apply(null,d, 0); "//				
 				+ "return result; "//
 				+ "});";
 

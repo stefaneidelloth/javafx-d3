@@ -104,7 +104,7 @@ public class EnteringSelection extends JavaScriptObject {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, function);
 
-		String command = "this.append(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		String command = "this.append(function(d, i) { return d3." + funcName + ".apply(this,d,i); });";
 		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
@@ -175,7 +175,7 @@ public class EnteringSelection extends JavaScriptObject {
 		d3JsObject.setMember(funcName, func);
 
 		String command = "this.select(function(d, i) { " + //
-				"     var element = d3." + funcName + ".apply(this,{datum:d},i);" + //
+				"     var element = d3." + funcName + ".apply(this,d,i);" + //
 				"     var jsElement = element.getJsObject().unwrap();" + //
 				"     return jsElement; " + //
 				"   }" + //

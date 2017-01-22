@@ -18,19 +18,9 @@ public  class CustomCoords extends Coords {
 
 	public CustomCoords(JsEngine engine, double x, double y, boolean defined) {
 		super(engine, x, y);
-		this.defined = defined;
-		
-		JsObject d3 = (JsObject) engine.executeScript("d3");
-		String varName = createNewTemporaryInstanceName();
-		
-		String command = "var " + varName +" = {x:" + x + ",y:" + y + ", defined:" + defined + "};";
-		d3.eval(command);
-		Object resultObj = d3.eval(varName);
-		JsObject result = (JsObject) resultObj;
-		
-		d3.eval(varName + " = undefined;");		
-		
-		setJsObject(result);
+		this.defined = defined;		
+		JsObject wrappedJsObject = createJsCoords(x, y, defined);			
+		setJsObject(wrappedJsObject);
 		
 	}
 	
@@ -41,11 +31,24 @@ public  class CustomCoords extends Coords {
 
 	//#end region
 
-	//#region METHODS	
-
+	//#region METHODS
+	
 	public static DataFunction<Boolean> definedAccessor(JsEngine engine) {
 		return new DefinedDataFunction(engine);
 	}
+	
+	private JsObject createJsCoords(double x, double y, boolean defined) {
+		JsObject d3 = (JsObject) engine.executeScript("d3");
+		String varName = createNewTemporaryInstanceName();
+		
+		String command = "var " + varName +" = {x:" + x + ",y:" + y + ", defined:" + defined + "};";
+		d3.eval(command);
+		Object resultObj = d3.eval(varName);
+		JsObject result = (JsObject) resultObj;
+		
+		d3.eval(varName + " = undefined;");
+		return result;
+	}	
 	
 	public Boolean defined() {
 		return defined;

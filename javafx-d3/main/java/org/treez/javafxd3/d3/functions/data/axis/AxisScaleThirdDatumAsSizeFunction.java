@@ -32,7 +32,7 @@ public class AxisScaleThirdDatumAsSizeFunction implements DataFunction<Double> {
 		
 		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);	
 		
-		Object secondValueObj = jsObject.eval("this.datum[2]");			
+		Object secondValueObj = jsObject.eval("this[2]");			
 		Double scaledRightValue = scale.applyForDouble(secondValueObj.toString());	
 		Double scaledLeftValue = scale.applyForDouble("0.0");	
 		Double size = scaledRightValue-scaledLeftValue;		

@@ -30,7 +30,7 @@ public class AttributeStringDataFunction implements DataFunction<String> {
 	public String apply(Object context, Object datum, int index) {
 		
 		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);	
-		Object key = jsObject.eval("this.datum." + attributeName);			
+		Object key = jsObject.eval("this." + attributeName);			
 		return key.toString();
 	}
 	

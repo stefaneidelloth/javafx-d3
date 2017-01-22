@@ -6,11 +6,10 @@ import static org.junit.Assert.assertNull;
 import java.util.List;
 
 import org.treez.javafxd3.d3.arrays.Array;
+import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.core.JsEngine;
 import org.treez.javafxd3.d3.dsv.DsvCallback;
 import org.treez.javafxd3.d3.dsv.DsvRow;
-
-import org.treez.javafxd3.d3.core.JsEngine;
-import org.treez.javafxd3.d3.core.JsObject;
 
 public class PersonRowCallback implements DsvCallback<DsvRow> {
 	
@@ -23,8 +22,9 @@ public class PersonRowCallback implements DsvCallback<DsvRow> {
 	@Override
 	public void get(final Object error, final Object dsvRowArray) {
 
-		JsObject jsDsvDataArray = (JsObject) engine.toJsObjectIfNotSimpleType(dsvRowArray);
-		Array<DsvRow> values = new Array<DsvRow>(engine, jsDsvDataArray);
+	
+		@SuppressWarnings("unchecked")
+		Array<DsvRow> values = (Array<DsvRow>) ConversionUtil.convertObjectTo(dsvRowArray,  Array.class, engine);
 		List<? extends DsvRow> valueList = values.asList(DsvRow.class);
 
 		assertNull(error);

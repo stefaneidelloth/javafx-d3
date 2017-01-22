@@ -62,7 +62,7 @@ public class Quadtree extends JavaScriptObject {
 		d3JsObject.setMember(methodName, xAccessor);
 
 		String command = "this.x(function(d, i) { " //
-				+ "return d3." + methodName + ".apply(this,{datum:d},i);" //
+				+ "return d3." + methodName + ".apply(this,d,i);" //
 				+ " });";
 		JsObject result = evalForJsObject(command);
 		
@@ -95,7 +95,7 @@ public class Quadtree extends JavaScriptObject {
 		d3JsObject.setMember(methodName, yAccessor);
 
 		String command = "this.y(function(d, i) { " //
-				+ "return d3." + methodName + ".apply(this,{datum:d},i);" //
+				+ "return d3." + methodName + ".apply(this,d,i);" //
 				+ " });";
 		JsObject result = evalForJsObject(command);
 		

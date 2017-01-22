@@ -38,7 +38,7 @@ public class AxisScaleFirstDataFunction implements DataFunction<Double> {
 	public Double apply(Object context, Object datum, int index) {
 		
 		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);			
-		Object firstValueObj = jsObject.eval("this.datum[0]");			
+		Object firstValueObj = jsObject.eval("this[0]");			
 		Double scaledValue = scale.applyForDouble(firstValueObj.toString());		
 		return scaledValue;			
 	}

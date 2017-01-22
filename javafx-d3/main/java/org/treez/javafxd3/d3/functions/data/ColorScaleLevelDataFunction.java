@@ -29,7 +29,7 @@ public class ColorScaleLevelDataFunction implements DataFunction<String> {
 	@Override
 	public String apply(Object context, Object datum, int index) {			
 		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);
-		Object levelObject = jsObject.eval("this.datum.level");		
+		Object levelObject = jsObject.eval("this.level");		
 		String scaledValue = scale.applyForString(levelObject.toString());		
 		return scaledValue;			
 	}

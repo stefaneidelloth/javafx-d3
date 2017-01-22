@@ -34,8 +34,8 @@ public class AxisScaleInversedSizeDataFunction implements DataFunction<Double> {
 		
 		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);	
 		
-		Double value = Double.parseDouble(jsObject.eval("this.datum.value").toString());
-		Double size = Double.parseDouble(jsObject.eval("this.datum.size").toString());				
+		Double value = Double.parseDouble(jsObject.eval("this.value").toString());
+		Double size = Double.parseDouble(jsObject.eval("this.size").toString());				
 		
 		Double scaledRightValueInPx = scale.applyForDouble(""+ (value+size));	
 		Double scaledLeftValueInPx = scale.applyForDouble("" + value);	

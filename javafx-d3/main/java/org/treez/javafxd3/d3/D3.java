@@ -1209,7 +1209,7 @@ public class D3 extends JavaScriptObject {
 		jsObj.setMember(accessorMemberName, accessor);
 
 		String command = "d3.extent(d3." + arrayMemberName + ", function(d, index, array) { " + //
-				"   return d3." + accessorMemberName + ".forEach(this, {datum:d}, index, array);" + //
+				"   return d3." + accessorMemberName + ".forEach(this, d, index, array);" + //
 				"}); ";
 
 		JsObject result = evalForJsObject(command);
@@ -1254,7 +1254,7 @@ public class D3 extends JavaScriptObject {
 		jsObj.setMember(accessorMemberName, accessor);
 
 		String command = "d3.max(d3." + arrayMemberName + ", function(d, index, array) { " + //
-				"   return d3." + accessorMemberName + ".forEach(this, {datum:d}, index, array);" + //
+				"   return d3." + accessorMemberName + ".forEach(this, d, index, array);" + //
 				"}); ";
 
 		Object valueResult = eval(command);

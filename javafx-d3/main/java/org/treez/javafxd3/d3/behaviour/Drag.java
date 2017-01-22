@@ -74,7 +74,7 @@ public class Drag extends JavaScriptObject implements JsFunction {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(listenerName, listener);
 		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, index) {" //		      
-				+ "d3." + listenerName + ".apply(this,{datum:d},index);" //
+				+ "d3." + listenerName + ".apply(this,d,index);" //
 				+ " }; ";
 		eval(command);
 		String onCommand = "this.on('" + eventName + "', "+varName+");";
@@ -96,7 +96,7 @@ public class Drag extends JavaScriptObject implements JsFunction {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(listenerName, listener);
 		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, index) {" //		      
-				+ "d3." + listenerName + ".handleDragStart(this,{datum:d},index);" //
+				+ "d3." + listenerName + ".handleDragStart(this,d,index);" //
 				+ " }; ";
 		eval(command);
 		String onCommand = "this.on('dragstart', "+varName+");";
@@ -116,7 +116,7 @@ public class Drag extends JavaScriptObject implements JsFunction {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(listenerName, listener);
 		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, index) {" //		      
-				+ "d3." + listenerName + ".handleDrag(this,{datum:d},index);" //
+				+ "d3." + listenerName + ".handleDrag(this,d,index);" //
 				+ " }; ";
 		eval(command);
 		String onCommand = "this.on('drag', "+varName+");";
@@ -135,7 +135,7 @@ public class Drag extends JavaScriptObject implements JsFunction {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(listenerName, listener);
 		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, index) {" //		      
-				+ "d3." + listenerName + ".handleDragEnd(this,{datum:d},index);" //
+				+ "d3." + listenerName + ".handleDragEnd(this,d,index);" //
 				+ " }; ";
 		eval(command);
 		String onCommand = "this.on('dragend', "+varName+");";
@@ -213,7 +213,7 @@ public class Drag extends JavaScriptObject implements JsFunction {
 		d3JsObject.setMember(originAccessorName, originAccesor);
 
 		String command = "this.origin(function(d, i) { return d3." + originAccessorName
-				+ ".apply(this,{datum:d},i); });";
+				+ ".apply(this,d,i); });";
 		JsObject result = evalForJsObject(command);
 		
 		d3JsObject.removeMember(originAccessorName);

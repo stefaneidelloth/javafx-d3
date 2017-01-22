@@ -221,7 +221,7 @@ public class Selection extends EnteringSelection {
 		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(funcName, func);
 
-		String command = "this.selectAll(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		String command = "this.selectAll(function(d, i) { return d3." + funcName + ".apply(this,d,i); });";
 		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(funcName);
@@ -436,7 +436,7 @@ public class Selection extends EnteringSelection {
 
 		// tell x to use the callback
 		String command = "this.attr('" + name + "', function(d,i) {" //				
-				+ "return d3." + memberName + ".apply(this, {datum:d}, i);" //
+				+ "return d3." + memberName + ".apply(this, d, i);" //
 				+ "})";
 
 		JsObject result = evalForJsObject(command);
@@ -528,7 +528,7 @@ public class Selection extends EnteringSelection {
 		String command = "this.style('" + name + "', " + //
 				"      function(d, i) { " + //
 				"        try { " + //
-				"               var result = d3." + funcName + ".apply(this,{datum:d},i);" + //
+				"               var result = d3." + funcName + ".apply(this,d,i);" + //
 				"               return result; " + "             } " + //
 				"         catch (exception) {" + //
 				"            alert(exception);" + //
@@ -576,7 +576,7 @@ public class Selection extends EnteringSelection {
 
 		String command = "var imp = " + important + " ? 'important' : null; " + //
 				"this.style('" + name + "', function(d, i) { " + //
-				"   var r = d3." + funcName + ".apply(this,{datum:d},i);" + //
+				"   var r = d3." + funcName + ".apply(this,d,i);" + //
 				"   return r?r.toString():null;" + //
 				"}, imp);";
 
@@ -811,7 +811,7 @@ public class Selection extends EnteringSelection {
 		d3JsObj.setMember(methodName, callback);
 
 		String command = "this.property('" + name + "', function(d, i) {" + "return d3." + methodName
-				+ ".apply(this,{datum:d},i);" + " });";
+				+ ".apply(this,d,i);" + " });";
 
 		JsObject result = evalForJsObject(command);
 		d3JsObj.removeMember(methodName);
@@ -877,7 +877,7 @@ public class Selection extends EnteringSelection {
 		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(methodName, callback);
 
-		String command = "this.text(function(d, i) {" + "return d3." + methodName + ".apply(this,{datum:d},i);"
+		String command = "this.text(function(d, i) {" + "return d3." + methodName + ".apply(this,d,i);"
 				+ " });";
 
 		JsObject result = evalForJsObject(command);
@@ -939,7 +939,7 @@ public class Selection extends EnteringSelection {
 
 		// tell x to use the callback
 		String command = "this.html(function(d,i) {" //				
-				+ "return d3." + memberName + ".apply(this, {datum:d}, i);" //
+				+ "return d3." + memberName + ".apply(this, d, i);" //
 				+ "})";
 
 		JsObject result = evalForJsObject(command);
@@ -1074,7 +1074,7 @@ public class Selection extends EnteringSelection {
 		d3JsObj.setMember(functionName, function);
 
 		String command = "this.each(function(d, i) { " + //
-				"   d3." + functionName + ".apply(this,{datum:d},i); " + //
+				"   d3." + functionName + ".apply(this,d,i); " + //
 				" });";
 		JsObject result = evalForJsObject(command);
 
@@ -1277,7 +1277,7 @@ public class Selection extends EnteringSelection {
 				+ "  } else { " //
 				+ "    ctxEl = this; " //
 				+ "  } " //
-				+ "  return d3." + methodName + ".call(ctxEl,newDataArray,{datum:d},i);" //
+				+ "  return d3." + methodName + ".call(ctxEl,newDataArray,d,i);" //
 				+ "});";
 
 		JsObject result = evalForJsObject(command);
@@ -1359,7 +1359,7 @@ public class Selection extends EnteringSelection {
 		d3JsObj.setMember(methodName, callback);
 
 		String command = "this.data(function(d, i) {" //
-				+ "var result = d3." + methodName + ".apply(this,{datum:d},i);" //				
+				+ "var result = d3." + methodName + ".apply(this,d,i);" //				
 				+ "return result; " //
 				+ "});";
 
@@ -1944,7 +1944,7 @@ public class Selection extends EnteringSelection {
 				+ varName + "= this.datum(null); "//
 				+ "} else { "//
 				+ varName + "= this.datum(function(d, i) { "//
-				+ "  return d3." + methodName + ".apply(this,{datum:d},i); "//
+				+ "  return d3." + methodName + ".apply(this,d,i); "//
 				+ "});" //
 				+ "}";
 
@@ -2020,7 +2020,7 @@ public class Selection extends EnteringSelection {
 		d3JsObj.setMember(methodName, datumFunction);
 
 		String command = "this.filter(function(d, i) { " //
-				+ "return d3." + methodName + ".apply(this,{datum:d},i);" //
+				+ "return d3." + methodName + ".apply(this,d,i);" //
 				+ " });";
 
 		JsObject result = evalForJsObject(command);
@@ -2155,7 +2155,7 @@ public class Selection extends EnteringSelection {
 		d3JsObj.setMember(listenerName, listener);
 
 		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, i) {" //		      
-				+ "d3." + listenerName + ".apply(this,{datum:d},i);" //
+				+ "d3." + listenerName + ".apply(this,d,i);" //
 				+ " }; ";
 
 		eval(command);
@@ -2225,7 +2225,7 @@ public class Selection extends EnteringSelection {
 		d3JsObj.setMember(methodName, listener);
 
 		String command = "var "+varName+" = (d3." + methodName + " == null ? null : function(d, i) {" + "d3." + methodName
-				+ ".apply(this,{datum:d},i);" //
+				+ ".apply(this,d,i);" //
 				+ " });" //
 				+ "return this.on('" + eventType + "', "+varName+", " + useCapture + ");";
 

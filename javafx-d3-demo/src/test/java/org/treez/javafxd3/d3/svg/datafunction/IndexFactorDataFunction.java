@@ -13,9 +13,6 @@ public class IndexFactorDataFunction implements DataFunction<Double> {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * @param engine
-	 */
 	public IndexFactorDataFunction(Double factor) {
 		this.factor = factor;
 	}

@@ -166,7 +166,7 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 		d3.setMember(functionName, function);
 
 		String command = "this.tickFormat( " + count + ", function(d) { " //				
-				+ "return d3." + functionName + ".apply(null,{datum:d},0); " //
+				+ "return d3." + functionName + ".apply(null,d,0); " //
 				+ "});";
 
 		Object result = eval(command);

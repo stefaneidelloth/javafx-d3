@@ -136,7 +136,7 @@ public class Force extends JavaScriptObject {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, callback);
 
-		String command = "this.linkDistance(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		String command = "this.linkDistance(function(d, i) { return d3." + funcName + ".apply(this,d,i); });";
 		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
@@ -190,7 +190,7 @@ public class Force extends JavaScriptObject {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, callback);
 
-		String command = "this.linkStrenght(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		String command = "this.linkStrenght(function(d, i) { return d3." + funcName + ".apply(this,d,i); });";
 		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
@@ -290,7 +290,7 @@ public class Force extends JavaScriptObject {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, callback);
 
-		String command = "this.charge(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		String command = "this.charge(function(d, i) { return d3." + funcName + ".apply(this,d,i); });";
 		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
@@ -689,7 +689,7 @@ public class Force extends JavaScriptObject {
 		d3JsObject.setMember(funcName, callback);
 
 		String command = "var "+varName+" = d3." + funcName + " == null ? null : " + "function(d, i) {" //		      
-				+ "d3." + funcName + ".apply(this,{datum:d},i);" //
+				+ "d3." + funcName + ".apply(this,d,i);" //
 				+ " }; ";
 
 		eval(command);

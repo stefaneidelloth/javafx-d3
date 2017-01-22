@@ -1,10 +1,8 @@
 package org.treez.javafxd3.d3.democases.geom.hull;
 
-import org.treez.javafxd3.d3.core.Value;
-import org.treez.javafxd3.d3.functions.DataFunction;
-
+import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.core.JsEngine;
-import org.treez.javafxd3.d3.core.JsObject;
+import org.treez.javafxd3.d3.functions.DataFunction;
 
 public class HullTransformDataFunction implements DataFunction<String> {
 
@@ -25,22 +23,13 @@ public class HullTransformDataFunction implements DataFunction<String> {
 	//#region METHODS
 
 	@Override
-	public String apply(final Object context, final Object d, final int index) {
+	public String apply(Object context, Object datum, int index) {
 
-		JsObject datum = (JsObject) engine.toJsObjectIfNotSimpleType(d);
-
-		Value value = new Value(engine, datum);
-
-		Object jsCoords = value.as();
-
-		boolean isJsObject = jsCoords instanceof JsObject;
-		if (isJsObject) {
-			JsObject coordObj = (JsObject) jsCoords;
-			HullCoords coords = new HullCoords(engine, coordObj);
+		try {
+			HullCoords coords = ConversionUtil.convertObjectTo(datum, HullCoords.class, engine);
 			String result = "translate(" + coords.toString() + ")";
 			return result;
-		} else {
-			
+		} catch (Exception exception) {
 			return "translate(0,0)";
 		}
 

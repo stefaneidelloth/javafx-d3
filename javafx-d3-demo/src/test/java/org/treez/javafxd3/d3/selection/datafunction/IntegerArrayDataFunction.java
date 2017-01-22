@@ -1,10 +1,9 @@
 package org.treez.javafxd3.d3.selection.datafunction;
 
+import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.core.JsEngine;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DataFunction;
-
-import org.treez.javafxd3.d3.core.JsEngine;
-import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A datum function that returns the datum as integer array
@@ -32,9 +31,8 @@ public class IntegerArrayDataFunction implements DataFunction<Integer[]> {
 	//#region METHODS
 
 	@Override
-	public Integer[] apply(Object context, Object datum, int index) {		
-		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);
-		Value value = new Value(engine, jsObject);
+	public Integer[] apply(Object context, Object datum, int index) {			
+		Value value = ConversionUtil.convertObjectTo(datum,  Value.class, engine);
 		int[] intArray = value.as();		
 		Integer[] integerObjectArray = convertToIntegerArray(intArray);		
 		return integerObjectArray;		

@@ -64,7 +64,7 @@ public class PropertyValueDataFunction<T> implements DataFunction<T> {
 		JsObject d3JsObject = d3.getJsObject();
 		d3JsObject.setMember(varName, valueObj);
 		
-		String command = "{datum:d3." +varName +".datum['"+ propName+ "']};";
+		String command = "{datum:d3." +varName +"['"+ propName+ "']};";
 		Object result = d3.eval(command);
 		return Value.create(engine, result);
 	}

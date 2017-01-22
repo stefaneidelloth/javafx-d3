@@ -132,7 +132,7 @@ public class Voronoi extends JavaScriptObject {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, xAccessor);
 
-		String command = "this.x(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		String command = "this.x(function(d, i) { return d3." + funcName + ".apply(this,d,i); });";
 		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
@@ -163,7 +163,7 @@ public class Voronoi extends JavaScriptObject {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, yAccessor);
 
-		String command = "this.y(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		String command = "this.y(function(d, i) { return d3." + funcName + ".apply(this,d,i); });";
 		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);

@@ -430,7 +430,7 @@ public class Axis extends JavaScriptObject implements JsFunction {
 		d3JsObj.setMember(memberName, formatFunction);
 
 		String command = "this.tickFormat(function(d,i) {"//
-				+ "return d3." + memberName + ".apply(null,{datum:d},i);"//
+				+ "return d3." + memberName + ".apply(null,d,i);"//
 				+ "});";
 
 		JsObject result = evalForJsObject(command);

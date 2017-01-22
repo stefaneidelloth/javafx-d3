@@ -145,7 +145,7 @@ public class Transition extends JavaScriptObject {
 		d3JsObject.setMember(memberName, func);
 
 		String command = "this.delay(function(d, i) { " //
-				+ "return d3." + memberName + ".apply(this,{datum:d},i);"//
+				+ "return d3." + memberName + ".apply(this,d,i);"//
 				+ " });";
 
 		JsObject result = evalForJsObject(command);
@@ -192,7 +192,7 @@ public class Transition extends JavaScriptObject {
 		d3JsObject.setMember(memberName, func);
 
 		String command = "this.duration(function(d, i) { " //
-				+ "return d3." + memberName + ".apply(this,{datum:d},i);"//
+				+ "return d3." + memberName + ".apply(this,d,i);"//
 				+ " });";
 
 		JsObject result = evalForJsObject(command);
@@ -330,7 +330,7 @@ public class Transition extends JavaScriptObject {
 		d3JsObject.setMember(memberName, callback);
 
 		String command = "this.attr('" + name + "', function(d, i) {" //
-				+ "return d3." + memberName + ".apply(this,{datum:d},i);" //
+				+ "return d3." + memberName + ".apply(this,d,i);" //
 				+ "});";
 
 		JsObject result = evalForJsObject(command);
@@ -399,7 +399,7 @@ public class Transition extends JavaScriptObject {
 		String command = "this.attrTween('" + nameOfTheAttributeToTween + "', " + //
 				"  function(d, i, a) { " + //
 				//"     alert('attrTweenDelegate');" + //
-				"     var interpolator = d3." + memberName + ".apply(this,{datum:d},i,{datum:a});" + //				
+				"     var interpolator = d3." + memberName + ".apply(this,d,i,{datum:a});" + //				
 				//"     alert('attrTweenDelegate interpolator: ' + interpolator);" + //
 				"     return interpolator.unwrap();" + //
 				"  }" + //
@@ -494,7 +494,7 @@ public class Transition extends JavaScriptObject {
 		try {
 			String command = "this.style('" + name + "', function(d, i) {" //
 					+ "             try { "//
-					+ "               var r = d3." + memberName + ".apply(this,{datum:d},i);" //
+					+ "               var r = d3." + memberName + ".apply(this,d,i);" //
 					+ "               return r;" //
 					+ "             } catch (e) {"//
 					+ "               alert(e); "//
@@ -575,7 +575,7 @@ public class Transition extends JavaScriptObject {
 
 		String command = "this.style('" + name + "'," //
 				+ "  function(d, i) { "//
-				+ "    var r = d3." + memberName + ".apply(this,{datum:d},i); "//
+				+ "    var r = d3." + memberName + ".apply(this,d,i); "//
 				+ "    return r ? r.toString() : null;"//
 				+ "  },"//
 				+ "imp);";
@@ -628,7 +628,7 @@ public class Transition extends JavaScriptObject {
 
 		String command = "this.styleTween('" + name + "', " //
 				+ "  function(d, i, a) {" //
-				+ "    var interpolator = d3." + memberName + ".apply(this,{datum:d},i,{datum:a});" //
+				+ "    var interpolator = d3." + memberName + ".apply(this,d,i,{datum:a});" //
 				+ "    return interpolator.unwrap();" //
 				+ "  }, " //
 				+ "imp);";
@@ -693,7 +693,7 @@ public class Transition extends JavaScriptObject {
 		d3JsObject.setMember(memberName, callback);
 
 		String command = "this.text(function(d, i) { " //
-				+ "return d3." + memberName + ".apply(this,{datum:d},i);"//
+				+ "return d3." + memberName + ".apply(this,d,i);"//
 				+ "});";
 
 		JsObject result = evalForJsObject(command);
@@ -734,7 +734,7 @@ public class Transition extends JavaScriptObject {
 		d3JsObject.setMember(memberName, factory);
 
 		String command = "this.tween('" + name + "', function(d, i) { " //
-				+ "return d3." + memberName + ".apply(this,{datum:d},i);" //
+				+ "return d3." + memberName + ".apply(this,d,i);" //
 				+ "});";
 
 		JsObject result = evalForJsObject(command);
@@ -870,7 +870,7 @@ public class Transition extends JavaScriptObject {
 		d3JsObject.setMember(memberName, datumFunction);
 
 		String command = "this.filter(function(d, i) { " //
-				+ "return d3." + memberName + ".apply(this,{datum:d},i);" //
+				+ "return d3." + memberName + ".apply(this,d,i);" //
 				+ "});";
 
 		JsObject result = evalForJsObject(command);
@@ -987,7 +987,7 @@ public class Transition extends JavaScriptObject {
 		d3JsObject.setMember(memberName, listener);
 
 		String command = "this.each('" + typeString + "', function(d, i) {" //
-				+ "d3." + memberName + ".apply(this,{datum:d},i);"//
+				+ "d3." + memberName + ".apply(this,d,i);"//
 				+ "});";
 
 		JsObject result = evalForJsObject(command);
@@ -1029,7 +1029,7 @@ public class Transition extends JavaScriptObject {
 		d3JsObject.setMember(memberName, listener);
 
 		String command = "this.each(function(d, i) {" //
-				+ "d3." + memberName + ".apply(this,{datum:d},i);" //
+				+ "d3." + memberName + ".apply(this,d,i);" //
 				+ "});";
 
 		JsObject result = evalForJsObject(command);

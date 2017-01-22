@@ -35,7 +35,7 @@ public class AxisScaleKeyDataFunction implements DataFunction<Double> {
 	@Override
 	public Double apply(Object context, Object datum, int index) {		
 		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);			
-		Object firstValueObj = jsObject.eval("this.datum.key");			
+		Object firstValueObj = jsObject.eval("this.key");			
 		Double scaledValue = scale.applyForDouble(firstValueObj.toString());		
 		return scaledValue;			
 	}

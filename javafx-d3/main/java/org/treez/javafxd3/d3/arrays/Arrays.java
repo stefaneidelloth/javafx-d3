@@ -119,7 +119,7 @@ public class Arrays {
 	// .max(
 	// array,
 	// function(d, i, a) {
-	// return accessor.forEach(this,{datum:d},i,a);
+	// return accessor.forEach(this,d,i,a);
 	// });
 	// return {
 	// datum : rs
@@ -182,7 +182,7 @@ public class Arrays {
 	// array,
 	// function(d, i, a) {
 	// return
-	// accessor.@com.github.gwtd3.api.arrays.ForEachCallback::forEach(Ljava/lang/Object;Lcom/github/gwtd3/api/core/Value;ILcom/github/gwtd3/api/arrays/Array;)(this,{datum:d},i,a);
+	// accessor.@com.github.gwtd3.api.arrays.ForEachCallback::forEach(Ljava/lang/Object;Lcom/github/gwtd3/api/core/Value;ILcom/github/gwtd3/api/arrays/Array;)(this,d,i,a);
 	// });
 	// return {
 	// datum : rs
@@ -218,7 +218,7 @@ public class Arrays {
 	// array,
 	// function(d, i, a) {
 	// return
-	// accessor.@com.github.gwtd3.api.arrays.NumericForEachCallback::forEach(Ljava/lang/Object;Lcom/github/gwtd3/api/core/Value;ILcom/github/gwtd3/api/arrays/Array;)(this,{datum:d},i,a);
+	// accessor.@com.github.gwtd3.api.arrays.NumericForEachCallback::forEach(Ljava/lang/Object;Lcom/github/gwtd3/api/core/Value;ILcom/github/gwtd3/api/arrays/Array;)(this,d,i,a);
 	// });
 	// return {
 	// datum : rs

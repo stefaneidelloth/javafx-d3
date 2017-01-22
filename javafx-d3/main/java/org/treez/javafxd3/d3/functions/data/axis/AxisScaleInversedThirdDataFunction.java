@@ -38,7 +38,7 @@ public class AxisScaleInversedThirdDataFunction implements DataFunction<Double> 
 		
 		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);	
 		
-		Object secondValueObj = jsObject.eval("this.datum[2]");	
+		Object secondValueObj = jsObject.eval("this[2]");	
 		Double secondValue = Double.parseDouble(secondValueObj.toString());		
 		
 		Double scaledValue = scale.apply(secondValue).asDouble();

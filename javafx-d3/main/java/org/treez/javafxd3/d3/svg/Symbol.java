@@ -98,7 +98,7 @@ public class Symbol extends PathDataGenerator {
 		d3JsObject.setMember(accessorName, typeAccessorFunction);
 
 		String command = "this.type(function(d, i) { " //
-				+ "var t = d3." + accessorName + ".apply(this,{datum:d},i);" //
+				+ "var t = d3." + accessorName + ".apply(this,d,i);" //
 				+ " return t.getValue();" //
 				+ " });";
 		JsObject result = evalForJsObject(command);
@@ -142,7 +142,7 @@ public class Symbol extends PathDataGenerator {
 		d3JsObject.setMember(accessorName, sizeAccessorFunction);
 
 		String command = "this.size(function(d, i) {" //
-				+ "return d3." + accessorName + ".apply(this,{datum:d},i);" //
+				+ "return d3." + accessorName + ".apply(this,d,i);" //
 				+ " });";
 		JsObject result = evalForJsObject(command);
 		

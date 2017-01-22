@@ -161,7 +161,7 @@ public class Line extends PathDataGenerator {
 		d3JsObject.setMember(callbackName, callback);
 
 		String command = "this." + methodName + "(function(d,i) {" //
-				+ "return d3." + callbackName + ".apply(this, {datum:d}, i);" //
+				+ "return d3." + callbackName + ".apply(this, d, i);" //
 				+ "})";
 		JsObject result = evalForJsObject(command);
 		
@@ -194,7 +194,7 @@ public class Line extends PathDataGenerator {
 		d3JsObject.setMember(callbackName, callback);
 
 		String command = "this.defined(function(d) {" //
-				+ "  var result = d3." + callbackName + ".apply(null, {datum:d}, 0);" //
+				+ "  var result = d3." + callbackName + ".apply(null, d, 0);" //
 				+ "  if (result == null) { " //
 				+ "       return false; " //
 				+ "  } else {" //				

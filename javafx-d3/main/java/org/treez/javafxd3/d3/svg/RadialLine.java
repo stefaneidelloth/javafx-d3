@@ -62,7 +62,7 @@ public class RadialLine extends Line {
 		d3JsObject.setMember(callbackName, callback);
 
 		String command = "this.radius(function(d, i) { " //
-				+ "return d3." + callbackName + ".apply(this,{datum:d},i);" //
+				+ "return d3." + callbackName + ".apply(this,d,i);" //
 				+ " });";
 		JsObject result = evalForJsObject(command);
 		return new RadialLine(engine, result);
@@ -101,7 +101,7 @@ public class RadialLine extends Line {
 		d3JsObject.setMember(callbackName, callback);
 
 		String command = "this.angle(function(d, i) { " //
-				+ "return d3." + callbackName + ".apply(this,{datum:d},i);" //
+				+ "return d3." + callbackName + ".apply(this,d,i);" //
 				+ " });";
 		JsObject result = evalForJsObject(command);
 		return new RadialLine(engine, result);

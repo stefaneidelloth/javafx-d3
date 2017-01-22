@@ -1,13 +1,12 @@
 package org.treez.javafxd3.d3.democases.axis;
 
+import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.core.JsEngine;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.dsv.DsvObjectAccessor;
 import org.treez.javafxd3.d3.dsv.DsvRow;
 import org.treez.javafxd3.d3.time.JsDate;
 import org.treez.javafxd3.d3.time.TimeFormat;
-
-import org.treez.javafxd3.d3.core.JsEngine;
-import org.treez.javafxd3.d3.core.JsObject;
 
 public class DataDsvObjectAccessor implements DsvObjectAccessor<DsvData> {
 	
@@ -30,10 +29,9 @@ public class DataDsvObjectAccessor implements DsvObjectAccessor<DsvData> {
 	//#region METHODS
 	
 	@Override
-	public DsvData apply(Object row, int index) {
-			
-		JsObject jsRow = (JsObject) engine.toJsObjectIfNotSimpleType(row);
-		DsvRow dsvRow = new DsvRow(engine, jsRow);
+	public DsvData apply(Object row, int index) {			
+		
+		DsvRow dsvRow = ConversionUtil.convertObjectTo(row,  DsvRow.class, engine);
 	
 		Value value = dsvRow.get("symbol");
 		

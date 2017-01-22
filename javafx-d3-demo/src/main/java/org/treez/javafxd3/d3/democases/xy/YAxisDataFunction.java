@@ -1,11 +1,10 @@
 package org.treez.javafxd3.d3.democases.xy;
 
+import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.core.JsEngine;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
-
-import org.treez.javafxd3.d3.core.JsEngine;
-import org.treez.javafxd3.d3.core.JsObject;
 
 public class YAxisDataFunction implements DataFunction<Double> {
 	
@@ -29,21 +28,13 @@ public class YAxisDataFunction implements DataFunction<Double> {
 	//#region METHODS
 	
 	@Override
-	public Double apply(final Object context, final Object d, final int index) {
+	public Double apply(final Object context, final Object datum, final int index) {
 		
-		JsObject datum = (JsObject) engine.toJsObjectIfNotSimpleType(d);
-		Value inputValue = new Value(engine, datum);
-		
-		Double input = inputValue.asDouble();
+		Double input = ConversionUtil.convertObjectTo(datum,  Double.class, engine);
 		Value value = yScale.apply(input);
 		Double result = value.asDouble();
 		return result;
-		
-		
-		
-		
-		
-		
+			
 	}
 	
 	//#end region

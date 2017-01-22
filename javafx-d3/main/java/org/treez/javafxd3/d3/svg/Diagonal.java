@@ -89,7 +89,7 @@ public class Diagonal extends PathDataGenerator {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, function);
 
-		String command = "this.projection(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		String command = "this.projection(function(d, i) { return d3." + funcName + ".apply(this,d,i); });";
 		JsObject result = evalForJsObject(command);
 
 		if(result==null){
@@ -176,7 +176,7 @@ public class Diagonal extends PathDataGenerator {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, function);
 
-		String command = "this.source(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		String command = "this.source(function(d, i) { return d3." + funcName + ".apply(this,d,i); });";
 		JsObject result = evalForJsObject(command);
 
 		
@@ -206,7 +206,7 @@ public class Diagonal extends PathDataGenerator {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, function);
 
-		String command = "this.target(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
+		String command = "this.target(function(d, i) { return d3." + funcName + ".apply(this,d,i); });";
 		JsObject result = evalForJsObject(command);
 
 		

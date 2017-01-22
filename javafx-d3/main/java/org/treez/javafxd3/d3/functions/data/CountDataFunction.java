@@ -22,9 +22,6 @@ public class CountDataFunction implements DataFunction<Void> {
 	
 	//#region CONSTRUCTORS
 	
-	/**
-	 * Constructor
-	 */
 	public CountDataFunction(){}
 	
 	//#end region

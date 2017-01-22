@@ -7,9 +7,6 @@ public class IndexDataFunction implements DataFunction<Integer> {
 
 	//#region CONSTRUCTORS
 
-	/**
-	 * @param engine
-	 */
 	public IndexDataFunction() {
 
 	}

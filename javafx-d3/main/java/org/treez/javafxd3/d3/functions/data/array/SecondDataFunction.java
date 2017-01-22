@@ -26,7 +26,7 @@ public class SecondDataFunction implements DataFunction<Double> {
 	public Double apply(Object context, Object datum, int index) {
 		
 		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);		
-		Object value = jsObject.eval("this.datum[1]");	
+		Object value = jsObject.eval("this[1]");	
 		Double second = Double.parseDouble(value.toString());	
 		return second;
 	}

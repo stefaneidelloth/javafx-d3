@@ -147,7 +147,7 @@ public class Tree extends HierarchicalLayout {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(functionName, function);
 		
-		String command = "this.children(function(d) { return d3."+functionName +".apply(this,{datum:d},0);})";
+		String command = "this.children(function(d) { return d3."+functionName +".apply(this,d,0);})";
 		JsObject result = evalForJsObject(command);
 		
 		if(result==null){
@@ -176,7 +176,7 @@ public class Tree extends HierarchicalLayout {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(functionName, function);
 		
-		String command = "this.value(function(d, i) { return d3."+functionName+".apply(this,{datum:d},i);})";
+		String command = "this.value(function(d, i) { return d3."+functionName+".apply(this,d,i);})";
 		JsObject result = evalForJsObject(command);
 		return new Tree(engine, result);	     
 	}

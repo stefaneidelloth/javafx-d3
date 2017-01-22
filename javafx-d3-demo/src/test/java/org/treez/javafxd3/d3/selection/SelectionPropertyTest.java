@@ -84,9 +84,9 @@ public class SelectionPropertyTest extends AbstractSelectionTest {
 		// works with multiple selection
 		Selection selection2 = givenMultipleNodeFactories(new InputElementFactory(), new InputElementFactory(), new InputElementFactory());
 		selection2.property(propName, value);
-		assertEquals(value, getElementProperty(0, propName).as(Object.class));
-		assertEquals(value, getElementProperty(1, propName).as(Object.class));
-		assertEquals(value, getElementProperty(2, propName).as(Object.class));
+		assertEquals(value, getElementProperty(0, propName).as());
+		assertEquals(value, getElementProperty(1, propName).as());
+		assertEquals(value, getElementProperty(2, propName).as());
 	}
 	
 	protected void testSetterFunction() {

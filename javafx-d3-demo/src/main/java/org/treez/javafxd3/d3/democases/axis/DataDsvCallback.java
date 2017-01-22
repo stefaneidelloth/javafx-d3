@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.treez.javafxd3.d3.arrays.Array;
+import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Transition;
 import org.treez.javafxd3.d3.dsv.DsvCallback;
@@ -15,9 +18,6 @@ import org.treez.javafxd3.d3.svg.Axis;
 import org.treez.javafxd3.d3.svg.Line;
 import org.treez.javafxd3.d3.time.JsDate;
 import org.treez.javafxd3.d3.time.TimeScale;
-
-import org.treez.javafxd3.d3.core.JsEngine;
-import org.treez.javafxd3.d3.core.JsObject;
 
 public class DataDsvCallback implements DsvCallback<DsvData> {
 
@@ -69,8 +69,9 @@ public class DataDsvCallback implements DsvCallback<DsvData> {
 			throw new RuntimeException(message);
 		}
 
-		JsObject jsDsvDataArray = (JsObject) engine.toJsObjectIfNotSimpleType(dsvDataArray);
-		Array<DsvData> values = new Array<DsvData>(engine, jsDsvDataArray);
+	
+		@SuppressWarnings("unchecked")
+		Array<DsvData> values = (Array<DsvData>) ConversionUtil.convertObjectTo(dsvDataArray,  Array.class, engine);
 		List<? extends DsvData> valueList = values.asList(DsvData.class);
 
 		// // Compute the minimum and maximum date, and the maximum

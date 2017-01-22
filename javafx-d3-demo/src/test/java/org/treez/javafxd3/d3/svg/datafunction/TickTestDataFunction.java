@@ -20,9 +20,6 @@ public class TickTestDataFunction implements DataFunction<String> {
 	
 	//#region CONSTRUCTORS
 	
-	/**
-	 * @param engine
-	 */
 	public TickTestDataFunction(JsEngine engine, final StringBuffer stringBuffer){
 		this.engine=engine;
 		this.stringBuffer = stringBuffer;

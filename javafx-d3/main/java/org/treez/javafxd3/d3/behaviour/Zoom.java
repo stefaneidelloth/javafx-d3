@@ -94,7 +94,7 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 		String eventName = type.name().toLowerCase();
 				
 		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, i) {" //		      
-				+ "d3." + listenerName + ".apply(this,{datum:d},i);" //
+				+ "d3." + listenerName + ".apply(this,d,i);" //
 				+ " }; ";
 
 		eval(command);

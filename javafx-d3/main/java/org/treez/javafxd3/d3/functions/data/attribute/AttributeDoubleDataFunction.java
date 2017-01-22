@@ -29,7 +29,7 @@ public class AttributeDoubleDataFunction implements DataFunction<Double> {
 	public Double apply(Object context, Object datum, int index) {
 		
 		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);	
-		Object object = jsObject.eval("this.datum." + attributeName);			
+		Object object = jsObject.eval("this." + attributeName);			
 		Double value = Double.parseDouble(object.toString());
 		return value;
 	}

@@ -3,6 +3,8 @@ package org.treez.javafxd3.d3.democases.barchart;
 import java.util.List;
 
 import org.treez.javafxd3.d3.arrays.Array;
+import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.core.JsEngine;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.dsv.DsvCallback;
@@ -13,8 +15,6 @@ import org.treez.javafxd3.d3.scales.OrdinalScale;
 import org.treez.javafxd3.d3.svg.Axis;
 
 import javafx.application.Platform;
-import org.treez.javafxd3.d3.core.JsEngine;
-import org.treez.javafxd3.d3.core.JsObject;
 
 public class BarChartCallback implements DsvCallback<BarChartData> {
 
@@ -31,8 +31,9 @@ public class BarChartCallback implements DsvCallback<BarChartData> {
 
 		Platform.runLater(() -> {
 
-			JsObject jsDsvDataArray = (JsObject) engine.toJsObjectIfNotSimpleType(dataArray);
-			Array<BarChartData> values = new Array<>(engine, jsDsvDataArray);
+		
+			@SuppressWarnings("unchecked")
+			Array<BarChartData> values = (Array<BarChartData>) ConversionUtil.convertObjectTo(dataArray,  Array.class, engine);
 			List<? extends BarChartData> valueList = values.asList(BarChartData.class);			
 			
 			

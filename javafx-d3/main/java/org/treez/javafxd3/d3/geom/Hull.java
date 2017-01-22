@@ -48,7 +48,7 @@ public class Hull extends JavaScriptObject {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(accessorName, xAccessor);
 
-		String command = "this.x(function(d, i) { return d3." + accessorName + ".apply(this,{datum:d},i); });";
+		String command = "this.x(function(d, i) { return d3." + accessorName + ".apply(this,d,i); });";
 
 		JsObject result = evalForJsObject(command);
 		
@@ -79,7 +79,7 @@ public class Hull extends JavaScriptObject {
 		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(accessorName, yAccessor);
 
-		String command = "this.y(function(d, i) { return d3." + accessorName + ".apply(this,{datum:d},i); });";
+		String command = "this.y(function(d, i) { return d3." + accessorName + ".apply(this,d,i); });";
 
 		JsObject result = evalForJsObject(command);
 		

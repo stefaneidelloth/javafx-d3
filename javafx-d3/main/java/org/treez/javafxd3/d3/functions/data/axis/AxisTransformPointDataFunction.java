@@ -39,10 +39,10 @@ public class AxisTransformPointDataFunction implements DataFunction<String> {
 		
 		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);	
 		
-		Object xValueObj = jsObject.eval("this.datum[0]");	
+		Object xValueObj = jsObject.eval("this[0]");	
 		Double x = Double.parseDouble(xValueObj.toString());	
 		
-		Object yValueObj = jsObject.eval("this.datum[1]");	
+		Object yValueObj = jsObject.eval("this[1]");	
 		Double y = Double.parseDouble(yValueObj.toString());
 		
 		Double scaledX = xScale.apply(x).asDouble();
