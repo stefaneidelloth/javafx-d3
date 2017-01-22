@@ -35,22 +35,22 @@ public class LineTest extends AbstractTestCase {
 
         // default x and y function (data must be a               
         List<JavaScriptObject> data = new ArrayList<>();
-        data.add(Array.fromDoubles(webEngine, new Double[]{0.0, 0.9}));
-        data.add(Array.fromDoubles(webEngine, new Double[]{1.0, 1.0}));
-        data.add(Array.fromDoubles(webEngine, new Double[]{2.0, 2.0}));
+        data.add(Array.fromDoubles(engine, new Double[]{0.0, 0.9}));
+        data.add(Array.fromDoubles(engine, new Double[]{1.0, 1.0}));
+        data.add(Array.fromDoubles(engine, new Double[]{2.0, 2.0}));
         
         String svgPath = line.generate(data);
         assertEquals("svg path","M0,0.9Q0.7999999999999999,0.89,1,1Q1.2,1.11,2,2", svgPath);
 
         // x and y
-        line.x(new XCaptureDataFunction(webEngine, xCapture) );
+        line.x(new XCaptureDataFunction(engine, xCapture) );
 
-        line.y(new YCaptureDataFunction(webEngine, yCapture));
+        line.y(new YCaptureDataFunction(engine, yCapture));
         
         List<JavaScriptObject> coordsData = new ArrayList<>();
-        coordsData.add(new Coords(webEngine,1, 1));
-        coordsData.add(new Coords(webEngine,2, 2));
-        coordsData.add(new Coords(webEngine,3, 3));
+        coordsData.add(new Coords(engine,1, 1));
+        coordsData.add(new Coords(engine,2, 2));
+        coordsData.add(new Coords(engine,3, 3));
 
         svgPath = line.generate(coordsData);
 
@@ -73,9 +73,9 @@ public class LineTest extends AbstractTestCase {
 
         line.defined(new IndexSwitchDataFunction());
         
-        final Coords counter = new Coords(webEngine, 0, 0);
+        final Coords counter = new Coords(engine, 0, 0);
         // not called
-        line.y(new YCoordsCounterDataFunction(webEngine, yCapture, counter));
+        line.y(new YCoordsCounterDataFunction(engine, yCapture, counter));
 
         // does not assertEquals(2, counter.y);
         // Smoke test radial line

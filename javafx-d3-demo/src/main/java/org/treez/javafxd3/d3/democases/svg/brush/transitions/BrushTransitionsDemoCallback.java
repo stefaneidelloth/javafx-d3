@@ -1,17 +1,16 @@
 package org.treez.javafxd3.d3.democases.svg.brush.transitions;
 
+import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.core.JsEngine;
 import org.treez.javafxd3.d3.democases.svg.brush.transitions.BrushTransitionsDemo.Point;
 import org.treez.javafxd3.d3.geom.Quadtree.Callback;
 import org.treez.javafxd3.d3.geom.Quadtree.RootNode;
-
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
 
 public class BrushTransitionsDemoCallback implements Callback<Point> {
 
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine;
+	private JsEngine engine;
 
 	private double x0;
 	private double y0;
@@ -22,9 +21,9 @@ public class BrushTransitionsDemoCallback implements Callback<Point> {
 
 	//#region CONSTURCTORS
 
-	public BrushTransitionsDemoCallback(WebEngine webEngine, final double x0, final double y0, final double x3,
+	public BrushTransitionsDemoCallback(JsEngine engine, final double x0, final double y0, final double x3,
 			final double y3) {
-		this.webEngine = webEngine;
+		this.engine = engine;
 		this.x0 = x0;
 		this.y0 = y0;
 		this.x3 = x3;
@@ -38,8 +37,9 @@ public class BrushTransitionsDemoCallback implements Callback<Point> {
 	@Override
 	public boolean visit(Object nodeObj, Double x1, Double y1, Double x2, Double y2) {
 
-		JSObject jsNodeObj = (JSObject) nodeObj;
-		RootNode<Point> node = new RootNode<Point>(webEngine, jsNodeObj);
+		
+		@SuppressWarnings("unchecked")
+		RootNode<Point> node = ConversionUtil.convertObjectTo(nodeObj,  RootNode.class, engine);
 		Point p = node.point(Point.class);
 
 		if (p != null) {

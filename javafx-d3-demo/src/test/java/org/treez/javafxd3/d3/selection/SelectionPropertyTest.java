@@ -75,7 +75,7 @@ public class SelectionPropertyTest extends AbstractSelectionTest {
 		Selection selection = givenASimpleNodeFactory(new InputElementFactory());
 
 		// any object
-		JavaScriptObject value = new Coords(webEngine, 1.0, 2.0);
+		JavaScriptObject value = new Coords(engine, 1.0, 2.0);
 
 		String propName = "__test__";
 		selection.property(propName, value);

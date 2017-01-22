@@ -16,7 +16,7 @@ public class JsDateTest extends AbstractTestCase {
 
 			Date date = new Date(time);
 
-			JsDate jsDate = JsDate.create(webEngine, time);
+			JsDate jsDate = JsDate.create(engine, time);
 
 			//year			
 			int expectedYear = date.getYear() + 1900;

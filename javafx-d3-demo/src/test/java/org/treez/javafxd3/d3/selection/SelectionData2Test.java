@@ -41,7 +41,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		int[] data = new int[] { 1, 2, 3, 4, 8, 13 };
 		Selection sandBoxSelection = d3.select("#root");
 		Selection dataJoinedSelection = sandBoxSelection.selectAll("div").data(data).enter().append("div").attr("blah",
-				new StringDataFunction(webEngine));
+				new StringDataFunction(engine));
 
 		assertEquals(6, dataJoinedSelection.size());
 
@@ -50,7 +50,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 
 		// AND I join the new data on the elements with their old data		
 		UpdateSelection updateSelection = dataJoinedSelection.data(newDataList,
-				new SelectionData2KeyFunction(webEngine));
+				new SelectionData2KeyFunction(engine));
 		Selection newElements = updateSelection.enter().append("div");
 		assertEquals(2, newElements.size());
 
@@ -69,7 +69,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		Selection remaining = d3.select("#root").selectAll("div");
 		assertEquals(4, remaining.size());
 
-		remaining.each(new AssertCounterDataFunction(webEngine));
+		remaining.each(new AssertCounterDataFunction(engine));
 
 	}
 
@@ -91,12 +91,12 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// WHEN I call selection.datum() with a constant "blah"
 		selection.datum("blah");
 		// THEN all data has a datum of "blah"
-		selection.each(new AssertStringDataFunction(webEngine, "blah"));
+		selection.each(new AssertStringDataFunction(engine, "blah"));
 		// WHEN I call selection.datum() with a constant NULL
 		String datum = null;
 		selection.datum(datum);
 		// THEN all elements has a null data
-		selection.each(new AssertNullStringDataFunction(webEngine));
+		selection.each(new AssertNullStringDataFunction(engine));
 	}
 
 	private void testSelectionDatumSetterFunction() {
@@ -106,7 +106,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// WHEN I call selection.datum() with a function depending on the index
 		selection.datum(new OddEvenDataFunction(5.0, 2.0));
 		// THEN each element has a the corresponding data
-		selection.each(new AssertOddEvenDataFunction(webEngine, 5.0, 2.0));
+		selection.each(new AssertOddEvenDataFunction(engine, 5.0, 2.0));
 	}
 
 	private void testSelectionFilterFunction() {
@@ -115,7 +115,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 				new InputElementFactory("2"));
 		assertEquals(3, selection.size());
 		// WHEN i call filter(":nth-child(odd)")
-		Selection filtered = selection.filter(new OddEvenElementDataFunction(webEngine));
+		Selection filtered = selection.filter(new OddEvenElementDataFunction(engine));
 		// THEN the returned selection contains 2 elements (css is 1-based
 		// index)
 		assertEquals(2, filtered.size());
@@ -183,7 +183,7 @@ public class SelectionData2Test extends AbstractSelectionTest {
 		// bind integers 1 and 2 on the elements
 		selection.data(new Integer[] { 2, 1 });
 		// WHEN calling selection.order
-		selection = selection.sort(new ValueComparator(webEngine));
+		selection = selection.sort(new ValueComparator(engine));
 		// THEN the elements are reordered in the DOM in the order of the
 		// selection
 		assertEquals("blah1", getElementProperty(0, "textContent").asString());

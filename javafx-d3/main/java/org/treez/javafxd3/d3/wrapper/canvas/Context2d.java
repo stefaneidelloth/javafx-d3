@@ -2,15 +2,15 @@ package org.treez.javafxd3.d3.wrapper.canvas;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class Context2d extends JavaScriptObject {
 	
 	//#region CONSTRUCTORS
 
-	public Context2d(WebEngine webEngine, JSObject wrappedJsObject){
-		super(webEngine, wrappedJsObject);
+	public Context2d(JsEngine engine, JsObject wrappedJsObject){
+		super(engine, wrappedJsObject);
 	}
 	
 	//#end region

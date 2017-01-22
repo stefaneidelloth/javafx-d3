@@ -9,8 +9,8 @@ import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 import org.treez.javafxd3.d3.wrapper.Sort;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * 
@@ -20,8 +20,8 @@ public class Chord extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	public Chord(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Chord(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -30,36 +30,36 @@ public class Chord extends JavaScriptObject {
 	//#region METHODS
 
 	public Chord padding(double padding) {
-		JSObject result = call("padding", padding);
-		return new Chord(webEngine, result);
+		JsObject result = call("padding", padding);
+		return new Chord(engine, result);
 	}
 
 	public Chord sortSubgroups(Sort sort) {
-		JSObject sortObj = sort.getJsObject();
-		JSObject result = call("sortSubgroups", sortObj);
-		return new Chord(webEngine, result);
+		JsObject sortObj = sort.getJsObject();
+		JsObject result = call("sortSubgroups", sortObj);
+		return new Chord(engine, result);
 	}
 
 	public Chord matrix(Double[][] matrix) {
 		String arrayString = ArrayUtils.createArrayString(matrix);
-		JSObject result = evalForJsObject("this.matrix(" +  arrayString + ")");
+		JsObject result = evalForJsObject("this.matrix(" +  arrayString + ")");
 		if (result == null) {
 			return null;
 		}
-		return new Chord(webEngine, result);
+		return new Chord(engine, result);
 	}
 
 	public List<Group> groups() {
-		JSObject result = call("groups");
+		JsObject result = call("groups");
 		if(result==null){
 			return null;
 		}
-		Array<JSObject> array= new Array<>(webEngine, result);
+		Array<JsObject> array= new Array<>(engine, result);
 		
 		List<Group> groups = new ArrayList<>();
 		array.forEach((object)->{
-			JSObject jsGroup = (JSObject) object;			
-			Group group = new Group(webEngine, jsGroup);
+			JsObject jsGroup = (JsObject) object;			
+			Group group = new Group(engine, jsGroup);
 			groups.add(group);
 		});
 		return groups;
@@ -67,12 +67,12 @@ public class Chord extends JavaScriptObject {
 		
 	}
 
-	public Array<JSObject> chords() {
-		JSObject result = call("chords");
+	public Array<JsObject> chords() {
+		JsObject result = call("chords");
 		if(result==null){
 			return null;
 		}
-		return new Array<>(webEngine, result);
+		return new Array<>(engine, result);
 	}
 
 	//#end region
@@ -83,8 +83,8 @@ public class Chord extends JavaScriptObject {
 
 		//#region CONSTRUCTORS
 
-		public Group(WebEngine webEngine, JSObject wrappedJsObject) {
-			super(webEngine);
+		public Group(JsEngine engine, JsObject wrappedJsObject) {
+			super(engine);
 			setJsObject(wrappedJsObject);			
 		}
 
@@ -119,8 +119,8 @@ public class Chord extends JavaScriptObject {
 
 		//#region CONSTRUCTORS
 
-		public ChordItem(WebEngine webEngine, JSObject wrappedJsObject) {
-			super(webEngine, wrappedJsObject);			
+		public ChordItem(JsEngine engine, JsObject wrappedJsObject) {
+			super(engine, wrappedJsObject);			
 		}
 
 		//#end region
@@ -128,23 +128,23 @@ public class Chord extends JavaScriptObject {
 		//#region METHODS
 
 		public Group source() {
-			JSObject result = getMember("source");
+			JsObject result = getMember("source");
 			
 			if(result==null){
 				return null;
 			}
 			
-			return new Group(webEngine, result);
+			return new Group(engine, result);
 		}
 
 		public Group target() {
-			JSObject result = getMember("target");
+			JsObject result = getMember("target");
 			
 			if(result==null){
 				return null;
 			}
 			
-			return new Group(webEngine, result);
+			return new Group(engine, result);
 		}
 
 		//#end region

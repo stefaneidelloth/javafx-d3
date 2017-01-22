@@ -1,6 +1,6 @@
 package org.treez.javafxd3.d3.wrapper;
 
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class Inspector {
 
@@ -14,16 +14,16 @@ public class Inspector {
 		} else {
 			String className = javaScriptObject.getClass().getName();
 			System.out.println("Inspecting object of type " + className);
-			JSObject jsObject = javaScriptObject.getJsObject();
+			JsObject jsObject = javaScriptObject.getJsObject();
 			inspect(jsObject);
 		}
 	}
 
-	public static void inspect(JSObject jsObject) {
+	public static void inspect(JsObject jsObject) {
 			System.out.print(getInspectionInfo(jsObject));
 	}
 
-	public static String getInspectionInfo(JSObject jsObject) {
+	public static String getInspectionInfo(JsObject jsObject) {
 		String infoString = "";
 
 		infoString += "##############################\n";

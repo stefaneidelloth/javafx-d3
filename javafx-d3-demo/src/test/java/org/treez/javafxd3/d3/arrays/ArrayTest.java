@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.treez.javafxd3.d3.AbstractTestCase;
 
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class ArrayTest extends AbstractTestCase {
 
@@ -26,8 +26,8 @@ public class ArrayTest extends AbstractTestCase {
 	
 
 	private void testEmptyArray() {
-		JSObject emptyArrayObj = (JSObject) d3.eval("[]");
-		Array<?> emptyArray = new Array<>(webEngine, emptyArrayObj);
+		JsObject emptyArrayObj = (JsObject) d3.eval("[]");
+		Array<?> emptyArray = new Array<>(engine, emptyArrayObj);
 
 		List<Integer> sizes = emptyArray.sizes();
 		assertEquals("number of rows", 0, (int) sizes.get(0));
@@ -36,8 +36,8 @@ public class ArrayTest extends AbstractTestCase {
 	}
 
 	private void test3x0Array() {
-		JSObject emptyArrayObj = (JSObject) d3.eval("[[],[],[]]");
-		Array<?> emptyArray = new Array<>(webEngine, emptyArrayObj);
+		JsObject emptyArrayObj = (JsObject) d3.eval("[[],[],[]]");
+		Array<?> emptyArray = new Array<>(engine, emptyArrayObj);
 
 		List<Integer> sizes = emptyArray.sizes();
 		assertEquals("number of rows", (int) sizes.get(0), 3);
@@ -47,8 +47,8 @@ public class ArrayTest extends AbstractTestCase {
 
 	private void test3x2Array() {
 		// 3 x 2
-		JSObject array3x2Object = (JSObject) d3.eval("[[1, 2],[3,4],[5,6]]");
-		Array<Integer> array3x2 = new Array<>(webEngine, array3x2Object);
+		JsObject array3x2Object = (JsObject) d3.eval("[[1, 2],[3,4],[5,6]]");
+		Array<Integer> array3x2 = new Array<>(engine, array3x2Object);
 
 		List<Integer> sizes3x2 = array3x2.sizes();
 
@@ -59,8 +59,8 @@ public class ArrayTest extends AbstractTestCase {
 
 	private void test1x3Array() {
 		// 1 x 3
-		JSObject array1x3Object = (JSObject) d3.eval("[1, 2, 3]");
-		Array<Integer> array1x3 = new Array<>(webEngine, array1x3Object);
+		JsObject array1x3Object = (JsObject) d3.eval("[1, 2, 3]");
+		Array<Integer> array1x3 = new Array<>(engine, array1x3Object);
 
 		List<Integer> sizes1x3 = array1x3.sizes();
 		assertEquals("number of rows", 1, (int) sizes1x3.get(0));
@@ -72,7 +72,7 @@ public class ArrayTest extends AbstractTestCase {
 		List<Double> data = new ArrayList<>();
 		data.add(1.0d);
 		data.add(2.0d);
-		Array<Double> doubleArray = Array.fromList(webEngine, data);
+		Array<Double> doubleArray = Array.fromList(engine, data);
 
 		List<Integer> sizes = doubleArray.sizes();
 		assertEquals("number of rows", 1, (int) sizes.get(0));
@@ -87,7 +87,7 @@ public class ArrayTest extends AbstractTestCase {
 
 	private void testFromDoubles() {
 		
-		Array<Double> doubleArray = Array.fromDoubles(webEngine, new Double[]{3.0,4.0});
+		Array<Double> doubleArray = Array.fromDoubles(engine, new Double[]{3.0,4.0});
 		
 		List<Integer> sizes = doubleArray.sizes();
 		assertEquals("number of rows", 1, (int) sizes.get(0));
@@ -101,25 +101,26 @@ public class ArrayTest extends AbstractTestCase {
 
 	private void testFromJavaScriptObjects() {
 		
-		JSObject firstObject = d3.evalForJsObject("[2]");
-		JSObject secondObject = d3.evalForJsObject("['foo']");		
+		JsObject firstObject = d3.evalForJsObject("[2]");
+		JsObject secondObject = d3.evalForJsObject("['foo']");		
 		
-		Array<JSObject> array = Array.fromJavaScriptObjects(webEngine, firstObject, secondObject);		
+		Array<JsObject> array = Array.fromJavaScriptObjects(engine, firstObject, secondObject);		
 		List<Integer> sizes = array.sizes();
 		assertEquals("number of rows", 2, (int) sizes.get(0));
 		assertEquals("number of columns", 1, (int) sizes.get(1));
 		assertEquals("dimensions", 1, array.dimension());
 				
-		assertEquals("first value", firstObject, array.get(0, JSObject.class) );
-		assertEquals("second value", secondObject, array.get(1, JSObject.class) );
+		
+		assertEquals("first value", firstObject, array.get(0, JsObject.class) );
+		assertEquals("second value", secondObject, array.get(1, JsObject.class) );
 
 	}
 	
 	
 	private void testForEach() {
 		
-		JSObject arrayObject = d3.evalForJsObject("[1,2,3]");
-		Array<Double> array = new Array<>(webEngine, arrayObject);
+		JsObject arrayObject = d3.evalForJsObject("[1,2,3]");
+		Array<Double> array = new Array<>(engine, arrayObject);
 		
 		Double firstElement = array.get(0, Double.class);
 		assertEquals(1d, firstElement, TOLERANCE);

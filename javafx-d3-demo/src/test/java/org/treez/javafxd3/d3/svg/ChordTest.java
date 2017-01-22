@@ -26,9 +26,9 @@ public class ChordTest extends AbstractTestCase {
 		chord.target(new ChordTargetDataFunction());
 		
 		// chord
-		chord.startAngle(new ChordStartAngleDataFunction(webEngine)) //
-		.endAngle(new ChordStartAngleDataFunction(webEngine)) //
-		.radius(new ChordRadiusDataFunction(webEngine));
+		chord.startAngle(new ChordStartAngleDataFunction(engine)) //
+		.endAngle(new ChordStartAngleDataFunction(engine)) //
+		.radius(new ChordRadiusDataFunction(engine));
 
 		chord.generate(new Double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
 	}

@@ -1,14 +1,16 @@
 package org.treez.javafxd3.d3.functions.data.axis;
 
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.scales.QuantitativeScale;
-
-import netscape.javascript.JSObject;
 
 
 public class AxisScaleInversedThirdDataFunction implements DataFunction<Double> {
 	
 	//#region ATTRIBUTES
+	
+	JsEngine engine;
 	
 	private QuantitativeScale<?> scale;	
 	
@@ -19,9 +21,10 @@ public class AxisScaleInversedThirdDataFunction implements DataFunction<Double> 
 	//#region CONSTRUCTORS
 	
 	/**
-	 * @param webEngine
+	 * @param engine
 	 */
-	public AxisScaleInversedThirdDataFunction(QuantitativeScale<?> scale, double maxValue){
+	public AxisScaleInversedThirdDataFunction(JsEngine engine, QuantitativeScale<?> scale, double maxValue){
+		this.engine = engine;
 		this.scale = scale;		
 		this.maxValue = maxValue;
 	}
@@ -33,7 +36,7 @@ public class AxisScaleInversedThirdDataFunction implements DataFunction<Double> 
 	@Override
 	public Double apply(Object context, Object datum, int index) {
 		
-		JSObject jsObject = (JSObject) datum;	
+		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);	
 		
 		Object secondValueObj = jsObject.eval("this.datum[2]");	
 		Double secondValue = Double.parseDouble(secondValueObj.toString());		

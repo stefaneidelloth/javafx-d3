@@ -49,7 +49,7 @@ public class CsvTest extends AbstractTestCase {
 						"Jane,15\n" + //
 						"Bruce,48\n" + //
 						"Emma,28\n",
-				new PersonAccessor(webEngine));
+				new PersonAccessor(engine));
 
 		assertEquals(5, rows.length());
 		Person jane = rows.get(2, Person.class);
@@ -79,7 +79,7 @@ public class CsvTest extends AbstractTestCase {
 						"Jane,15\n" + //
 						"Bruce,48\n" + //
 						"Emma,28\n",
-				new PersonArrayAccessor(webEngine));
+				new PersonArrayAccessor(engine));
 
 		int size = rows.length();
 		assertEquals(5, size);
@@ -93,8 +93,8 @@ public class CsvTest extends AbstractTestCase {
 		// FIXME : we are not really sure if accessor and callback are actually
 		// called
 
-		PersonAccessor accessor = new PersonAccessor(webEngine);
-		PersonCallback callback = new PersonCallback(webEngine);
+		PersonAccessor accessor = new PersonAccessor(engine);
+		PersonCallback callback = new PersonCallback(engine);
 		d3.csv("https://github.com/stefaneidelloth/javafx-d3/blob/master/javafx-d3-demo/src/main/resources/test-data/test.csv",
 				accessor, callback);
 
@@ -103,7 +103,7 @@ public class CsvTest extends AbstractTestCase {
 	private void testCsvWithCallback() {
 
 		// FIXME : we are not really sure if callback is actually called		
-		PersonRowCallback callback = new PersonRowCallback(webEngine);
+		PersonRowCallback callback = new PersonRowCallback(engine);
 		d3.csv("https://github.com/stefaneidelloth/javafx-d3/blob/master/javafx-d3-demo/src/main/resources/test-data/test.csv",
 				callback);
 	}
@@ -113,8 +113,8 @@ public class CsvTest extends AbstractTestCase {
 		// FIXME : we are not really sure if accessor and callback are actually
 		// called
 
-		PersonAccessor accessor = new PersonAccessor(webEngine);
-		PersonCallback callback = new PersonCallback(webEngine);
+		PersonAccessor accessor = new PersonAccessor(engine);
+		PersonCallback callback = new PersonCallback(engine);
 		Dsv<Person> personCsv = d3.<Person> csv(
 				"https://github.com/stefaneidelloth/javafx-d3/blob/master/javafx-d3-demo/src/main/resources/test-data/test.csv");
 		personCsv.row(accessor).get(callback);

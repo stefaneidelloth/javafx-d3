@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.svg;
 
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Generate a piecewise linear curve, as in a line chart.
@@ -20,11 +20,11 @@ public class Line extends PathDataGenerator {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Line(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public Line(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -53,8 +53,8 @@ public class Line extends PathDataGenerator {
 	 */
 	public Line interpolate(final InterpolationMode interpolationMode) {
 		String mode = interpolationMode.getValue();
-		JSObject result = call("interpolate", mode);
-		return new Line(webEngine, result);
+		JsObject result = call("interpolate", mode);
+		return new Line(engine, result);
 	}
 
 	/**
@@ -87,8 +87,8 @@ public class Line extends PathDataGenerator {
 	 * @return the current line
 	 */
 	public Line tension(double tension) {
-		JSObject result = call("tension", tension);
-		return new Line(webEngine, result);
+		JsObject result = call("tension", tension);
+		return new Line(engine, result);
 	}
 
 	/**
@@ -98,8 +98,8 @@ public class Line extends PathDataGenerator {
 	 * @return
 	 */
 	public Line x(double d) {
-		JSObject result = call("x", d);
-		return new Line(webEngine, result);
+		JsObject result = call("x", d);
+		return new Line(engine, result);
 	}
 
 	/**
@@ -115,8 +115,8 @@ public class Line extends PathDataGenerator {
 	 * @return
 	 */
 	public Line x(final DataFunction<?> callback) {
-		JSObject result = applyDataFunction("x", callback);
-		return new Line(webEngine, result);
+		JsObject result = applyDataFunction("x", callback);
+		return new Line(engine, result);
 	}
 
 	// should create a JSO impl of DataFunction calling himself
@@ -130,8 +130,8 @@ public class Line extends PathDataGenerator {
 	 * @return
 	 */
 	public Line y(double d) {
-		JSObject result = call("y", d);
-		return new Line(webEngine, result);
+		JsObject result = call("y", d);
+		return new Line(engine, result);
 	}
 
 	/**
@@ -147,15 +147,15 @@ public class Line extends PathDataGenerator {
 	 * @return
 	 */
 	public Line y(final DataFunction<?> callback) {
-		JSObject result = applyDataFunction("y", callback);
-		return new Line(webEngine, result);
+		JsObject result = applyDataFunction("y", callback);
+		return new Line(engine, result);
 	}
 
-	private JSObject applyDataFunction(String methodName, final DataFunction<?> callback) {
+	private JsObject applyDataFunction(String methodName, final DataFunction<?> callback) {
 
 		assertObjectIsNotAnonymous(callback);
 
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		String callbackName = createNewTemporaryInstanceName();
 
 		d3JsObject.setMember(callbackName, callback);
@@ -163,7 +163,7 @@ public class Line extends PathDataGenerator {
 		String command = "this." + methodName + "(function(d,i) {" //
 				+ "return d3." + callbackName + ".apply(this, {datum:d}, i);" //
 				+ "})";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		
 		
 		if(result==null){
@@ -189,7 +189,7 @@ public class Line extends PathDataGenerator {
 	 */
 	public Line defined(final DataFunction<Boolean> callback) {
 
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		String callbackName = createNewTemporaryInstanceName();
 		d3JsObject.setMember(callbackName, callback);
 
@@ -201,12 +201,12 @@ public class Line extends PathDataGenerator {
 				+ "       return result;"//
 				+ "  }"//
 				+ "});";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		
 		if(result==null){
 			return null;
 		}
-		return new Line(webEngine, result);
+		return new Line(engine, result);
 	}
 	
 	

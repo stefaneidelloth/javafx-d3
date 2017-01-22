@@ -4,8 +4,8 @@ import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A link in d3js' tree layout, see <a href="https:links">d3 docs on link</a>.
@@ -22,11 +22,11 @@ public class Link extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Link(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Link(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -45,18 +45,18 @@ public class Link extends JavaScriptObject {
 	 * 
 	 * @return the link object
 	 */
-	public static Link create(WebEngine webEngine, Coords source, Coords target) {
-		JSObject sourceObj = source.getJsObject();
-		JSObject targetObj = target.getJsObject();
-		D3 d3 = new D3(webEngine);
-		JSObject d3Obj = d3.getJsObject();
+	public static Link create(JsEngine engine, Coords source, Coords target) {
+		JsObject sourceObj = source.getJsObject();
+		JsObject targetObj = target.getJsObject();
+		D3 d3 = new D3(engine);
+		JsObject d3Obj = d3.getJsObject();
 		
 		String sourceVarName = createNewTemporaryInstanceName();
 		String targetVarName = createNewTemporaryInstanceName();
 		d3Obj.setMember(sourceVarName, sourceObj);
 		d3Obj.setMember(targetVarName, targetObj);
 		String command = "{ source : d3."+ sourceVarName +", target : d3."+ targetVarName +" }";
-		JSObject result = d3.evalForJsObject(command);
+		JsObject result = d3.evalForJsObject(command);
 		
 		d3Obj.removeMember(sourceVarName);
 		d3Obj.removeMember(targetVarName);
@@ -65,22 +65,22 @@ public class Link extends JavaScriptObject {
 			return null;
 		}
 		
-		return new Link(webEngine, result);		
+		return new Link(engine, result);		
 	}
 
 	/**
 	 * @return the end node
 	 */
 	public Node target() {
-		JSObject result = getMember("target");
-		return new Node(webEngine, result);
+		JsObject result = getMember("target");
+		return new Node(engine, result);
 	}
 
 	/**
 	 * @return the start node
 	 */
 	public Node source() {
-		JSObject result = getMember("source");
-		return new Node(webEngine, result);
+		JsObject result = getMember("source");
+		return new Node(engine, result);
 	}
 }

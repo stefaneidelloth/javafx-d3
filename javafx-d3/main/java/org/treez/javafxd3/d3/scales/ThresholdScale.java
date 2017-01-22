@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.scales;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Threshold scales are similar to quantize scales, except they allow you to map
@@ -42,11 +42,11 @@ public class ThresholdScale extends DiscreteQuantitativeScale<ThresholdScale> {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public ThresholdScale(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public ThresholdScale(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}	
 
 	//#end region
@@ -54,8 +54,8 @@ public class ThresholdScale extends DiscreteQuantitativeScale<ThresholdScale> {
 	//#region METHODS
 	
 	@Override
-	public ThresholdScale createScale(WebEngine webEngine, JSObject result) {
-		return new ThresholdScale(webEngine, result);
+	public ThresholdScale createScale(JsEngine engine, JsObject result) {
+		return new ThresholdScale(engine, result);
 	}
 	
 	//#end region

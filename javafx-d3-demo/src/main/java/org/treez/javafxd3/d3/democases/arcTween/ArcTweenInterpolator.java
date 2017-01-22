@@ -5,17 +5,17 @@ import org.treez.javafxd3.d3.interpolators.Interpolator;
 import org.treez.javafxd3.d3.interpolators.Interpolators;
 import org.treez.javafxd3.d3.svg.Arc;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 public class ArcTweenInterpolator extends CallableInterpolator<String> {
 
 	private ArcTweenFunction arcTweenFunction;
 	private Interpolator<Double> interpolator;
 
-	public ArcTweenInterpolator(WebEngine webEngine, ArcTweenFunction arcTweenFunction) {
-		super(webEngine);
+	public ArcTweenInterpolator(JsEngine engine, ArcTweenFunction arcTweenFunction) {
+		super(engine);
 		this.arcTweenFunction = arcTweenFunction;
-		interpolator = Interpolators.interpolateNumber(webEngine, arcTweenFunction.getEndAngle(), arcTweenFunction.getNewAngle());
+		interpolator = Interpolators.interpolateNumber(engine, arcTweenFunction.getEndAngle(), arcTweenFunction.getNewAngle());
 	}	
 
 	@Override

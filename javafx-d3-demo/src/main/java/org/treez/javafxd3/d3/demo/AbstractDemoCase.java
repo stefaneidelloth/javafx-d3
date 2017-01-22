@@ -9,7 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 /**
  * Abstract parent class for all demo cases
@@ -27,7 +27,7 @@ public abstract class AbstractDemoCase implements DemoCase {
 	/**
 	 * Controls the browser
 	 */
-	protected WebEngine webEngine;
+	protected JsEngine engine;
 
 	/**
 	 * Box for demo case preferences and buttons
@@ -46,7 +46,7 @@ public abstract class AbstractDemoCase implements DemoCase {
 	 */
 	public AbstractDemoCase(D3 d3, VBox demoPreferenceBox) {
 		this.d3 = d3;
-		this.webEngine = d3.getWebEngine();
+		this.engine = d3.getJsEngine();
 		this.demoPreferenceBox = demoPreferenceBox;
 		loadCssForThisClass();
 	}
@@ -104,7 +104,7 @@ public abstract class AbstractDemoCase implements DemoCase {
 		+ "    link.href = '"+ cssUrl + "';" //
 		+ "    link.media = 'all';" //
 		+ "    head.appendChild(link);";		
-		webEngine.executeScript(command);		
+		engine.executeScript(command);		
 	}
 	
 	

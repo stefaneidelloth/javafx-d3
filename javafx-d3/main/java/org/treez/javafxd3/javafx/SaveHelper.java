@@ -8,7 +8,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
- * Helps to export svg content from the JavaFx WebEngine
+ * Helps to export svg content from the JavaFx JsEngine
  *
  */
 public class SaveHelper {

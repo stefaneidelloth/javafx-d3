@@ -2,12 +2,12 @@ package org.treez.javafxd3.d3.transition.function;
 
 import org.treez.javafxd3.d3.interpolators.CallableInterpolator;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 public class TestCallableInterpolator extends CallableInterpolator<String>{
 
-	public TestCallableInterpolator(WebEngine webEngine){
-		super(webEngine);
+	public TestCallableInterpolator(JsEngine engine){
+		super(engine);
 	}
 	
 	@Override

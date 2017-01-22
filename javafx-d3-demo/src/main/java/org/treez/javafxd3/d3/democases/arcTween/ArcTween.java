@@ -90,7 +90,7 @@ public class ArcTween extends AbstractDemoCase {
 		// construct a a stupid object containing the
 		// property "endAngle" as a constant.
 
-		Arc json = Arc.constantArc(webEngine).endAngle(TWO_PI);
+		Arc json = Arc.constantArc(engine).endAngle(TWO_PI);
 		// Add the background arc, from 0 to 100%
 		// Here, the path d attribute is filled using the arc function,
 		// which will received in parameter the object passed to datum.
@@ -145,7 +145,7 @@ public class ArcTween extends AbstractDemoCase {
 					centroidText //
 							.transition() //
 							.duration(750) //
-							.attr("transform", new ArcTweenDataFunction(webEngine, ArcTween.this));
+							.attr("transform", new ArcTweenDataFunction(engine, ArcTween.this));
 				});
 
 			}
@@ -164,7 +164,7 @@ public class ArcTween extends AbstractDemoCase {
 	}
 
 	protected synchronized void doTransition(final Transition transition, final double newAngle) {
-		transition.attrTween("d", new ArcTweenFunction(webEngine, ArcTween.this));
+		transition.attrTween("d", new ArcTweenFunction(engine, ArcTween.this));
 	}
 
 	@Override

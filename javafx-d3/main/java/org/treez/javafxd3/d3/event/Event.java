@@ -4,28 +4,16 @@ import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.functions.JsFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class Event extends JavaScriptObject implements JsFunction {
 		
 
 	//#region CONSTRUCTORS
-	
-	/**
-	 * @param webEngine
-	 */
-	public Event(WebEngine webEngine){
-		super(webEngine);
-	}
 
-	/**
-	 * @param webEngine
-	 * @param wrappedJsObject
-	 */
-	public Event(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
-		setJsObject(wrappedJsObject);
+	public Event(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);		
 	}
 		
 	//#end region
@@ -36,13 +24,13 @@ public class Event extends JavaScriptObject implements JsFunction {
 	 * @return
 	 */
 	public Selection getEventTarget(){		
-		JSObject result = getMember("target");
-		return new Selection(webEngine, result);
+		JsObject result = getMember("target");
+		return new Selection(engine, result);
 	}
 
 	public Event sourceEvent() {
-		JSObject result = call("this.sourceEvent");
-		return new Event(webEngine, result);		
+		JsObject result = call("this.sourceEvent");
+		return new Event(engine, result);		
 	}
 
 	public void stopPropagation() {

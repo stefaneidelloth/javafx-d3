@@ -6,8 +6,8 @@ import java.util.Date;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class JsDate extends JavaScriptObject {
 
@@ -16,16 +16,16 @@ public class JsDate extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public JsDate(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public JsDate(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
-	public static JsDate create(WebEngine webEngine, long time) {
-		D3 d3 = new D3(webEngine);
+	public static JsDate create(JsEngine engine, long time) {
+		D3 d3 = new D3(engine);
 		Date date = new Date(time);
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss:SSS");
@@ -35,8 +35,8 @@ public class JsDate extends JavaScriptObject {
 		return dateResult;
 	}
 
-	public static JsDate create(WebEngine webEngine, double date) {
-		JsDate result = create(webEngine, (long) date);
+	public static JsDate create(JsEngine engine, double date) {
+		JsDate result = create(engine, (long) date);
 		return result;
 	}
 
@@ -45,13 +45,13 @@ public class JsDate extends JavaScriptObject {
 	 * internal millisecond representation, e.g. "January 11, 1979 09:05:18" =>
 	 * 283939518000
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param dateString
 	 * @return
 	 */
-	public static double parse(WebEngine webEngine, String dateString) {
+	public static double parse(JsEngine engine, String dateString) {
 
-		D3 d3 = new D3(webEngine);
+		D3 d3 = new D3(engine);
 		
 		JsDate dateResult;
 		try{

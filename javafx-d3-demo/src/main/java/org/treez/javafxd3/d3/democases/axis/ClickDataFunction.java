@@ -11,14 +11,14 @@ import org.treez.javafxd3.d3.svg.Axis;
 import org.treez.javafxd3.d3.svg.Line;
 import org.treez.javafxd3.d3.time.TimeScale;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class ClickDataFunction implements DataFunction<Void> {
 
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine;
+	private JsEngine engine;
 	Selection svg;
 	List<DsvData> valueList;
 	private TimeScale xScale;	
@@ -31,8 +31,8 @@ public class ClickDataFunction implements DataFunction<Void> {
 
 	//#region CONSTRUCTORS
 
-	public ClickDataFunction(WebEngine webEngine, Selection svg, List<DsvData> valueList, TimeScale xScale, Axis xAxis, Line line, Area area) {
-		this.webEngine = webEngine;
+	public ClickDataFunction(JsEngine engine, Selection svg, List<DsvData> valueList, TimeScale xScale, Axis xAxis, Line line, Area area) {
+		this.engine = engine;
 		this.svg = svg;
 		this.valueList = valueList;
 		this.xScale = xScale;	
@@ -51,9 +51,9 @@ public class ClickDataFunction implements DataFunction<Void> {
 		int n = valueList.size() - 1;
 		int i = (int) Math.floor((Math.random() * n) / 2);
 		int j = i + (int) Math.floor((Math.random() * n) / 2) + 1;
-		JSObject firstObj = valueList.get(i).getDate().getJsObject();
-		JSObject secondObj = valueList.get(j).getDate().getJsObject();
-		xScale.domain(Array.fromJavaScriptObjects(webEngine, firstObj, secondObj));
+		JsObject firstObj = valueList.get(i).getDate().getJsObject();
+		JsObject secondObj = valueList.get(j).getDate().getJsObject();
+		xScale.domain(Array.fromJavaScriptObjects(engine, firstObj, secondObj));
 		Transition transition = svg.transition().duration(750);
 		transition.select("." + "x" + "." + "axis").call(xAxis);
 		transition.select("." + "area").attr("d", area.apply(valueList));

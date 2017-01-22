@@ -3,8 +3,8 @@ package org.treez.javafxd3.d3.core;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A Transform is a representation of a SVG
@@ -23,23 +23,23 @@ public class Transform extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 */
-	public Transform(WebEngine webEngine) {
-		super(webEngine);
-		JSObject d3 = (JSObject) webEngine.executeScript("d3");
-		JSObject transform = (JSObject) d3.getMember("transform");
+	public Transform(JsEngine engine) {
+		super(engine);
+		JsObject d3 = (JsObject) engine.executeScript("d3");
+		JsObject transform = (JsObject) d3.getMember("transform");
 		setJsObject(transform);
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Transform(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Transform(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -67,8 +67,8 @@ public class Transform extends JavaScriptObject {
 	 */
 	public Transform parse(String transformString) {
 		String command = "d3.transform('" + transformString + "')";
-		JSObject result = evalForJsObject(command);
-		return new Transform(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Transform(engine, result);
 	}
 
 	/**
@@ -102,8 +102,8 @@ public class Transform extends JavaScriptObject {
 	 * @return translation coords
 	 */
 	public Array<Double> translate() {
-		JSObject result = getMember("translate");
-		return new Array<Double>(webEngine, result);
+		JsObject result = getMember("translate");
+		return new Array<Double>(engine, result);
 	}
 
 	/**
@@ -186,8 +186,8 @@ public class Transform extends JavaScriptObject {
 	 * @return translation coords
 	 */
 	public Array<Double> scale() {
-		JSObject result = getMember("scale");
-		return new Array<Double>(webEngine, result);
+		JsObject result = getMember("scale");
+		return new Array<Double>(engine, result);
 	}
 
 	public String toString() {

@@ -40,7 +40,7 @@ public class TimeFormatTest extends AbstractTestCase {
 		int tzOffset = getTimeZoneOffset(0);
 		TimeFormat format = d3.time().format("%Y-%m-%d %H:%M:%S");
 
-		JsDate jsDate = JsDate.create(webEngine, tzOffset * 60 * 1000);
+		JsDate jsDate = JsDate.create(engine, tzOffset * 60 * 1000);
 		String strWithJsDate = format.apply(jsDate);
 
 		Date date = new Date(tzOffset * 60 * 1000);

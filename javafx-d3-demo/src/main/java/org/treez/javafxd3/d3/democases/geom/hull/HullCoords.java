@@ -2,19 +2,19 @@ package org.treez.javafxd3.d3.democases.geom.hull;
 
 import org.treez.javafxd3.d3.coords.Coords;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class HullCoords extends Coords {
 
 	//#region CONSTRUCTORS
 
-	public HullCoords(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public HullCoords(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
-	public HullCoords(WebEngine webEngine, double x, double y) {
-		super(webEngine, x, y);
+	public HullCoords(JsEngine engine, double x, double y) {
+		super(engine, x, y);
 	}
 
 	//#end region

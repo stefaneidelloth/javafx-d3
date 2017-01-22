@@ -7,18 +7,21 @@ import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.time.JsDate;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 import netscape.javascript.JSException;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class ConversionUtil {
 
 	@SuppressWarnings("unchecked")
-	public synchronized static <T> T convertObjectTo(Object object, Class<T> classObj, WebEngine webEngine) {
+	public synchronized static <T> T convertObjectTo(Object argumentObj, Class<T> classObj, JsEngine engine) {
 
-		if (object == null) {
+		if (argumentObj == null) {
 			return null;
 		}
+		
+		Object object = engine.toJsObjectIfNotSimpleType(argumentObj);
+		
 
 		boolean isUndefined = object.equals("undefined");
 		if (isUndefined) {
@@ -33,7 +36,7 @@ public class ConversionUtil {
 		
 		boolean targetIsValue = classObj.equals(Value.class);
 		if (targetIsValue) {
-			T result = (T) convertToValue(object, webEngine);
+			T result = (T) convertToValue(object, engine);
 			return result;
 		}
 
@@ -86,7 +89,7 @@ public class ConversionUtil {
 
 		boolean targetIsJavaScriptObject = JavaScriptObject.class.isAssignableFrom(classObj);
 		if (targetIsJavaScriptObject) {
-			T result = convertToJavaScriptObject(resultObj, classObj, webEngine);
+			T result = convertToJavaScriptObject(resultObj, classObj, engine);
 			return result;
 		}
 
@@ -248,39 +251,39 @@ public class ConversionUtil {
 		}
 	}
 
-	public static Value convertToValue(Object resultObj, WebEngine webEngine) {
+	public static Value convertToValue(Object resultObj, JsEngine engine) {
 
-		boolean isJsObject = resultObj instanceof JSObject;
+		boolean isJsObject = resultObj instanceof JsObject;
 		if (isJsObject) {
-			JSObject jsValue = (JSObject) resultObj;			
-			Value value = new Value(webEngine, jsValue);
+			JsObject jsValue = (JsObject) resultObj;			
+			Value value = new Value(engine, jsValue);
 			return value;
 		} else {
-			Value value = Value.create(webEngine, resultObj);
+			Value value = Value.create(engine, resultObj);
 			return value;
 		}
 	}
 
-	public static <T> T convertToJavaScriptObject(Object resultObj, Class<T> classObj, WebEngine webEngine) {
+	public static <T> T convertToJavaScriptObject(Object resultObj, Class<T> classObj, JsEngine engine) {
 
 		Constructor<T> constructor = createConstructorForJavaScriptObject(resultObj, classObj);
-		T newJavaScriptObject = tryToCreateNewInstance(resultObj, classObj, constructor, webEngine);
+		T newJavaScriptObject = tryToCreateNewInstance(resultObj, classObj, constructor, engine);
 		return newJavaScriptObject;
 	}
 
 	private static Object extractDatum(Object resultObj) {
-		JSObject jsObject = (JSObject) resultObj;
+		JsObject jsObject = (JsObject) resultObj;
 		return jsObject.eval("this.datum");
 	}
 
 	private static boolean isJsDataObject(Object resultObj) {
 
-		boolean isJsObject = resultObj instanceof JSObject;
+		boolean isJsObject = resultObj instanceof JsObject;
 		if (!isJsObject) {
 			return false;
 		}
 
-		JSObject jsObject = (JSObject) resultObj;
+		JsObject jsObject = (JsObject) resultObj;
 
 		try {
 			String command = "this.datum != undefined && Object.keys(this).length ==1";
@@ -292,10 +295,10 @@ public class ConversionUtil {
 	}
 
 	public static <T> T tryToCreateNewInstance(Object resultObj, Class<T> classObj, Constructor<T> constructor,
-			WebEngine webEngine) {
+			JsEngine engine) {
 		T newJavaScriptObject;
 		try {
-			newJavaScriptObject = constructor.newInstance(webEngine, resultObj);
+			newJavaScriptObject = constructor.newInstance(engine, resultObj);
 		} catch (Exception exception) {
 			String message = "Could not construct new instance of type '" + classObj.getName() + "' with "
 					+ "object of type " + resultObj.getClass().getName();
@@ -310,22 +313,22 @@ public class ConversionUtil {
 
 		Constructor<T> constructor;
 
-		boolean resultIsJsObject = resultObj instanceof JSObject;
+		boolean resultIsJsObject = resultObj instanceof JsObject;
 		if (resultIsJsObject) {
 			try {
-				constructor = classObj.getConstructor(new Class<?>[] { WebEngine.class, JSObject.class });
+				constructor = classObj.getConstructor(new Class<?>[] { JsEngine.class, JsObject.class });
 			} catch (Exception exception) {
 				String message = "Could not get constructor for JavaScriptObject of " + "type '" + classObj.getName()
-						+ "' with parameters of type WebEngine and '" + resultObjClass.getName() + "'.";
+						+ "' with parameters of type JsEngine and '" + resultObjClass.getName() + "'.";
 				throw new IllegalStateException(message, exception);
 			}
 
 		} else {
 			try {
-				constructor = classObj.getConstructor(new Class<?>[] { WebEngine.class, resultObjClass });
+				constructor = classObj.getConstructor(new Class<?>[] { JsEngine.class, resultObjClass });
 			} catch (Exception exception) {
 				String message = "Could not get constructor for JavaScriptObject of " + "type '" + classObj.getName()
-						+ "' with parameters of type WebEngine and '" + resultObjClass.getName() + "'.";
+						+ "' with parameters of type JsEngine and '" + resultObjClass.getName() + "'.";
 				throw new IllegalStateException(message, exception);
 			}
 		}
@@ -345,18 +348,18 @@ public class ConversionUtil {
 		}
 	}
 
-	public static JsDate createJsDate(Date date, WebEngine webEngine) {
+	public static JsDate createJsDate(Date date, JsEngine engine) {
 		long time = date.getTime();
-		return JsDate.create(webEngine, time);
+		return JsDate.create(engine, time);
 	}
 
-	public static JSObject createJsObject(String objectCommand, WebEngine webEngine) {
+	public static JsObject createJsObject(String objectCommand, JsEngine engine) {
 
-		D3 d3 = new D3(webEngine);
+		D3 d3 = new D3(engine);
 
 		String command = "this.temp_obj_var=" + objectCommand + ";";
 		d3.eval(command);
-		JSObject result = d3.evalForJsObject("this.temp_obj_var");
+		JsObject result = d3.evalForJsObject("this.temp_obj_var");
 
 		d3.eval("this.temp_obj_var=undefined");
 

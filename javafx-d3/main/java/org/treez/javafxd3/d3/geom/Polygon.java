@@ -3,8 +3,8 @@ package org.treez.javafxd3.d3.geom;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.ArrayUtils;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * 
@@ -15,11 +15,11 @@ public class Polygon extends Array<Array<Double>> {
 	//#region CONSTRUCTORS
 
 	/**
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Polygon(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);		
+	public Polygon(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);		
 	}
 
 	//#end region
@@ -46,8 +46,8 @@ public class Polygon extends Array<Array<Double>> {
 	 * @return a two-element array representing the centroid of this polygon.
 	 */
 	public Array<?> centroid() {
-		JSObject result = call("centroid");
-		return new Array<Object>(webEngine, result);		
+		JsObject result = call("centroid");
+		return new Array<Object>(engine, result);		
 	}
 
 	/**
@@ -59,8 +59,8 @@ public class Polygon extends Array<Array<Double>> {
 	 * @return a two-element array representing the centroid of this polygon.
 	 */
 	public Array<Double> centroid(double k) {
-		JSObject result = call("centroid", k);
-		return new Array<Double>(webEngine, result);			
+		JsObject result = call("centroid", k);
+		return new Array<Double>(engine, result);			
 	}
 
 	/**
@@ -79,8 +79,8 @@ public class Polygon extends Array<Array<Double>> {
 	public Polygon clip(Double[][] subject) {
 		String arrayString = ArrayUtils.createArrayString(subject);
 		String command = "this.clip(" + arrayString + ")";
-		JSObject result = evalForJsObject(command);
-		return new Polygon(webEngine, result);		
+		JsObject result = evalForJsObject(command);
+		return new Polygon(engine, result);		
 	}
 
 	public void addPoint(double[] pointCoordinates) {

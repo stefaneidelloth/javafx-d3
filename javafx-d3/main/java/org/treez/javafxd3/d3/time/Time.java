@@ -5,8 +5,8 @@ import java.util.Date;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * D3 includes a helper module for parsing and formatting dates modeled after
@@ -28,11 +28,11 @@ public class Time extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Time(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Time(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -49,8 +49,8 @@ public class Time extends JavaScriptObject {
 	 * @return the new scale
 	 */
 	public TimeScale scale() {
-		JSObject result = call("scale");
-		return new TimeScale(webEngine, result);
+		JsObject result = call("scale");
+		return new TimeScale(engine, result);
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class Time extends JavaScriptObject {
 	 */
 	public TimeScale utc() {
 		String command = "this.scale.utc()";
-		JSObject result = evalForJsObject(command);
-		return new TimeScale(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new TimeScale(engine, result);
 	}
 
 	/**
@@ -131,8 +131,8 @@ public class Time extends JavaScriptObject {
 	 * @return the formatted string.
 	 */
 	public TimeFormat format(String specifier) {
-		JSObject result = call("format", specifier);
-		return new TimeFormat(webEngine, result);
+		JsObject result = call("format", specifier);
+		return new TimeFormat(engine, result);
 	}
 
 	/**
@@ -141,8 +141,8 @@ public class Time extends JavaScriptObject {
 	 * @return the builder.
 	 */
 	public TimeFormat.Builder format() {
-		JSObject result = getMember("format");
-		return new TimeFormat.Builder(webEngine, result);
+		JsObject result = getMember("format");
+		return new TimeFormat.Builder(engine, result);
 	}
 
 	// ================== Intervals ====================
@@ -155,8 +155,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval second() {
-		JSObject result = getMember("second");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("second");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -169,8 +169,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval minute() {
-		JSObject result = getMember("minute");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("minute");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -182,8 +182,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval hour() {
-		JSObject result = getMember("hour");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("hour");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -196,8 +196,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval day() {
-		JSObject result = getMember("day");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("day");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -208,8 +208,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval week() {
-		JSObject result = getMember("week");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("week");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -219,8 +219,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval sunday() {
-		JSObject result = getMember("sunday");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("sunday");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -230,8 +230,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval monday() {
-		JSObject result = getMember("monday");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("monday");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -241,8 +241,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval tuesday() {
-		JSObject result = getMember("tuesday");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("tuesday");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -252,8 +252,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval wednesday() {
-		JSObject result = getMember("wednesday");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("wednesday");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -263,8 +263,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval thursday() {
-		JSObject result = getMember("thursday");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("thursday");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -274,8 +274,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval friday() {
-		JSObject result = getMember("friday");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("friday");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -285,8 +285,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval saturday() {
-		JSObject result = getMember("saturday");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("saturday");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -297,8 +297,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval month() {
-		JSObject result = getMember("month");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("month");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -309,8 +309,8 @@ public class Time extends JavaScriptObject {
 	 * @return the {@link Interval}
 	 */
 	public Interval year() {
-		JSObject result = getMember("year");
-		return new Interval(webEngine, result);
+		JsObject result = getMember("year");
+		return new Interval(engine, result);
 	}
 
 	/**
@@ -1265,7 +1265,7 @@ public class Time extends JavaScriptObject {
 	 * @return the day number
 	 */
 	public int dayOfYear(JsDate date) {
-		JSObject dateObj = date.getJsObject();
+		JsObject dateObj = date.getJsObject();
 		int result = callForInteger("dayOfYear", dateObj);
 		return result;
 	}
@@ -1277,7 +1277,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int dayOfYear(final Date date) {
-		return this.dayOfYear(JsDate.create(webEngine, date.getTime()));
+		return this.dayOfYear(JsDate.create(engine, date.getTime()));
 	}
 
 	/**
@@ -1287,7 +1287,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int dayOfYear(final double date) {
-		return this.dayOfYear(JsDate.create(webEngine, date));
+		return this.dayOfYear(JsDate.create(engine, date));
 	}
 
 	/**
@@ -1302,7 +1302,7 @@ public class Time extends JavaScriptObject {
 	 * @return the week number
 	 */
 	public int weekOfYear(JsDate date) {
-		JSObject dateObj = date.getJsObject();
+		JsObject dateObj = date.getJsObject();
 		int result = callForInteger("weekOfYear", dateObj);
 		return result;
 	}
@@ -1314,7 +1314,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int weekOfYear(final Date date) {
-		return this.weekOfYear(JsDate.create(webEngine, date.getTime()));
+		return this.weekOfYear(JsDate.create(engine, date.getTime()));
 	}
 
 	/**
@@ -1324,7 +1324,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int weekOfYear(final double date) {
-		return this.weekOfYear(JsDate.create(webEngine, date));
+		return this.weekOfYear(JsDate.create(engine, date));
 	}
 
 	/**
@@ -1339,7 +1339,7 @@ public class Time extends JavaScriptObject {
 	 * @return the week number
 	 */
 	public int sundayOfYear(JsDate date) {
-		JSObject dateObj = date.getJsObject();
+		JsObject dateObj = date.getJsObject();
 		int result = callForInteger("sundayOfYear", dateObj);
 		return result;
 	}
@@ -1351,7 +1351,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int sundayOfYear(final Date date) {
-		return this.sundayOfYear(JsDate.create(webEngine, date.getTime()));
+		return this.sundayOfYear(JsDate.create(engine, date.getTime()));
 	}
 
 	/**
@@ -1361,7 +1361,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int sundayOfYear(final double date) {
-		return this.sundayOfYear(JsDate.create(webEngine, date));
+		return this.sundayOfYear(JsDate.create(engine, date));
 	}
 
 	/**
@@ -1376,7 +1376,7 @@ public class Time extends JavaScriptObject {
 	 * @return the week number
 	 */
 	public int mondayOfYear(JsDate date) {
-		JSObject dateObj = date.getJsObject();
+		JsObject dateObj = date.getJsObject();
 		int result = callForInteger("mondayOfYear", dateObj);
 		return result;
 	}
@@ -1388,7 +1388,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int mondayOfYear(final Date date) {
-		return this.mondayOfYear(JsDate.create(webEngine, date.getTime()));
+		return this.mondayOfYear(JsDate.create(engine, date.getTime()));
 	}
 
 	/**
@@ -1398,7 +1398,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int mondayOfYear(final double date) {
-		return this.mondayOfYear(JsDate.create(webEngine, date));
+		return this.mondayOfYear(JsDate.create(engine, date));
 	}
 
 	/**
@@ -1413,7 +1413,7 @@ public class Time extends JavaScriptObject {
 	 * @return the week number
 	 */
 	public int tuesdayOfYear(JsDate date) {
-		JSObject dateObj = date.getJsObject();
+		JsObject dateObj = date.getJsObject();
 		int result = callForInteger("tuesdayOfYear", dateObj);
 		return result;
 	}
@@ -1425,7 +1425,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int tuesdayOfYear(final Date date) {
-		return this.tuesdayOfYear(JsDate.create(webEngine, date.getTime()));
+		return this.tuesdayOfYear(JsDate.create(engine, date.getTime()));
 	}
 
 	/**
@@ -1435,7 +1435,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int tuesdayOfYear(final double date) {
-		return this.tuesdayOfYear(JsDate.create(webEngine, date));
+		return this.tuesdayOfYear(JsDate.create(engine, date));
 	}
 
 	/**
@@ -1450,7 +1450,7 @@ public class Time extends JavaScriptObject {
 	 * @return the week number
 	 */
 	public int wednesdayOfYear(JsDate date) {
-		JSObject dateObj = date.getJsObject();
+		JsObject dateObj = date.getJsObject();
 		int result = callForInteger("wednesdayOfYear", dateObj);
 		return result;
 	}
@@ -1462,7 +1462,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int wednesdayOfYear(final Date date) {
-		return this.wednesdayOfYear(JsDate.create(webEngine, date.getTime()));
+		return this.wednesdayOfYear(JsDate.create(engine, date.getTime()));
 	}
 
 	/**
@@ -1472,7 +1472,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int wednesdayOfYear(final double date) {
-		return this.wednesdayOfYear(JsDate.create(webEngine, date));
+		return this.wednesdayOfYear(JsDate.create(engine, date));
 	}
 
 	/**
@@ -1487,7 +1487,7 @@ public class Time extends JavaScriptObject {
 	 * @return the week number
 	 */
 	public int thursdayOfYear(JsDate date) {
-		JSObject dateObj = date.getJsObject();
+		JsObject dateObj = date.getJsObject();
 		int result = callForInteger("thursOfYear", dateObj);
 		return result;
 	}
@@ -1499,7 +1499,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int thursdayOfYear(final Date date) {
-		return this.thursdayOfYear(JsDate.create(webEngine, date.getTime()));
+		return this.thursdayOfYear(JsDate.create(engine, date.getTime()));
 	}
 
 	/**
@@ -1509,7 +1509,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int thursdayOfYear(final double date) {
-		return this.thursdayOfYear(JsDate.create(webEngine, date));
+		return this.thursdayOfYear(JsDate.create(engine, date));
 	}
 
 	/**
@@ -1524,7 +1524,7 @@ public class Time extends JavaScriptObject {
 	 * @return the week number
 	 */
 	public int fridayOfYear(JsDate date) {
-		JSObject dateObj = date.getJsObject();
+		JsObject dateObj = date.getJsObject();
 		int result = callForInteger("fridayOfYear", dateObj);
 		return result;
 	}
@@ -1536,7 +1536,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int fridayOfYear(final Date date) {
-		return this.fridayOfYear(JsDate.create(webEngine, date.getTime()));
+		return this.fridayOfYear(JsDate.create(engine, date.getTime()));
 	}
 
 	/**
@@ -1546,7 +1546,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int fridayOfYear(final double date) {
-		return this.fridayOfYear(JsDate.create(webEngine, date));
+		return this.fridayOfYear(JsDate.create(engine, date));
 	}
 
 	/**
@@ -1561,7 +1561,7 @@ public class Time extends JavaScriptObject {
 	 * @return the week number
 	 */
 	public int saturdayOfYear(JsDate date) {
-		JSObject dateObj = date.getJsObject();
+		JsObject dateObj = date.getJsObject();
 		int result = callForInteger("saturdayOfYear", dateObj);
 		return result;
 	}
@@ -1573,7 +1573,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int saturdayOfYear(final Date date) {
-		return this.saturdayOfYear(JsDate.create(webEngine, date.getTime()));
+		return this.saturdayOfYear(JsDate.create(engine, date.getTime()));
 	}
 
 	/**
@@ -1583,7 +1583,7 @@ public class Time extends JavaScriptObject {
 	 * @return
 	 */
 	public final int saturdayOfYear(final double date) {
-		return this.saturdayOfYear(JsDate.create(webEngine, date));
+		return this.saturdayOfYear(JsDate.create(engine, date));
 	}
 
 	//#end region

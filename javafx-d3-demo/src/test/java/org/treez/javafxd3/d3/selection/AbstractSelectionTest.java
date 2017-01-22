@@ -12,7 +12,7 @@ import org.treez.javafxd3.d3.wrapper.D3NodeFactory;
 import org.treez.javafxd3.d3.wrapper.Element;
 import org.treez.javafxd3.d3.wrapper.Node;
 
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Abstract parent class for all selection tests
@@ -115,17 +115,17 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 
 	private Map<String, String> getDomAttributes(Selection element) {
 		Map<String, String> attributeMap = new HashMap<>();
-		JSObject attributes = element.getMember("attributes");
+		JsObject attributes = element.getMember("attributes");
 		int length = (int) attributes.getMember("length");
 		for (int attributeIndex = 0; attributeIndex < length; attributeIndex++) {
-			JSObject attributeObj = (JSObject) attributes.getMember("" + attributeIndex);
+			JsObject attributeObj = (JsObject) attributes.getMember("" + attributeIndex);
 			String attributeName = attributeObj.getMember("name").toString();
 			Object attributeValue = attributeObj.getMember("value");
 
 			String valueString = attributeValue.toString();
-			boolean isJsObject = attributeValue instanceof JSObject;
+			boolean isJsObject = attributeValue instanceof JsObject;
 			if (isJsObject) {
-				JSObject attributeJsValue = (JSObject) attributeValue;
+				JsObject attributeJsValue = (JsObject) attributeValue;
 				valueString = attributeJsValue.call("toString").toString();
 			}
 
@@ -190,7 +190,7 @@ public abstract class AbstractSelectionTest extends AbstractTestCase {
 			return null;
 		}
 		Object valueObj =  element.getProperty(property);		
-		return Value.create(webEngine,  valueObj);
+		return Value.create(engine,  valueObj);
 	}
 	
 	//#end region

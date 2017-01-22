@@ -15,7 +15,7 @@ import org.treez.javafxd3.d3.wrapper.canvas.Context2d;
 
 import javafx.application.Platform;
 import javafx.scene.layout.VBox;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class LorenzSystem extends AbstractDemoCase {
 
@@ -53,10 +53,10 @@ public class LorenzSystem extends AbstractDemoCase {
 				.domain(0, 20, 30, 50) //
 				.range("yellow", "orange", "brown", "purple");
 
-		JSObject jsCanvas = canvas.node()//
+		JsObject jsCanvas = canvas.node()//
 				.getJsObject();
 
-		CanvasElement canvasElement = new CanvasElement(webEngine, jsCanvas);
+		CanvasElement canvasElement = new CanvasElement(engine, jsCanvas);
 
 		context = canvasElement.getContext2d();
 
@@ -64,7 +64,7 @@ public class LorenzSystem extends AbstractDemoCase {
 
 		context.fillRect(0, 0, width, height);
 
-		timerFunction = new LorenzTimerFunction(webEngine, this);
+		timerFunction = new LorenzTimerFunction(engine, this);
 
 		timerTask = new TimerTask() {
 

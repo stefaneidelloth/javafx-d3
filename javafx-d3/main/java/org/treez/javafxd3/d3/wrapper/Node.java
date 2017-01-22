@@ -3,15 +3,15 @@ package org.treez.javafxd3.d3.wrapper;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.ConversionUtil;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class Node extends JavaScriptObject {
 	
 	//#region CONSTRUCTORS
 
-	public Node(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Node(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 	
@@ -24,16 +24,16 @@ public class Node extends JavaScriptObject {
 	}
 
 	public <T> T cast(Class<T> targetClass) {
-		return ConversionUtil.convertObjectTo(getJsObject(), targetClass, webEngine);	
+		return ConversionUtil.convertObjectTo(getJsObject(), targetClass, engine);	
 	}
 
 	public Array<Node> children() {
 		String command = "this.children";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		if(result==null){
 			return null;
 		}
-		return new Array<>(webEngine, result);		
+		return new Array<>(engine, result);		
 	}
 	
 	//#end region

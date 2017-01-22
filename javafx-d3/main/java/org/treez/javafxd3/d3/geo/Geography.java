@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.geo;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * 
@@ -13,11 +13,11 @@ public class Geography extends JavaScriptObject {
 	//#region CONSTRUCTORS
 
 	/**
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Geography(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Geography(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 
 	}
@@ -47,8 +47,8 @@ public class Geography extends JavaScriptObject {
 	 * @return the projection
 	 */
 	public ConicProjection albers() {
-		JSObject result = call("albers");
-		return new ConicProjection(webEngine, result);
+		JsObject result = call("albers");
+		return new ConicProjection(engine, result);
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class Geography extends JavaScriptObject {
 	 * @return the projection
 	 */
 	public ConicProjection conicEqualArea() {
-		JSObject result = call("conicEqualArea");
-		return new ConicProjection(webEngine, result);
+		JsObject result = call("conicEqualArea");
+		return new ConicProjection(engine, result);
 	}
 
 	//#end region

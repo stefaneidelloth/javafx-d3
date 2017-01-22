@@ -4,8 +4,8 @@ import org.treez.javafxd3.d3.arrays.Array;
 
 import org.treez.javafxd3.d3.D3;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Quantile scales map an input domain to a discrete range.
@@ -50,11 +50,11 @@ public class QuantileScale extends DiscreteQuantitativeScale<QuantileScale> {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public QuantileScale(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public QuantileScale(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 
 	}
 
@@ -77,12 +77,12 @@ public class QuantileScale extends DiscreteQuantitativeScale<QuantileScale> {
 	 * @return the array of threshold values
 	 */
 	public Array<Double> quantiles() {
-		JSObject result = call("quantiles");
-		return new Array<Double>(webEngine, result);
+		JsObject result = call("quantiles");
+		return new Array<Double>(engine, result);
 	}
 
 	@Override
-	public QuantileScale createScale(WebEngine webEngine, JSObject result) {
-		return new QuantileScale(webEngine, result);
+	public QuantileScale createScale(JsEngine engine, JsObject result) {
+		return new QuantileScale(engine, result);
 	}
 }

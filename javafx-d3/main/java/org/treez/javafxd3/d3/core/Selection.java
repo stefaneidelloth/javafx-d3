@@ -19,8 +19,8 @@ import org.treez.javafxd3.d3.wrapper.Element;
 import org.treez.javafxd3.d3.wrapper.Inspector;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A selection is an array of elements pulled from the current document. D3 uses
@@ -102,11 +102,11 @@ public class Selection extends EnteringSelection {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappingJsObject
 	 */
-	public Selection(WebEngine webEngine, JSObject wrappingJsObject) {
-		super(webEngine, wrappingJsObject);
+	public Selection(JsEngine engine, JsObject wrappingJsObject) {
+		super(engine, wrappingJsObject);
 	}
 
 	//#end region
@@ -122,7 +122,7 @@ public class Selection extends EnteringSelection {
 	 */
 	public final Element node() {
 
-		JSObject result = call("node");
+		JsObject result = call("node");
 
 		if (result == null) {
 
@@ -130,13 +130,14 @@ public class Selection extends EnteringSelection {
 			if (result == null) {
 				return null;
 			}
-
-			boolean isElement = result instanceof org.w3c.dom.Element;
-			if (!isElement) {
+			
+			boolean isElement = result.isElement();
+			if(!isElement){
 				return null;
 			}
+			
 		}
-		return new Element(webEngine, result);
+		return new Element(engine, result);
 	}
 
 	// ======== subselections ==========
@@ -174,8 +175,8 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public Selection selectAll(String selector) {
-		JSObject result = evalForJsObject("this.selectAll('" + selector + "');");
-		return new Selection(webEngine, result);
+		JsObject result = evalForJsObject("this.selectAll('" + selector + "');");
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -217,15 +218,15 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(func);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(funcName, func);
 
 		String command = "this.selectAll(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(funcName);
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -247,8 +248,8 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		JSObject result = (JSObject) resultObj;
-		return new Selection(webEngine, result);
+		JsObject result = (JsObject) resultObj;
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -258,8 +259,8 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public EnteringSelection enter() {
-		JSObject result = call("enter");
-		return new EnteringSelection(webEngine, result);
+		JsObject result = call("enter");
+		return new EnteringSelection(engine, result);
 	}
 
 	// ======== attr functions ==========
@@ -300,8 +301,8 @@ public class Selection extends EnteringSelection {
 	 * Removes the attribute with the given name
 	 */
 	public <T> Selection attrRemove(final String name) {
-		JSObject result = call("attr", name, null);
-		return new Selection(webEngine, result);
+		JsObject result = call("attr", name, null);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -323,8 +324,8 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public <T> Selection attr(final String name, String value) {
-		JSObject result = call("attr", name, value);
-		return new Selection(webEngine, result);
+		JsObject result = call("attr", name, value);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -336,9 +337,9 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public Selection attr(final String name, JavaScriptObject value) {
-		JSObject valueObj = value.getJsObject();
-		JSObject result = call("attr", name, valueObj);
-		return new Selection(webEngine, result);
+		JsObject valueObj = value.getJsObject();
+		JsObject result = call("attr", name, valueObj);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -362,14 +363,14 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection attr(final String name, PathDataGenerator generator) {
 
-		JSObject jsObject = generator.getJsObject();
+		JsObject jsObject = generator.getJsObject();
 		String memberName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(memberName, jsObject);
 
 		String command = "this.attr('" + name + "',d3." + memberName + ")";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(memberName);
 
@@ -377,7 +378,7 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -388,8 +389,8 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public Selection attr(final String name, double value) {
-		JSObject result = call("attr", name, value);
-		return new Selection(webEngine, result);
+		JsObject result = call("attr", name, value);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -400,8 +401,8 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public Selection attr(final String name, boolean value) {
-		JSObject result = call("attr", name, value);
-		return new Selection(webEngine, result);
+		JsObject result = call("attr", name, value);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -430,7 +431,7 @@ public class Selection extends EnteringSelection {
 
 		String memberName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(memberName, callback);
 
 		// tell x to use the callback
@@ -438,14 +439,14 @@ public class Selection extends EnteringSelection {
 				+ "return d3." + memberName + ".apply(this, {datum:d}, i);" //
 				+ "})";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(memberName);
 
 		if (result == null) {
 			return null;
 		}
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -458,8 +459,8 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection attrExpression(final String name, String expression) {
 		String command = "this.attr(\"" + name + "\"," + expression + ")";
-		JSObject result = evalForJsObject(command);
-		return new Selection(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Selection(engine, result);
 	}
 
 	// ================ style functions ================
@@ -493,8 +494,8 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public Selection style(String name, String value) {
-		JSObject result = (JSObject) eval("this.style('" + name + "','" + value + "')");
-		return new Selection(webEngine, result);
+		JsObject result = (JsObject) eval("this.style('" + name + "','" + value + "')");
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -505,8 +506,8 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public Selection style(String name, double value) {
-		JSObject result = call("style", name, value);
-		return new Selection(webEngine, result);
+		JsObject result = call("style", name, value);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -521,7 +522,7 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(callback);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(funcName, callback);
 
 		String command = "this.style('" + name + "', " + //
@@ -536,11 +537,11 @@ public class Selection extends EnteringSelection {
 				"      }" + //
 				"    );";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(funcName);
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -570,7 +571,7 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(callback);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(funcName, callback);
 
 		String command = "var imp = " + important + " ? 'important' : null; " + //
@@ -579,13 +580,13 @@ public class Selection extends EnteringSelection {
 				"   return r?r.toString():null;" + //
 				"}, imp);";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(funcName);
 		if (result == null) {
 			return null;
 		}
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	}
 
@@ -614,8 +615,8 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public Selection classed(String classNames, boolean add) {
-		JSObject result = call("classed", classNames, add);
-		return new Selection(webEngine, result);
+		JsObject result = call("classed", classNames, add);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -665,19 +666,19 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(assignSwitchFunction);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(methodName, assignSwitchFunction);
 
 		String command = "this.classed('" + classNames + "', function(d, i) { " + //		
 				"   var r = d3." + methodName + ".apply(this,d,i);" + //
 				"   return r == null ? false : r; " + //			
 				"});";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		d3JsObj.removeMember(methodName);
 		if (result == null) {
 			return null;
 		}
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	}
 
@@ -705,7 +706,7 @@ public class Selection extends EnteringSelection {
 		if (result == null) {
 			return null;
 		}
-		return Value.create(webEngine, result);
+		return Value.create(engine, result);
 	}
 
 	/**
@@ -728,8 +729,8 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public <T> Selection property(final String name, String value) {
-		JSObject result = call("property", name, value);
-		return new Selection(webEngine, result);
+		JsObject result = call("property", name, value);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -742,8 +743,8 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public Selection property(final String name, double value) {
-		JSObject result = call("property", name, value);
-		return new Selection(webEngine, result);
+		JsObject result = call("property", name, value);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -756,8 +757,8 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public <T> Selection property(final String name, JavaScriptObject value) {
-		JSObject result = call("property", name, value);
-		return new Selection(webEngine, result);
+		JsObject result = call("property", name, value);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -770,8 +771,8 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public <T> Selection property(final String name, boolean value) {
-		JSObject result = call("property", name, value);
-		return new Selection(webEngine, result);
+		JsObject result = call("property", name, value);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -806,18 +807,18 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(callback);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(methodName, callback);
 
 		String command = "this.property('" + name + "', function(d, i) {" + "return d3." + methodName
 				+ ".apply(this,{datum:d},i);" + " });";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		d3JsObj.removeMember(methodName);
 		if (result == null) {
 			return null;
 		}
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	}
 
@@ -849,8 +850,8 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public <T> Selection text(String value) {
-		JSObject result = call("text", value);
-		return new Selection(webEngine, result);
+		JsObject result = call("text", value);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -873,20 +874,20 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(callback);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(methodName, callback);
 
 		String command = "this.text(function(d, i) {" + "return d3." + methodName + ".apply(this,{datum:d},i);"
 				+ " });";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(methodName);
 		if (result == null) {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	}
 
@@ -902,8 +903,8 @@ public class Selection extends EnteringSelection {
 	 */
 	public Selection textExpression(String expression) {
 		String command = "this.text(" + expression + ")";
-		JSObject result = evalForJsObject(command);
-		return new Selection(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Selection(engine, result);
 	}
 
 	// ================ html functions ================
@@ -933,7 +934,7 @@ public class Selection extends EnteringSelection {
 
 		String memberName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(memberName, callback);
 
 		// tell x to use the callback
@@ -941,12 +942,12 @@ public class Selection extends EnteringSelection {
 				+ "return d3." + memberName + ".apply(this, {datum:d}, i);" //
 				+ "})";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		d3JsObj.removeMember(memberName);
 		if (result == null) {
 			return null;
 		}
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -965,11 +966,11 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public Selection html(String value) {
-		JSObject result = call("html", value);
+		JsObject result = call("html", value);
 		if (result == null) {
 			return null;
 		}
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -997,17 +998,17 @@ public class Selection extends EnteringSelection {
 
 	protected Map<String, String> getDomAttributes(Selection selection) {
 		Map<String, String> attributeMap = new HashMap<>();
-		JSObject attributes = selection.getMember("attributes");
+		JsObject attributes = selection.getMember("attributes");
 		int length = (int) attributes.getMember("length");
 		for (int attributeIndex = 0; attributeIndex < length; attributeIndex++) {
-			JSObject attributeObj = (JSObject) attributes.getMember("" + attributeIndex);
+			JsObject attributeObj = (JsObject) attributes.getMember("" + attributeIndex);
 			String attributeName = attributeObj.getMember("name").toString();
 			Object attributeValue = attributeObj.getMember("value");
 
 			String valueString = attributeValue.toString();
-			boolean isJsObject = attributeValue instanceof JSObject;
+			boolean isJsObject = attributeValue instanceof JsObject;
 			if (isJsObject) {
-				JSObject attributeJsValue = (JSObject) attributeValue;
+				JsObject attributeJsValue = (JsObject) attributeValue;
 				valueString = attributeJsValue.call("toString").toString();
 			}
 
@@ -1034,8 +1035,8 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection containing only the removed elements
 	 */
 	public Selection remove() {
-		JSObject result = call("remove");
-		return new Selection(webEngine, result);
+		JsObject result = call("remove");
+		return new Selection(engine, result);
 	}
 
 	// ================ controls functions ================
@@ -1069,20 +1070,20 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(function);
 
 		String functionName = createNewTemporaryInstanceName();
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(functionName, function);
 
 		String command = "this.each(function(d, i) { " + //
 				"   d3." + functionName + ".apply(this,{datum:d},i); " + //
 				" });";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(functionName);
 		if (result == null) {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	// ================================ data getter functions ========
@@ -1101,8 +1102,8 @@ public class Selection extends EnteringSelection {
 	 * @return the array of data for the first group in the selection
 	 */
 	public <T> Array<T> data() {
-		JSObject result = call("data");
-		return new Array<T>(webEngine, result);
+		JsObject result = call("data");
+		return new Array<T>(engine, result);
 	}
 
 	// ================================ data setter functions with array
@@ -1123,17 +1124,17 @@ public class Selection extends EnteringSelection {
 	}
 
 	public final UpdateSelection data(Array<?> array) {
-		JSObject jsArray = array.getJsObject();
+		JsObject jsArray = array.getJsObject();
 		return data(jsArray);
 	}
 
-	public final UpdateSelection data(JSObject data) {
-		JSObject result = call("data", data);
+	public final UpdateSelection data(JsObject data) {
+		JsObject result = call("data", data);
 
 		if (result == null) {
 			return null;
 		}
-		return new UpdateSelection(webEngine, result);
+		return new UpdateSelection(engine, result);
 	}
 
 	/**
@@ -1147,11 +1148,11 @@ public class Selection extends EnteringSelection {
 	 */
 	public UpdateSelection data(String dataArrayString) {
 		String command = "this.data(" + dataArrayString + ")";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		if (result == null) {
 			return null;
 		}
-		return new UpdateSelection(webEngine, result);
+		return new UpdateSelection(engine, result);
 	}
 
 	/**
@@ -1168,7 +1169,7 @@ public class Selection extends EnteringSelection {
 	 * to the second selected element, and so on. If you want to control how
 	 * data is mapped to elements, use the data methods that takes a
 	 * {@link KeyFunction} parameter, such as
-	 * {@link #data(JSObject, KeyFunction)}.
+	 * {@link #data(JsObject, KeyFunction)}.
 	 * <p>
 	 * The given array specifies data for each group in the selection. Thus, if
 	 * the selection has multiple groups (such as a {@link D3#selectAll}
@@ -1187,20 +1188,20 @@ public class Selection extends EnteringSelection {
 	 */
 	public UpdateSelection data(Collection<? extends JavaScriptObject> collection) {
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 		for (JavaScriptObject javaScriptObject : collection) {
 			String varName = createNewTemporaryInstanceName();
-			JSObject jsObject = javaScriptObject.getJsObject();
+			JsObject jsObject = javaScriptObject.getJsObject();
 			d3JsObj.setMember(varName, jsObject);
 			fullVarNames.add("d3." + varName);
 			varNames.add(varName);
 		}
 
 		String command = "this.data([" + String.join(",", fullVarNames) + "])";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		for (String varName : varNames) {
 			d3JsObj.removeMember(varName);
@@ -1209,12 +1210,12 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new UpdateSelection(webEngine, result);
+		return new UpdateSelection(engine, result);
 	}
 
 	public UpdateSelection dataObjectCollection(Collection<Object> collection) {
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
@@ -1226,7 +1227,7 @@ public class Selection extends EnteringSelection {
 		}
 
 		String command = "this.data([" + String.join(",", fullVarNames) + "])";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		for (String varName : varNames) {
 			d3JsObj.removeMember(varName);
@@ -1235,11 +1236,11 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new UpdateSelection(webEngine, result);
+		return new UpdateSelection(engine, result);
 	}
 
 	/**
-	 * Same as #data(JSObject) but let the user control how to map data to the
+	 * Same as #data(JsObject) but let the user control how to map data to the
 	 * selection. The specified "values" is an array of data values (e.g.
 	 * numbers or objects), or a function that returns an array of values.
 	 * <p>
@@ -1254,13 +1255,13 @@ public class Selection extends EnteringSelection {
 	 * @return the {@link UpdateSelection}
 	 */
 	public UpdateSelection data(JavaScriptObject values, KeyFunction<?> keyFunction) {
-		JSObject arrayJsObject = values.getJsObject();
+		JsObject arrayJsObject = values.getJsObject();
 		return data(arrayJsObject, keyFunction);
 	}
 
-	public UpdateSelection data(JSObject values, KeyFunction<?> keyFunction) {
+	public UpdateSelection data(JsObject values, KeyFunction<?> keyFunction) {
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 
 		String methodName = createNewTemporaryInstanceName();
 		d3JsObj.setMember(methodName, keyFunction);
@@ -1279,7 +1280,7 @@ public class Selection extends EnteringSelection {
 				+ "  return d3." + methodName + ".call(ctxEl,newDataArray,{datum:d},i);" //
 				+ "});";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(methodName);
 		d3JsObj.removeMember(arrayName);
@@ -1287,12 +1288,12 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new UpdateSelection(webEngine, result);
+		return new UpdateSelection(engine, result);
 
 	}
 
 	/**
-	 * Same as #data(JSObject) but let the user control how to map data to the
+	 * Same as #data(JsObject) but let the user control how to map data to the
 	 * selection. The specified "values" is an array of data values (e.g.
 	 * numbers or objects), or a function that returns an array of values.
 	 * <p>
@@ -1308,21 +1309,21 @@ public class Selection extends EnteringSelection {
 	 */
 	public UpdateSelection dataExpression(JavaScriptObject values, String keyFunctionExpression) {
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 
 		String valuesName = createNewTemporaryInstanceName();
-		JSObject valuesJsObject = values.getJsObject();
+		JsObject valuesJsObject = values.getJsObject();
 		d3JsObj.setMember(valuesName, valuesJsObject);
 
 		String command = "this.data( d3." + valuesName + ", " + keyFunctionExpression + ");";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		d3JsObj.removeMember(valuesName);
 
 		if (result == null) {
 			return null;
 		}
-		return new UpdateSelection(webEngine, result);
+		return new UpdateSelection(engine, result);
 	}
 
 	/**
@@ -1354,7 +1355,7 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(callback);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(methodName, callback);
 
 		String command = "this.data(function(d, i) {" //
@@ -1362,14 +1363,14 @@ public class Selection extends EnteringSelection {
 				+ "return result; " //
 				+ "});";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(methodName);
 
 		if (result == null) {
 			return null;
 		}
-		return new UpdateSelection(webEngine, result);
+		return new UpdateSelection(engine, result);
 
 	}
 
@@ -1422,7 +1423,7 @@ public class Selection extends EnteringSelection {
 	}
 
 	/**
-	 * Same as {@link #data(JSObject, KeyFunction)}.
+	 * Same as {@link #data(JsObject, KeyFunction)}.
 	 * <p>
 	 *
 	 * @param array
@@ -1432,7 +1433,7 @@ public class Selection extends EnteringSelection {
 	 */
 	public final UpdateSelection data(final Object[] array) {
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 
@@ -1445,7 +1446,7 @@ public class Selection extends EnteringSelection {
 
 		String command = "this.data([" + String.join(",", fullVarNames) + "])";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		for (String varName : varNames) {
 			d3JsObj.removeMember(varName);
@@ -1455,11 +1456,11 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new UpdateSelection(webEngine, result);
+		return new UpdateSelection(engine, result);
 	}
 
 	/**
-	 * Same as {@link #data(JSObject, KeyFunction)}.
+	 * Same as {@link #data(JsObject, KeyFunction)}.
 	 * <p>
 	 *
 	 * @param array
@@ -1471,7 +1472,7 @@ public class Selection extends EnteringSelection {
 	 */
 	public final UpdateSelection data(final Object[] array, final KeyFunction<?> keyFunction) {
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
@@ -1484,13 +1485,13 @@ public class Selection extends EnteringSelection {
 		}
 
 		String arrayCommand = "[" + String.join(",", fullVarNames) + "]";
-		JSObject jsArrayObject = evalForJsObject(arrayCommand);
+		JsObject jsArrayObject = evalForJsObject(arrayCommand);
 
 		for (String varName : varNames) {
 			d3JsObj.removeMember(varName);
 		}
 
-		JavaScriptObject arrayObject = new JavaScriptObject(webEngine, jsArrayObject);
+		JavaScriptObject arrayObject = new JavaScriptObject(engine, jsArrayObject);
 
 		return data(arrayObject, keyFunction);
 
@@ -1512,7 +1513,7 @@ public class Selection extends EnteringSelection {
 	}
 
 	/**
-	 * Same as {@link #data(JSObject, KeyFunction)}.
+	 * Same as {@link #data(JsObject, KeyFunction)}.
 	 * <p>
 	 *
 	 * @param array
@@ -1525,7 +1526,7 @@ public class Selection extends EnteringSelection {
 	public final UpdateSelection data(final byte[] array, final KeyFunction<?> keyFunction) {
 
 		String arrayString = ArrayUtils.createArrayString(array);
-		JSObject jsArrayObject = evalForJsObject(arrayString);
+		JsObject jsArrayObject = evalForJsObject(arrayString);
 		return data(jsArrayObject, keyFunction);
 	}
 
@@ -1544,7 +1545,7 @@ public class Selection extends EnteringSelection {
 	}
 
 	/**
-	 * Same as {@link #data(JSObject, KeyFunction)}.
+	 * Same as {@link #data(JsObject, KeyFunction)}.
 	 * <p>
 	 *
 	 * @param array
@@ -1557,7 +1558,7 @@ public class Selection extends EnteringSelection {
 	public final UpdateSelection data(final double[] array, final KeyFunction<?> keyFunction) {
 
 		String arrayString = ArrayUtils.createArrayString(array);
-		JSObject jsArrayObject = evalForJsObject(arrayString);
+		JsObject jsArrayObject = evalForJsObject(arrayString);
 		return data(jsArrayObject, keyFunction);
 
 	}
@@ -1578,7 +1579,7 @@ public class Selection extends EnteringSelection {
 	}
 
 	/**
-	 * Same as {@link #data(JSObject, KeyFunction)}.
+	 * Same as {@link #data(JsObject, KeyFunction)}.
 	 * <p>
 	 *
 	 * @param array
@@ -1591,7 +1592,7 @@ public class Selection extends EnteringSelection {
 	public final UpdateSelection data(final float[] array, final KeyFunction<?> keyFunction) {
 
 		String arrayString = ArrayUtils.createArrayString(array);
-		JSObject jsArrayObject = evalForJsObject(arrayString);
+		JsObject jsArrayObject = evalForJsObject(arrayString);
 		return data(jsArrayObject, keyFunction);
 	}
 
@@ -1611,7 +1612,7 @@ public class Selection extends EnteringSelection {
 	}
 
 	/**
-	 * Same as {@link #data(JSObject, KeyFunction)}.
+	 * Same as {@link #data(JsObject, KeyFunction)}.
 	 * <p>
 	 *
 	 * @param array
@@ -1624,7 +1625,7 @@ public class Selection extends EnteringSelection {
 	public final UpdateSelection data(final int[] array, final KeyFunction<?> keyFunction) {
 
 		String arrayString = ArrayUtils.createArrayString(array);
-		JSObject jsArrayObject = evalForJsObject(arrayString);
+		JsObject jsArrayObject = evalForJsObject(arrayString);
 		return data(jsArrayObject, keyFunction);
 	}
 
@@ -1644,7 +1645,7 @@ public class Selection extends EnteringSelection {
 	}
 
 	/**
-	 * Same as {@link #data(JSObject, KeyFunction)}.
+	 * Same as {@link #data(JsObject, KeyFunction)}.
 	 * <p>
 	 *
 	 * @param array
@@ -1657,7 +1658,7 @@ public class Selection extends EnteringSelection {
 	public final UpdateSelection data(final long[] array, final KeyFunction<?> keyFunction) {
 
 		String arrayString = ArrayUtils.createArrayString(array);
-		JSObject jsArrayObject = evalForJsObject(arrayString);
+		JsObject jsArrayObject = evalForJsObject(arrayString);
 		return data(jsArrayObject, keyFunction);
 	}
 
@@ -1689,7 +1690,7 @@ public class Selection extends EnteringSelection {
 
 		String arrayString = ArrayUtils.createArrayString(array);
 
-		JSObject jsArrayObject = evalForJsObject(arrayString);
+		JsObject jsArrayObject = evalForJsObject(arrayString);
 		return data(jsArrayObject, keyFunction);
 	}
 
@@ -1709,7 +1710,7 @@ public class Selection extends EnteringSelection {
 	}
 
 	/**
-	 * Same as {@link #data(JSObject, KeyFunction)}.
+	 * Same as {@link #data(JsObject, KeyFunction)}.
 	 * <p>
 	 *
 	 * @param array
@@ -1722,33 +1723,33 @@ public class Selection extends EnteringSelection {
 	public final UpdateSelection data(final short[] array, final KeyFunction<?> keyFunction) {
 
 		String arrayString = ArrayUtils.createArrayString(array);
-		JSObject jsArrayObject = evalForJsObject(arrayString);
+		JsObject jsArrayObject = evalForJsObject(arrayString);
 		return data(jsArrayObject, keyFunction);
 	}
 
 	/**
-	 * Same as #data(JSObject) for an {@link List} of objects.
+	 * Same as #data(JsObject) for an {@link List} of objects.
 	 *
-	 * @see #data(JSObject)
+	 * @see #data(JsObject)
 	 * @param list
 	 * @return the {@link UpdateSelection}
 	 */
 	public final UpdateSelection data(final List<JavaScriptObject> list) {
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 
 		for (JavaScriptObject javaScriptObject : list) {
 			String varName = createNewTemporaryInstanceName();
-			JSObject jsObject = javaScriptObject.getJsObject();
+			JsObject jsObject = javaScriptObject.getJsObject();
 			d3JsObj.setMember(varName, jsObject);
 			fullVarNames.add("d3." + varName);
 			varNames.add(varName);
 		}
 
 		String command = "this.data([" + String.join(",", fullVarNames) + "])";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		for (String varName : varNames) {
 			d3JsObj.removeMember(varName);
@@ -1758,14 +1759,14 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new UpdateSelection(webEngine, result);
+		return new UpdateSelection(engine, result);
 	}
 
 	/**
-	 * Same as {@link #data(JSObject, KeyFunction)} for an {@link List} of
+	 * Same as {@link #data(JsObject, KeyFunction)} for an {@link List} of
 	 * objects.
 	 *
-	 * @see #data(JSObject)
+	 * @see #data(JsObject)
 	 * @param list
 	 *            the list
 	 * @param keyFunction
@@ -1774,7 +1775,7 @@ public class Selection extends EnteringSelection {
 	 */
 	public final UpdateSelection data(final List<?> list, final KeyFunction<?> keyFunction) {
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
@@ -1787,7 +1788,7 @@ public class Selection extends EnteringSelection {
 		}
 
 		String arrayCommand = "[" + String.join(",", fullVarNames) + "]";
-		JSObject jsArrayObject = evalForJsObject(arrayCommand);
+		JsObject jsArrayObject = evalForJsObject(arrayCommand);
 
 		for (String varName : varNames) {
 			d3JsObj.removeMember(varName);
@@ -1797,7 +1798,7 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		JavaScriptObject arrayObject = new JavaScriptObject(webEngine, jsArrayObject);
+		JavaScriptObject arrayObject = new JavaScriptObject(engine, jsArrayObject);
 
 		return data(arrayObject, keyFunction);
 
@@ -1823,14 +1824,14 @@ public class Selection extends EnteringSelection {
 	 *            the datum
 	 * @return the current selection
 	 */
-	public Selection datum(JSObject object) {
+	public Selection datum(JsObject object) {
 
 		String dataName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(dataName, object);
 		String command = "this.datum(d3." + dataName + ")";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(dataName);
 
@@ -1838,19 +1839,19 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	}
 
 	public Selection datum(JavaScriptObject object) {
 
-		JSObject datumObj = object.getJsObject();
+		JsObject datumObj = object.getJsObject();
 		String dataName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(dataName, datumObj);
 		String command = "this.datum(d3." + dataName + ")";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(dataName);
 
@@ -1858,7 +1859,7 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	}
 
@@ -1866,10 +1867,10 @@ public class Selection extends EnteringSelection {
 
 		String dataName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(dataName, object);
 		String command = "this.datum(d3." + dataName + ")";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(dataName);
 
@@ -1877,25 +1878,25 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	}
 
 	public Selection datum(Array<? extends JavaScriptObject> array) {
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 
 		array.forEach((element) -> {
-			JSObject jsElement = (JSObject) element;
+			JsObject jsElement = (JsObject) engine.toJsObjectIfNotSimpleType(element);
 			String varName = createNewTemporaryInstanceName();
 			d3JsObj.setMember(varName, jsElement);
 			fullVarNames.add("d3." + varName);
 		});
 
 		String command = "this.datum([" + String.join(",", fullVarNames) + "])";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		for (String varName : varNames) {
 			d3JsObj.removeMember(varName);
@@ -1905,7 +1906,7 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new UpdateSelection(webEngine, result);
+		return new UpdateSelection(engine, result);
 
 	}
 
@@ -1935,7 +1936,7 @@ public class Selection extends EnteringSelection {
 		}
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(methodName, datumFunction);
 
 		String varName = createNewTemporaryInstanceName();
@@ -1948,7 +1949,7 @@ public class Selection extends EnteringSelection {
 				+ "}";
 
 		eval(command);
-		JSObject result = evalForJsObject(varName);
+		JsObject result = evalForJsObject(varName);
 
 		d3JsObj.removeMember(varName);
 		d3JsObj.removeMember(methodName);
@@ -1957,7 +1958,7 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	}
 
@@ -1972,7 +1973,7 @@ public class Selection extends EnteringSelection {
 	public Value datum() {
 		String command = "this.datum()";
 		Object result = eval(command);
-		Value value = Value.create(webEngine, result);
+		Value value = Value.create(engine, result);
 		return value;
 	}
 
@@ -1988,12 +1989,12 @@ public class Selection extends EnteringSelection {
 	 * @return a new selection containing the filtered elements
 	 */
 	public Selection filter(String selector) {
-		JSObject result = call("filter", selector);
+		JsObject result = call("filter", selector);
 
 		if (result == null) {
 			return null;
 		}
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -2015,14 +2016,14 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(datumFunction);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(methodName, datumFunction);
 
 		String command = "this.filter(function(d, i) { " //
 				+ "return d3." + methodName + ".apply(this,{datum:d},i);" //
 				+ " });";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(methodName);
 
@@ -2030,7 +2031,7 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	}
 
@@ -2057,14 +2058,14 @@ public class Selection extends EnteringSelection {
 		assertObjectIsNotAnonymous(comparator);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(methodName, comparator);
 
 		String command = "this.sort(function(o1, o2) { " //
 				+ "return d3." + methodName + ".compare({datum:o1},{datum:o2});" //
 				+ " });";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObj.removeMember(methodName);
 
@@ -2072,7 +2073,7 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -2085,11 +2086,11 @@ public class Selection extends EnteringSelection {
 	 * @return
 	 */
 	public Selection order() {
-		JSObject result = call("order");
+		JsObject result = call("order");
 		if (result == null) {
 			return null;
 		}
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	// ==================== TRANSITION =======
@@ -2102,11 +2103,11 @@ public class Selection extends EnteringSelection {
 	 * @return the new transition
 	 */
 	public Transition transition() {
-		JSObject result = call("transition");
+		JsObject result = call("transition");
 		if (result == null) {
 			return null;
 		}
-		return new Transition(webEngine, result);
+		return new Transition(engine, result);
 	}
 
 	/**
@@ -2126,11 +2127,11 @@ public class Selection extends EnteringSelection {
 	 * @return the current selection
 	 */
 	public Selection interrupt() {
-		JSObject result = call("interrupt");
+		JsObject result = call("interrupt");
 		if (result == null) {
 			return null;
 		}
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	// =================== ACTION ===============
@@ -2150,7 +2151,7 @@ public class Selection extends EnteringSelection {
 		String listenerName = createNewTemporaryInstanceName();
 		String varName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(listenerName, listener);
 
 		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, i) {" //		      
@@ -2160,7 +2161,7 @@ public class Selection extends EnteringSelection {
 		eval(command);
 		String onCommand = "this.on('" + eventType + "', "+varName+");";
 
-		JSObject result = evalForJsObject(onCommand);
+		JsObject result = evalForJsObject(onCommand);
 
 		//hint: the "temporary" member of d3JsObj must stay as long as it is used. 
 		//don't remove it here with d3JsObj.removeMember(listenerName)
@@ -2168,7 +2169,7 @@ public class Selection extends EnteringSelection {
 		if (result == null) {
 			return null;
 		}
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	}
 
@@ -2220,7 +2221,7 @@ public class Selection extends EnteringSelection {
 
 		String methodName = createNewTemporaryInstanceName();
 		String varName = createNewTemporaryInstanceName();
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(methodName, listener);
 
 		String command = "var "+varName+" = (d3." + methodName + " == null ? null : function(d, i) {" + "d3." + methodName
@@ -2228,7 +2229,7 @@ public class Selection extends EnteringSelection {
 				+ " });" //
 				+ "return this.on('" + eventType + "', "+varName+", " + useCapture + ");";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		//hint: the "temporary" member of d3JsObj must stay as long as it is used. 
 		//don't remove it here with d3JsObj.removeMember(methodName)
@@ -2237,7 +2238,7 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	}
 
@@ -2248,7 +2249,7 @@ public class Selection extends EnteringSelection {
 		String listenerName = createNewTemporaryInstanceName();
 		String varName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		d3JsObj.setMember(listenerName, listener);
 
 		String command = "var "+varName+" = d3." + listenerName + " == null ? null : " + "function(d, i) {" //		      
@@ -2258,7 +2259,7 @@ public class Selection extends EnteringSelection {
 		eval(command);
 		String onCommand = "this.on('click', "+varName+");";
 
-		JSObject result = evalForJsObject(onCommand);
+		JsObject result = evalForJsObject(onCommand);
 
 		//hint: the "temporary" member of d3JsObj must stay as long as it is used. 
 		//don't remove it here with d3JsObj.removeMember(listenerName)
@@ -2267,15 +2268,15 @@ public class Selection extends EnteringSelection {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	}
 
 	@Override
 	public String toString() {
-		JSObject jsObject = getJsObject();
+		JsObject jsObject = getJsObject();
 		if (jsObject == null) {
-			return "!!Selection with missing JSObject!!";
+			return "!!Selection with missing JsObject!!";
 		}
 		return Inspector.getInspectionInfo(jsObject);
 	}

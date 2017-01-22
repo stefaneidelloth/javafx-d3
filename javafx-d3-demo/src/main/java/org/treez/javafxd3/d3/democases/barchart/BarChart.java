@@ -89,8 +89,8 @@ public class BarChart extends AbstractDemoCase {
 				.append("g") //
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-		DsvObjectAccessor<BarChartData> accessor = new BarChartObjectAccessor(webEngine);
-		DsvCallback<BarChartData> callback = new BarChartCallback(webEngine, BarChart.this);
+		DsvObjectAccessor<BarChartData> accessor = new BarChartObjectAccessor(engine);
+		DsvCallback<BarChartData> callback = new BarChartCallback(engine, BarChart.this);
 
 		Dsv<BarChartData> tsv = d3.<BarChartData> tsv();
 

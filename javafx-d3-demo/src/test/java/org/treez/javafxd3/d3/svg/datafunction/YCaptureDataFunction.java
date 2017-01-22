@@ -5,18 +5,15 @@ import java.util.List;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
-/**
- * A datum function that returns the y coordinate as double
- *  
- */
+
 public class YCaptureDataFunction implements DataFunction<Double> {
 	
 	//#region ATTRIBUTES
 	
-	private WebEngine webEngine;
+	private JsEngine engine;
 	
 	private List<Double> yList;
 	
@@ -24,11 +21,8 @@ public class YCaptureDataFunction implements DataFunction<Double> {
 	
 	//#region CONSTRUCTORS
 	
-	/**
-	 * @param webEngine
-	 */
-	public YCaptureDataFunction(WebEngine webEngine,  List<Double> yList){
-		this.webEngine=webEngine;
+	public YCaptureDataFunction(JsEngine engine,  List<Double> yList){
+		this.engine=engine;
 		this.yList = yList;
 	}
 	
@@ -39,8 +33,8 @@ public class YCaptureDataFunction implements DataFunction<Double> {
 	@Override
 	public Double apply(Object context, Object datum, int index) {
 		
-		JSObject jsObject = (JSObject) datum;
-		Value value = new Value(webEngine, jsObject);					
+		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);
+		Value value = new Value(engine, jsObject);					
 	
 		Double y = value.asCoords().y();
 		yList.add(y);

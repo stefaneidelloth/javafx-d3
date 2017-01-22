@@ -4,8 +4,8 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Formatter;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Log scales are similar to linear scales, except there's a logarithmic
@@ -32,11 +32,11 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public LogScale(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public LogScale(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -61,8 +61,8 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * @return the current scale
 	 */
 	public <T> Array<T> ticks() {
-		JSObject result = call("ticks");
-		return new Array<T>(webEngine, result);
+		JsObject result = call("ticks");
+		return new Array<T>(engine, result);
 	}
 
 	// =========== tickFormat ==========
@@ -76,8 +76,8 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * @return the number format
 	 */
 	public Formatter tickFormat() {
-		JSObject result = call("tickFormat");
-		return new Formatter(webEngine, result);
+		JsObject result = call("tickFormat");
+		return new Formatter(engine, result);
 	}
 
 	/**
@@ -98,8 +98,8 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * @return a number format
 	 */
 	public Formatter tickFormat(int count) {
-		JSObject result = call("tickFormat", count);
-		return new Formatter(webEngine, result);
+		JsObject result = call("tickFormat", count);
+		return new Formatter(engine, result);
 	}
 
 	/**
@@ -129,8 +129,8 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * @return a number format
 	 */
 	public Formatter tickFormat(int count, String formatSpecifier) {
-		JSObject result = call("tickFormat", count, formatSpecifier);
-		return new Formatter(webEngine, result);
+		JsObject result = call("tickFormat", count, formatSpecifier);
+		return new Formatter(engine, result);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	public synchronized Formatter tickFormat(int count, DataFunction<String> function) {
 
 		String functionName = "temp__tickformat__function";
-		JSObject d3 = (JSObject) webEngine.executeScript("d3");
+		JsObject d3 = (JsObject) engine.executeScript("d3");
 		
 		d3.setMember(functionName, function);
 
@@ -171,10 +171,10 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 
 		Object result = eval(command);
 		
-		JSObject formatteJsResult = (JSObject) result;
+		JsObject formatteJsResult = (JsObject) result;
 		
 		
-		return new Formatter(webEngine, formatteJsResult);
+		return new Formatter(engine, formatteJsResult);
 	}
 
 	// =========== nice ==========
@@ -198,8 +198,8 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * @return the current scale
 	 */
 	public LogScale nice() {
-		JSObject result = call("nice");
-		return new LogScale(webEngine, result);		
+		JsObject result = call("nice");
+		return new LogScale(engine, result);		
 	}
 
 	// =========== base ==========
@@ -219,13 +219,13 @@ public class LogScale extends ContinuousQuantitativeScale<LogScale> {
 	 * @return the current scale
 	 */
 	public LogScale base(int b) {
-		JSObject result = call("base", b);
-		return new LogScale(webEngine, result);	
+		JsObject result = call("base", b);
+		return new LogScale(engine, result);	
 	}
 
 	@Override
-	public LogScale createScale(WebEngine webEngine, JSObject result) {
-		return new LogScale(webEngine, result);
+	public LogScale createScale(JsEngine engine, JsObject result) {
+		return new LogScale(engine, result);
 	}
 
 	//#end region

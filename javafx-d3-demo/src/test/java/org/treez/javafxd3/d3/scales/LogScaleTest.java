@@ -91,7 +91,7 @@ public class LogScaleTest extends AbstractTestCase {
 		assertEquals("1e+1", scale.tickFormat(2).format(10));
 		assertEquals("1e+2", scale.tickFormat(2).format(100));
 		assertEquals("$50.00", scale.tickFormat(20, "$,.2f").format(50));
-		String format = scale.tickFormat(20, new LogScaleTestDataFunction(webEngine)).format(50);
+		String format = scale.tickFormat(20, new LogScaleTestDataFunction(engine)).format(50);
 		System.out.println("FORMATTER " + format);
 
 		// nice

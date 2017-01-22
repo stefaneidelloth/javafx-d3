@@ -24,7 +24,7 @@ import org.treez.javafxd3.d3.layout.Link;
 import org.treez.javafxd3.d3.svg.Diagonal;
 
 import javafx.scene.layout.VBox;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class ClusterDendogram extends AbstractDemoCase {
 
@@ -63,7 +63,7 @@ public class ClusterDendogram extends AbstractDemoCase {
 				.size(height, width - 160);
 
 		DataFunction<Double[]> coordsFunction = new DataFunctionWrapper<>(org.treez.javafxd3.d3.coords.Coords.class,
-				webEngine, (coords) -> {
+				engine, (coords) -> {
 					return new Double[] { coords.y(), coords.x() };
 				});
 
@@ -101,8 +101,8 @@ public class ClusterDendogram extends AbstractDemoCase {
 		if (200 == responseCode) {
 
 			String jsonText = response.toString();
-			JSObject jsResult = ConversionUtil.createJsObject(jsonText, webEngine);
-			Node root = new Node(webEngine, jsResult);
+			JsObject jsResult = ConversionUtil.createJsObject(jsonText, engine);
+			Node root = new Node(engine, jsResult);
 			Array<Node> nodes = cluster.nodes(root);
 			Array<Link> links = cluster.links(nodes);
 
@@ -114,7 +114,7 @@ public class ClusterDendogram extends AbstractDemoCase {
 					.attr("d", diagonal);
 
 			DataFunction<String> transformFunction = new DataFunctionWrapper<>(
-					org.treez.javafxd3.d3.coords.Coords.class, webEngine, (coords) -> {
+					org.treez.javafxd3.d3.coords.Coords.class, engine, (coords) -> {
 						return "translate(" + coords.y() + "," + coords.x() + ")";
 					});
 
@@ -128,15 +128,15 @@ public class ClusterDendogram extends AbstractDemoCase {
 			node.append("circle")//
 					.attr("r", 4.5);
 
-			DataFunction<Integer> dxFunction = new DataFunctionWrapper<>(Node.class, webEngine, (layoutNode) -> {
+			DataFunction<Integer> dxFunction = new DataFunctionWrapper<>(Node.class, engine, (layoutNode) -> {
 				return layoutNode.children() != null ? -8 : 8;
 			});
 
-			DataFunction<String> styleFunction = new DataFunctionWrapper<>(Node.class, webEngine, (layoutNode) -> {
+			DataFunction<String> styleFunction = new DataFunctionWrapper<>(Node.class, engine, (layoutNode) -> {
 				return layoutNode.children() != null ? "end" : "start";
 			});
 
-			DataFunction<String> nameFunction = PropertyValueDataFunction.<String> forProperty(webEngine, "name");
+			DataFunction<String> nameFunction = PropertyValueDataFunction.<String> forProperty(engine, "name");
 
 			node.append("text") //
 					.attr("dx", dxFunction) //

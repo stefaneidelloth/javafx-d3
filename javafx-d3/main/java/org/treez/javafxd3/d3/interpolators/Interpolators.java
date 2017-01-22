@@ -14,8 +14,8 @@ import org.treez.javafxd3.d3.core.Transform;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 
 /**
@@ -26,8 +26,8 @@ public class Interpolators {
 	
 	//#region METHODS
 	
-	private static D3 getD3(WebEngine webEngine){		
-		return new D3(webEngine);			
+	private static D3 getD3(JsEngine engine){		
+		return new D3(engine);			
 	}
 
 	/**
@@ -62,9 +62,9 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<String> interpolateString(WebEngine webEngine,final String a,
+	public static final Interpolator<String> interpolateString(JsEngine engine,final String a,
 			final String b) {	
-		return new JavascriptFunctionInterpolatorDecorator<String>(interpolate0(webEngine, a, b));
+		return new JavascriptFunctionInterpolatorDecorator<String>(interpolate0(engine, a, b));
 	}
 
 	/**
@@ -88,14 +88,14 @@ public class Interpolators {
 	 */
 	
 	
-	public static final Interpolator<RGBColor> interpolateRgb(WebEngine webEngine, final String a,
+	public static final Interpolator<RGBColor> interpolateRgb(JsEngine engine, final String a,
 			final String b) {	
 		
-		Colors colors = new Colors(webEngine);	
+		Colors colors = new Colors(engine);	
 		Color startColor = colors.rgb(a);
 		Color endColor = colors.rgb(b);		
 		
-		JavascriptFunctionInterpolator interpolator = interpolateRgb0(webEngine, startColor, endColor);
+		JavascriptFunctionInterpolator interpolator = interpolateRgb0(engine, startColor, endColor);
 		
 		return new JavascriptFunctionInterpolatorDecorator<RGBColor>(interpolator) {
 			
@@ -128,10 +128,10 @@ public class Interpolators {
 	 *            the end color
 	 * @return the interpolator
 	 */
-	public static final Interpolator<RGBColor> interpolateRgb(WebEngine webEngine, final Color a,
+	public static final Interpolator<RGBColor> interpolateRgb(JsEngine engine, final Color a,
 			final Color b) {		
-		Colors colors = new Colors(webEngine);	
-		return new JavascriptFunctionInterpolatorDecorator<RGBColor>(interpolateRgb0(webEngine, a, b)) {
+		Colors colors = new Colors(engine);	
+		return new JavascriptFunctionInterpolatorDecorator<RGBColor>(interpolateRgb0(engine, a, b)) {
 			@Override
 			public RGBColor cast(final Value v) {
 				return colors.rgb(v.asString());
@@ -158,10 +158,10 @@ public class Interpolators {
 	 *            the end color
 	 * @return the interpolator
 	 */
-	public static final Interpolator<HSLColor> interpolateHsl(WebEngine webEngine, final String a,
+	public static final Interpolator<HSLColor> interpolateHsl(JsEngine engine, final String a,
 			final String b) {		
-		Colors colors = new Colors(webEngine);	
-		return new JavascriptFunctionInterpolatorDecorator<HSLColor>(interpolateHsl0(webEngine, colors.hsl(a), colors.hsl(b))) {
+		Colors colors = new Colors(engine);	
+		return new JavascriptFunctionInterpolatorDecorator<HSLColor>(interpolateHsl0(engine, colors.hsl(a), colors.hsl(b))) {
 			@Override
 			public HSLColor cast(final Value v) {
 				return colors.hsl(v.asString());
@@ -188,10 +188,10 @@ public class Interpolators {
 	 *            the end color
 	 * @return the interpolator
 	 */
-	public static final Interpolator<HSLColor> interpolateHsl(WebEngine webEngine, final Color a,
+	public static final Interpolator<HSLColor> interpolateHsl(JsEngine engine, final Color a,
 			final Color b) {		
-		Colors colors = new Colors(webEngine);		
-		return new JavascriptFunctionInterpolatorDecorator<HSLColor>(interpolateHsl0(webEngine, a, b)) {
+		Colors colors = new Colors(engine);		
+		return new JavascriptFunctionInterpolatorDecorator<HSLColor>(interpolateHsl0(engine, a, b)) {
 			@Override
 			public HSLColor cast(final Value v) {
 				return colors.hsl(v.asString());
@@ -226,10 +226,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double> interpolateNumber(WebEngine webEngine, final double a,
+	public static final Interpolator<Double> interpolateNumber(JsEngine engine, final double a,
 			final double b) {
 		return new JavascriptFunctionInterpolatorDecorator<Double>(
-				interpolateNumber0(webEngine, a, b)) {
+				interpolateNumber0(engine, a, b)) {
 			@Override
 			public Double cast(final Value v) {
 				return new Double(v.asDouble());
@@ -268,14 +268,14 @@ public class Interpolators {
 	 *            the array b
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Object[]> interpolateArray(WebEngine webEngine,
+	public static final Interpolator<Object[]> interpolateArray(JsEngine engine,
 			final Object[] a, final Object[] b) {
 		return new JavascriptFunctionInterpolatorDecorator<Object[]>(
-				interpolateArray0(webEngine, a, b)) {
+				interpolateArray0(engine, a, b)) {
 			@Override
 			public Object[] cast(final Value v) {
-				JSObject jsValue = v.as();				
-				Array<Object> array = new Array<Object>(webEngine, jsValue);
+				JsObject jsValue = v.as();				
+				Array<Object> array = new Array<Object>(engine, jsValue);
 				return array.asArray(Object.class);				
 			}
 		};
@@ -316,27 +316,27 @@ public class Interpolators {
 	 *            the object b
 	 * @return the interpolator
 	 */
-	public static final <T extends JavaScriptObject> Interpolator<T> interpolateObject(WebEngine webEngine,
+	public static final <T extends JavaScriptObject> Interpolator<T> interpolateObject(JsEngine engine,
 			final T a, final T b) {
 		return new JavascriptFunctionInterpolatorDecorator<T>(
-				interpolateObject0(webEngine, a, b)) {
+				interpolateObject0(engine, a, b)) {
 			@SuppressWarnings("unchecked")
 			@Override
 			public T cast(final Value v) {
 				
-				JSObject jsObject = v.as();
+				JsObject jsObject = v.as();
 				Class<?> clazz = a.getClass();
 				
-				Object instance = createNewJavaScriptObjectInstance(webEngine, clazz, jsObject); 				
+				Object instance = createNewJavaScriptObjectInstance(engine, clazz, jsObject); 				
 				return (T) instance;
 			}
 
-			private Object createNewJavaScriptObjectInstance(WebEngine webEngine,
-					final Class<?> clazz, JSObject jsObject) {
+			private Object createNewJavaScriptObjectInstance(JsEngine engine,
+					final Class<?> clazz, JsObject jsObject) {
 				
 				Constructor<?> constructor;
 				try {
-					constructor = clazz.getConstructor(new Class<?>[]{WebEngine.class, JSObject.class});
+					constructor = clazz.getConstructor(new Class<?>[]{JsEngine.class, JsObject.class});
 				} catch (NoSuchMethodException exception) {
 					throw new IllegalStateException("Could not get constructor for JavaScriptObject", exception);
 				} catch (SecurityException securityException) {
@@ -349,7 +349,7 @@ public class Interpolators {
 				
 				Object instance;
 				try {
-					instance = constructor.newInstance(webEngine, jsObject);
+					instance = constructor.newInstance(engine, jsObject);
 				} catch (Exception exception) {
 					throw new IllegalStateException("Could not create instance of JavaScriptObject", exception);
 				}
@@ -364,7 +364,7 @@ public class Interpolators {
 	 * translate, rotate, x-skew and scale; these component transformations are
 	 * then interpolated. This behavior is standardized by CSS: see matrix
 	 * decomposition for animation.
-	 * @param webEngine 
+	 * @param engine 
 	 * 
 	 * @param a
 	 *            the object a
@@ -372,13 +372,13 @@ public class Interpolators {
 	 *            the object b
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Transform> interpolateTransform(WebEngine webEngine,
+	public static final Interpolator<Transform> interpolateTransform(JsEngine engine,
 			final Transform a, final Transform b) {
 		
-		Transform transform = new Transform(webEngine);
+		Transform transform = new Transform(engine);
 	
 		return new JavascriptFunctionInterpolatorDecorator<Transform>(
-				interpolateTransform0(webEngine, a, b)) {
+				interpolateTransform0(engine, a, b)) {
 			@Override
 			public Transform cast(final Value v) {
 				return transform.parse(v.asString());
@@ -395,9 +395,9 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double> interpolateNumber(WebEngine webEngine, final int a,
+	public static final Interpolator<Double> interpolateNumber(JsEngine engine, final int a,
 			final int b) {
-		return interpolateNumber(webEngine, (double) a, (double) b);
+		return interpolateNumber(engine, (double) a, (double) b);
 	}
 
 	/**
@@ -409,9 +409,9 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double> interpolateNumber(WebEngine webEngine, final byte a,
+	public static final Interpolator<Double> interpolateNumber(JsEngine engine, final byte a,
 			final byte b) {
-		return interpolateNumber(webEngine, (double) a, (double) b);
+		return interpolateNumber(engine, (double) a, (double) b);
 	}
 
 	/**
@@ -423,9 +423,9 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double> interpolateNumber(WebEngine webEngine,final float a,
+	public static final Interpolator<Double> interpolateNumber(JsEngine engine,final float a,
 			final float b) {
-		return interpolateNumber(webEngine, (double) a, (double) b);
+		return interpolateNumber(engine, (double) a, (double) b);
 	}
 
 	/**
@@ -437,9 +437,9 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double> interpolateNumber(WebEngine webEngine,final long a,
+	public static final Interpolator<Double> interpolateNumber(JsEngine engine,final long a,
 			final long b) {
-		return interpolateNumber(webEngine, (double) a, (double) b);
+		return interpolateNumber(engine, (double) a, (double) b);
 	}
 
 	/**
@@ -451,9 +451,9 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double> interpolateNumber(WebEngine webEngine,final short a,
+	public static final Interpolator<Double> interpolateNumber(JsEngine engine,final short a,
 			final short b) {
-		return interpolateNumber(webEngine, (double) a, (double) b);
+		return interpolateNumber(engine, (double) a, (double) b);
 	}
 
 	/**
@@ -468,10 +468,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Long> interpolateRound(WebEngine webEngine, final double a,
+	public static final Interpolator<Long> interpolateRound(JsEngine engine, final double a,
 			final double b) {
 		return new JavascriptFunctionInterpolatorDecorator<Long>(
-				interpolateRound0(webEngine, a, b)) {
+				interpolateRound0(engine, a, b)) {
 			@Override
 			public Long cast(final Value v) {
 				return new Long((long) (double) v.asDouble());
@@ -488,10 +488,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Byte> interpolateRound(WebEngine webEngine,final byte a,
+	public static final Interpolator<Byte> interpolateRound(JsEngine engine,final byte a,
 			final byte b) {
 		return new JavascriptFunctionInterpolatorDecorator<Byte>(
-				interpolateRound0(webEngine, a, b)) {
+				interpolateRound0(engine, a, b)) {
 			@Override
 			public Byte cast(final Value v) {
 				return new Byte(v.asByte());
@@ -508,10 +508,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Character> interpolateRound(WebEngine webEngine,final char a,
+	public static final Interpolator<Character> interpolateRound(JsEngine engine,final char a,
 			final char b) {
 		return new JavascriptFunctionInterpolatorDecorator<Character>(
-				interpolateRound0(webEngine, a, b)) {
+				interpolateRound0(engine, a, b)) {
 			@Override
 			public Character cast(final Value v) {
 				return new Character(v.asChar());
@@ -528,10 +528,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Integer> interpolateRound(WebEngine webEngine,final int a,
+	public static final Interpolator<Integer> interpolateRound(JsEngine engine,final int a,
 			final int b) {
 		return new JavascriptFunctionInterpolatorDecorator<Integer>(
-				interpolateRound0(webEngine, a, b)) {
+				interpolateRound0(engine, a, b)) {
 			@Override
 			public Integer cast(final Value v) {
 				return new Integer(v.asInt());
@@ -548,10 +548,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Long> interpolateRound(WebEngine webEngine,final long a,
+	public static final Interpolator<Long> interpolateRound(JsEngine engine,final long a,
 			final long b) {
 		return new JavascriptFunctionInterpolatorDecorator<Long>(
-				interpolateRound0(webEngine, a, b)) {
+				interpolateRound0(engine, a, b)) {
 			@Override
 			public Long cast(final Value v) {
 				// this will not work !!!
@@ -572,10 +572,10 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Short> interpolateRound(WebEngine webEngine,final short a,
+	public static final Interpolator<Short> interpolateRound(JsEngine engine,final short a,
 			final short b) {
 		return new JavascriptFunctionInterpolatorDecorator<Short>(
-				interpolateRound0(webEngine,a, b)) {
+				interpolateRound0(engine,a, b)) {
 			@Override
 			public Short cast(final Value v) {
 				return new Short(v.asShort());
@@ -606,14 +606,14 @@ public class Interpolators {
 	 *            the end
 	 * @return the interpolator
 	 */
-	public static final Interpolator<Double[]> interpolateZoom(WebEngine webEngine,
+	public static final Interpolator<Double[]> interpolateZoom(JsEngine engine,
 			final Double[] a, final Double[] b) {
 		return new JavascriptFunctionInterpolatorDecorator<Double[]>(
-				interpolateZoom0(webEngine, a, b)) {
+				interpolateZoom0(engine, a, b)) {
 			@Override
 			public Double[] cast(final Value v) {
-				JSObject jsArray = v.as();
-				Array<Double> doubleArray = new Array<Double>(webEngine, jsArray);
+				JsObject jsArray = v.as();
+				Array<Double> doubleArray = new Array<Double>(engine, jsArray);
 				return doubleArray.asArray(Double.class);
 			}
 		};
@@ -639,73 +639,73 @@ public class Interpolators {
 	 * @param b
 	 * @return
 	 */	
-	private static  <T> JavascriptFunctionInterpolator interpolate0(WebEngine webEngine,
+	private static  <T> JavascriptFunctionInterpolator interpolate0(JsEngine engine,
 			T a, T b) {
 		
-		D3 d3 = getD3(webEngine);
-		JSObject result = d3.call("interpolate",  a, b);
+		D3 d3 = getD3(engine);
+		JsObject result = d3.call("interpolate",  a, b);
 		if(result==null){
 			return null;
 		}
-		return new JavascriptFunctionInterpolator(webEngine, result);
+		return new JavascriptFunctionInterpolator(engine, result);
 	}
 
 	
 	
-	private static  JavascriptFunctionInterpolator interpolateNumber0(WebEngine webEngine,
+	private static  JavascriptFunctionInterpolator interpolateNumber0(JsEngine engine,
 			double a, double b) {
 		
-		D3 d3 = getD3(webEngine);
-		JSObject result = d3.call("interpolateNumber",  a, b);
+		D3 d3 = getD3(engine);
+		JsObject result = d3.call("interpolateNumber",  a, b);
 		if(result==null){
 			return null;
 		}
-		return new JavascriptFunctionInterpolator(webEngine, result);
+		return new JavascriptFunctionInterpolator(engine, result);
 		
 	}
 
 	
-	private static  JavascriptFunctionInterpolator interpolateRound0(WebEngine webEngine,
+	private static  JavascriptFunctionInterpolator interpolateRound0(JsEngine engine,
 			double a, double b) {
-		D3 d3 = getD3(webEngine);
-		JSObject result = d3.call("interpolateRound",  a, b);
+		D3 d3 = getD3(engine);
+		JsObject result = d3.call("interpolateRound",  a, b);
 		if(result==null){
 			return null;
 		}
-		return new JavascriptFunctionInterpolator(webEngine, result);
+		return new JavascriptFunctionInterpolator(engine, result);
 		
 	}
 
 	
-	private static  JavascriptFunctionInterpolator interpolateZoom0(WebEngine webEngine,
+	private static  JavascriptFunctionInterpolator interpolateZoom0(JsEngine engine,
 			Double[] a, Double[] b) {
-		D3 d3 = getD3(webEngine);
-		JSObject result = d3.call("interpolateZoom",  a, b);
+		D3 d3 = getD3(engine);
+		JsObject result = d3.call("interpolateZoom",  a, b);
 		if(result==null){
 			return null;
 		}
-		return new JavascriptFunctionInterpolator(webEngine, result);
+		return new JavascriptFunctionInterpolator(engine, result);
 	}
 
 	
-	private static  JavascriptFunctionInterpolator interpolateRgb0(WebEngine webEngine,
+	private static  JavascriptFunctionInterpolator interpolateRgb0(JsEngine engine,
 			Color a, Color b) {
-		D3 d3 = getD3(webEngine);
-		JSObject result = d3.call("interpolateRgb",  a.getJsObject(), b.getJsObject());
+		D3 d3 = getD3(engine);
+		JsObject result = d3.call("interpolateRgb",  a.getJsObject(), b.getJsObject());
 		if(result==null){
 			return null;
 		}
-		return new JavascriptFunctionInterpolator(webEngine, result);
+		return new JavascriptFunctionInterpolator(engine, result);
 	}
 
-	private static  JavascriptFunctionInterpolator interpolateHsl0(WebEngine webEngine,
+	private static  JavascriptFunctionInterpolator interpolateHsl0(JsEngine engine,
 			Color a, Color b) {
-		D3 d3 = getD3(webEngine);
-		JSObject result = d3.call("interpolateHsl",  a.getJsObject(), b.getJsObject());
+		D3 d3 = getD3(engine);
+		JsObject result = d3.call("interpolateHsl",  a.getJsObject(), b.getJsObject());
 		if(result==null){
 			return null;
 		}
-		return new JavascriptFunctionInterpolator(webEngine, result);
+		return new JavascriptFunctionInterpolator(engine, result);
 	}
 
 	// private static  JavascriptFunctionInterpolator
@@ -718,36 +718,36 @@ public class Interpolators {
 	// return $wnd.d3.interpolateLab(a, b);
 	// }
 
-	private static  JavascriptFunctionInterpolator interpolateObject0(WebEngine webEngine,
+	private static  JavascriptFunctionInterpolator interpolateObject0(JsEngine engine,
 			JavaScriptObject a, JavaScriptObject b) {		
 	
-		D3 d3 = getD3(webEngine);
-		JSObject result = d3.call("interpolateObject",  a.getJsObject(), b.getJsObject());
+		D3 d3 = getD3(engine);
+		JsObject result = d3.call("interpolateObject",  a.getJsObject(), b.getJsObject());
 		if(result==null){
 			return null;
 		}
-		return new JavascriptFunctionInterpolator(webEngine, result);
+		return new JavascriptFunctionInterpolator(engine, result);
 	}
 
-	private static  JavascriptFunctionInterpolator interpolateArray0(WebEngine webEngine,
+	private static  JavascriptFunctionInterpolator interpolateArray0(JsEngine engine,
 			Object[] a, Object[] b) {		
 	
-		D3 d3 = getD3(webEngine);
-		JSObject result = d3.call("interpolateArray",  a, b);
+		D3 d3 = getD3(engine);
+		JsObject result = d3.call("interpolateArray",  a, b);
 		if(result==null){
 			return null;
 		}
-		return new JavascriptFunctionInterpolator(webEngine, result);
+		return new JavascriptFunctionInterpolator(engine, result);
 	}
 
-	private static  JavascriptFunctionInterpolator interpolateTransform0(WebEngine webEngine,
+	private static  JavascriptFunctionInterpolator interpolateTransform0(JsEngine engine,
 			Transform a, Transform b) {
-		D3 d3 = getD3(webEngine);
-		JSObject result = d3.call("interpolateTransform",  a.getJsObject(), b.getJsObject());
+		D3 d3 = getD3(engine);
+		JsObject result = d3.call("interpolateTransform",  a.getJsObject(), b.getJsObject());
 		if(result==null){
 			return null;
 		}
-		return new JavascriptFunctionInterpolator(webEngine, result);
+		return new JavascriptFunctionInterpolator(engine, result);
 	}
 
 	// FIXME access to interpolators does not work as expected
@@ -808,14 +808,14 @@ public class Interpolators {
 	// interpolateTransformFactory();
 
 	/*
-	private static  JSNIInterpolatorFactory<Double> interpolateNumberFactory(WebEngine webEngine){
+	private static  JSNIInterpolatorFactory<Double> interpolateNumberFactory(JsEngine engine){
 				
-		D3 d3 = getD3(webEngine);
-		JSObject result = d3.getMember("interpolateNumber");
+		D3 d3 = getD3(engine);
+		JsObject result = d3.getMember("interpolateNumber");
 		if(result==null){
 			return null;
 		}
-		return new JSNIInterpolatorFactory<Double>(webEngine, result);
+		return new JSNIInterpolatorFactory<Double>(engine, result);
 	}
 	*/
 
@@ -877,16 +877,16 @@ public class Interpolators {
 	 * 
 	 * @return the array of interpolator factories
 	 */
-	public static  List<InterpolatorFactory<?>> interpolators(WebEngine webEngine){		
-		D3 d3 = getD3(webEngine);
-		JSObject result = d3.getMember("interpolators");
+	public static  List<InterpolatorFactory<?>> interpolators(JsEngine engine){		
+		D3 d3 = getD3(engine);
+		JsObject result = d3.getMember("interpolators");
 		if(result==null){
 			return null;
 		}
 		
 		List<InterpolatorFactory<?>> interpolatorList = new ArrayList<>();
-		Array<JSObject> interpolators = new Array<JSObject>(webEngine, result);
-		interpolators.forEach((element)->{interpolatorList.add(new JSNIInterpolatorFactory<>(webEngine, (JSObject)element));});		
+		Array<JsObject> interpolators = new Array<JsObject>(engine, result);
+		interpolators.forEach((element)->{interpolatorList.add(new JSNIInterpolatorFactory<>(engine, (JsObject)element));});		
 		
 		return interpolatorList;		
 	}

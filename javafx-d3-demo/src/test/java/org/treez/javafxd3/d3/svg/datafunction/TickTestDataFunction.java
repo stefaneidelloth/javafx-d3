@@ -5,17 +5,14 @@ import static org.junit.Assert.assertTrue;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
-/**
- * A datum function that returns the datum as string
- * 
- */
+
 public class TickTestDataFunction implements DataFunction<String> {
 	
 	//#region ATTRIBUTES
 	
-	private WebEngine webEngine;
+	private JsEngine engine;
 	
 	private final StringBuffer stringBuffer;
 	
@@ -24,10 +21,10 @@ public class TickTestDataFunction implements DataFunction<String> {
 	//#region CONSTRUCTORS
 	
 	/**
-	 * @param webEngine
+	 * @param engine
 	 */
-	public TickTestDataFunction(WebEngine webEngine, final StringBuffer stringBuffer){
-		this.webEngine=webEngine;
+	public TickTestDataFunction(JsEngine engine, final StringBuffer stringBuffer){
+		this.engine=engine;
 		this.stringBuffer = stringBuffer;
 	}
 	
@@ -38,7 +35,7 @@ public class TickTestDataFunction implements DataFunction<String> {
 	@Override
 	public String apply(Object context, Object datum, int index) {
 		
-		Value value = Value.create(webEngine,  datum);
+		Value value = Value.create(engine,  datum);
         System.out.println("INDEX " + index + " " + value.as());
         assertTrue(index >= 0 && index < 4);
         stringBuffer.append("x");

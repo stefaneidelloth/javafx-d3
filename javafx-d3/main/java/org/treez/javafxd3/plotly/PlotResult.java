@@ -2,8 +2,8 @@ package org.treez.javafxd3.plotly;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class PlotResult extends JavaScriptObject {
 
@@ -13,8 +13,8 @@ public class PlotResult extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	public PlotResult(WebEngine webEngine, JSObject jsObject) {
-		super(webEngine,jsObject);		
+	public PlotResult(JsEngine engine, JsObject jsObject) {
+		super(engine,jsObject);		
 	}	
 
 	//#end region

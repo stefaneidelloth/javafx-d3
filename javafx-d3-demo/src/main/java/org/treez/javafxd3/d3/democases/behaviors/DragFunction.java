@@ -6,21 +6,21 @@ import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 public class DragFunction implements DataFunction<Void> {
 
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine;
+	private JsEngine engine;
 	private D3 d3;
 
 	//#end region
 
 	//#region CONSTRUCTORS
 
-	public DragFunction(WebEngine webEngine, D3 d3) {
-		this.webEngine = webEngine;
+	public DragFunction(JsEngine engine, D3 d3) {
+		this.engine = engine;
 		this.d3 = d3;
 	}
 
@@ -31,8 +31,8 @@ public class DragFunction implements DataFunction<Void> {
 	@Override
 	public Void apply(final Object context, final Object d, final int index) {
 
-		Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
-		Coords coords = ConversionUtil.convertObjectTo(d, Coords.class, webEngine);
+		Element element = ConversionUtil.convertObjectTo(context, Element.class, engine);
+		Coords coords = ConversionUtil.convertObjectTo(d, Coords.class, engine);
 
 		// change color of the element being dragged
 		d3.select(element) //

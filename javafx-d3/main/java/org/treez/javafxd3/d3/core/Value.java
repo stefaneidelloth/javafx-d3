@@ -4,9 +4,6 @@ import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.time.JsDate;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
-
 /**
  * A {@link Value} is an object wrapping a primitive or a complex value.
  * <p>
@@ -22,20 +19,20 @@ public class Value extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 */
-	protected Value(WebEngine webEngine) {
-		super(webEngine);
+	protected Value(JsEngine engine) {
+		super(engine);
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Value(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Value(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -46,12 +43,12 @@ public class Value extends JavaScriptObject {
 	/**
 	 * Wraps the given JavaScriptObject into a {@link Value}.
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param object
 	 *            the object to be wrapped as a Value
 	 * @return the value
 	 */
-	public static Value create(WebEngine webEngine, JavaScriptObject javaScriptObject) {
+	public static Value create(JsEngine engine, JavaScriptObject javaScriptObject) {
 
 		Object wrappedObject = null;
 		if (javaScriptObject != null) {
@@ -61,67 +58,67 @@ public class Value extends JavaScriptObject {
 		String dummyTempAttributeName = createNewTemporaryInstanceName();
 		String dummyTempVariableName = createNewTemporaryInstanceName();
 
-		JSObject d3 = (JSObject) webEngine.executeScript("d3");
+		JsObject d3 = (JsObject) engine.executeScript("d3");
 
 		d3.setMember(dummyTempAttributeName, wrappedObject);
 
 		String command = "var " + dummyTempVariableName + " = { datum: d3." + dummyTempAttributeName + "};";
 		d3.eval(command);
-		JSObject result = (JSObject) d3.eval(dummyTempVariableName);
+		JsObject result = (JsObject) d3.eval(dummyTempVariableName);
 
 		d3.removeMember(dummyTempAttributeName);
 		d3.eval(dummyTempVariableName + "= undefined;");
 
-		return new Value(webEngine, result);
+		return new Value(engine, result);
 
 	}
 
 	/**
 	 * Wraps the given JavaScriptObject into a {@link Value}.
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param object
 	 *            the object to be wrapped as a Value
 	 * @return the value
 	 */
-	public static Value create(WebEngine webEngine, Object object) {
+	public static Value create(JsEngine engine, Object object) {
 
 		String dummyTempAttributeName = "dummy__object__attr";
 		String dummyTempVariableName = "dummy_temp_var";
 
-		JSObject d3 = (JSObject) webEngine.executeScript("d3");
+		JsObject d3 = (JsObject) engine.executeScript("d3");
 
 		d3.setMember(dummyTempAttributeName, object);
 
 		String command = "var " + dummyTempVariableName + " = { datum: d3." + dummyTempAttributeName + "};";
 		d3.eval(command);
-		JSObject result = (JSObject) d3.eval(dummyTempVariableName);
+		JsObject result = (JsObject) d3.eval(dummyTempVariableName);
 
 		d3.removeMember(dummyTempAttributeName);
 
-		return new Value(webEngine, result);
+		return new Value(engine, result);
 
 	}
 
 	/**
 	 * Creates a Value that wraps 'undefined'
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param object
 	 *            the object to be wrapped as a Value
 	 * @return the value
 	 */
-	public static Value createUndefined(WebEngine webEngine) {
+	public static Value createUndefined(JsEngine engine) {
 
 		String dummyTempVariableName = "dummy_temp_var";
 
-		JSObject d3 = (JSObject) webEngine.executeScript("d3");
+		JsObject d3 = (JsObject) engine.executeScript("d3");
 
 		String command = "var " + dummyTempVariableName + " = { datum: undefined};";
 		d3.eval(command);
-		JSObject result = (JSObject) d3.eval(dummyTempVariableName);
+		JsObject result = (JsObject) d3.eval(dummyTempVariableName);
 
-		return new Value(webEngine, result);
+		return new Value(engine, result);
 
 	}
 
@@ -134,10 +131,10 @@ public class Value extends JavaScriptObject {
 	 * @return
 	 */
 	public static Value create(JavaScriptObject object, String propertyName) {
-		JSObject jsObject = object.getJsObject();
+		JsObject jsObject = object.getJsObject();
 		Object datum = jsObject.eval("this['" + propertyName + "']");
-		WebEngine webEngine = object.getWebEngine();
-		Value value = create(webEngine, datum);
+		JsEngine engine = object.getJsEngine();
+		Value value = create(engine, datum);
 		return value;
 	}
 
@@ -187,11 +184,11 @@ public class Value extends JavaScriptObject {
 	}
 
 	public JsDate asJsDate() {
-		JSObject result = getMember("datum");
+		JsObject result = getMember("datum");
 		if (result == null) {
 			return null;
 		}
-		return new JsDate(webEngine, result);
+		return new JsDate(engine, result);
 	}
 
 	/**
@@ -203,7 +200,7 @@ public class Value extends JavaScriptObject {
 	public Double asDouble() {
 		String command = "this.datum-0;";
 		Object resultObj = eval(command);
-		return ConversionUtil.convertObjectTo(resultObj, Double.class, webEngine);
+		return ConversionUtil.convertObjectTo(resultObj, Double.class, engine);
 	}
 
 	/**
@@ -215,7 +212,7 @@ public class Value extends JavaScriptObject {
 	public float asFloat() {
 		String command = "this.datum-0;";
 		Object resultObj = eval(command);
-		return ConversionUtil.convertObjectTo(resultObj, Float.class, webEngine);
+		return ConversionUtil.convertObjectTo(resultObj, Float.class, engine);
 	}
 
 	/**
@@ -227,7 +224,7 @@ public class Value extends JavaScriptObject {
 	public Integer asInt() {
 		String command = "this.datum;";
 		Object resultObj = eval(command);
-		return ConversionUtil.convertObjectTo(resultObj, Integer.class, webEngine);
+		return ConversionUtil.convertObjectTo(resultObj, Integer.class, engine);
 	}
 
 	/**
@@ -250,7 +247,7 @@ public class Value extends JavaScriptObject {
 	public Short asShort() {
 		String command = "this.datum";
 		Object resultObj = eval(command);
-		return ConversionUtil.convertObjectTo(resultObj, Short.class, webEngine);
+		return ConversionUtil.convertObjectTo(resultObj, Short.class, engine);
 	}
 
 	/**
@@ -273,12 +270,12 @@ public class Value extends JavaScriptObject {
 	public Coords asCoords() {
 		String command = "this.datum";
 		Object resultObj = eval(command);
-		return ConversionUtil.convertObjectTo(resultObj, Coords.class, webEngine);
+		return ConversionUtil.convertObjectTo(resultObj, Coords.class, engine);
 	}
 
 	/**
 	 * Cast and return the wrapped value, if possible. (Does not work for
-	 * "conversion" of JSObject to JavaScriptObject)
+	 * "conversion" of JsObject to JavaScriptObject)
 	 *
 	 * @throws ClassCastException
 	 *             if the value cannot be converted in T
@@ -309,7 +306,7 @@ public class Value extends JavaScriptObject {
 	public final <T> T as(final Class<T> clazz) {
 		String command = "this.datum";
 		Object resultObj = eval(command);
-		return ConversionUtil.convertObjectTo(resultObj, clazz, webEngine);
+		return ConversionUtil.convertObjectTo(resultObj, clazz, engine);
 	}
 
 	/**
@@ -387,10 +384,10 @@ public class Value extends JavaScriptObject {
 		Object datum = eval(command);
 		boolean isUndefined = datum.equals("undefined");
 		if (isUndefined) {
-			Value value = createUndefined(webEngine);
+			Value value = createUndefined(engine);
 			return value;
 		} else {
-			Value value = create(webEngine, datum);
+			Value value = create(engine, datum);
 			return value;
 		}
 	}

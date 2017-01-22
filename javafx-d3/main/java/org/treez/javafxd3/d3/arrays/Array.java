@@ -12,8 +12,8 @@ import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.functions.data.wrapper.PlainDataFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Wraps a one- or two-dimensional JavaScript array. The generic type specifies
@@ -26,8 +26,8 @@ public class Array<T> extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	public Array(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Array(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -39,25 +39,25 @@ public class Array<T> extends JavaScriptObject {
 
 	/**
 	 * Creates a one-dimensional Array from the given list of objects. If the
-	 * objects are JavaScriptObjects the wrapped JSObjects are extracted and
+	 * objects are JavaScriptObjects the wrapped JsObjects are extracted and
 	 * used instead.
 	 * 
 	 * @param <L>
-	 * @param webEngine
+	 * @param engine
 	 * @param data
 	 * @return
 	 */
-	public static <L> Array<L> fromList(WebEngine webEngine, List<L> data) {
+	public static <L> Array<L> fromList(JsEngine engine, List<L> data) {
 
 		// store data as temporary array
-		JSObject d3Obj = (JSObject) webEngine.executeScript("d3");
+		JsObject d3Obj = (JsObject) engine.executeScript("d3");
 		String varName = createNewTemporaryInstanceName();
 
 		//initialize temporary array
 		int length = data.size();
 		String command = "d3." + varName + " = new Array(" + length + ");";
 		d3Obj.eval(command);
-		JSObject tempArray = (JSObject) d3Obj.getMember(varName);
+		JsObject tempArray = (JsObject) d3Obj.getMember(varName);
 
 		//fill temporary array
 		for (int index = 0; index < length; index++) {
@@ -66,7 +66,7 @@ public class Array<T> extends JavaScriptObject {
 			boolean isJavaScriptObject = value instanceof JavaScriptObject;
 			if (isJavaScriptObject) {
 				JavaScriptObject javaScriptObject = (JavaScriptObject) value;
-				JSObject wrappedJsObject = javaScriptObject.getJsObject();
+				JsObject wrappedJsObject = javaScriptObject.getJsObject();
 
 				tempArray.setSlot(index, wrappedJsObject);
 			} else {
@@ -78,28 +78,28 @@ public class Array<T> extends JavaScriptObject {
 		d3Obj.removeMember(varName);
 
 		// return result as array
-		return new Array<L>(webEngine, tempArray);
+		return new Array<L>(engine, tempArray);
 	}
 
 	/**
 	 * Creates a one-dimensional Array from the given list of objects.
 	 * 
 	 * @param <L>
-	 * @param webEngine
+	 * @param engine
 	 * @param data
 	 * @return
 	 */
-	public static <L> Array<L> fromListDirectly(WebEngine webEngine, List<L> data) {
+	public static <L> Array<L> fromListDirectly(JsEngine engine, List<L> data) {
 
 		// store data as temporary array
-		JSObject d3Obj = (JSObject) webEngine.executeScript("d3");
+		JsObject d3Obj = (JsObject) engine.executeScript("d3");
 		String varName = createNewTemporaryInstanceName();
 
 		//initialize temporary array
 		int length = data.size();
 		String command = "d3." + varName + " = new Array(" + length + ");";
 		d3Obj.eval(command);
-		JSObject tempArray = (JSObject) d3Obj.getMember(varName);
+		JsObject tempArray = (JsObject) d3Obj.getMember(varName);
 
 		//fill temporary array
 		for (int index = 0; index < length; index++) {
@@ -111,71 +111,71 @@ public class Array<T> extends JavaScriptObject {
 		d3Obj.removeMember(varName);
 
 		// return result as array
-		return new Array<L>(webEngine, tempArray);
+		return new Array<L>(engine, tempArray);
 	}
 
 	/**
 	 * Creates a one-dimensional Array from the given Double array
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param data
 	 * @return
 	 */
-	public static Array<Double> fromDoubles(WebEngine webEngine, Double[] data) {
+	public static Array<Double> fromDoubles(JsEngine engine, Double[] data) {
 
 		String varName = createNewTemporaryInstanceName();
 		String arrayString = ArrayUtils.createArrayString(data);
 		String command = "var " + varName + " = " + arrayString + ";";
-		webEngine.executeScript(command);
+		engine.executeScript(command);
 
 		// execute command and return result as Array
-		JSObject result = (JSObject) webEngine.executeScript(varName);
+		JsObject result = (JsObject) engine.executeScript(varName);
 
-		webEngine.executeScript(varName + " = undefined;");
+		engine.executeScript(varName + " = undefined;");
 
-		return new Array<Double>(webEngine, result);
+		return new Array<Double>(engine, result);
 	}
 
-	public static Array<Double> fromDoubles(WebEngine webEngine, Double[][] data) {
+	public static Array<Double> fromDoubles(JsEngine engine, Double[][] data) {
 		String varName = createNewTemporaryInstanceName();
 		String arrayString = ArrayUtils.createArrayString(data);
 		String command = "var " + varName + " = " + arrayString + ";";
-		webEngine.executeScript(command);
+		engine.executeScript(command);
 
 		// execute command and return result as Array
-		JSObject result = (JSObject) webEngine.executeScript(varName);
+		JsObject result = (JsObject) engine.executeScript(varName);
 
-		webEngine.executeScript(varName + " = undefined;");
+		engine.executeScript(varName + " = undefined;");
 
-		return new Array<Double>(webEngine, result);
+		return new Array<Double>(engine, result);
 	}
 
-	public static Array<String> fromStrings(WebEngine webEngine, String[] data) {
+	public static Array<String> fromStrings(JsEngine engine, String[] data) {
 
 		String varName = createNewTemporaryInstanceName();
 		String arrayString = ArrayUtils.createArrayString(data);
 		String command = "var " + varName + " = " + arrayString + ";";
-		webEngine.executeScript(command);
+		engine.executeScript(command);
 
 		// execute command and return result as Array
-		JSObject result = (JSObject) webEngine.executeScript(varName);
+		JsObject result = (JsObject) engine.executeScript(varName);
 
-		webEngine.executeScript(varName + " = undefined;");
+		engine.executeScript(varName + " = undefined;");
 
-		return new Array<String>(webEngine, result);
+		return new Array<String>(engine, result);
 	}
 
 	/**
-	 * Creates a one-dimensional Array from the given two JSObjects
+	 * Creates a one-dimensional Array from the given two JsObjects
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param first
 	 * @param second
 	 * @return
 	 */
-	public static Array<JSObject> fromJavaScriptObjects(WebEngine webEngine, JSObject first, JSObject second) {
-		D3 d3 = new D3(webEngine);
-		JSObject d3Obj = d3.getJsObject();
+	public static Array<JsObject> fromJavaScriptObjects(JsEngine engine, JsObject first, JsObject second) {
+		D3 d3 = new D3(engine);
+		JsObject d3Obj = d3.getJsObject();
 		String firstVarName = createNewTemporaryInstanceName();
 		String secondVarName = createNewTemporaryInstanceName();
 
@@ -183,12 +183,12 @@ public class Array<T> extends JavaScriptObject {
 		d3Obj.setMember(secondVarName, second);
 
 		String command = "[d3." + firstVarName + ",d3." + secondVarName + "]";
-		JSObject result = d3.evalForJsObject(command);
+		JsObject result = d3.evalForJsObject(command);
 
 		d3Obj.removeMember(firstVarName);
 		d3Obj.removeMember(secondVarName);
 
-		return new Array<JSObject>(webEngine, result);
+		return new Array<JsObject>(engine, result);
 
 	}
 
@@ -219,14 +219,14 @@ public class Array<T> extends JavaScriptObject {
 			return zeroSizes;
 		} else {
 			Object firstItem = getAsObject(0);
-			boolean firstIsJsObject = firstItem instanceof JSObject;
+			boolean firstIsJsObject = firstItem instanceof JsObject;
 			if (!firstIsJsObject) {
 				List<Integer> sizes = createRowSizes(length);
 				return sizes;
 			} else {
 				Integer firstItemLength = null;
 				try {
-					JSObject firstJsItem = (JSObject) firstItem;
+					JsObject firstJsItem = (JsObject) firstItem;
 					firstItemLength = (int) firstJsItem.getMember("length");
 				} catch (Exception exception) {
 					// first item is not a sub array: return size for row array
@@ -266,9 +266,9 @@ public class Array<T> extends JavaScriptObject {
 	private void checkSizeOfRemainingSubItems(int numberOfRows, Integer numberOfColumns) {
 		for (int rowIndex = 1; rowIndex < numberOfRows; rowIndex++) {
 			Object rowObj = getAsObject(rowIndex);
-			boolean isJsObject = rowObj instanceof JSObject;
+			boolean isJsObject = rowObj instanceof JsObject;
 			if (isJsObject) {
-				JSObject rowJsObject = (JSObject) rowObj;
+				JsObject rowJsObject = (JsObject) rowObj;
 				Integer rowLength;
 				try {
 					rowLength = (int) rowJsObject.getMember("length");
@@ -316,10 +316,10 @@ public class Array<T> extends JavaScriptObject {
 
 	public void forEach(ForEachObjectDelegate forEachDelegate) {
 
-		ForEachObjectDelegateWrapper delegateWrapper = new ForEachObjectDelegateWrapper(forEachDelegate);
+		ForEachObjectDelegateWrapper delegateWrapper = new ForEachObjectDelegateWrapper(engine, forEachDelegate);
 
-		D3 d3 = new D3(webEngine);
-		JSObject d3Obj = d3.getJsObject();
+		D3 d3 = new D3(engine);
+		JsObject d3Obj = d3.getJsObject();
 		String delegateName = createNewTemporaryInstanceName();
 		d3Obj.setMember(delegateName, delegateWrapper);
 
@@ -341,18 +341,18 @@ public class Array<T> extends JavaScriptObject {
 
 		int length = length();
 		if (length == 0) {
-			return Array.fromList(webEngine, new ArrayList<R>());
+			return Array.fromList(engine, new ArrayList<R>());
 		}
 
 		Object firstElement = getAsObject(0);
 		@SuppressWarnings("unchecked")
 		Class<T> argumentClass = (Class<T>) firstElement.getClass();
 
-		ForEachCallback<R> callbackWrapper = new ForEachCallbackWrapper<R, T>(argumentClass, webEngine,
+		ForEachCallback<R> callbackWrapper = new ForEachCallbackWrapper<R, T>(argumentClass, engine,
 				mappingFunction);
 
-		D3 d3 = new D3(webEngine);
-		JSObject d3Obj = d3.getJsObject();
+		D3 d3 = new D3(engine);
+		JsObject d3Obj = d3.getJsObject();
 		String callbackName = createNewTemporaryInstanceName();
 		d3Obj.setMember(callbackName, callbackWrapper);
 
@@ -363,7 +363,7 @@ public class Array<T> extends JavaScriptObject {
 				"  }" + //
 				")";
 
-		JSObject jsResult = evalForJsObject(command);
+		JsObject jsResult = evalForJsObject(command);
 
 		d3Obj.removeMember(callbackName);
 
@@ -371,7 +371,7 @@ public class Array<T> extends JavaScriptObject {
 			return null;
 		}
 
-		return new Array<>(webEngine, jsResult);
+		return new Array<>(engine, jsResult);
 
 	}
 
@@ -379,17 +379,17 @@ public class Array<T> extends JavaScriptObject {
 
 		int length = length();
 		if (length == 0) {
-			return Array.fromList(webEngine, new ArrayList<T>());
+			return Array.fromList(engine, new ArrayList<T>());
 		}
 
 		Object firstElement = getAsObject(0);
 		@SuppressWarnings("unchecked")
 		Class<T> elementClass = (Class<T>) firstElement.getClass();
 
-		ForEachCallback<Boolean> callbackWrapper = new ForEachCallbackWrapper<>(elementClass, webEngine, callback);
+		ForEachCallback<Boolean> callbackWrapper = new ForEachCallbackWrapper<>(elementClass, engine, callback);
 
-		D3 d3 = new D3(webEngine);
-		JSObject d3Obj = d3.getJsObject();
+		D3 d3 = new D3(engine);
+		JsObject d3Obj = d3.getJsObject();
 		String callbackName = createNewTemporaryInstanceName();
 		d3Obj.setMember(callbackName, callbackWrapper);
 
@@ -400,7 +400,7 @@ public class Array<T> extends JavaScriptObject {
 				"  }" + //
 				")";
 
-		JSObject jsResult = evalForJsObject(command);
+		JsObject jsResult = evalForJsObject(command);
 
 		d3Obj.removeMember(callbackName);
 
@@ -408,7 +408,7 @@ public class Array<T> extends JavaScriptObject {
 			return null;
 		}
 
-		return new Array<>(webEngine, jsResult);
+		return new Array<>(engine, jsResult);
 
 	}
 
@@ -424,7 +424,7 @@ public class Array<T> extends JavaScriptObject {
 
 	public <D> D get(int index, Class<D> classObj) {
 		Object resultObj = getAsObject(index);
-		D result = ConversionUtil.convertObjectTo(resultObj, classObj, webEngine);
+		D result = ConversionUtil.convertObjectTo(resultObj, classObj, engine);
 		return result;
 	}
 
@@ -436,12 +436,12 @@ public class Array<T> extends JavaScriptObject {
 
 	public <D> D get(int rowIndex, int columnIndex, Class<D> classObj) {
 		Object resultObj = getAsObject(rowIndex, columnIndex);
-		D result = ConversionUtil.convertObjectTo(resultObj, classObj, webEngine);
+		D result = ConversionUtil.convertObjectTo(resultObj, classObj, engine);
 		return result;
 	}
 
 	public Object getAsObject(int index) {
-		JSObject jsObject = getJsObject();
+		JsObject jsObject = getJsObject();
 		Object resultObj = jsObject.getSlot(index);
 		return resultObj;
 	}

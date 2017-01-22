@@ -2,15 +2,15 @@ package org.treez.javafxd3.d3.wrapper.canvas;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class CanvasElement extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	public CanvasElement(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public CanvasElement(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -20,12 +20,12 @@ public class CanvasElement extends JavaScriptObject {
 	public Context2d getContext2d() {
 
 		String command = "this.getContext('2d')";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		if (result == null) {
 			return null;
 		}
 
-		return new Context2d(webEngine, result);
+		return new Context2d(engine, result);
 
 	}
 

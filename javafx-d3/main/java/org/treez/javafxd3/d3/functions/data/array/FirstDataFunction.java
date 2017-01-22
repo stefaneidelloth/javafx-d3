@@ -1,8 +1,8 @@
 package org.treez.javafxd3.d3.functions.data.array;
 
 import org.treez.javafxd3.d3.functions.DataFunction;
-
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A datum function that returns the first array element as double
@@ -10,14 +10,17 @@ import netscape.javascript.JSObject;
  */
 public class FirstDataFunction implements DataFunction<Double> {
 	
+	//#region ATTRIBUTES
 	
+	private JsEngine engine;
+	
+	//#end region
 	
 	//#region CONSTRUCTORS
 	
-	/**
-	 * @param webEngine
-	 */
-	public FirstDataFunction(){		
+	
+	public FirstDataFunction(JsEngine engine){
+		this.engine=engine;
 	}
 	
 	//#end region
@@ -27,7 +30,7 @@ public class FirstDataFunction implements DataFunction<Double> {
 	@Override
 	public Double apply(Object context, Object datum, int index) {
 		
-		JSObject jsObject = (JSObject) datum;	
+		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);	
 		Object value = jsObject.eval("this.datum[0]");	
 		Double first = Double.parseDouble(value.toString());	
 		return first;

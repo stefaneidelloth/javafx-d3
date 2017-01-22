@@ -3,8 +3,8 @@ package org.treez.javafxd3.d3.behaviour;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * The behaviour module.
@@ -14,11 +14,11 @@ public class Behavior extends JavaScriptObject {
 	//#region CONSTRUCTORS
 
 	/**
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Behavior(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Behavior(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -33,8 +33,8 @@ public class Behavior extends JavaScriptObject {
 	 * @return the drag behaviour
 	 */
 	public Drag drag() {
-		JSObject result = call("drag");
-		return new Drag(webEngine, result);
+		JsObject result = call("drag");
+		return new Drag(engine, result);
 	}
 
 	/**
@@ -44,8 +44,8 @@ public class Behavior extends JavaScriptObject {
 	 * @return the zoom behaviour
 	 */
 	public Zoom zoom() {
-		JSObject result = call("zoom");
-		return new Zoom(webEngine, result);
+		JsObject result = call("zoom");
+		return new Zoom(engine, result);
 	}
 
 	//#end region

@@ -2,28 +2,28 @@ package org.treez.javafxd3.d3.wrapper;
 
 import org.treez.javafxd3.d3.AbstractTestCase;
 
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class JavaScriptObjectTest extends AbstractTestCase {
 
 	@Override
 	public void doTest() {
-		testConstructionWihtWebEngine();
+		testConstructionWihtJsEngine();
 		testCreateEmptyObject();
 		testCreateEmptyArray();
 	}
 
-	private void testConstructionWihtWebEngine() {
-		JavaScriptObject javaScriptObject = new JavaScriptObject(webEngine);
+	private void testConstructionWihtJsEngine() {
+		JavaScriptObject javaScriptObject = new JavaScriptObject(engine);
 		assertNotNull(javaScriptObject);
 		assertNull(javaScriptObject.getJsObject());
 
 	}
 
 	private void testCreateEmptyObject() {
-		JavaScriptObject javaScriptObject = new JavaScriptObject(webEngine);
+		JavaScriptObject javaScriptObject = new JavaScriptObject(engine);
 		
-		JSObject newEmptyObject = javaScriptObject.createEmptyObject();
+		JsObject newEmptyObject = javaScriptObject.createEmptyObject();
 		assertNotNull(newEmptyObject);
 		
 		Object thisObj = newEmptyObject.eval("this");
@@ -39,9 +39,9 @@ public class JavaScriptObjectTest extends AbstractTestCase {
 	}
 
 	private void testCreateEmptyArray() {
-		JavaScriptObject javaScriptObject = new JavaScriptObject(webEngine);
+		JavaScriptObject javaScriptObject = new JavaScriptObject(engine);
 		
-		JSObject newEmptyArray = javaScriptObject.createEmptyArray();		
+		JsObject newEmptyArray = javaScriptObject.createEmptyArray();		
 		assertNotNull(newEmptyArray);
 		
 		Object thisArrayObj = newEmptyArray.eval("this");

@@ -7,8 +7,8 @@ import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 
 /**
@@ -42,8 +42,8 @@ public class Interval extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 	
-	public Interval(WebEngine webEngine, JSObject wrappedJsObject){
-		super(webEngine);
+	public Interval(JsEngine engine, JsObject wrappedJsObject){
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 	
@@ -62,8 +62,8 @@ public class Interval extends JavaScriptObject {
 	 * @return the UTC interval
 	 */
 	public  Interval utc(){
-		JSObject result = getMember("utc");
-		return new Interval(webEngine, result);		
+		JsObject result = getMember("utc");
+		return new Interval(engine, result);		
 	}
 
 	// ============= apply ============================
@@ -110,9 +110,9 @@ public class Interval extends JavaScriptObject {
 	 * @return the date.
 	 */
 	public JsDate floor(JsDate date){
-		JSObject jsDateObj = date.getJsObject();
-		JSObject result = call("floor", jsDateObj);
-		return new JsDate(webEngine, result);		
+		JsObject jsDateObj = date.getJsObject();
+		JsObject result = call("floor", jsDateObj);
+		return new JsDate(engine, result);		
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class Interval extends JavaScriptObject {
 	 * @return the date
 	 */
 	public final Date floor(Date date) {
-		long time = (long) this.floor(JsDate.create(webEngine, date.getTime())).getTime();
+		long time = (long) this.floor(JsDate.create(engine, date.getTime())).getTime();
 		return new Date(time);
 	}
 
@@ -135,7 +135,7 @@ public class Interval extends JavaScriptObject {
 	 */
 	public final double floor(double date) {
 		
-		JsDate jsDate = JsDate.create(webEngine, date);
+		JsDate jsDate = JsDate.create(engine, date);
 		double result =  this.floor(jsDate).getTime();
 		return result;
 	}
@@ -154,9 +154,9 @@ public class Interval extends JavaScriptObject {
 	 * @return the date
 	 */
 	public  JsDate round(JsDate date){
-		JSObject jsDateObj = date.getJsObject();
-		JSObject result = call("round", jsDateObj);
-		return new JsDate(webEngine, result);
+		JsObject jsDateObj = date.getJsObject();
+		JsObject result = call("round", jsDateObj);
+		return new JsDate(engine, result);
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class Interval extends JavaScriptObject {
 	 * @return the date
 	 */
 	public final Date round(Date date) {
-		return new Date((long) this.round(JsDate.create(webEngine, date.getTime())).getTime());
+		return new Date((long) this.round(JsDate.create(engine, date.getTime())).getTime());
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class Interval extends JavaScriptObject {
 	 * @return the date
 	 */
 	public final double round(double date) {
-		return this.round(JsDate.create(webEngine, date)).getTime();
+		return this.round(JsDate.create(engine, date)).getTime();
 	}
 
 	// ================== ceil methods ======================
@@ -194,9 +194,9 @@ public class Interval extends JavaScriptObject {
 	 * @return the date
 	 */
 	public  JsDate ceil(JsDate date){
-		JSObject jsDateObj = date.getJsObject();
-		JSObject result = call("ceil", jsDateObj);
-		return new JsDate(webEngine, result);
+		JsObject jsDateObj = date.getJsObject();
+		JsObject result = call("ceil", jsDateObj);
+		return new JsDate(engine, result);
 	}
 
 	/**
@@ -207,7 +207,7 @@ public class Interval extends JavaScriptObject {
 	 * @return the date
 	 */
 	public final Date ceil(Date date) {
-		return new Date((long) this.ceil(JsDate.create(webEngine, date.getTime())).getTime());
+		return new Date((long) this.ceil(JsDate.create(engine, date.getTime())).getTime());
 	}
 
 	/**
@@ -217,7 +217,7 @@ public class Interval extends JavaScriptObject {
 	 * @return the date
 	 */
 	public final double ceil(double date) {
-		return this.ceil(JsDate.create(webEngine, date)).getTime();
+		return this.ceil(JsDate.create(engine, date)).getTime();
 	}
 
 	// ================== offset methds ======================
@@ -239,9 +239,9 @@ public class Interval extends JavaScriptObject {
 	 * @return the computed date
 	 */
 	public  JsDate offset(JsDate start, int step){
-		JSObject jsDateObj = start.getJsObject();
-		JSObject result = call("offset", jsDateObj, step);
-		return new JsDate(webEngine, result);
+		JsObject jsDateObj = start.getJsObject();
+		JsObject result = call("offset", jsDateObj, step);
+		return new JsDate(engine, result);
 	}
 
 	/**
@@ -254,7 +254,7 @@ public class Interval extends JavaScriptObject {
 	 * @return the computed date
 	 */
 	public final double offset(double start, int step) {
-		return this.offset(JsDate.create(webEngine, start), step).getTime();
+		return this.offset(JsDate.create(engine, start), step).getTime();
 	}
 
 	/**
@@ -283,10 +283,10 @@ public class Interval extends JavaScriptObject {
 	 * @return the interval
 	 */
 	public  Array<JsDate> range(JsDate start, JsDate stop){
-		JSObject startObj = start.getJsObject();
-		JSObject stopObj = stop.getJsObject();
-		JSObject result = call("range", startObj, stopObj);
-		return new Array<JsDate>(webEngine, result);
+		JsObject startObj = start.getJsObject();
+		JsObject stopObj = stop.getJsObject();
+		JsObject result = call("range", startObj, stopObj);
+		return new Array<JsDate>(engine, result);
 	}
 
 	/**
@@ -314,7 +314,7 @@ public class Interval extends JavaScriptObject {
 	 * @return the interval
 	 */
 	public final Array<JsDate> range(double start, double stop) {
-		Array<JsDate> result = range(JsDate.create(webEngine, start), JsDate.create(webEngine, stop));
+		Array<JsDate> result = range(JsDate.create(engine, start), JsDate.create(engine, stop));
 		return result;
 	}
 
@@ -329,10 +329,10 @@ public class Interval extends JavaScriptObject {
 	 * @return the interval
 	 */
 	public  Array<JsDate> range(JsDate start, JsDate stop, double step){
-		JSObject startObj = start.getJsObject();
-		JSObject stopObj = stop.getJsObject();
-		JSObject result = call("range", startObj, stopObj, step);
-		return new Array<JsDate>(webEngine, result);		
+		JsObject startObj = start.getJsObject();
+		JsObject stopObj = stop.getJsObject();
+		JsObject result = call("range", startObj, stopObj, step);
+		return new Array<JsDate>(engine, result);		
 	}
 
 	/**
@@ -360,7 +360,7 @@ public class Interval extends JavaScriptObject {
 	 * @return the interval
 	 */
 	public final Array<JsDate> range(double start, double stop, double step) {
-		return range(JsDate.create(webEngine, start), JsDate.create(webEngine, stop), step);
+		return range(JsDate.create(engine, start), JsDate.create(engine, stop), step);
 	}
 
 }

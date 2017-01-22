@@ -1,30 +1,24 @@
 package org.treez.javafxd3.d3.selection.keyfunction;
 
+import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.core.JsEngine;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.KeyFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
-
 public class SelectionData2KeyFunction implements KeyFunction<Integer> {
 	
-	private WebEngine webEngine;
+	private JsEngine engine;
 	
-	public SelectionData2KeyFunction(WebEngine webEngine){
-		this.webEngine = webEngine;
+	public SelectionData2KeyFunction(JsEngine engine){
+		this.engine = engine;
 	}
 	
 		@Override
-		public Integer call(final Object context, final Object newDataArray, final Object datum, final int index) {
+		public Integer call(final Object context, final Object newDataArray, final Object datum, final int index) {			
 			
-			JSObject elementJsObject = (JSObject) context;
-			Element element = new Element(webEngine, elementJsObject);				
-						
-			JSObject jsDatum = (JSObject) datum;
-			
-			
-			Value value = new Value(webEngine, jsDatum);			
+			Element element = ConversionUtil.convertObjectTo(context, Element.class, engine);				
+			Value value = ConversionUtil.convertObjectTo(datum, Value.class, engine);			
 			
 			if (context != null) {				
 				

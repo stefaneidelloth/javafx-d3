@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.core;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * The result of the {@link Selection#data} methods. This represents the
@@ -35,11 +35,11 @@ public class UpdateSelection extends Selection {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public UpdateSelection(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public UpdateSelection(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -55,12 +55,12 @@ public class UpdateSelection extends Selection {
 	 * @return the entering selection
 	 */
 	public EnteringSelection enter() {
-		JSObject result = call("enter");
+		JsObject result = call("enter");
 		if (result == null) {
 			return null;
 		}
 		
-		return new EnteringSelection(webEngine, result);
+		return new EnteringSelection(engine, result);
 		
 	}
 
@@ -79,12 +79,12 @@ public class UpdateSelection extends Selection {
 	 * @return the exiting selection
 	 */
 	public Selection exit() {
-		JSObject result = call("exit");
+		JsObject result = call("exit");
 		if (result == null) {
 			return null;
 		}
 		
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 		
 	}
 

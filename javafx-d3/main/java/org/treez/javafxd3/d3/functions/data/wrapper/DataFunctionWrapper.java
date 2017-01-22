@@ -1,15 +1,14 @@
 package org.treez.javafxd3.d3.functions.data.wrapper;
 
 import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.core.JsEngine;
 import org.treez.javafxd3.d3.functions.DataFunction;
-
-import javafx.scene.web.WebEngine;
 
 public class DataFunctionWrapper<R, A> implements DataFunction<R> {
 
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine = null;
+	private JsEngine engine = null;
 
 	private PlainDataFunction<R, A> plainDataFunction = null;
 
@@ -33,9 +32,9 @@ public class DataFunctionWrapper<R, A> implements DataFunction<R> {
 	 * Wraps an action that only needs the datum as a single argument. The datum
 	 * is automatically converted to the required type.
 	 */
-	public DataFunctionWrapper(Class<A> classOfArgument, WebEngine webEngine,
+	public DataFunctionWrapper(Class<A> classOfArgument, JsEngine engine,
 			PlainDataFunction<R, A> plainDataFunction) {
-		this.webEngine = webEngine;
+		this.engine = engine;
 		this.plainDataFunction = plainDataFunction;
 		this.plainClass = classOfArgument;
 	}
@@ -45,26 +44,16 @@ public class DataFunctionWrapper<R, A> implements DataFunction<R> {
 	//#region METHODS
 
 	@Override
-	public synchronized R apply(Object context, Object datum, int index) {
+	public R apply(Object context, Object datum, int index) {
+			
 		if (runnable != null) {
-			try {
-				runnable.run();
-			} catch (Exception exception) {
-				String message = "Could not execute wrapped runnable!";
-				System.out.println("DataFunctionWrapper: " + message);
-				throw new IllegalStateException(message, exception);
-			}
+			runnable.run();
 			return null;
 		} else {
-			A convertedDatum = ConversionUtil.convertObjectTo(datum, plainClass, webEngine);
-
+			A convertedDatum = ConversionUtil.convertObjectTo(datum, plainClass, engine);
 			try {
-				if (convertedDatum != null) {
-					return plainDataFunction.apply(convertedDatum);
-				} else {
-					return null;
-				}
-			} catch (Exception exception) {				
+				return plainDataFunction.apply(convertedDatum);
+			} catch (Exception exception) {
 				String message = "Could not execute wrapped data function!";
 				System.out.println("DataFunctionWrapper: " + message);
 				exception.printStackTrace();

@@ -7,9 +7,9 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Selection;
 
 import javafx.geometry.BoundingBox;
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 import netscape.javascript.JSException;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * 
@@ -22,11 +22,11 @@ public class Element extends Node {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Element(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public Element(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -34,11 +34,11 @@ public class Element extends Node {
 	//#region METHODS
 
 	public Node cloneNode(boolean deep) {
-		JSObject result = call("cloneNode", deep);
+		JsObject result = call("cloneNode", deep);
 		if(result==null){
 			return null;
 		}
-		return new Node(webEngine, result);
+		return new Node(engine, result);
 	}
 
 	public String getTagName() {
@@ -48,8 +48,8 @@ public class Element extends Node {
 
 	public Node getParentNode() {		
 		String command = "d3.select(this).node().parentNode";
-		JSObject result = evalForJsObject(command);
-		return new Node(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Node(engine, result);
 	}
 
 	public int getChildCount() {
@@ -117,21 +117,21 @@ public class Element extends Node {
 
 	public Element getChild(int index) {
 		String command = "this.childNodes[" + index + "];";
-		JSObject child = evalForJsObject(command);
-		return new Element(webEngine, child);
+		JsObject child = evalForJsObject(command);
+		return new Element(engine, child);
 	}	
 
 	public Element[] getElementsByTagName(String tagName) {
 		
 		String command = "d3.select(this).selectAll('"+ tagName+"')";
-		JSObject result = evalForJsObject(command);
-		Array<JSObject> resultArray = new Array<>(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		Array<JsObject> resultArray = new Array<>(engine, result);
 		
 		List<Element> elementList = new ArrayList<>();
 		
 		resultArray.forEach((element)->{
-			JSObject jsElement = (JSObject) element;
-			elementList.add(new Element(webEngine, jsElement));
+			JsObject jsElement = (JsObject) element;
+			elementList.add(new Element(engine, jsElement));
 		});
 		
 		return elementList.toArray(new Element[elementList.size()]);
@@ -147,15 +147,15 @@ public class Element extends Node {
 	}
 
 	public Selection select() {
-		JSObject d3Obj = this.getD3();
-		JSObject selectionObj = (JSObject) d3Obj.call("select", getJsObject());
-		Selection elementSelection = new Selection(webEngine, selectionObj);
+		JsObject d3Obj = this.getD3();
+		JsObject selectionObj = (JsObject) d3Obj.call("select", getJsObject());
+		Selection elementSelection = new Selection(engine, selectionObj);
 		return elementSelection;
 	}
 
 	public BoundingBox getBBox() {
 		String command = "this.getBBox();";
-		JSObject bBox = evalForJsObject(command);
+		JsObject bBox = evalForJsObject(command);
 
 		Double x = Double.parseDouble("" + bBox.eval("this.x"));
 		Double y = Double.parseDouble("" + bBox.eval("this.y"));
@@ -167,8 +167,8 @@ public class Element extends Node {
 
 	public Element getParentElement() {
 		String command = "this.parentNode";
-		JSObject result = evalForJsObject(command);
-		return new Element(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Element(engine, result);
 	}
 
 	public String getStyle(String identifier) {
@@ -178,9 +178,9 @@ public class Element extends Node {
 	}
 	
 	public String toString(){
-		JSObject jsObject = getJsObject();
+		JsObject jsObject = getJsObject();
 		if(jsObject==null){
-			return "!!Element with missing JSObject!!";
+			return "!!Element with missing JsObject!!";
 		} else {
 			return Inspector.getInspectionInfo(jsObject);
 		}

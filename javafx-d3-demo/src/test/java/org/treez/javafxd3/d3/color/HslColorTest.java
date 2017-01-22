@@ -13,7 +13,7 @@ public class HslColorTest extends AbstractTestCase {
 
 	@Override
 	public void doTest() {
-		Colors colors = new Colors(webEngine);
+		Colors colors = new Colors(engine);
 
 		HSLColor hsl = colors.hsl("red");
 		assertEquals(0.0, hsl.h(), 1e-6);

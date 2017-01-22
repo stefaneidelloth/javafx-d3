@@ -3,21 +3,21 @@ package org.treez.javafxd3.d3.democases.geom.hull;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class HullTransformDataFunction implements DataFunction<String> {
 
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine;
+	private JsEngine engine;
 
 	//#end region
 
 	//#region CONSTRUCTORS
 
-	public HullTransformDataFunction(WebEngine webEngine) {
-		this.webEngine = webEngine;
+	public HullTransformDataFunction(JsEngine engine) {
+		this.engine = engine;
 	}
 
 	//#end region
@@ -27,16 +27,16 @@ public class HullTransformDataFunction implements DataFunction<String> {
 	@Override
 	public String apply(final Object context, final Object d, final int index) {
 
-		JSObject datum = (JSObject) d;
+		JsObject datum = (JsObject) engine.toJsObjectIfNotSimpleType(d);
 
-		Value value = new Value(webEngine, datum);
+		Value value = new Value(engine, datum);
 
 		Object jsCoords = value.as();
 
-		boolean isJsObject = jsCoords instanceof JSObject;
+		boolean isJsObject = jsCoords instanceof JsObject;
 		if (isJsObject) {
-			JSObject coordObj = (JSObject) jsCoords;
-			HullCoords coords = new HullCoords(webEngine, coordObj);
+			JsObject coordObj = (JsObject) jsCoords;
+			HullCoords coords = new HullCoords(engine, coordObj);
 			String result = "translate(" + coords.toString() + ")";
 			return result;
 		} else {

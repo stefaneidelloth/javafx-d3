@@ -2,7 +2,7 @@ package org.treez.javafxd3.d3.core;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 /**
  * Nesting allows elements in an array to be grouped into a hierarchical tree
@@ -53,10 +53,10 @@ public class Nest extends JavaScriptObject {
 
 	/**
 	 * Constructor
-	 * @param webEngine
+	 * @param engine
 	 */
-	public Nest(WebEngine webEngine) {
-		super(webEngine);
+	public Nest(JsEngine engine) {
+		super(engine);
 	}
 
 	//#end region

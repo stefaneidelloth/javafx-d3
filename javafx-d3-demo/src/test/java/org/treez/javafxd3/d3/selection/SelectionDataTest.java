@@ -12,7 +12,7 @@ import org.treez.javafxd3.d3.selection.datafunction.ObjectArrayDataFunction;
 import org.treez.javafxd3.d3.selection.datafunction.StringDataFunction;
 import org.treez.javafxd3.d3.selection.keyfunction.IntegerKeyFunction;
 
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 @SuppressWarnings("javadoc")
 public class SelectionDataTest extends AbstractSelectionTest {
@@ -56,9 +56,9 @@ public class SelectionDataTest extends AbstractSelectionTest {
 		
 		Selection tds = tr.selectAll("td");		
 		
-		Selection withInteger = tds.data(new IntegerArrayDataFunction(webEngine));
+		Selection withInteger = tds.data(new IntegerArrayDataFunction(engine));
 						
-		Selection td = withInteger.enter().append("td").text(new StringDataFunction(webEngine));
+		Selection td = withInteger.enter().append("td").text(new StringDataFunction(engine));
 		return td;
 	}
 
@@ -156,7 +156,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 	private void testSelectionDataSetterArrayWithKeyFunction() {
 		Selection selection = givenTrElementsInATable(3);
 		selection.data(new byte[] { 60, 5, 100 });
-		KeyFunction<Integer> func = new IntegerKeyFunction(webEngine);
+		KeyFunction<Integer> func = new IntegerKeyFunction(engine);
 
 		// bytes
 		selection.data(new byte[] { 60, 5, 100 }, func);
@@ -209,7 +209,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 
 		// JSO
 		
-		KeyFunction<Integer> charFunction = new KeyFunctionWrapper<Integer, Character>(Character.class, webEngine, (character)->{
+		KeyFunction<Integer> charFunction = new KeyFunctionWrapper<Integer, Character>(Character.class, engine, (character)->{
 			return Character.getNumericValue(character);
 		});
 		
@@ -233,7 +233,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 		Selection selectionArray = selection.get(0);		
 		Selection childSelection = selectionArray.get(elementIndex);
 				
-		JSObject jsObject = childSelection.getJsObject();
+		JsObject jsObject = childSelection.getJsObject();
 		String command = "this." + Selection.DATA_PROPERTY;
 		Object result = jsObject.eval(command);			
 		assertEquals(expectedData, result);
@@ -246,7 +246,7 @@ public class SelectionDataTest extends AbstractSelectionTest {
 		Selection selectionArray = selection.get(0);		
 		Selection childSelection = selectionArray.get(elementIndex);
 		
-		JSObject jsObject = childSelection.getJsObject();
+		JsObject jsObject = childSelection.getJsObject();
 		String command = "this." + Selection.DATA_PROPERTY;
 		Object result = jsObject.eval(command);
 		String propertyValue = (String) result;		
@@ -276,9 +276,9 @@ public class SelectionDataTest extends AbstractSelectionTest {
 		System.out.println("creating second level divs");
 		
 		tr.selectAll("td") //
-				.data(new ObjectArrayDataFunction(webEngine)) //
+				.data(new ObjectArrayDataFunction(engine)) //
 				.enter() //
 				.append("td") //
-				.text(new StringDataFunction(webEngine));
+				.text(new StringDataFunction(engine));
 	}
 }

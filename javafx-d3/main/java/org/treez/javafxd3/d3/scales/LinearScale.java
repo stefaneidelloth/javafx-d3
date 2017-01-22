@@ -4,8 +4,8 @@ package org.treez.javafxd3.d3.scales;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Formatter;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Linear scales are the most common scale, and a good default choice to map a
@@ -68,11 +68,11 @@ public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public LinearScale(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public LinearScale(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 
 	}
 
@@ -99,8 +99,8 @@ public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 	 * @return
 	 */
 	public <T> Array<T> ticks(int count) {
-		JSObject result = call("ticks", count);
-		return new Array<T>(webEngine, result);		
+		JsObject result = call("ticks", count);
+		return new Array<T>(engine, result);		
 	}
 
 	/**
@@ -109,8 +109,8 @@ public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 	 * @return the array of reference ticks
 	 */
 	public <T> Array<T> ticks() {
-		JSObject result = call("ticks");
-		return new Array<T>(webEngine, result);	
+		JsObject result = call("ticks");
+		return new Array<T>(engine, result);	
 	}
 
 	// =========== tickFormat ==========
@@ -132,8 +132,8 @@ public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 	 * @return a number format
 	 */
 	public Formatter tickFormat(int count) {
-		JSObject result = call("tickFormat", count);
-		return new Formatter(webEngine, result);		
+		JsObject result = call("tickFormat", count);
+		return new Formatter(engine, result);		
 	}
 
 	/**
@@ -158,8 +158,8 @@ public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 	 * @return a number format
 	 */
 	public Formatter tickFormat(int count, String formatSpecifier) {
-		JSObject result = call("tickFormat", count, formatSpecifier);
-		return new Formatter(webEngine, result);		
+		JsObject result = call("tickFormat", count, formatSpecifier);
+		return new Formatter(engine, result);		
 	}
 
 	// =========== nice ==========
@@ -184,8 +184,8 @@ public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 	 * @return the current scale
 	 */
 	public LinearScale nice() {
-		JSObject result = call("nice");
-		return new LinearScale(webEngine, result);		
+		JsObject result = call("nice");
+		return new LinearScale(engine, result);		
 	}
 
 	/**
@@ -200,13 +200,13 @@ public class LinearScale extends ContinuousQuantitativeScale<LinearScale> {
 	 * @return the current scale
 	 */
 	public LinearScale nice(int count) {
-		JSObject result = call("nice", count);
-		return new LinearScale(webEngine, result);			
+		JsObject result = call("nice", count);
+		return new LinearScale(engine, result);			
 	}
 
 	@Override
-	public LinearScale createScale(WebEngine webEngine, JSObject result) {
-		return new LinearScale(webEngine, result);		
+	public LinearScale createScale(JsEngine engine, JsObject result) {
+		return new LinearScale(engine, result);		
 	}
 
 	//#end region

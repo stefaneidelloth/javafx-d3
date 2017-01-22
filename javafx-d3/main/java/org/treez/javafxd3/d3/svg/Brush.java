@@ -14,8 +14,8 @@ import org.treez.javafxd3.d3.scales.QuantitativeScale;
 import org.treez.javafxd3.d3.scales.Scale;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * 
@@ -28,11 +28,11 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Brush(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Brush(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -55,8 +55,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return the current brush.
 	 */
 	public Brush x(Scale<?> scale) {
-		JSObject result = call("x", scale.getJsObject());
-		return new Brush(webEngine, result);
+		JsObject result = call("x", scale.getJsObject());
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -73,11 +73,11 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 */
 	public <T extends Scale<T>> T x(Class<T> clazz) {
 		
-		JSObject jsResult = call("x");
+		JsObject jsResult = call("x");
 		if(jsResult==null){
 			return null;
 		}
-		T result = ConversionUtil.convertObjectTo(jsResult, clazz, webEngine);
+		T result = ConversionUtil.convertObjectTo(jsResult, clazz, engine);
 		return result;				
 	}
 
@@ -96,8 +96,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return the current brush.
 	 */
 	public Brush y(Scale<?> scale) {
-		JSObject result = call("y", scale.getJsObject());
-		return new Brush(webEngine, result);
+		JsObject result = call("y", scale.getJsObject());
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -113,11 +113,11 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return the brushs y-scale.
 	 */
 	public <T extends Scale<T>> T y(Class<T> clazz) {
-		JSObject jsResult = call("y");
+		JsObject jsResult = call("y");
 		if(jsResult==null){
 			return null;
 		}
-		T result = ConversionUtil.convertObjectTo(jsResult, clazz, webEngine);
+		T result = ConversionUtil.convertObjectTo(jsResult, clazz, engine);
 		return result;	
 	}
 
@@ -134,8 +134,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return the current brush
 	 */
 	public Brush apply(Selection selection) {
-		JSObject result = callThisForJsObject(selection.getJsObject());
-		return new Brush(webEngine, result);
+		JsObject result = callThisForJsObject(selection.getJsObject());
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -154,8 +154,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return the current brush
 	 */
 	public Brush apply(Transition transition) {
-		JSObject result = callThisForJsObject(transition.getJsObject());
-		return new Brush(webEngine, result);
+		JsObject result = callThisForJsObject(transition.getJsObject());
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -185,8 +185,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return the current bruss extent.
 	 */
 	public <T> Array<T> extent() {
-		JSObject result = call("extent");
-		return new Array<T>(webEngine, result);
+		JsObject result = call("extent");
+		return new Array<T>(engine, result);
 	}
 
 	// to be in according the Scale.domain methods:
@@ -223,16 +223,16 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return the current brush
 	 */
 	public <T> Brush extent(Array<T> array) {
-		JSObject arrayObj = array.getJsObject();
-		JSObject result = call("extent", arrayObj);
-		return new Brush(webEngine, result);
+		JsObject arrayObj = array.getJsObject();
+		JsObject result = call("extent", arrayObj);
+		return new Brush(engine, result);
 	}
 
 	public <T> Brush extent(Double[][] array) {
 		String arrayString = ArrayUtils.createArrayString(array);
 		String command = "this.extent(" + arrayString + ")";
-		JSObject result = evalForJsObject(command);
-		return new Brush(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -260,8 +260,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 */
 	public <T> Brush extent(double min, double max) {
 		String command = "this.extent([ " + min + ", " + max + " ]);";
-		JSObject result = evalForJsObject(command);
-		return new Brush(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -293,8 +293,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 */
 	public <T> Brush extent(double x0, double y0, double x1, double y1) {
 		String command = "this.extent([ [ " + x0 + ", " + y0 + " ], [ " + x1 + ", " + y1 + " ] ]);";
-		JSObject result = evalForJsObject(command);
-		return new Brush(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -325,22 +325,24 @@ public class Brush extends JavaScriptObject implements JsFunction {
 
 		String memberName = createNewTemporaryInstanceName();
 		String varName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(memberName, listener);
 		
-		String command = "var "+varName+" = d3." + memberName + " == null ? null : " + "function(d, i) {" //		      
-				+ "d3." + memberName + ".apply(this,{datum:d},i);" //
+		String command = "d3."+varName+" = function(d, i) {" //		      
+				+ "d3." + memberName + ".apply(this,d,i);" //
 				+ " }; ";
 
 		eval(command);
-		String onCommand = "this.on('" + eventString + "', "+varName+");";
+		String onCommand = "this.on('" + eventString + "', d3."+varName+");";
+		
+		
 
-		JSObject result = evalForJsObject(onCommand);
+		JsObject result = evalForJsObject(onCommand);
 		
 		if(result==null){
 			return null;
 		}
-		return new Brush(webEngine, result);
+		return new Brush(engine, result);
 		
 	}
 
@@ -362,8 +364,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return
 	 */
 	public Brush event(Selection selection) {
-		JSObject result = call("event", selection.getJsObject());
-		return new Brush(webEngine, result);
+		JsObject result = call("event", selection.getJsObject());
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -374,8 +376,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return a function object to pass to {@link Selection#call(JsFunction)}
 	 */
 	public JsFunction event() {		
-		JSObject result = getMember("event");
-		return new D3Event(webEngine, result);
+		JsObject result = getMember("event");
+		return new D3Event(engine, result);
 
 	}
 
@@ -393,8 +395,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return the Brush
 	 */
 	public Brush event(Transition transition) {
-		JSObject result = call("event", transition.getJsObject());
-		return new Brush(webEngine, result);
+		JsObject result = call("event", transition.getJsObject());
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -403,8 +405,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return the current {@link Brush}
 	 */
 	public Brush clear() {
-		JSObject result = call("clear");
-		return new Brush(webEngine, result);
+		JsObject result = call("clear");
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -419,8 +421,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 */
 	public Brush clamp(boolean clamp) {
 		String command = "this.clamp([ " + clamp + "]);";
-		JSObject result = evalForJsObject(command);
-		return new Brush(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -436,8 +438,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 */
 	public Brush clamp(boolean clampX, boolean clampY) {
 		String command = "this.clamp([ " + clampX + ", " + clampY + " ]);";
-		JSObject result = evalForJsObject(command);
-		return new Brush(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -455,8 +457,8 @@ public class Brush extends JavaScriptObject implements JsFunction {
 	 * @return the current brush
 	 */
 	public Array<Boolean> clamp() {
-		JSObject result = call("clamp");
-		return new Array<Boolean>(webEngine, result);		
+		JsObject result = call("clamp");
+		return new Array<Boolean>(engine, result);		
 	}
 
 	/**

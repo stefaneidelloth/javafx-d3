@@ -19,7 +19,7 @@ import org.treez.javafxd3.d3.functions.key.KeyFunctionWrapper;
 import org.treez.javafxd3.d3.geom.Voronoi;
 
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
@@ -68,7 +68,7 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 				.clipExtent(0, 0, width, height);
 		
 		
-		DataFunction<Void> mouseMoveFunction = new ContextDataFunctionWrapper<>(webEngine, (element)->{
+		DataFunction<Void> mouseMoveFunction = new ContextDataFunctionWrapper<>(engine, (element)->{
 			Array<Double> jsArray = d3.mouse(element);
 			List<? extends Double> list = jsArray.asList(Double.class);
 			Double[] array = list.toArray(new Double[list.size()]);
@@ -87,7 +87,7 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 		path = svg.append("g") //
 				.selectAll("path");
 		
-		DataFunction<String> transformDataFunction = new DataFunctionWrapper<>(String.class, webEngine, (value)->{
+		DataFunction<String> transformDataFunction = new DataFunctionWrapper<>(String.class, engine, (value)->{
 			String transform =  "translate(" + value + ")";
 			return transform;
 		});
@@ -109,11 +109,11 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 		
 		Array<Double> polygons = voronoi.apply(vertices);
 		
-		KeyFunction<String> polygonKeyFunction = new KeyFunctionWrapper<>(Array.class, webEngine, (value)->{
+		KeyFunction<String> polygonKeyFunction = new KeyFunctionWrapper<>(Array.class, engine, (value)->{
 			
 			@SuppressWarnings("unchecked")
 			Array<String> stringArray = (Array<String>) value;
-			String polygon = VoronoiTessellationDemo.polygon(webEngine, stringArray);
+			String polygon = VoronoiTessellationDemo.polygon(engine, stringArray);
 			return polygon;
 		});		
 		
@@ -128,11 +128,11 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 		});
 		
 		
-		DataFunction<String> polygonDataFunction = new DataFunctionWrapper<>(Array.class, webEngine, (value)->{
+		DataFunction<String> polygonDataFunction = new DataFunctionWrapper<>(Array.class, engine, (value)->{
 			
 			@SuppressWarnings("unchecked")
 			Array<String> stringArray = (Array<String>) value;
-			String polygon = VoronoiTessellationDemo.polygon(webEngine, stringArray);
+			String polygon = VoronoiTessellationDemo.polygon(engine, stringArray);
 			return polygon;
 		});
 
@@ -145,7 +145,7 @@ public class VoronoiTessellationDemo extends AbstractDemoCase {
 		this.path = upd;
 	}
 
-	public static String polygon(WebEngine webEngine, Array<String> strings) {
+	public static String polygon(JsEngine engine, Array<String> strings) {
 		
 		List<String> stringList = new ArrayList<>();
 

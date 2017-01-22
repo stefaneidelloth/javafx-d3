@@ -3,17 +3,14 @@ package org.treez.javafxd3.d3.svg.datafunction;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.svg.ChordDef;
 
-/**
- * A datum function that creates a target chord definition 
- *  
- */
+
 public class ChordTargetDataFunction implements DataFunction<ChordDef> {
 	
 		
 	//#region CONSTRUCTORS
 	
 	/**
-	 * @param webEngine
+	 * @param engine
 	 */
 	public ChordTargetDataFunction(){			
 	}

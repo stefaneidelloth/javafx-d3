@@ -1,6 +1,6 @@
 package org.treez.javafxd3.d3.wrapper;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 /**
  * Represents a list of nodes
@@ -14,10 +14,10 @@ public class NodeList<T> extends JavaScriptObject {
 	
 	/**
 	 * Constructor
-	 * @param webEngine
+	 * @param engine
 	 */
-	public NodeList(WebEngine webEngine){
-		super(webEngine);
+	public NodeList(JsEngine engine){
+		super(engine);
 	}
 	
 	//#end region

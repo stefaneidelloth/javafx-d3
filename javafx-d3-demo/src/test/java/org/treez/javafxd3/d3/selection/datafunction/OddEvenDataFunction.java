@@ -18,7 +18,7 @@ public class OddEvenDataFunction implements DataFunction<Double> {
 	//#region CONSTRUCTORS
 	
 	/**
-	 * @param webEngine
+	 * @param engine
 	 */
 	public OddEvenDataFunction( double oddValue, double evenValue){
 		this.oddValue = oddValue;

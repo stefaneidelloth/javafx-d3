@@ -105,7 +105,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 		color = d3.scale() //
 				.category10();
 
-		DsvCallback<DsvRow> csvCallback = new DsvCallbackWrapper<>(webEngine, (array) -> {
+		DsvCallback<DsvRow> csvCallback = new DsvCallbackWrapper<>(engine, (array) -> {
 
 			Array<String> traits = getTraits(array);
 			storeDomainsByTraits(array, traits);
@@ -144,41 +144,13 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 
 	private void createBrush() {
 
-		DataFunction<Void> brushStartFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
-			@Override
-			public Void apply(final Object context, final Object d, final int index) {
-
-				Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
-				Point point = ConversionUtil.convertObjectTo(d, Point.class, webEngine);
-
-				brushstart(element, point);
-				return null;
-			}
-		});
-
-		DataFunction<Void> brushFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
-
-			try {
-				brushmove(point);
-			} catch (Exception exception) {
-				System.out.println("Could not execute point move");
-				exception.printStackTrace();
-				return null;
-			}
-			return null;
-		});
-
-		DataFunction<Void> brushEndFunction = new DataFunctionWrapper<>(() -> {
-			brushend();
-		});
-
 		brush = d3.svg() //
 				.brush() //
 				.x(x) //
 				.y(y) //
-				.on(BrushEvent.BRUSH_START, brushStartFunction) //
-				.on(BrushEvent.BRUSH, brushFunction) //
-				.on(BrushEvent.BRUSH_END, brushEndFunction);
+				.on(BrushEvent.BRUSH_START, new BrushStartFunction(this,engine)) //
+				.on(BrushEvent.BRUSH, new BrushMoveFunction(this)) //
+				.on(BrushEvent.BRUSH_END, new BrushEndFunction(this));
 	}
 
 	private void createSubPlots(final Axis xAxis, final Axis yAxis, Array<String> traits, final int n) {
@@ -193,12 +165,12 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 			return "translate(" + (n - index - 1) * size + ",0)";
 		});
 
-		DataFunction<Void> xAxisDataFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
+		DataFunction<Void> xAxisDataFunction = new CompleteDataFunctionWrapper<>(engine, new DataFunction<Void>() {
 			@Override
 			public Void apply(final Object context, final Object d, final int index) {
 
-				Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
-				String trait = ConversionUtil.convertObjectTo(d, String.class, webEngine);
+				Element element = ConversionUtil.convertObjectTo(context, Element.class, engine);
+				String trait = ConversionUtil.convertObjectTo(d, String.class, engine);
 
 				Array<Double> domain = domainByTrait.get(trait);
 				if (domain != null) {
@@ -222,12 +194,12 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 			return "translate(0," + index * size + ")";
 		});
 
-		DataFunction<Void> yAxisDataFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
+		DataFunction<Void> yAxisDataFunction = new CompleteDataFunctionWrapper<>(engine,new DataFunction<Void>() {
 			@Override
 			public Void apply(final Object context, final Object d, final int index) {
 
-				Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
-				String trait = ConversionUtil.convertObjectTo(d, String.class, webEngine);
+				Element element = ConversionUtil.convertObjectTo(context, Element.class, engine);
+				String trait = ConversionUtil.convertObjectTo(d, String.class, engine);
 
 				Array<Double> domain = domainByTrait.get(trait);
 				if (domain != null) {
@@ -251,16 +223,16 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 	private Selection plotCsvData(Array<DsvRow> array, Array<String> traits, final int n) {
 		Array<Point> points = points(traits, traits);
 
-		DataFunction<String> transformFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
+		DataFunction<String> transformFunction = new DataFunctionWrapper<>(Point.class, engine, (point) -> {
 			return "translate(" + (n - point.i - 1) * size + "," + point.j * size + ")";
 		});
 
-		DataFunction<Void> plotFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Void>() {
+		DataFunction<Void> plotFunction = new CompleteDataFunctionWrapper<>(engine, new DataFunction<Void>() {
 			@Override
 			public Void apply(final Object context, final Object d, final int index) {
 
-				Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
-				Point point = ConversionUtil.convertObjectTo(d, Point.class, webEngine);
+				Element element = ConversionUtil.convertObjectTo(context, Element.class, engine);
+				Point point = ConversionUtil.convertObjectTo(d, Point.class, engine);
 				if (point == null) {
 					return null;
 				}
@@ -281,12 +253,12 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 	}
 
 	private void setTitleForDiagonalSubPlots(Selection subPlots) {
-		DataFunction<Element> diagonalFilterFunction = new CompleteDataFunctionWrapper<>(new DataFunction<Element>() {
+		DataFunction<Element> diagonalFilterFunction = new CompleteDataFunctionWrapper<>(engine, new DataFunction<Element>() {
 			@Override
 			public Element apply(final Object context, final Object d, final int index) {
 
-				Element element = ConversionUtil.convertObjectTo(context, Element.class, webEngine);
-				Point point = ConversionUtil.convertObjectTo(d, Point.class, webEngine);
+				Element element = ConversionUtil.convertObjectTo(context, Element.class, engine);
+				Point point = ConversionUtil.convertObjectTo(d, Point.class, engine);
 				if (point == null) {
 					return null;
 				}
@@ -295,7 +267,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 			}
 		});
 
-		DataFunction<String> textFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
+		DataFunction<String> textFunction = new DataFunctionWrapper<>(Point.class, engine, (point) -> {
 			return point.xTrait;
 		});
 
@@ -317,7 +289,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 
 			Array<Double> domain = Arrays.extent(array, DsvRow.class, (dsvRow) -> {
 				return dsvRow.get(trait).asDouble();
-			}, webEngine);
+			}, engine);
 
 			domainByTrait.put(trait, domain);
 		});
@@ -363,7 +335,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 				.attr("width", size - padding) //
 				.attr("height", size - padding);
 
-		DataFunction<String> cxDataFunction = new DataFunctionWrapper<>(DsvRow.class, webEngine, (row) -> {
+		DataFunction<String> cxDataFunction = new DataFunctionWrapper<>(DsvRow.class, engine, (row) -> {
 			if (row == null) {
 				return null;
 			}
@@ -372,7 +344,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 			return asString;
 		});
 
-		DataFunction<String> cyDataFunction = new DataFunctionWrapper<>(DsvRow.class, webEngine, (row) -> {
+		DataFunction<String> cyDataFunction = new DataFunctionWrapper<>(DsvRow.class, engine, (row) -> {
 			if (row == null) {
 				return null;
 			}
@@ -381,7 +353,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 			return asString;
 		});
 
-		DataFunction<String> fillDataFunction = new DataFunctionWrapper<>(DsvRow.class, webEngine, (row) -> {
+		DataFunction<String> fillDataFunction = new DataFunctionWrapper<>(DsvRow.class, engine, (row) -> {
 			if (row == null) {
 				return null;
 			}
@@ -401,7 +373,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 	}
 
 	// Clear the previously-active brush, if any.
-	private void brushstart(final Element context, final Point p) {
+	public void brushStart(final Element context, final Point p) {
 		// Clear the previously-active brush, if any.
 		if (context != oldBrushCell) {
 			
@@ -421,7 +393,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 	}
 
 	// Highlight the selected circles.
-	private void brushmove(final Point p) {
+	public void  brushMove(final Point p) {
 
 		if (p == null) {
 			return;
@@ -429,7 +401,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 
 		final Array<Double> e = brush.extent();
 
-		DataFunction<Boolean> hideFunction = new DataFunctionWrapper<>(DsvRow.class, webEngine, (row) -> {
+		DataFunction<Boolean> hideFunction = new DataFunctionWrapper<>(DsvRow.class, engine, (row) -> {
 
 			try {
 
@@ -464,7 +436,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 	}
 
 	// If the brush is empty, select all circles.
-	private void brushend() {
+	public void brushEnd() {
 		if (brush.empty()) {
 			Platform.runLater(() -> {
 				svg.selectAll(".hidden") //
@@ -491,7 +463,7 @@ public class ScatterPlotMatrixDemo extends AbstractDemoCase {
 
 			}
 		}
-		return Array.fromList(webEngine, points);
+		return Array.fromList(engine, points);
 	}
 
 	//#end region

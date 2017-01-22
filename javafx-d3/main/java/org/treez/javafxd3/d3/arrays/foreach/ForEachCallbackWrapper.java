@@ -3,7 +3,7 @@ package org.treez.javafxd3.d3.arrays.foreach;
 import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.functions.data.wrapper.PlainDataFunction;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 /**
  * Wraps a ForEachCallback that only needs the element as argument. The type of
@@ -13,7 +13,7 @@ public class ForEachCallbackWrapper<R, A> implements ForEachCallback<R> {
 
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine = null;
+	private JsEngine engine = null;
 
 	private PlainDataFunction<R, A> plainDataFunction = null;
 
@@ -23,9 +23,9 @@ public class ForEachCallbackWrapper<R, A> implements ForEachCallback<R> {
 
 	//#region CONSTRUCTORS
 
-	public ForEachCallbackWrapper(Class<A> classOfArgument, WebEngine webEngine,
+	public ForEachCallbackWrapper(Class<A> classOfArgument, JsEngine engine,
 			PlainDataFunction<R, A> plainDataFunction) {
-		this.webEngine = webEngine;
+		this.engine = engine;
 		this.plainDataFunction = plainDataFunction;
 		this.plainClass = classOfArgument;
 	}
@@ -36,7 +36,7 @@ public class ForEachCallbackWrapper<R, A> implements ForEachCallback<R> {
 
 	@Override
 	public R forEach(Object context, Object arrayElement, int index, Object array) {
-		A data = ConversionUtil.convertObjectTo(arrayElement, plainClass, webEngine);
+		A data = ConversionUtil.convertObjectTo(arrayElement, plainClass, engine);
 		if (data != null) {
 			return plainDataFunction.apply(data);
 		} else {

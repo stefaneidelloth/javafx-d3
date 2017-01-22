@@ -42,7 +42,7 @@ public class SelectionControlsTest extends AbstractSelectionTest {
 		Selection selection = givenMultipleNodeFactories(new InputElementFactory("1"), new InputElementFactory("2"));
 		final StringBuilder stringBuilder = new StringBuilder();
 
-		selection.each(new StringBuilderFunction(webEngine, stringBuilder));
+		selection.each(new StringBuilderFunction(engine, stringBuilder));
 		assertEquals("12", stringBuilder.toString());
 	}	
 

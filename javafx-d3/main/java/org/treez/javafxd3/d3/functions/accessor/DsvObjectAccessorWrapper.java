@@ -1,16 +1,15 @@
 package org.treez.javafxd3.d3.functions.accessor;
 
 import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.core.JsEngine;
 import org.treez.javafxd3.d3.dsv.DsvObjectAccessor;
 import org.treez.javafxd3.d3.functions.data.wrapper.PlainDataFunction;
-
-import javafx.scene.web.WebEngine;
 
 public class DsvObjectAccessorWrapper<R, A> implements DsvObjectAccessor<R> {
 
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine = null;
+	private JsEngine engine = null;
 
 	private PlainDataFunction<R, A> plainDataFunction = null;
 
@@ -20,9 +19,9 @@ public class DsvObjectAccessorWrapper<R, A> implements DsvObjectAccessor<R> {
 
 	//#region CONSTRUCTORS
 
-	public DsvObjectAccessorWrapper(Class<A> classOfArgument, WebEngine webEngine,
+	public DsvObjectAccessorWrapper(Class<A> classOfArgument, JsEngine engine,
 			PlainDataFunction<R, A> plainDataFunction) {
-		this.webEngine = webEngine;
+		this.engine = engine;
 		this.plainDataFunction = plainDataFunction;
 		this.plainClass = classOfArgument;
 	}
@@ -32,8 +31,8 @@ public class DsvObjectAccessorWrapper<R, A> implements DsvObjectAccessor<R> {
 	//#region METHODS
 
 	@Override
-	public R apply(Object data, int index) {
-		A convertedDatum = ConversionUtil.convertObjectTo(data, plainClass, webEngine);
+	public R apply(Object datum, int index) {		
+		A convertedDatum = ConversionUtil.convertObjectTo(datum, plainClass, engine);
 		return plainDataFunction.apply(convertedDatum);
 	}
 

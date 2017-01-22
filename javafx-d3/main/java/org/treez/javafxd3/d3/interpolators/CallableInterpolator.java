@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.interpolators;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * An interpolator that can be passed to JSNI.
@@ -19,22 +19,22 @@ import netscape.javascript.JSObject;
  */
 public abstract class CallableInterpolator<T> extends JavaScriptObject implements Interpolator<T> {
 
-	public CallableInterpolator(WebEngine webEngine) {
-		super(webEngine);
+	public CallableInterpolator(JsEngine engine) {
+		super(engine);
 	}
 
 	@Override
 	public abstract T interpolate(Object t);
 
 	@Override
-	public JSObject asJSOFunction() {
+	public JsObject asJsFunction() {
 		
 		assertObjectIsNotAnonymous(this);
 
 		String interpolatorName = createNewTemporaryInstanceName();
 		String jsInterpolatorName = createNewTemporaryInstanceName();
 
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(interpolatorName, this);
 
 		String command = "this." + jsInterpolatorName + " = function(t) { " + //
@@ -45,7 +45,7 @@ public abstract class CallableInterpolator<T> extends JavaScriptObject implement
 				"};";
 		d3JsObject.eval(command);
 
-		JSObject result = (JSObject) d3JsObject.eval("this." + jsInterpolatorName);
+		JsObject result = (JsObject) d3JsObject.eval("this." + jsInterpolatorName);
 		return result;
 
 	}

@@ -4,14 +4,14 @@ import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class YAxisDataFunction implements DataFunction<Double> {
 	
 	//#region ATTRIBUTES
 	
-	private WebEngine webEngine;
+	private JsEngine engine;
 	
 	private LinearScale yScale;
 	
@@ -19,8 +19,8 @@ public class YAxisDataFunction implements DataFunction<Double> {
 	
 	//#region CONSTRUCTORS
 	
-	public YAxisDataFunction(WebEngine webEngine, LinearScale yScale ){
-		this.webEngine=webEngine;
+	public YAxisDataFunction(JsEngine engine, LinearScale yScale ){
+		this.engine=engine;
 		this.yScale = yScale;
 	}
 	
@@ -31,8 +31,8 @@ public class YAxisDataFunction implements DataFunction<Double> {
 	@Override
 	public Double apply(final Object context, final Object d, final int index) {
 		
-		JSObject datum = (JSObject) d;
-		Value inputValue = new Value(webEngine, datum);
+		JsObject datum = (JsObject) engine.toJsObjectIfNotSimpleType(d);
+		Value inputValue = new Value(engine, datum);
 		
 		Double input = inputValue.asDouble();
 		Value value = yScale.apply(input);

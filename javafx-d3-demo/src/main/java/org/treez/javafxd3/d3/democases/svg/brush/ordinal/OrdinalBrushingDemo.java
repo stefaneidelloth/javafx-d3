@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.Array;
+import org.treez.javafxd3.d3.core.JsObject;
 import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.demo.AbstractDemoCase;
 import org.treez.javafxd3.d3.demo.DemoCase;
@@ -21,7 +22,6 @@ import org.treez.javafxd3.d3.svg.Symbol;
 import org.treez.javafxd3.d3.svg.SymbolType;
 
 import javafx.scene.layout.VBox;
-import netscape.javascript.JSObject;
 
 public class OrdinalBrushingDemo extends AbstractDemoCase {
 
@@ -82,16 +82,19 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 				.orient(Orientation.BOTTOM);
 
 		svg.append("g") //
-				.attr("class", "x " + "axis") //
-				.attr("transform", "translate(0," + height + ")").call(axis);
+				.attr("class", "x axis") //
+				.attr("transform", "translate(0," + height + ")") //
+				.call(axis);
 
-		DataFunction<String> transformFunction = new DataFunctionWrapper<>(SymbolType.class, webEngine, (symbolType) -> {			
-			Double scaledX = x.apply(symbolType).asDouble();
+		DataFunction<String> transformFunction = new DataFunctionWrapper<>(SymbolType.class, engine, (symbolType) -> {			
+			Double scaledX = x.apply(symbolType) //
+					.asDouble();
+			
 			String translation =  "translate(" + scaledX + "," + (height / 2) + ")";
 			return translation;
 		});
 
-		DataFunction<SymbolType> symbolTypeFunction = new DataFunctionWrapper<>(SymbolType.class, webEngine,
+		DataFunction<SymbolType> symbolTypeFunction = new DataFunctionWrapper<>(SymbolType.class, engine,
 				(symbolType) -> {
 					return symbolType;
 				});
@@ -145,14 +148,17 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 	}
 
 	private void brushMove() {
+		
+	
+		
 		Selection target = d3.event().getEventTarget();
 	
-		JSObject jsBrush = target.getJsObject();
-		Brush brush = new Brush(webEngine, jsBrush);
+		JsObject jsBrush = target.getJsObject();
+		Brush brush = new Brush(engine, jsBrush);
 
 		final Array<Double> extent = brush.extent();
 
-		DataFunction<Boolean> selectionDataFunction = new DataFunctionWrapper<>(SymbolType.class, webEngine,
+		DataFunction<Boolean> selectionDataFunction = new DataFunctionWrapper<>(SymbolType.class, engine,
 				(symbolType) -> {
 					
 					double value = x.apply(symbolType).asDouble();
@@ -167,7 +173,6 @@ public class OrdinalBrushingDemo extends AbstractDemoCase {
 	private void brushend() {
 
 		Selection brush = d3.event().getEventTarget();
-
 		svg.classed("selecting", !(brush).empty());
 
 	}

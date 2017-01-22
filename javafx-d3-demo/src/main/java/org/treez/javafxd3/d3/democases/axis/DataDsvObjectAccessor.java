@@ -6,22 +6,22 @@ import org.treez.javafxd3.d3.dsv.DsvRow;
 import org.treez.javafxd3.d3.time.JsDate;
 import org.treez.javafxd3.d3.time.TimeFormat;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class DataDsvObjectAccessor implements DsvObjectAccessor<DsvData> {
 	
 	//#region ATTRIBUTES
 	
-	private WebEngine webEngine;
+	private JsEngine engine;
 	private TimeFormat format;
 	
 	//#end region
 	
 	//#region CONSTRUCTORS
 	
-	public DataDsvObjectAccessor(WebEngine webEngine, TimeFormat format){
-		this.webEngine = webEngine;
+	public DataDsvObjectAccessor(JsEngine engine, TimeFormat format){
+		this.engine = engine;
 		this.format = format;
 	}
 	
@@ -32,8 +32,8 @@ public class DataDsvObjectAccessor implements DsvObjectAccessor<DsvData> {
 	@Override
 	public DsvData apply(Object row, int index) {
 			
-		JSObject jsRow = (JSObject) row;
-		DsvRow dsvRow = new DsvRow(webEngine, jsRow);
+		JsObject jsRow = (JsObject) engine.toJsObjectIfNotSimpleType(row);
+		DsvRow dsvRow = new DsvRow(engine, jsRow);
 	
 		Value value = dsvRow.get("symbol");
 		
@@ -41,7 +41,7 @@ public class DataDsvObjectAccessor implements DsvObjectAccessor<DsvData> {
 			String symbol = dsvRow.get("symbol").asString();
 			JsDate date = format.parse(dsvRow.get("date").asString());
 			double price = dsvRow.get("price").asDouble();
-			return new DsvData(webEngine, symbol, date, price);
+			return new DsvData(engine, symbol, date, price);
 		} else {
 			return null;
 		}

@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.scales;
 
 import org.treez.javafxd3.d3.arrays.Array;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Ordinal {@link Scales} have a discrete domain, such as a set of names or
@@ -51,11 +51,11 @@ public class OrdinalScale extends Scale<OrdinalScale> {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public OrdinalScale(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public OrdinalScale(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -90,8 +90,8 @@ public class OrdinalScale extends Scale<OrdinalScale> {
     public  OrdinalScale rangePoints(double start, double end,
             double padding) {
     	String command = "this.rangePoints([ "+start+", "+end+" ], "+padding+");";
-    	JSObject result = evalForJsObject(command);
-    	return new OrdinalScale(webEngine, result);
+    	JsObject result = evalForJsObject(command);
+    	return new OrdinalScale(engine, result);
     }
 
 	/**
@@ -107,8 +107,8 @@ public class OrdinalScale extends Scale<OrdinalScale> {
      */
     public  OrdinalScale rangePoints(double start, double end) {		
 		String command = "this.rangePoints([ "+start+", "+end+" ]);";
-    	JSObject result = evalForJsObject(command);
-    	return new OrdinalScale(webEngine, result);
+    	JsObject result = evalForJsObject(command);
+    	return new OrdinalScale(engine, result);
     }
 
 	// ============ rangeRoundPoints ============
@@ -136,8 +136,8 @@ public class OrdinalScale extends Scale<OrdinalScale> {
     public  OrdinalScale rangeRoundPoints(double start, double end,
             double padding) {		
 		String command = "this.rangeRoundPoints([ "+start+", "+end+" ], "+padding+");";
-    	JSObject result = evalForJsObject(command);
-    	return new OrdinalScale(webEngine, result);
+    	JsObject result = evalForJsObject(command);
+    	return new OrdinalScale(engine, result);
     }
 
 	/**
@@ -153,8 +153,8 @@ public class OrdinalScale extends Scale<OrdinalScale> {
      */
     public  OrdinalScale rangeRoundPoints(double start, double end) {
     	String command = "this.rangeRoundPoints([ "+start+", "+end+" ]);";
-    	JSObject result = evalForJsObject(command);
-    	return new OrdinalScale(webEngine, result);
+    	JsObject result = evalForJsObject(command);
+    	return new OrdinalScale(engine, result);
     }
 
 	// ============ range bands ===============
@@ -191,8 +191,8 @@ public class OrdinalScale extends Scale<OrdinalScale> {
     public  OrdinalScale rangeBands(double start, double end,
             double padding, double outerPadding){		
 		String command = "this.rangeBands([ "+start+", "+end+" ], "+padding+","+outerPadding+");";
-    	JSObject result = evalForJsObject(command);
-    	return new OrdinalScale(webEngine, result);
+    	JsObject result = evalForJsObject(command);
+    	return new OrdinalScale(engine, result);
     }
 
 	/**
@@ -212,8 +212,8 @@ public class OrdinalScale extends Scale<OrdinalScale> {
             double padding){		
 		
 		String command = "this.rangeBands([ "+start+", "+end+" ], "+padding+");";
-    	JSObject result = evalForJsObject(command);
-    	return new OrdinalScale(webEngine, result);
+    	JsObject result = evalForJsObject(command);
+    	return new OrdinalScale(engine, result);
     }
 
 	/**
@@ -229,8 +229,8 @@ public class OrdinalScale extends Scale<OrdinalScale> {
      */
     public  OrdinalScale rangeBands(double start, double end){
     	String command = "this.rangeBands([ "+start+", "+end+" ]);";
-    	JSObject result = evalForJsObject(command);
-    	return new OrdinalScale(webEngine, result);
+    	JsObject result = evalForJsObject(command);
+    	return new OrdinalScale(engine, result);
     }
 
 	// ================= range round bands ==============
@@ -243,9 +243,9 @@ public class OrdinalScale extends Scale<OrdinalScale> {
 	 *            a two-elements array
 	 * @return this instance
 	 */
-	public OrdinalScale rangeRoundBands(JSObject interval) {
-		JSObject result = call("rangeBands", interval);
-		return new OrdinalScale(webEngine, result);
+	public OrdinalScale rangeRoundBands(JsObject interval) {
+		JsObject result = call("rangeBands", interval);
+		return new OrdinalScale(engine, result);
 	}
 
 	/**
@@ -259,8 +259,8 @@ public class OrdinalScale extends Scale<OrdinalScale> {
 	 * @return this instance
 	 */
 	public OrdinalScale rangeRoundBands(Double[] interval, double padding) {
-		JSObject result = call("rangeBands", interval, padding);
-		return new OrdinalScale(webEngine, result);
+		JsObject result = call("rangeBands", interval, padding);
+		return new OrdinalScale(engine, result);
 	}
 
 	/**
@@ -275,9 +275,9 @@ public class OrdinalScale extends Scale<OrdinalScale> {
 	 *            the outer padding
 	 * @return this instance
 	 */
-	public OrdinalScale rangeRoundBands(JSObject interval, double padding, double outerPadding) {
-		JSObject result = call("rangeBands", interval, padding, outerPadding);
-		return new OrdinalScale(webEngine, result);
+	public OrdinalScale rangeRoundBands(JsObject interval, double padding, double outerPadding) {
+		JsObject result = call("rangeBands", interval, padding, outerPadding);
+		return new OrdinalScale(engine, result);
 	}
 
 	/**
@@ -299,8 +299,8 @@ public class OrdinalScale extends Scale<OrdinalScale> {
     public  OrdinalScale rangeRoundBands(double start, double end,
             double padding, double outerPadding){
     	String command = "this.rangeRoundBands([ "+start+", "+end+" ], "+padding+", "+outerPadding+");";
-    	JSObject result = evalForJsObject(command);
-    	return new OrdinalScale(webEngine, result);
+    	JsObject result = evalForJsObject(command);
+    	return new OrdinalScale(engine, result);
     }
 
 	/**
@@ -320,8 +320,8 @@ public class OrdinalScale extends Scale<OrdinalScale> {
     public  OrdinalScale rangeRoundBands(double start, double end,
             double padding){		
 		String command = "this.rangeRoundBands([ "+start+", "+end+" ], "+padding+");";
-    	JSObject result = evalForJsObject(command);
-    	return new OrdinalScale(webEngine, result);
+    	JsObject result = evalForJsObject(command);
+    	return new OrdinalScale(engine, result);
     }
 
 	/**
@@ -338,8 +338,8 @@ public class OrdinalScale extends Scale<OrdinalScale> {
      */
     public  OrdinalScale rangeRoundBands(double start, double end){
     	String command = "this.rangeRoundBands([ "+start+", "+end+" ]);";
-    	JSObject result = evalForJsObject(command);
-    	return new OrdinalScale(webEngine, result);
+    	JsObject result = evalForJsObject(command);
+    	return new OrdinalScale(engine, result);
     }
 
 	/**
@@ -370,13 +370,13 @@ public class OrdinalScale extends Scale<OrdinalScale> {
 	 * @return the extent of the scale's range
 	 */
 	public Array<Double> rangeExtent() {
-		JSObject result = call("rangeExtent");
-		return new Array<Double>(webEngine, result);		
+		JsObject result = call("rangeExtent");
+		return new Array<Double>(engine, result);		
 	}
 
 	@Override
-	public OrdinalScale createScale(WebEngine webEngine, JSObject result) {
-		return new OrdinalScale(webEngine, result);		
+	public OrdinalScale createScale(JsEngine engine, JsObject result) {
+		return new OrdinalScale(engine, result);		
 	}
 	
 	//#end region

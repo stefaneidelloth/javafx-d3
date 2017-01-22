@@ -3,8 +3,8 @@ package org.treez.javafxd3.d3.svg;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.arrays.Array;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A generator to create an arc by defining the inner radius, the outer radius,
@@ -44,11 +44,11 @@ public class Arc extends PathDataGenerator {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Arc(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public Arc(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -156,13 +156,13 @@ public class Arc extends PathDataGenerator {
 
 		if (isFunction) {
 			String retrieveCommand = "this['" + propName + "'](" + value + ");";
-			JSObject result = evalForJsObject(retrieveCommand);
-			return new Arc(webEngine, result);
+			JsObject result = evalForJsObject(retrieveCommand);
+			return new Arc(engine, result);
 		} else {
 			String assignCommand = "this['" + propName + "'] = " + value + ";";
 			eval(assignCommand);
-			JSObject result = evalForJsObject("this");
-			return new Arc(webEngine, result);
+			JsObject result = evalForJsObject("this");
+			return new Arc(engine, result);
 		}
 	}
 
@@ -181,29 +181,29 @@ public class Arc extends PathDataGenerator {
 	 * @return
 	 */
 	public Array<Double> centroid(Arc arc, int index) {
-		JSObject result = call("centroid", arc.getJsObject(), index);
-		return new Array<Double>(webEngine, result);
+		JsObject result = call("centroid", arc.getJsObject(), index);
+		return new Array<Double>(engine, result);
 	}
 
 	/**
 	 * Create an instance of {@link Arc} with all properties initialized to 0.
 	 * 
 	 * Useful to define an arc with constants.
-	 * @param injectedWebEngine 
+	 * @param injectedJsEngine 
 	 * 
 	 * @return an arc object with defaults.
 	 */
-	public static Arc constantArc(WebEngine injectedWebEngine) {
-		D3 d3 = new D3(injectedWebEngine);
+	public static Arc constantArc(JsEngine injectedJsEngine) {
+		D3 d3 = new D3(injectedJsEngine);
 		
 		String command = "d3.new_arc = {innerRadius: 0, outerRadius: 1, startAngle: 0, endAngle: 0 };";
 		d3.eval(command);
 		
-		JSObject result = d3.evalForJsObject("d3.new_arc");
+		JsObject result = d3.evalForJsObject("d3.new_arc");
 		
 		//d3.eval("d3.new_arc=undefined");
 		
-		return new Arc(injectedWebEngine, result);
+		return new Arc(injectedJsEngine, result);
 	}
 
 	/**
@@ -213,20 +213,20 @@ public class Arc extends PathDataGenerator {
 	 *            the arc to copy
 	 * @return the new copy
 	 */
-	public static Arc copy(WebEngine webEngine, Arc oldArc){
+	public static Arc copy(JsEngine engine, Arc oldArc){
 		Double innerRadius = oldArc.innerRadius();
 		Double outerRadius = oldArc.outerRadius();
 		Double startAngle = oldArc.startAngle();
 		Double endAngle = oldArc.endAngle();
 	
 		String command = "d3.copy_arc = { innerRadius : "+innerRadius+", outerRadius : "+outerRadius+", startAngle : "+startAngle+", endAngle : "+endAngle + " };";
-		webEngine.executeScript(command);
+		engine.executeScript(command);
 		
 		
-		JSObject result = (JSObject) webEngine.executeScript("d3.copy_arc");
-		//webEngine.executeScript("d3.copy_arc=undefined");
+		JsObject result = (JsObject) engine.executeScript("d3.copy_arc");
+		//engine.executeScript("d3.copy_arc=undefined");
 		
-		return new Arc(webEngine, result);
+		return new Arc(engine, result);
 		
 	}
 	

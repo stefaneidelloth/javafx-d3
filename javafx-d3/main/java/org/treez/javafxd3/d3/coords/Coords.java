@@ -4,35 +4,35 @@ import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.functions.data.wrapper.DataFunctionWrapper;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class Coords extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 	
-	public Coords(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public Coords(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
-	public Coords(WebEngine webEngine, Double x, Double y) {
-		super(webEngine);
+	public Coords(JsEngine engine, Double x, Double y) {
+		super(engine);
 	
-		JSObject d3 = (JSObject) webEngine.executeScript("d3");
+		JsObject d3 = (JsObject) engine.executeScript("d3");
 		String varName = createNewTemporaryInstanceName();
 		
 		String command = "var " + varName +" = {x:" + x + ",y:" + y + "};";
 		d3.eval(command);
 		Object resultObj = d3.eval(varName);
-		JSObject result = (JSObject) resultObj;
+		JsObject result = (JsObject) resultObj;
 		
 		d3.eval(varName + " = undefined;");
 		
 		setJsObject(result);
 	}
 
-	public Coords(WebEngine webEngine, int x, int y) {
-		this(webEngine, (double) x, (double) y);
+	public Coords(JsEngine engine, int x, int y) {
+		this(engine, (double) x, (double) y);
 	}	
 
 	//#end region
@@ -43,8 +43,8 @@ public class Coords extends JavaScriptObject {
 	 * Convenient {@link DataFunction} that return the x component of a
 	 * {@link Coords} datum.
 	 */
-	public static final DataFunction<Double> getXAccessor(WebEngine webEngine){
-		DataFunction<Double> accessor = new DataFunctionWrapper<>(Coords.class, webEngine, (coords)->{
+	public static final DataFunction<Double> getXAccessor(JsEngine engine){
+		DataFunction<Double> accessor = new DataFunctionWrapper<>(Coords.class, engine, (coords)->{
 			return coords.x();
 		}); 
 		return accessor;
@@ -54,8 +54,8 @@ public class Coords extends JavaScriptObject {
 	 * Convenient {@link DataFunction} that return the y component of a
 	 * {@link Coords} datum.
 	 */
-	public static final DataFunction<Double> getYAccessor(WebEngine webEngine){
-		DataFunction<Double> accessor = new DataFunctionWrapper<>(Coords.class, webEngine, (coords)->{
+	public static final DataFunction<Double> getYAccessor(JsEngine engine){
+		DataFunction<Double> accessor = new DataFunctionWrapper<>(Coords.class, engine, (coords)->{
 			return coords.y();
 		}); 
 		return accessor;

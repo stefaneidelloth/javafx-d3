@@ -44,8 +44,8 @@ import org.treez.javafxd3.d3.wrapper.NodeList;
 import org.treez.javafxd3.d3.wrapper.Sort;
 import org.treez.javafxd3.d3.wrapper.Widget;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Entry point for D3 api modules. A lot of methods of this class allow access
@@ -69,11 +69,11 @@ public class D3 extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	public D3(WebEngine webEngine) {
-		super(webEngine);
-		Objects.requireNonNull(webEngine);
-		Object d3Obj = webEngine.executeScript("d3");
-		JSObject d3 = (JSObject) d3Obj;
+	public D3(JsEngine engine) {
+		super(engine);
+		Objects.requireNonNull(engine);
+		Object d3Obj = engine.executeScript("d3");
+		JsObject d3 = (JsObject) d3Obj;
 		setJsObject(d3);
 	}
 
@@ -95,8 +95,8 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public Scales scale() {
-		JSObject result = getMember("scale");
-		return new Scales(webEngine, result);
+		JsObject result = getMember("scale");
+		return new Scales(engine, result);
 	};
 
 	// =========== select ==============
@@ -118,8 +118,8 @@ public class D3 extends JavaScriptObject {
 	 * @return the {@link Selection}
 	 */
 	public Selection select(String selector) {
-		JSObject result = call("select", selector);
-		return new Selection(webEngine, result);
+		JsObject result = call("select", selector);
+		return new Selection(engine, result);
 	};
 
 	/**
@@ -131,12 +131,12 @@ public class D3 extends JavaScriptObject {
 	 * @return the {@link Selection}
 	 */
 	public Selection select(Element element) {
-		JSObject jsElement=null;
+		JsObject jsElement=null;
 		if(element!=null){
 			jsElement = element.getJsObject();
 		}		
-		JSObject result = call("select", jsElement);
-		return new Selection(webEngine, result);
+		JsObject result = call("select", jsElement);
+		return new Selection(engine, result);
 	};
 
 	/**
@@ -164,8 +164,8 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public Selection selectAll(String selector) {
-		JSObject result = evalForJsObject("this.selectAll('" + selector + "')");
-		return new Selection(webEngine, result);
+		JsObject result = evalForJsObject("this.selectAll('" + selector + "')");
+		return new Selection(engine, result);
 	};
 
 	/**
@@ -176,8 +176,8 @@ public class D3 extends JavaScriptObject {
 	 * @return the selection
 	 */
 	public Selection selectAll(NodeList<?> nodes) {
-		JSObject result = call("selectAll", nodes);
-		return new Selection(webEngine, result);
+		JsObject result = call("selectAll", nodes);
+		return new Selection(engine, result);
 	};
 
 	/**
@@ -189,7 +189,7 @@ public class D3 extends JavaScriptObject {
 	 */
 	public Selection selectAll(Element... nodes) {
 
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
@@ -201,7 +201,7 @@ public class D3 extends JavaScriptObject {
 		}
 
 		String command = "this.selectAll([" + String.join(",", fullVarNames) + "])";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		for (String varName : varNames) {
 			d3JsObject.removeMember(varName);
@@ -211,7 +211,7 @@ public class D3 extends JavaScriptObject {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 
 	};
 
@@ -255,13 +255,13 @@ public class D3 extends JavaScriptObject {
 	 * @return the transition the new transition
 	 */
 	public Transition transition() {
-		JSObject result = call("transition");
-		return new Transition(webEngine, result);
+		JsObject result = call("transition");
+		return new Transition(engine, result);
 	};
 
 	public Transform transform(String transformString) {
-		JSObject result = call("transform", transformString);
-		return new Transform(webEngine, result);
+		JsObject result = call("transform", transformString);
+		return new Transform(engine, result);
 	}
 
 	// =========== Math ==============
@@ -326,11 +326,11 @@ public class D3 extends JavaScriptObject {
 	 * @return the svg module
 	 */
 	public SVG svg() {
-		JSObject result = getMember("svg");
+		JsObject result = getMember("svg");
 		if (result == null) {
 			return null;
 		}
-		return new SVG(webEngine, result);
+		return new SVG(engine, result);
 	};
 
 	// =========== layouts ==============
@@ -338,33 +338,33 @@ public class D3 extends JavaScriptObject {
 	 * @return the layout module
 	 */
 	public Layout layout() {
-		JSObject result = getMember("layout");
+		JsObject result = getMember("layout");
 		if (result == null) {
 			return null;
 		}
-		return new Layout(webEngine, result);
+		return new Layout(engine, result);
 	};
 
 	/**
 	 * @return the {@link Geometry} module
 	 */
 	public Geometry geom() {
-		JSObject result = getMember("geom");
+		JsObject result = getMember("geom");
 		if (result == null) {
 			return null;
 		}
-		return new Geometry(webEngine, result);
+		return new Geometry(engine, result);
 	};
 
 	/**
 	 * @return the {@link Geography} module
 	 */
 	public Geography geo() {
-		JSObject result = getMember("geo");
+		JsObject result = getMember("geo");
 		if (result == null) {
 			return null;
 		}
-		return new Geography(webEngine, result);
+		return new Geography(engine, result);
 	};
 
 	// =========== interpolation ==============
@@ -385,7 +385,7 @@ public class D3 extends JavaScriptObject {
 		assertObjectIsNotAnonymous(timerFunction);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 
 		Object method = timerFunction;
 		boolean isJavaScriptObject = timerFunction instanceof JavaScriptObject;
@@ -417,7 +417,7 @@ public class D3 extends JavaScriptObject {
 		assertObjectIsNotAnonymous(timerFunction);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, timerFunction);
 
 		String command = "this.timer(function(d, i) { return d3." + funcName + ".execute();}, " + delayMillis + ");";
@@ -466,7 +466,7 @@ public class D3 extends JavaScriptObject {
 		assertObjectIsNotAnonymous(timerFunction);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, timerFunction);
 
 		String command = "this.timer(function(d, i) { return d3." + funcName + ".execute();}, " + delayMillis + ", "
@@ -502,8 +502,8 @@ public class D3 extends JavaScriptObject {
 	 * @return the time module
 	 */
 	public Time time() {
-		JSObject result = getMember("time");
-		return new Time(webEngine, result);
+		JsObject result = getMember("time");
+		return new Time(engine, result);
 	};
 
 	// ========= events and interactions ============
@@ -542,8 +542,11 @@ public class D3 extends JavaScriptObject {
 	 * @return the instance of {@link Event}
 	 */
 	public Event event() {
-		JSObject result = getMember("event");
-		return new Event(webEngine, result);
+		JsObject result = getMember("event");
+		if(result==null){
+			return null;
+		}
+		return new Event(engine, result);
 	};
 
 	/**
@@ -560,7 +563,7 @@ public class D3 extends JavaScriptObject {
 		Double x = Double.parseDouble(xObj.toString());
 		Double y = Double.parseDouble(yObj.toString());
 
-		return new Coords(webEngine, x, y);
+		return new Coords(engine, x, y);
 	};
 
 	/**
@@ -577,7 +580,7 @@ public class D3 extends JavaScriptObject {
 		Double dx = Double.parseDouble(dxObj.toString());
 		Double dy = Double.parseDouble(dyObj.toString());
 
-		return new Coords(webEngine, dx, dy);
+		return new Coords(engine, dx, dy);
 	};
 
 	/**
@@ -590,9 +593,9 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public Array<Double> mouse(Node container) {
-		JSObject jsContainer = container.getJsObject();
-		JSObject result = call("mouse", jsContainer);
-		return new Array<Double>(webEngine, result);
+		JsObject jsContainer = container.getJsObject();
+		JsObject result = call("mouse", jsContainer);
+		return new Array<Double>(engine, result);
 	};
 
 	/**
@@ -605,11 +608,11 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public Coords mouseAsCoords(Node container) {
-		JSObject containerObject = container.getJsObject();
-		JSObject coordObj = call("mouse", containerObject);
+		JsObject containerObject = container.getJsObject();
+		JsObject coordObj = call("mouse", containerObject);
 		Double x = (Double) coordObj.call("m", 0);
 		Double y = (Double) coordObj.call("m", 1);
-		return new Coords(webEngine, x, y);
+		return new Coords(engine, x, y);
 	};
 
 	/**
@@ -622,8 +625,8 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public double mouseX(Node container) {
-		JSObject containerObject = container.getJsObject();
-		JSObject coordObj = call("mouse", containerObject);
+		JsObject containerObject = container.getJsObject();
+		JsObject coordObj = call("mouse", containerObject);
 		Object result = coordObj.getMember("0");
 		Double x = Double.parseDouble("" + result);
 		return x;
@@ -639,8 +642,8 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public double mouseY(Node container) {
-		JSObject containerObject = container.getJsObject();
-		JSObject coordObj = call("mouse", containerObject);
+		JsObject containerObject = container.getJsObject();
+		JsObject coordObj = call("mouse", containerObject);
 		Object result = coordObj.getMember("1");
 		Double y = Double.parseDouble("" + result);
 		return y;
@@ -663,9 +666,9 @@ public class D3 extends JavaScriptObject {
 	 * @return an array of array of 2 elements.
 	 */
 	public JsArrayMixed touches(Node container) {
-		JSObject containerObject = container.getJsObject();
-		JSObject result = call("touches", containerObject);
-		return new JsArrayMixed(webEngine, result);
+		JsObject containerObject = container.getJsObject();
+		JsObject result = call("touches", containerObject);
+		return new JsArrayMixed(engine, result);
 	};
 
 	// =========== csv ==============
@@ -674,8 +677,8 @@ public class D3 extends JavaScriptObject {
 	 * @return the CSV module
 	 */
 	public <T> Dsv<T> csv() {
-		JSObject result = getMember("csv"); //call("dsvFormat", ",");
-		return new Dsv<T>(webEngine, result);
+		JsObject result = getMember("csv"); //call("dsvFormat", ",");
+		return new Dsv<T>(engine, result);
 	};
 
 	/**
@@ -698,14 +701,14 @@ public class D3 extends JavaScriptObject {
 		assertObjectIsNotAnonymous(callback);
 
 		String callbackName = createNewTemporaryInstanceName();
-		JSObject jsObj = getJsObject();
+		JsObject jsObj = getJsObject();
 		jsObj.setMember(callbackName, callback);
 
 		String command = "this.csv('" + url + "', function(error, rows) { " //
 				+ "  this." + callbackName + ".get(error, rows); " //
 				+ "});";
-		JSObject result = evalForJsObject(command);
-		return new Dsv<T>(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Dsv<T>(engine, result);
 	};
 
 	/**
@@ -734,7 +737,7 @@ public class D3 extends JavaScriptObject {
 		String accessorMemberName = createNewTemporaryInstanceName();
 		String callbackName = createNewTemporaryInstanceName();
 
-		JSObject jsObj = getJsObject();
+		JsObject jsObj = getJsObject();
 		jsObj.setMember(accessorMemberName, accessor);
 		jsObj.setMember(callbackName, callback);
 
@@ -743,8 +746,8 @@ public class D3 extends JavaScriptObject {
 				+ " }, " + "function(error, rows) { " //			
 				+ "  this." + callbackName + ".get(error, rows); " //
 				+ "});";
-		JSObject result = evalForJsObject(command);
-		return new Dsv<T>(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Dsv<T>(engine, result);
 
 	};
 
@@ -771,14 +774,14 @@ public class D3 extends JavaScriptObject {
 
 		String accessorMemberName = createNewTemporaryInstanceName();
 
-		JSObject jsObj = getJsObject();
+		JsObject jsObj = getJsObject();
 		jsObj.setMember(accessorMemberName, accessor);
 
 		String command = "this.csv('" + url + "', function(row, index) { " //				
 				+ "  return this." + accessorMemberName + ".apply(row, index);" //
 				+ " });";
-		JSObject result = evalForJsObject(command);
-		return new Dsv<T>(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Dsv<T>(engine, result);
 	};
 
 	/**
@@ -793,8 +796,8 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public <T> Dsv<T> csv(String url) {
-		JSObject result = call("csv", url);
-		return new Dsv<T>(webEngine, result);
+		JsObject result = call("csv", url);
+		return new Dsv<T>(engine, result);
 	};
 
 	// =========== tsv ==============
@@ -803,11 +806,11 @@ public class D3 extends JavaScriptObject {
 	 * @return the TSV module
 	 */
 	public <T> Dsv<T> tsv() {
-		JSObject result = getMember("tsv"); //call("dsvFormat", "\t");
+		JsObject result = getMember("tsv"); //call("dsvFormat", "\t");
 		if (result == null) {
 			throw new IllegalStateException("Could not get tsv");
 		}
-		return new Dsv<T>(webEngine, result);
+		return new Dsv<T>(engine, result);
 	};
 
 	/**
@@ -830,14 +833,14 @@ public class D3 extends JavaScriptObject {
 		assertObjectIsNotAnonymous(callback);
 
 		String callbackName = createNewTemporaryInstanceName();
-		JSObject jsObj = getJsObject();
+		JsObject jsObj = getJsObject();
 		jsObj.setMember(callbackName, callback);
 
 		String command = "this.tsv('" + url + "', function(error, rows) { " //
 				+ "  this." + callbackName + ".get(error, rows); " //
 				+ "});";
-		JSObject result = evalForJsObject(command);
-		return new Dsv<T>(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Dsv<T>(engine, result);
 
 	};
 
@@ -867,7 +870,7 @@ public class D3 extends JavaScriptObject {
 		String accessorMemberName = createNewTemporaryInstanceName();
 		String callbackName = createNewTemporaryInstanceName();
 
-		JSObject jsObj = getJsObject();
+		JsObject jsObj = getJsObject();
 		jsObj.setMember(accessorMemberName, accessor);
 		jsObj.setMember(callbackName, callback);
 
@@ -877,8 +880,8 @@ public class D3 extends JavaScriptObject {
 				+ " }, " + "function(error, rows) { " //			
 				+ "  this." + callbackName + ".get(error, rows); " //
 				+ "});";
-		JSObject result = evalForJsObject(command);
-		return new Dsv<T>(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Dsv<T>(engine, result);
 
 	};
 
@@ -905,14 +908,14 @@ public class D3 extends JavaScriptObject {
 
 		String accessorMemberName = createNewTemporaryInstanceName();
 
-		JSObject jsObj = getJsObject();
+		JsObject jsObj = getJsObject();
 		jsObj.setMember(accessorMemberName, accessor);
 
 		String command = "this.tsv('" + url + "', function(row, index) { " //				
 				+ "  return this." + accessorMemberName + ".apply(row, index);" //
 				+ " });";
-		JSObject result = evalForJsObject(command);
-		return new Dsv<T>(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Dsv<T>(engine, result);
 
 	};
 
@@ -928,8 +931,8 @@ public class D3 extends JavaScriptObject {
 	 * @return
 	 */
 	public <T> Dsv<T> tsv(String url) {
-		JSObject result = call("tsv", url);
-		return new Dsv<T>(webEngine, result);
+		JsObject result = call("tsv", url);
+		return new Dsv<T>(engine, result);
 	};
 
 	// ============= json ============
@@ -946,8 +949,8 @@ public class D3 extends JavaScriptObject {
 	 * @return an array containing the property names.
 	 */
 	public <T> Array<String> keys(JavaScriptObject object) {
-		JSObject result = call("keys", object.getJsObject());
-		return new Array<String>(webEngine, result);
+		JsObject result = call("keys", object.getJsObject());
+		return new Array<String>(engine, result);
 	};
 
 	// =================== format methods ====================
@@ -964,8 +967,8 @@ public class D3 extends JavaScriptObject {
 	 * @return the format function.
 	 */
 	public Formatter format(String specifier) {
-		JSObject result = call("format", specifier);
-		return new Formatter(webEngine, result);
+		JsObject result = call("format", specifier);
+		return new Formatter(engine, result);
 	};
 
 	/**
@@ -980,8 +983,8 @@ public class D3 extends JavaScriptObject {
 	 * @return the prefix
 	 */
 	public Prefix formatPrefix(double value, double precision) {
-		JSObject result = call("formatPrefix", value, precision);
-		return new Prefix(webEngine, result);
+		JsObject result = call("formatPrefix", value, precision);
+		return new Prefix(engine, result);
 	};
 
 	/**
@@ -1018,18 +1021,18 @@ public class D3 extends JavaScriptObject {
 	// =========== range ===================
 
 	public Array<Double> range(double stop) {
-		JSObject result = call("range", stop);
-		return new Array<Double>(webEngine, result);
+		JsObject result = call("range", stop);
+		return new Array<Double>(engine, result);
 	}
 
 	public Array<Double> range(double start, double stop) {
-		JSObject result = call("range", start, stop);
-		return new Array<Double>(webEngine, result);
+		JsObject result = call("range", start, stop);
+		return new Array<Double>(engine, result);
 	}
 
 	public Array<Double> range(double start, double stop, double step) {
-		JSObject result = call("range", start, stop, step);
-		return new Array<Double>(webEngine, result);
+		JsObject result = call("range", start, stop, step);
+		return new Array<Double>(engine, result);
 	}
 
 	// =========== behaviours ==============
@@ -1037,8 +1040,8 @@ public class D3 extends JavaScriptObject {
 	 * @return the behaviour module
 	 */
 	public Behavior behavior() {
-		JSObject result = getMember("behavior");
-		return new Behavior(webEngine, result);
+		JsObject result = getMember("behavior");
+		return new Behavior(engine, result);
 	};
 
 	/**
@@ -1055,9 +1058,9 @@ public class D3 extends JavaScriptObject {
 			return null;
 		}
 
-		JSObject jsEvent = event.getJsObject();
+		JsObject jsEvent = event.getJsObject();
 
-		return new ZoomEvent(webEngine, jsEvent);
+		return new ZoomEvent(engine, jsEvent);
 	}
 
 	/**
@@ -1074,9 +1077,9 @@ public class D3 extends JavaScriptObject {
 			return null;
 		}
 
-		JSObject jsEvent = event.getJsObject();
+		JsObject jsEvent = event.getJsObject();
 
-		return new DragEvent(webEngine, jsEvent);
+		return new DragEvent(engine, jsEvent);
 
 	}
 
@@ -1088,37 +1091,37 @@ public class D3 extends JavaScriptObject {
 	 *
 	 * @return the identity function
 	 */
-	public JSObject identity() {
+	public JsObject identity() {
 
 		String command = "var identity = function(d) { return d; }";
 		eval(command);
-		JSObject result = evalForJsObject("identity");
+		JsObject result = evalForJsObject("identity");
 		return result;
 	}
 
 	/**
 	 * Creates a new variable in the JavaScript space and applies the given
-	 * JSObject to assign a corresponding value
+	 * JsObject to assign a corresponding value
 	 * 
 	 * @param variableName
 	 * @param value
 	 */
 	public void createJsVariable(String variableName, JavaScriptObject value) {
-		JSObject valueObject = value.getJsObject();
+		JsObject valueObject = value.getJsObject();
 		createJsVariable(variableName, valueObject);
 	}
 
 	/**
 	 * Creates a new variable in the JavaScript space and applies the given
-	 * JSObject to assign a corresponding value
+	 * JsObject to assign a corresponding value
 	 * 
 	 * @param variableName
 	 * @param value
 	 */
-	public void createJsVariable(String variableName, JSObject value) {
+	public void createJsVariable(String variableName, JsObject value) {
 		//store value in temporary dummy attribute
 		String tempAttributeName = "tempDummyStorageAttribute";
-		JSObject window = (JSObject) webEngine.executeScript("window");
+		JsObject window = (JsObject) engine.executeScript("window");
 		window.setMember(tempAttributeName, value);
 
 		//create new variable and assign value to it    	
@@ -1133,13 +1136,13 @@ public class D3 extends JavaScriptObject {
 	}
 
 	public Sort ascending() {
-		JSObject result = getMember("ascending");
-		return new Sort(webEngine, result);
+		JsObject result = getMember("ascending");
+		return new Sort(engine, result);
 	}
 
 	public Sort descending() {
-		JSObject result = getMember("descending");
-		return new Sort(webEngine, result);
+		JsObject result = getMember("descending");
+		return new Sort(engine, result);
 	}
 
 	public <T> Array<T> extent(Array<T> array) {
@@ -1148,26 +1151,26 @@ public class D3 extends JavaScriptObject {
 			Object firstElement = array.get(0, Object.class);
 			boolean isJavaScriptObject = firstElement instanceof JavaScriptObject;
 			if (isJavaScriptObject) {
-				List<JSObject> elementList = extractJsObjectElements(array);
+				List<JsObject> elementList = extractJsObjectElements(array);
 				return extent(elementList);
 			}
 		}
 
-		JSObject result = call("extent", array.getJsObject());
+		JsObject result = call("extent", array.getJsObject());
 
 		if (result == null) {
 			return null;
 		}
-		return new Array<>(webEngine, result);
+		return new Array<>(engine, result);
 	}
 
-	private <T> Array<T> extent(Collection<JSObject> elements) {
+	private <T> Array<T> extent(Collection<JsObject> elements) {
 
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
-		for (JSObject jsObject : elements) {
+		for (JsObject jsObject : elements) {
 			String varName = createNewTemporaryInstanceName();
 			d3JsObject.setMember(varName, jsObject);
 			fullVarNames.add("d3." + varName);
@@ -1175,7 +1178,7 @@ public class D3 extends JavaScriptObject {
 		}
 
 		String command = "this.extent([" + String.join(",", fullVarNames) + "])";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		for (String varName : varNames) {
 			d3JsObject.removeMember(varName);
@@ -1185,12 +1188,12 @@ public class D3 extends JavaScriptObject {
 			return null;
 		}
 
-		return new Array<>(webEngine, result);
+		return new Array<>(engine, result);
 	}
 
 	public <R, A> Array<R> extent(Array<A> array, Class<A> argumentClass, PlainDataFunction<R, A> accessor) {
 
-		ForEachCallback<R> accessorWrapper = new ForEachCallbackWrapper<>(argumentClass, webEngine, accessor);
+		ForEachCallback<R> accessorWrapper = new ForEachCallbackWrapper<>(argumentClass, engine, accessor);
 		return extent(array, accessorWrapper);
 	}
 
@@ -1201,7 +1204,7 @@ public class D3 extends JavaScriptObject {
 		String arrayMemberName = createNewTemporaryInstanceName();
 		String accessorMemberName = createNewTemporaryInstanceName();
 
-		JSObject jsObj = getJsObject();
+		JsObject jsObj = getJsObject();
 		jsObj.setMember(arrayMemberName, array.getJsObject());
 		jsObj.setMember(accessorMemberName, accessor);
 
@@ -1209,7 +1212,7 @@ public class D3 extends JavaScriptObject {
 				"   return d3." + accessorMemberName + ".forEach(this, {datum:d}, index, array);" + //
 				"}); ";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		jsObj.removeMember(arrayMemberName);
 		jsObj.removeMember(accessorMemberName);
@@ -1217,26 +1220,26 @@ public class D3 extends JavaScriptObject {
 		if (result == null) {
 			return null;
 		}
-		return new Array<>(webEngine, result);
+		return new Array<>(engine, result);
 
 	}
 
-	private <T> List<JSObject> extractJsObjectElements(Array<T> array) {
-		List<JSObject> elementList = new ArrayList<>();
+	private <T> List<JsObject> extractJsObjectElements(Array<T> array) {
+		List<JsObject> elementList = new ArrayList<>();
 		array.forEach((object) -> {
 			JavaScriptObject wrapper = (JavaScriptObject) object;
-			JSObject rawElement = wrapper.getJsObject();
+			JsObject rawElement = wrapper.getJsObject();
 			elementList.add(rawElement);
 		});
 		return elementList;
 	}
 
 	public Value max(Array<?> array) {
-		JSObject result = call("max", array.getJsObject());
+		JsObject result = call("max", array.getJsObject());
 		if (result == null) {
 			return null;
 		}
-		return new Value(webEngine, result);
+		return new Value(engine, result);
 	}
 
 	public Value max(Array<?> array, ForEachCallback<?> accessor) {
@@ -1246,7 +1249,7 @@ public class D3 extends JavaScriptObject {
 		String arrayMemberName = createNewTemporaryInstanceName();
 		String accessorMemberName = createNewTemporaryInstanceName();
 
-		JSObject jsObj = getJsObject();
+		JsObject jsObj = getJsObject();
 		jsObj.setMember(arrayMemberName, array.getJsObject());
 		jsObj.setMember(accessorMemberName, accessor);
 
@@ -1262,16 +1265,16 @@ public class D3 extends JavaScriptObject {
 		if (valueResult == null) {
 			return null;
 		}
-		return Value.create(webEngine, valueResult);
+		return Value.create(engine, valueResult);
 
 	}
 
 	public Value min(Array<?> array) {
-		JSObject result = call("min", array.getJsObject());
+		JsObject result = call("min", array.getJsObject());
 		if (result == null) {
 			return null;
 		}
-		return new Value(webEngine, result);
+		return new Value(engine, result);
 	}
 	
 	public int logNumberOfTempVars() {
@@ -1322,8 +1325,8 @@ public class D3 extends JavaScriptObject {
 	/**
 	 * @return
 	 */
-	public WebEngine getWebEngine() {
-		return webEngine;
+	public JsEngine getJsEngine() {
+		return engine;
 	}
 
 	//#end region

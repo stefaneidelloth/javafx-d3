@@ -1,20 +1,23 @@
 package org.treez.javafxd3.d3.functions.data.attribute;
 
 import org.treez.javafxd3.d3.functions.DataFunction;
-
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class AttributeDoubleDataFunction implements DataFunction<Double> {
 			
 	//#region ATTRIBTES
 	
-	String attributeName;
+	private JsEngine engine;
+	
+	private String attributeName;
 	
 	//#end region
 	
 	//#region CONSTRUCTORS	
 	
-	public AttributeDoubleDataFunction(String attributeName){	
+	public AttributeDoubleDataFunction(JsEngine engine, String attributeName){	
+		this.engine=engine;
 		this.attributeName = attributeName;
 	}
 	
@@ -25,7 +28,7 @@ public class AttributeDoubleDataFunction implements DataFunction<Double> {
 	@Override
 	public Double apply(Object context, Object datum, int index) {
 		
-		JSObject jsObject = (JSObject) datum;	
+		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);	
 		Object object = jsObject.eval("this.datum." + attributeName);			
 		Double value = Double.parseDouble(object.toString());
 		return value;

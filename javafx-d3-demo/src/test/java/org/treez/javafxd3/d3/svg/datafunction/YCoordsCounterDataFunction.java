@@ -6,18 +6,14 @@ import org.treez.javafxd3.d3.coords.Coords;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
-/**
- * A datum function that returns the x coordinate as double
- *  
- */
 public class YCoordsCounterDataFunction implements DataFunction<Double> {
 	
 	//#region ATTRIBUTES
 	
-	private WebEngine webEngine;
+	private JsEngine engine;
 	
 	private List<Double> yList;
 	
@@ -29,11 +25,8 @@ public class YCoordsCounterDataFunction implements DataFunction<Double> {
 	
 	//#region CONSTRUCTORS
 	
-	/**
-	 * @param webEngine
-	 */
-	public YCoordsCounterDataFunction(WebEngine webEngine,  List<Double> yList, Coords counter){
-		this.webEngine=webEngine;
+	public YCoordsCounterDataFunction(JsEngine engine,  List<Double> yList, Coords counter){
+		this.engine=engine;
 		this.yList = yList;
 		this.counter = counter;
 	}
@@ -45,8 +38,8 @@ public class YCoordsCounterDataFunction implements DataFunction<Double> {
 	@Override
 	public Double apply(Object context, Object datum, int index) {
 		
-		JSObject jsObject = (JSObject) datum;
-		Value value = new Value(webEngine, jsObject);					
+		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);
+		Value value = new Value(engine, jsObject);					
 	
 		counter.y(counter.y() + 1);
 		

@@ -6,7 +6,7 @@ import org.treez.javafxd3.d3.core.Value;
 
 import org.treez.javafxd3.d3.AbstractTestCase;
 
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Tests the class Value
@@ -334,7 +334,7 @@ public class ValueTest extends AbstractTestCase {
 		assertTrue(value.asString().contains("function"));
 
 		// object wrapper
-		value = Value.create(webEngine, getCoords(10, 12));
+		value = Value.create(engine, getCoords(10, 12));
 		assertTrue(value.getProperty("x").isDefined());
 		assertEquals(10, (int) value.getProperty("x").asInt());
 		assertEquals(12, (int) value.getProperty("y").asInt());
@@ -349,7 +349,7 @@ public class ValueTest extends AbstractTestCase {
 	}
 
 	private final Coords getCoords(final int x, final int y) {
-		return new Coords(webEngine, x, y);
+		return new Coords(engine, x, y);
 	}
 
 	// private static boolean isFinite(JsDate date) {
@@ -493,8 +493,9 @@ public class ValueTest extends AbstractTestCase {
 
 		String command = "var dummy_temp_var = " + expression;
 		d3.eval(command);
-		JSObject result = (JSObject) d3.eval("dummy_temp_var");
-		return new Value(webEngine, result);
+		JsObject result = (JsObject) d3.eval("dummy_temp_var");
+		d3.eval("dummy_temp_var=undefined");
+		return new Value(engine, result);
 	}
 
 	//#end region

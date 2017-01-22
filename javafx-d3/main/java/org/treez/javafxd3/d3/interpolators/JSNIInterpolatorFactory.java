@@ -4,8 +4,8 @@ import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * An interpolator factory returned by JSNI.
@@ -22,20 +22,20 @@ public class JSNIInterpolatorFactory<O> extends JavaScriptObject implements Inte
 
 	//#region CONSTRUCTORS	
 
-	public JSNIInterpolatorFactory(WebEngine webEngine) {
-		super(webEngine);
+	public JSNIInterpolatorFactory(JsEngine engine) {
+		super(engine);
 	}
 	
-	public JSNIInterpolatorFactory(WebEngine webEngine, JSObject jsObject) {
-		super(webEngine, jsObject);
+	public JSNIInterpolatorFactory(JsEngine engine, JsObject jsObject) {
+		super(engine, jsObject);
 	}
 	
 	//#end region
 
 	//#region METHODS
 	@Override
-	public final JSObject asJSOFunction() {
-		JSObject result = this.getJsObject();
+	public final JsObject asJSOFunction() {
+		JsObject result = this.getJsObject();
 		return result;
 	}
 
@@ -55,8 +55,8 @@ public class JSNIInterpolatorFactory<O> extends JavaScriptObject implements Inte
 	 * @return
 	 */
 	public  <I> JavascriptFunctionInterpolator createInterpolator(Object a, Object b){
-		JSObject result = callThisForJsObject(a, b);
-		return new JavascriptFunctionInterpolator(webEngine, result);		
+		JsObject result = callThisForJsObject(a, b);
+		return new JavascriptFunctionInterpolator(engine, result);		
 	}
 	
 	//#end region

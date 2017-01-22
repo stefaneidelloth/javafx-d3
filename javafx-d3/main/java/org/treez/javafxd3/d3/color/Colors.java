@@ -3,8 +3,8 @@ package org.treez.javafxd3.d3.color;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Provides factory methods to create colors.
@@ -17,12 +17,12 @@ public class Colors extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 */
-	public Colors(WebEngine webEngine) {
-		super(webEngine);
-		D3 d3 = new D3(webEngine);
-		JSObject d3Obj = d3.getJsObject();
+	public Colors(JsEngine engine) {
+		super(engine);
+		D3 d3 = new D3(engine);
+		JsObject d3Obj = d3.getJsObject();
 		setJsObject(d3Obj);
 	}
 
@@ -45,11 +45,11 @@ public class Colors extends JavaScriptObject {
 	 * @return the new color instance
 	 */
 	public RGBColor rgb(int r, int g, int b) {
-		JSObject result = call("rgb", r, g, b);
+		JsObject result = call("rgb", r, g, b);
 		if(result==null){
 			return null;
 		}
-		return new RGBColor(webEngine, result);
+		return new RGBColor(engine, result);
 	};
 
 	/**
@@ -68,11 +68,11 @@ public class Colors extends JavaScriptObject {
 	 * @return the new color
 	 */
 	public RGBColor rgb(final String color) {
-		JSObject result = call("rgb", color);
+		JsObject result = call("rgb", color);
 		if(result==null){
 			return null;
 		}
-		return new RGBColor(webEngine, result);
+		return new RGBColor(engine, result);
 	}
 
 	/**
@@ -84,12 +84,12 @@ public class Colors extends JavaScriptObject {
 	 * @return the new color
 	 */
 	public RGBColor rgb(final Color color) {
-		JSObject jsObject = color.getJsObject();
-		JSObject result = call("rgb", jsObject);
+		JsObject jsObject = color.getJsObject();
+		JsObject result = call("rgb", jsObject);
 		if(result==null){
 			return null;
 		}
-		return new RGBColor(webEngine, result);
+		return new RGBColor(engine, result);
 	}
 
 	/**
@@ -107,11 +107,11 @@ public class Colors extends JavaScriptObject {
 	 * @return the new color instance
 	 */
 	public HSLColor hsl(int h, double s, double l) {
-		JSObject result = call("hsl", h, s, l);
+		JsObject result = call("hsl", h, s, l);
 		if(result==null){
 			return null;
 		}
-		return new HSLColor(webEngine, result);
+		return new HSLColor(engine, result);
 	}
 
 	/**
@@ -130,11 +130,11 @@ public class Colors extends JavaScriptObject {
 	 * @return the new color
 	 */
 	public HSLColor hsl(final String color) {
-		JSObject result = call("hsl", color);
+		JsObject result = call("hsl", color);
 		if(result==null){
 			return null;
 		}
-		return new HSLColor(webEngine, result);
+		return new HSLColor(engine, result);
 	}
 
 	/**
@@ -146,12 +146,12 @@ public class Colors extends JavaScriptObject {
 	 * @return the new color
 	 */
 	public HSLColor hsl(final RGBColor color) {
-		JSObject jsObject = color.getJsObject();
-		JSObject result = call("hsl", jsObject);
+		JsObject jsObject = color.getJsObject();
+		JsObject result = call("hsl", jsObject);
 		if(result==null){
 			return null;
 		}
-		return new HSLColor(webEngine, result);
+		return new HSLColor(engine, result);
 	}
 
 	//#end region

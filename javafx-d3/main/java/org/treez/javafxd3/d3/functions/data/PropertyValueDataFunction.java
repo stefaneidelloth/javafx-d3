@@ -4,8 +4,8 @@ import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A convenient {@link DataFunction} which returns the value of a specified
@@ -20,7 +20,7 @@ public class PropertyValueDataFunction<T> implements DataFunction<T> {
 
 	private final String propertyName;
 	
-	private WebEngine webEngine;
+	private JsEngine engine;
 	
 	//#end region
 
@@ -30,8 +30,8 @@ public class PropertyValueDataFunction<T> implements DataFunction<T> {
 	 * Constructor
 	 * @param propertyName
 	 */
-	public PropertyValueDataFunction(WebEngine webEngine, String propertyName) {
-		this.webEngine = webEngine;
+	public PropertyValueDataFunction(JsEngine engine, String propertyName) {
+		this.engine = engine;
 		this.propertyName=propertyName;
 	}
 
@@ -47,8 +47,8 @@ public class PropertyValueDataFunction<T> implements DataFunction<T> {
 	 *            the name of the property the value should be returned of
 	 * @return the new function
 	 */
-	public static <X> PropertyValueDataFunction<X> forProperty(WebEngine webEngine, final String propertyName) {
-		return new PropertyValueDataFunction<X>(webEngine, propertyName);
+	public static <X> PropertyValueDataFunction<X> forProperty(JsEngine engine, final String propertyName) {
+		return new PropertyValueDataFunction<X>(engine, propertyName);
 	}
 
 	@Override
@@ -60,13 +60,13 @@ public class PropertyValueDataFunction<T> implements DataFunction<T> {
 	private Value getProperty(String propName, Object valueObj){
 		
 		String varName = "temp_object_var";
-		D3 d3 = new D3(webEngine);
-		JSObject d3JsObject = d3.getJsObject();
+		D3 d3 = new D3(engine);
+		JsObject d3JsObject = d3.getJsObject();
 		d3JsObject.setMember(varName, valueObj);
 		
 		String command = "{datum:d3." +varName +".datum['"+ propName+ "']};";
 		Object result = d3.eval(command);
-		return Value.create(webEngine, result);
+		return Value.create(engine, result);
 	}
 
 	//#end region

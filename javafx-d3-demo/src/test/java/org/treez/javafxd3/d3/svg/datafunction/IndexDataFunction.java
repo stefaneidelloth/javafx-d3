@@ -2,16 +2,13 @@ package org.treez.javafxd3.d3.svg.datafunction;
 
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-/**
- * A datum function that returns the index
- * 
- */
+
 public class IndexDataFunction implements DataFunction<Integer> {
 
 	//#region CONSTRUCTORS
 
 	/**
-	 * @param webEngine
+	 * @param engine
 	 */
 	public IndexDataFunction() {
 

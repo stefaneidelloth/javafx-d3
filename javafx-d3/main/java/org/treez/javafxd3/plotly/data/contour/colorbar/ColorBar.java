@@ -3,8 +3,8 @@ package org.treez.javafxd3.plotly.data.contour.colorbar;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 import org.treez.javafxd3.plotly.data.Font;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 
 
@@ -16,12 +16,12 @@ public class ColorBar extends JavaScriptObject {
 	
 	//#region CONSTRUCTORS
 
-	public ColorBar(WebEngine webEngine, JSObject jsObject) {
-		super(webEngine,jsObject);		
+	public ColorBar(JsEngine engine, JsObject jsObject) {
+		super(engine,jsObject);		
 	}
 	
-	public ColorBar(WebEngine webEngine) {
-		super(webEngine);
+	public ColorBar(JsEngine engine) {
+		super(engine);
 		setEmptyObjectAsJsObject();	
 	}	
 

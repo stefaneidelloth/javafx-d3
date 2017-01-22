@@ -90,7 +90,7 @@ public class GeneralUpdatePattern2 extends AbstractDemoCase {
 		// DATA JOIN
 		// Join new data with old elements, if any.
 
-		KeyFunction<Integer> dataFunction = new KeyFunctionWrapper<>(Character.class, webEngine, (value) -> {
+		KeyFunction<Integer> dataFunction = new KeyFunctionWrapper<>(Character.class, engine, (value) -> {
 			Integer intValue =  Character.getNumericValue(value);
 			return intValue;
 		});
@@ -105,7 +105,7 @@ public class GeneralUpdatePattern2 extends AbstractDemoCase {
 		// ENTER
 		// Create new elements as needed.
 
-		DataFunction<String> textFunction = new DataFunctionWrapper<>(String.class, webEngine, (value) -> {
+		DataFunction<String> textFunction = new DataFunctionWrapper<>(String.class, engine, (value) -> {
 			return value;
 		});
 

@@ -8,8 +8,8 @@ import org.treez.javafxd3.plotly.data.contour.Contours;
 import org.treez.javafxd3.plotly.data.contour.colorbar.ColorBar;
 import org.treez.javafxd3.plotly.data.line.Line;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class SingleData extends Array<Data> {
 
@@ -21,21 +21,21 @@ public class SingleData extends Array<Data> {
 
 	//#region CONSTRUCTORS
 
-	public SingleData(WebEngine webEngine, JSObject jsObject) {
-		super(webEngine, jsObject);
+	public SingleData(JsEngine engine, JsObject jsObject) {
+		super(engine, jsObject);
 	}
 
-	public SingleData(WebEngine webEngine) {
-		super(webEngine, null);
+	public SingleData(JsEngine engine) {
+		super(engine, null);
 
 		String dummyName = createNewTemporaryInstanceName();
-		webEngine.executeScript("var " + dummyName + "=[{}];");
-		JSObject jsObject = (JSObject) webEngine.executeScript(dummyName);
+		engine.executeScript("var " + dummyName + "=[{}];");
+		JsObject jsObject = (JsObject) engine.executeScript(dummyName);
 		setJsObject(jsObject);
-		JSObject firstEntry = evalForJsObject("this[0]");
-		webEngine.executeScript("var " + dummyName + " = undefined;");
+		JsObject firstEntry = evalForJsObject("this[0]");
+		engine.executeScript("var " + dummyName + " = undefined;");
 		
-		data = new Data(webEngine, firstEntry);
+		data = new Data(engine, firstEntry);
 	}
 
 	//#end region

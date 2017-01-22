@@ -72,8 +72,8 @@ public class SymbolDemo extends AbstractDemoCase {
 		symbols.type(SymbolType.values()[random.nextInt(SymbolType.values().length)]);
 		symbols.size(random.nextInt(2500) + 25);
 
-		Transform transform = new Transform(webEngine);
-		Colors colors = new Colors(webEngine);
+		Transform transform = new Transform(engine);
+		Colors colors = new Colors(engine);
 
 		int x = random.nextInt(width);
 		int y = random.nextInt(height);

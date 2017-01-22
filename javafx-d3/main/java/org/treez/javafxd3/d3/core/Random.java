@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.core;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A pseudorandom number generation function.
@@ -20,22 +20,22 @@ public class Random extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 */
-	public Random(WebEngine webEngine) {
-		super(webEngine);
-		JSObject random = (JSObject) webEngine.executeScript("d3.random");
+	public Random(JsEngine engine) {
+		super(engine);
+		JsObject random = (JsObject) engine.executeScript("d3.random");
 		setJsObject(random);
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Random(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Random(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -54,8 +54,8 @@ public class Random extends JavaScriptObject {
 	 * @return the generator
 	 */
 	public Random irwinHall(int count) {
-		JSObject result = call("irwinHall", count);
-		return new Random(webEngine, result);
+		JsObject result = call("irwinHall", count);
+		return new Random(engine, result);
 	}
 
 	/**
@@ -67,8 +67,8 @@ public class Random extends JavaScriptObject {
 	 * @return the generator
 	 */
 	public Random normal() {
-		JSObject result = call("normal");
-		return new Random(webEngine, result);
+		JsObject result = call("normal");
+		return new Random(engine, result);
 	}
 
 	/**
@@ -84,8 +84,8 @@ public class Random extends JavaScriptObject {
 	 * @return the generator
 	 */
 	public Random normal(double mean) {
-		JSObject result = call("normal", mean);
-		return new Random(webEngine, result);
+		JsObject result = call("normal", mean);
+		return new Random(engine, result);
 	}
 
 	/**
@@ -102,11 +102,11 @@ public class Random extends JavaScriptObject {
 	 * @return the generator
 	 */
 	public Random normal(double mean, double deviation) {
-		JSObject result = call("normal", mean, deviation);
+		JsObject result = call("normal", mean, deviation);
 		if (result == null){
 			return null;
 		}
-		return new Random(webEngine, result);
+		return new Random(engine, result);
 	}
 
 	/**
@@ -118,8 +118,8 @@ public class Random extends JavaScriptObject {
 	 * @return the generator
 	 */
 	public Random logNormal() {
-		JSObject result = call("logNormal");
-		return new Random(webEngine, result);
+		JsObject result = call("logNormal");
+		return new Random(engine, result);
 	}
 
 	/**
@@ -135,8 +135,8 @@ public class Random extends JavaScriptObject {
 	 * @return the generator
 	 */
 	public   Random logNormal(double mean){
-		JSObject result = call("logNormal", mean);
-		return new Random(webEngine, result);		
+		JsObject result = call("logNormal", mean);
+		return new Random(engine, result);		
 	}
 
 	/**
@@ -152,8 +152,8 @@ public class Random extends JavaScriptObject {
 	 * @return the generator
 	 */
 	public   Random logNormal(double mean, double deviation){
-		JSObject result = call("logNormal", mean, deviation);
-		return new Random(webEngine, result);		
+		JsObject result = call("logNormal", mean, deviation);
+		return new Random(engine, result);		
 	}
 
 	/**

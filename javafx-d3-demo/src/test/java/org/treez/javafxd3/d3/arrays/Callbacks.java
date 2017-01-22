@@ -6,7 +6,7 @@ import org.treez.javafxd3.d3.arrays.foreach.ForEachCallbackWrapper;
 import org.treez.javafxd3.d3.arrays.foreach.NumericForEachCallback;
 import org.treez.javafxd3.d3.core.Value;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 /**
  * 
@@ -20,8 +20,8 @@ public class Callbacks {
      * @param than
      * @return
      */
-    public static ForEachCallback<Boolean> greaterThan(final double than, WebEngine webEngine) {
-        return new ForEachCallbackWrapper<>(Double.class, webEngine, (value)->{
+    public static ForEachCallback<Boolean> greaterThan(final double than, JsEngine engine) {
+        return new ForEachCallbackWrapper<>(Double.class, engine, (value)->{
         	 System.out.println("received " + value + " > " + than + " : "
                      + (value > than));
              return value > than;
@@ -37,7 +37,7 @@ public class Callbacks {
      * @param i the number to add
      * @return the callback
      */
-    public static NumericForEachCallback add(final int i, WebEngine webEngine) {
+    public static NumericForEachCallback add(final int i, JsEngine engine) {
         return new NumericForEachCallback() {
             @Override
             public Double forEach(final Object thisArg, final Object element, final int index, final Object array) {

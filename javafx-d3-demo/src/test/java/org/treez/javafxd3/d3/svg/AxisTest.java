@@ -101,7 +101,7 @@ public class AxisTest extends AbstractTestCase {
         s2.domain(5, 15, 20, 100);
         s2.range(1, 2, 3, 4);
         final StringBuffer counter = new StringBuffer();
-        axis.tickFormat(new TickTestDataFunction(webEngine, counter));
+        axis.tickFormat(new TickTestDataFunction(engine, counter));
         
         // apply
         Selection svg = d3.select("svg").attr("width", 100)

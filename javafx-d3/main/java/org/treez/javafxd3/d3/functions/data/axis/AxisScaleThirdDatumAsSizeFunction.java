@@ -2,23 +2,24 @@ package org.treez.javafxd3.d3.functions.data.axis;
 
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.scales.QuantitativeScale;
-
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class AxisScaleThirdDatumAsSizeFunction implements DataFunction<Double> {
 	
 	//#region ATTRIBUTES
 	
-	QuantitativeScale<?> scale;	
+	private JsEngine engine;
+	
+	private QuantitativeScale<?> scale;	
 	
 	//#end region
 	
 	//#region CONSTRUCTORS
 	
-	/**
-	 * @param webEngine
-	 */
-	public AxisScaleThirdDatumAsSizeFunction(QuantitativeScale<?> scale){
+	
+	public AxisScaleThirdDatumAsSizeFunction(JsEngine engine, QuantitativeScale<?> scale){
+		this.engine = engine;
 		this.scale = scale;		
 	}
 	
@@ -29,7 +30,7 @@ public class AxisScaleThirdDatumAsSizeFunction implements DataFunction<Double> {
 	@Override
 	public Double apply(Object context, Object datum, int index) {
 		
-		JSObject jsObject = (JSObject) datum;	
+		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);	
 		
 		Object secondValueObj = jsObject.eval("this.datum[2]");			
 		Double scaledRightValue = scale.applyForDouble(secondValueObj.toString());	

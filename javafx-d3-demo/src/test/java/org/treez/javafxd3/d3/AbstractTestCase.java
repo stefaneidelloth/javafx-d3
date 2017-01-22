@@ -13,7 +13,7 @@ import org.treez.javafxd3.javafx.JavaFxD3Browser;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 
 /**
@@ -27,7 +27,7 @@ public abstract class AbstractTestCase extends Assert {
 
 	protected JavaFxD3Browser browser = null;	
 
-	protected WebEngine webEngine;
+	protected JsEngine engine;
 	
 	protected D3 d3;
 
@@ -52,7 +52,7 @@ public abstract class AbstractTestCase extends Assert {
 	@Test
 	public void doTestOnJavaFxApplicationThread(){
 		Runnable testRunnable = ()->{
-			Objects.requireNonNull(webEngine);
+			Objects.requireNonNull(engine);
 			doTest();
 			};
 		doOnJavaFXThread(testRunnable);
@@ -61,7 +61,7 @@ public abstract class AbstractTestCase extends Assert {
 	private void initializeJavaFxD3Browser() {
 		Runnable postLoadingFinishedHook = () -> {
 			d3 = browser.getD3();
-			webEngine = d3.getWebEngine();
+			engine = d3.getJsEngine();
 			isInitialized = true;
 		};
 
@@ -169,8 +169,8 @@ public abstract class AbstractTestCase extends Assert {
 		if (Double.compare(expected, actual) == 0)
 			return;
 		if (!(Math.abs(expected-actual) <= delta)){
-			JsDate expectedDate = JsDate.create(webEngine, expected);
-			JsDate actualDate = JsDate.create(webEngine, actual);			
+			JsDate expectedDate = JsDate.create(engine, expected);
+			JsDate actualDate = JsDate.create(engine, actual);			
 			
 			assertEquals(message, expectedDate, actualDate);
 		}

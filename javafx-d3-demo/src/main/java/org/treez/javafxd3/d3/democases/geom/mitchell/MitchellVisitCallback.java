@@ -1,16 +1,15 @@
 package org.treez.javafxd3.d3.democases.geom.mitchell;
 
+import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.core.JsEngine;
 import org.treez.javafxd3.d3.geom.Quadtree.Callback;
 import org.treez.javafxd3.d3.geom.Quadtree.Node;
-
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
 
 public class MitchellVisitCallback implements Callback<Circle> {
 
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine;
+	private JsEngine engine;
 	private MitchellCircleGenerator parent;
 	private double x;
 	private double y;
@@ -24,8 +23,8 @@ public class MitchellVisitCallback implements Callback<Circle> {
 
 	//#region CONSTRUCTORS
 
-	public MitchellVisitCallback(WebEngine webEngine, MitchellCircleGenerator parent, Double x, Double y) {
-		this.webEngine = webEngine;
+	public MitchellVisitCallback(JsEngine engine, MitchellCircleGenerator parent, Double x, Double y) {
+		this.engine = engine;
 		this.parent = parent;
 		this.x = x;
 		this.y=y;
@@ -47,12 +46,10 @@ public class MitchellVisitCallback implements Callback<Circle> {
 		
 		if (quadObj==null){
 			return false;
-		}
+		}		
 		
-		JSObject jsQuad = (JSObject) quadObj;
-		
-		
-		Node<Circle> quad = new Node<Circle>(webEngine, jsQuad);
+		@SuppressWarnings("unchecked")
+		Node<Circle> quad = (Node<Circle>) ConversionUtil.convertObjectTo(quadObj, Node.class, engine);
 		
 		Circle p = quad.point(Circle.class);
 		if (p != null) {

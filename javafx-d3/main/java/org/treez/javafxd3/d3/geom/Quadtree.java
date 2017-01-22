@@ -8,8 +8,8 @@ import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A quadtree is a two-dimensional recursive spatial subdivision.
@@ -31,11 +31,11 @@ public class Quadtree extends JavaScriptObject {
 	//#region CONSTRUCTORS
 
 	/**
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Quadtree(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Quadtree(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -58,20 +58,20 @@ public class Quadtree extends JavaScriptObject {
 		assertObjectIsNotAnonymous(xAccessor);
 
 		String methodName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();		
+		JsObject d3JsObject = getD3();		
 		d3JsObject.setMember(methodName, xAccessor);
 
 		String command = "this.x(function(d, i) { " //
 				+ "return d3." + methodName + ".apply(this,{datum:d},i);" //
 				+ " });";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		
 		
 
 		if (result == null) {
 			return null;
 		}
-		return new Quadtree(webEngine, result);
+		return new Quadtree(engine, result);
 
 	}
 
@@ -90,21 +90,21 @@ public class Quadtree extends JavaScriptObject {
 
 		assertObjectIsNotAnonymous(yAccessor);
 
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		String methodName = createNewTemporaryInstanceName();
 		d3JsObject.setMember(methodName, yAccessor);
 
 		String command = "this.y(function(d, i) { " //
 				+ "return d3." + methodName + ".apply(this,{datum:d},i);" //
 				+ " });";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		
 		
 
 		if (result == null) {
 			return null;
 		}
-		return new Quadtree(webEngine, result);
+		return new Quadtree(engine, result);
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class Quadtree extends JavaScriptObject {
 	 */
 	public <T> RootNode<T> apply(T[] points) {
 
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 		
@@ -151,7 +151,7 @@ public class Quadtree extends JavaScriptObject {
 		
 
 		String command = "this([" + String.join(",", fullVarNames) + "])";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		
 		for(String varName:varNames){
 			d3JsObject.removeMember(varName);
@@ -161,7 +161,7 @@ public class Quadtree extends JavaScriptObject {
 			return null;
 		}
 		
-		return new RootNode<T>(webEngine, result);
+		return new RootNode<T>(engine, result);
 
 	}
 
@@ -176,7 +176,7 @@ public class Quadtree extends JavaScriptObject {
 	 */
 	public final <T> RootNode<T> apply(final List<T> points) {
 
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		List<String> fullVarNames = new ArrayList<>();
 		List<String> varNames = new ArrayList<>();
 
@@ -196,7 +196,7 @@ public class Quadtree extends JavaScriptObject {
 		}
 
 		String command = "this.apply([" + String.join(",", fullVarNames) + "])";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		
 		for(String varName:varNames){
 			d3JsObject.removeMember(varName);
@@ -206,7 +206,7 @@ public class Quadtree extends JavaScriptObject {
 			return null;
 		}
 		
-		return new RootNode<T>(webEngine, result);
+		return new RootNode<T>(engine, result);
 	}
 
 	/**
@@ -215,8 +215,8 @@ public class Quadtree extends JavaScriptObject {
 	 * @return the current extent, which defaults to null.
 	 */
 	public Array<Double> extent() {
-		JSObject result = call("extent");
-		return new Array<Double>(webEngine, result);
+		JsObject result = call("extent");
+		return new Array<Double>(engine, result);
 	}
 
 	/**
@@ -234,10 +234,10 @@ public class Quadtree extends JavaScriptObject {
 	 * @return the quadtree
 	 */
 	public Quadtree extent(Array<Double> extent) {
-		JSObject jsExtend = extent.getJsObject();
+		JsObject jsExtend = extent.getJsObject();
 
-		JSObject result = call("extent", jsExtend);
-		return new Quadtree(webEngine, result);
+		JsObject result = call("extent", jsExtend);
+		return new Quadtree(engine, result);
 	}
 
 	/**
@@ -258,8 +258,8 @@ public class Quadtree extends JavaScriptObject {
 	public Quadtree extent(double x0, double y0, double x1, double y1) {
 
 		String command = "this.extent([ [ " + x0 + ", " + y0 + " ], [ " + x1 + ", " + y1 + " ]]);";
-		JSObject result = evalForJsObject(command);
-		return new Quadtree(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Quadtree(engine, result);
 	}
 
 	/**
@@ -275,20 +275,20 @@ public class Quadtree extends JavaScriptObject {
 		/**
 		 * Constructor
 		 * 
-		 * @param webEngine
+		 * @param engine
 		 */
-		public Node(WebEngine webEngine) {
-			super(webEngine);
+		public Node(JsEngine engine) {
+			super(engine);
 		}
 
 		/**
 		 * Constructor
 		 * 
-		 * @param webEngine
+		 * @param engine
 		 * @param wrappedJsObject
 		 */
-		public Node(WebEngine webEngine, JSObject wrappedJsObject) {
-			super(webEngine);
+		public Node(JsEngine engine, JsObject wrappedJsObject) {
+			super(engine);
 			setJsObject(wrappedJsObject);
 		}
 
@@ -305,7 +305,7 @@ public class Quadtree extends JavaScriptObject {
 			if(resultObj==null){
 				return null;
 			}
-			T result = ConversionUtil.convertObjectTo(resultObj, classObj, webEngine);
+			T result = ConversionUtil.convertObjectTo(resultObj, classObj, engine);
 			return result;			
 		}
 
@@ -337,9 +337,9 @@ public class Quadtree extends JavaScriptObject {
 		 * @return a sparse array of the four child nodes in order: top-left,
 		 *         top-right, bottom-left, bottom-right
 		 */
-		public Array<JSObject> nodes() { //equivalent to Array<Node<T>>, but not wrapped
-			JSObject result = getMember("nodes");
-			return new Array<JSObject>(webEngine, result);			
+		public Array<JsObject> nodes() { //equivalent to Array<Node<T>>, but not wrapped
+			JsObject result = getMember("nodes");
+			return new Array<JsObject>(engine, result);			
 		}
 
 		//#end region
@@ -360,11 +360,11 @@ public class Quadtree extends JavaScriptObject {
 		/**
 		 * Constructor
 		 * 
-		 * @param webEngine
+		 * @param engine
 		 * @param wrappedJsObject
 		 */
-		public RootNode(WebEngine webEngine, JSObject wrappedJsObject) {
-			super(webEngine, wrappedJsObject);
+		public RootNode(JsEngine engine, JsObject wrappedJsObject) {
+			super(engine, wrappedJsObject);
 
 		}
 
@@ -387,8 +387,8 @@ public class Quadtree extends JavaScriptObject {
 				JavaScriptObject javaScriptObject = (JavaScriptObject) point;
 				pointObj = javaScriptObject.getJsObject();
 			}
-			JSObject result = call("add", pointObj);
-			return new Quadtree(webEngine, result);
+			JsObject result = call("add", pointObj);
+			return new Quadtree(engine, result);
 			
 		}
 
@@ -408,7 +408,7 @@ public class Quadtree extends JavaScriptObject {
 
 			assertObjectIsNotAnonymous(callback);
 
-			JSObject d3JsObject = getD3();
+			JsObject d3JsObject = getD3();
 			String methodName = createNewTemporaryInstanceName();
 			d3JsObject.setMember(methodName, callback);
 
@@ -426,10 +426,10 @@ public class Quadtree extends JavaScriptObject {
 			if (result.equals("undefined")){
 				return null;
 			}
-			JSObject jsResult = (JSObject) result;
+			JsObject jsResult = (JsObject) result;
 						
 			
-			return new RootNode<T>(webEngine, jsResult);
+			return new RootNode<T>(engine, jsResult);
 			
 		}
 	}

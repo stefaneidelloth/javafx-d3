@@ -7,13 +7,13 @@ import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 public class HullMouseMoveDataFunction implements DataFunction<Void> {
 
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine;
+	private JsEngine engine;
 
 	private List<HullCoords> vertices;
 
@@ -26,12 +26,12 @@ public class HullMouseMoveDataFunction implements DataFunction<Void> {
 	//#region CONSTRUCTORS
 
 	public HullMouseMoveDataFunction(
-				WebEngine webEngine, 
+				JsEngine engine, 
 				List<HullCoords> vertices, 
 				D3 d3,
 				Runnable redrawRunnable
 		){
-			this.webEngine=webEngine;
+			this.engine=engine;
 			this.vertices = vertices;
 			this.d3 = d3;
 			this.redrawRunnable=redrawRunnable;
@@ -44,8 +44,8 @@ public class HullMouseMoveDataFunction implements DataFunction<Void> {
 	@Override
 	public Void apply(final Object context, final Object d, final int index) {
 		
-		Element element = ConversionUtil.convertObjectTo(context,  Element.class, webEngine);
-		HullCoords coords = new HullCoords(webEngine, d3.mouseX(element), d3.mouseY(element));
+		Element element = ConversionUtil.convertObjectTo(context,  Element.class, engine);
+		HullCoords coords = new HullCoords(engine, d3.mouseX(element), d3.mouseY(element));
 		vertices.set(0, coords);
 		redrawRunnable.run();
 		return null;

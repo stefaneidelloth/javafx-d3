@@ -2,8 +2,8 @@ package org.treez.javafxd3.functionplot;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 @SuppressWarnings("javadoc")
 public class Options extends JavaScriptObject {
@@ -14,8 +14,8 @@ public class Options extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	public Options(WebEngine webEngine) {
-		super(webEngine);
+	public Options(JsEngine engine) {
+		super(engine);
 
 		String command = "var options = {" //
 				+ "width: 200," //
@@ -32,13 +32,13 @@ public class Options extends JavaScriptObject {
 				+ "data: null, " //
 				+ "plugins: null" //
 				+ "};";
-		webEngine.executeScript(command);
-		JSObject options = (JSObject) webEngine.executeScript("options");
+		engine.executeScript(command);
+		JsObject options = (JsObject) engine.executeScript("options");
 		setJsObject(options);
 	}
 
-	public Options(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public Options(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -194,7 +194,7 @@ public class Options extends JavaScriptObject {
 	//#region DATA
 
 	public Options setDataExpression(String dataExpression) {
-		JSObject data = evalForJsObject(dataExpression);
+		JsObject data = evalForJsObject(dataExpression);
 		setMember("data", data);
 		return this;
 	}

@@ -7,21 +7,21 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class HullDataFunction implements DataFunction<String> {
 
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine;
+	private JsEngine engine;
 
 	//#end region
 
 	//#region CONSTRUCTORS
 
-	public HullDataFunction(WebEngine webEngine) {
-		this.webEngine = webEngine;
+	public HullDataFunction(JsEngine engine) {
+		this.engine = engine;
 	}
 
 	//#end region
@@ -32,21 +32,21 @@ public class HullDataFunction implements DataFunction<String> {
 	public String apply(final Object context, final Object d, final int i) {
 
 		
-		JSObject datum = (JSObject) d;
-		Value value = new Value(webEngine, datum);
+		JsObject datum = (JsObject) engine.toJsObjectIfNotSimpleType(d);
+		Value value = new Value(engine, datum);
 
 		
-		JSObject jsCoordsList = value.as();
+		JsObject jsCoordsList = value.as();
 		
 		//Array<MyCoords> coordsList = value.<Array<MyCoords>> as();
-		Array<HullCoords> coordsList = new Array<>(webEngine, jsCoordsList);
+		Array<HullCoords> coordsList = new Array<>(engine, jsCoordsList);
 				
 		int size = coordsList.sizes().get(1);
 				
 		List<String> coordsStringList = new ArrayList<>();
 		for (int index = 0; index < size; index++) {
-			JSObject jsCoords = coordsList.get(index, JSObject.class);
-			HullCoords coords = new HullCoords(webEngine, jsCoords);
+			JsObject jsCoords = coordsList.get(index, JsObject.class);
+			HullCoords coords = new HullCoords(engine, jsCoords);
 			String coordsString = coords.toString();
 			coordsStringList.add(coordsString);
 		}

@@ -58,7 +58,7 @@ public class TestTimeIntervals extends AbstractTestCase {
 
 		double givenDoubleDate = parseDate(givenDateStr);
 
-		JsDate givenJsDate = JsDate.create(webEngine, givenDoubleDate);
+		JsDate givenJsDate = JsDate.create(engine, givenDoubleDate);
 
 		Date givenDate = new Date((long) givenDoubleDate);
 
@@ -89,7 +89,7 @@ public class TestTimeIntervals extends AbstractTestCase {
 		assertDateEquals("offset 3 on Date", expectedOffset3Date, interval.offset(givenDate, 3).getTime());
 
 		JsDate givenJsStart = givenJsDate;
-		JsDate givenJsEnd = JsDate.create(webEngine, expectedOffset3Date);
+		JsDate givenJsEnd = JsDate.create(engine, expectedOffset3Date);
 		assertEquals("range 3 on double", 3, interval.range(givenJsStart.getTime(), givenJsEnd.getTime()).length());
 		assertEquals("range 3 on JsDate", 3, interval.range(givenJsStart, givenJsEnd).length());
 		Date givenStart = givenDate;
@@ -114,7 +114,7 @@ public class TestTimeIntervals extends AbstractTestCase {
 	 * 
 	 * double givenDoubleDate = parseDate(givenDateStr + " GMT+0000");
 	 * 
-	 * JsDate givenJsDate = JsDate.create(webEngine, givenDoubleDate); Date
+	 * JsDate givenJsDate = JsDate.create(engine, givenDoubleDate); Date
 	 * givenDate = new Date((long) givenDoubleDate);
 	 * 
 	 * double expectedFloorDate = parseDate(expectedFloorDateStr + " GMT+0000");
@@ -156,7 +156,7 @@ public class TestTimeIntervals extends AbstractTestCase {
 	 * 3).getTime());
 	 * 
 	 * JsDate givenJsStart = givenJsDate; JsDate givenJsEnd =
-	 * JsDate.create(webEngine, expectedOffset3Date); assertEquals(
+	 * JsDate.create(engine, expectedOffset3Date); assertEquals(
 	 * "range 3 on double", 3, interval.utc().range(givenJsStart.getTime(),
 	 * givenJsEnd.getTime()).length()); assertEquals("range 3 on JsDate", 3,
 	 * interval.utc().range(givenJsStart, givenJsEnd).length()); Date givenStart
@@ -175,7 +175,7 @@ public class TestTimeIntervals extends AbstractTestCase {
 
 	private double parseDate(String dateString) {
 		
-		double d = JsDate.parse(webEngine, dateString);
+		double d = JsDate.parse(engine, dateString);
 		if (Double.isNaN(d)) {
 			throw new IllegalArgumentException("Invalid date : " + dateString);
 		}

@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.ease;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * JSNI easing functions.
@@ -13,11 +13,11 @@ public class JavascriptEasingFunction extends JavaScriptObject implements Easing
 	//#region CONSTRUCTORS
 
 	/**
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public JavascriptEasingFunction(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public JavascriptEasingFunction(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 
 	}

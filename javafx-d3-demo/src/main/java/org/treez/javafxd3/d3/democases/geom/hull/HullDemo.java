@@ -58,7 +58,7 @@ public class HullDemo extends AbstractDemoCase {
 
 		List<HullCoords> coordsList = new ArrayList<>();
 		for (int index = 0; index < 10; index++) {
-			HullCoords coords = new HullCoords(webEngine, randomX(), randomY());
+			HullCoords coords = new HullCoords(engine, randomX(), randomY());
 			coordsList.add(coords);
 		}
 
@@ -67,8 +67,8 @@ public class HullDemo extends AbstractDemoCase {
 		svg = d3.select("svg") //
 				.attr("width", width) //
 				.attr("height", height) //
-				.on("mousemove", new HullMouseMoveDataFunction(webEngine, vertices, d3, () -> redraw())) //
-				.on("click", new HullMouseClickDataFunction(webEngine, vertices, d3, () -> redraw()));
+				.on("mousemove", new HullMouseMoveDataFunction(engine, vertices, d3, () -> redraw())) //
+				.on("click", new HullMouseClickDataFunction(engine, vertices, d3, () -> redraw()));
 
 		svg.append("rect") //
 				.attr("width", width) //
@@ -82,8 +82,8 @@ public class HullDemo extends AbstractDemoCase {
 
 		hullModel = d3.geom() //
 				.hull() //
-				.x(HullCoords.getXAccessor(webEngine)) //
-				.y(HullCoords.getYAccessor(webEngine));
+				.x(HullCoords.getXAccessor(engine)) //
+				.y(HullCoords.getYAccessor(engine));
 
 		redraw();
 	}
@@ -94,7 +94,7 @@ public class HullDemo extends AbstractDemoCase {
 			Array<HullCoords> coordinates = hullModel.apply(vertices);
 
 			hull.datum(coordinates) //
-					.attr("d", new HullDataFunction(webEngine));
+					.attr("d", new HullDataFunction(engine));
 
 			UpdateSelection circles = circle //
 					.data(vertices);
@@ -103,7 +103,7 @@ public class HullDemo extends AbstractDemoCase {
 					.append("circle") //
 					.attr("r", 3);
 
-			circle = circles.attr("transform", new HullTransformDataFunction(webEngine)) //
+			circle = circles.attr("transform", new HullTransformDataFunction(engine)) //
 					.attr("class", "hulldemo");
 
 			circle = circles;

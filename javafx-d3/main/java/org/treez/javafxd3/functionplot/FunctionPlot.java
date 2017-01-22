@@ -3,23 +3,23 @@ package org.treez.javafxd3.functionplot;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 @SuppressWarnings("javadoc")
 public class FunctionPlot extends JavaScriptObject {
 
 	//#region ATTRIBUTES
 
-	private JSObject instance;
+	private JsObject instance;
 
 	//#end region
 
 	//#region CONSTRUCTORS
 
-	public FunctionPlot(WebEngine webEngine) {
-		super(webEngine);
-		JSObject functionPlot = (JSObject) webEngine.executeScript("functionPlot");
+	public FunctionPlot(JsEngine engine) {
+		super(engine);
+		JsObject functionPlot = (JsObject) engine.executeScript("functionPlot");
 		setJsObject(functionPlot);
 	}
 
@@ -31,7 +31,7 @@ public class FunctionPlot extends JavaScriptObject {
 		hideError();
 
 		//plot
-		JSObject jsOptions = options.getJsObject();
+		JsObject jsOptions = options.getJsObject();
 		instance = callThisForJsObject(jsOptions);
 		
 		//format plot
@@ -43,7 +43,7 @@ public class FunctionPlot extends JavaScriptObject {
 
 	private void setLeftMargin() {
 		String command = "this.meta.margin;";
-		JSObject margin = (JSObject) instance.eval(command);
+		JsObject margin = (JsObject) instance.eval(command);
 		margin.eval("this.left=45;");
 	}
 
@@ -89,15 +89,15 @@ public class FunctionPlot extends JavaScriptObject {
 	 */
 	public Options getOptions() {
 		if (instance != null) {
-			JSObject JsOptions = (JSObject) instance.getMember("options");
+			JsObject JsOptions = (JsObject) instance.getMember("options");
 			if (JsOptions == null) {
-				return new Options(webEngine);
+				return new Options(engine);
 			}
 
-			return new Options(webEngine, JsOptions);
+			return new Options(engine, JsOptions);
 
 		} else {
-			return new Options(webEngine);
+			return new Options(engine);
 		}
 	}
 
@@ -109,7 +109,7 @@ public class FunctionPlot extends JavaScriptObject {
 	 * @param height
 	 */
 	public void setSize(double width, double height) {
-		D3 d3 = new D3(webEngine);
+		D3 d3 = new D3(engine);
 		Options options = getOptions();
 
 		//set size of root 	
@@ -130,7 +130,7 @@ public class FunctionPlot extends JavaScriptObject {
 	}
 
 	public void showError() {
-		D3 d3 = new D3(webEngine);
+		D3 d3 = new D3(engine);
 
 		//set size of root 	
 		d3.select("#root").attr("style", "background-color:red");
@@ -138,7 +138,7 @@ public class FunctionPlot extends JavaScriptObject {
 	}
 
 	public void hideError() {
-		D3 d3 = new D3(webEngine);
+		D3 d3 = new D3(engine);
 
 		//set size of root 	
 		d3.select("#root").attr("style", "white");

@@ -64,7 +64,7 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 				.range(0, width)//
 				.clamp(true);
 
-		DataFunction<Void> brushFunction = new ContextDataFunctionWrapper<>(webEngine, (element)->{
+		DataFunction<Void> brushFunction = new ContextDataFunctionWrapper<>(engine, (element)->{
 			brushed(element);
 			return null;
 		});		
@@ -85,7 +85,7 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 				.attr("class", "x axis") //
 				.attr("transform", "translate(0," + height / 2 + ")");
 
-		DataFunction<String> tickFormatFunction = new DataFunctionWrapper<>(String.class, webEngine, (value) -> {
+		DataFunction<String> tickFormatFunction = new DataFunctionWrapper<>(String.class, engine, (value) -> {
 			return value + "A";
 		});
 
@@ -96,7 +96,7 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 				.tickSize(0) //
 				.tickPadding(12);
 
-		DataFunction<Element> datumFunction = new ContextDataFunctionWrapper<>(webEngine, (element)->{
+		DataFunction<Element> datumFunction = new ContextDataFunctionWrapper<>(engine, (element)->{
 				Node cloneNode = element.cloneNode(true);
 				element.getParentNode().appendChild(cloneNode);
 				return cloneNode.cast(Element.class);			
@@ -143,7 +143,7 @@ public class BrushAsSliderDemo extends AbstractDemoCase {
 		String cx = x.apply(value).asString();
 		handle.attr("cx", cx);
 
-		Colors colors = new Colors(webEngine);
+		Colors colors = new Colors(engine);
 		String color = colors.hsl((int) value, .8, .8).toHexaString();
 
 		d3.select("#svg") //

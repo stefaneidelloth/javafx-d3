@@ -8,22 +8,22 @@ import java.util.List;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.dsv.DsvCallback;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class PersonCallback implements DsvCallback<Person> {
 
-	private WebEngine webEngine;
+	private JsEngine engine;
 
-	public PersonCallback(WebEngine webEngine) {
-		this.webEngine = webEngine;
+	public PersonCallback(JsEngine engine) {
+		this.engine = engine;
 	}
 
 	@Override
 	public void get(final Object error, final Object personArray) {
 
-		JSObject jsDsvDataArray = (JSObject) personArray;
-		Array<Person> values = new Array<Person>(webEngine, jsDsvDataArray);
+		JsObject jsDsvDataArray = (JsObject) engine.toJsObjectIfNotSimpleType(personArray);
+		Array<Person> values = new Array<Person>(engine, jsDsvDataArray);
 		List<? extends Person> valueList = values.asList(Person.class);
 
 		assertNull(error);

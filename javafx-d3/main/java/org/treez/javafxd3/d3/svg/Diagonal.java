@@ -5,8 +5,8 @@ import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.layout.Node;
 import org.treez.javafxd3.d3.layout.Tree;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Diagonal generator. Assumes the input data is an object with named attributes
@@ -26,11 +26,11 @@ public class Diagonal extends PathDataGenerator {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Diagonal(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public Diagonal(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -55,11 +55,11 @@ public class Diagonal extends PathDataGenerator {
 	 * @return the accessor function registered with the diagonal generator
 	 */
 	public Diagonal projection() {
-		JSObject result = call("projection");
+		JsObject result = call("projection");
 		if(result==null){
 			return null;
 		}
-		return new Diagonal(webEngine, result);		
+		return new Diagonal(engine, result);		
 	}
 
 	/**
@@ -86,17 +86,17 @@ public class Diagonal extends PathDataGenerator {
 		assertObjectIsNotAnonymous(function);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, function);
 
 		String command = "this.projection(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		if(result==null){
 			return null;
 		}
 
-		return new Diagonal(webEngine, result);
+		return new Diagonal(engine, result);
 
 	}
 
@@ -108,8 +108,8 @@ public class Diagonal extends PathDataGenerator {
 	 * 
 	 * @return the current source accessor
 	 */
-	public JSObject source() {
-		JSObject result = call("source");
+	public JsObject source() {
+		JsObject result = call("source");
 		return result;
 	}
 
@@ -121,8 +121,8 @@ public class Diagonal extends PathDataGenerator {
 	 * 
 	 * @return the current target accessor
 	 */
-	public JSObject target() {
-		JSObject result = call("target");
+	public JsObject target() {
+		JsObject result = call("target");
 		return result;		
 	}
 
@@ -137,8 +137,8 @@ public class Diagonal extends PathDataGenerator {
 	 * @return the diagonal object
 	 */
 	public Diagonal source(Coords source) {
-		JSObject result = call("source", source.getJsObject());
-		return new Diagonal(webEngine, result);	
+		JsObject result = call("source", source.getJsObject());
+		return new Diagonal(engine, result);	
 	}
 
 	/**
@@ -152,8 +152,8 @@ public class Diagonal extends PathDataGenerator {
 	 * @return the diagonal object
 	 */
 	public Diagonal target(Coords target) {
-		JSObject result = call("target", target.getJsObject());
-		return new Diagonal(webEngine, result);		
+		JsObject result = call("target", target.getJsObject());
+		return new Diagonal(engine, result);		
 	}
 
 	/**
@@ -173,15 +173,15 @@ public class Diagonal extends PathDataGenerator {
 		assertObjectIsNotAnonymous(function);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, function);
 
 		String command = "this.source(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		
 
-		return new Diagonal(webEngine, result);
+		return new Diagonal(engine, result);
 		
 		
 	}
@@ -203,15 +203,15 @@ public class Diagonal extends PathDataGenerator {
 		assertObjectIsNotAnonymous(function);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, function);
 
 		String command = "this.target(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		
 
-		return new Diagonal(webEngine, result);
+		return new Diagonal(engine, result);
 	}
 
 	//#end region

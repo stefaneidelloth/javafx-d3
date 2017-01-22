@@ -5,7 +5,7 @@ import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.functions.data.CountDataFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Testing the internal structure of the selections and sub selections.
@@ -61,9 +61,9 @@ public class SubSelectionsTest extends AbstractSelectionTest {
 		assertEquals(3, blahs.size());
 		assertEquals(1, blahs.groupCount());
 		assertEquals(1, (int) blahs.asElementArray().length());
-		JSObject firstElement = blahs.asElementArray().get(0, JSObject.class);
+		JsObject firstElement = blahs.asElementArray().get(0, JsObject.class);
 
-		assertEquals(3, new Array<>(webEngine, firstElement).length());
+		assertEquals(3, new Array<>(engine, firstElement).length());
 
 		// parentNode
 		assertParentNodeIsRootHtml(blahs);
@@ -74,8 +74,8 @@ public class SubSelectionsTest extends AbstractSelectionTest {
 		assertEquals(1, barfoos.groupCount());
 		assertEquals(1, (int) barfoos.asElementArray().length());
 
-		firstElement = blahs.asElementArray().get(0, JSObject.class);
-		assertEquals(3, new Array<>(webEngine, firstElement).length());
+		firstElement = blahs.asElementArray().get(0, JsObject.class);
+		assertEquals(3, new Array<>(engine, firstElement).length());
 		assertParentNodeIsRootHtml(barfoos);
 
 		//Element[][] matrix1 = getRoot().node().getChild(0).<Element[][]> cast();
@@ -104,9 +104,9 @@ public class SubSelectionsTest extends AbstractSelectionTest {
 		Array<Element> array = firstZorgs.asElementArray();
 		assertEquals(1, (int) array.sizes().get(1));
 
-		JSObject firstElement = array.get(0, JSObject.class);
+		JsObject firstElement = array.get(0, JsObject.class);
 
-		assertEquals(1, new Array<>(webEngine, firstElement).length());
+		assertEquals(1, new Array<>(engine, firstElement).length());
 		// if multiple elements match the selector, only the first matching
 		// element in document traversal order will be
 		// selected.
@@ -136,7 +136,7 @@ public class SubSelectionsTest extends AbstractSelectionTest {
 				+ "<div><zorg>bar</zorg><zorg>bar2</zorg></div>" + "<div><zorg>zing</zorg><zorg>zing2</zorg></div>");
 		divs = d3.select("#root").selectAll("div");
 
-		Array<JSObject> elemArray = new Array<>(webEngine, divs.asElementArray().get(0, JSObject.class));
+		Array<JsObject> elemArray = new Array<>(engine, divs.asElementArray().get(0, JsObject.class));
 
 		elemArray.get(0, Element.class).setPropertyInt(Selection.DATA_PROPERTY, 6);
 		elemArray.get(1, Element.class).setPropertyInt(Selection.DATA_PROPERTY, 2);
@@ -187,7 +187,7 @@ public class SubSelectionsTest extends AbstractSelectionTest {
 		// sanbox ?
 		assertEquals(3, getRoot().node().getChildCount());
 		// it seems in the span elements
-		d3.select("#root").selectAll("span").each(new AssertOneChildDataFunction(webEngine));
+		d3.select("#root").selectAll("span").each(new AssertOneChildDataFunction(engine));
 
 	}
 
@@ -213,7 +213,7 @@ public class SubSelectionsTest extends AbstractSelectionTest {
 		// sanbox ?
 		assertEquals(3, getRoot().node().getChildCount());
 		// it seems in the span elements
-		d3.select("#root").selectAll("span").each(new AssertOneChildDataFunction(webEngine));
+		d3.select("#root").selectAll("span").each(new AssertOneChildDataFunction(engine));
 
 	}
 

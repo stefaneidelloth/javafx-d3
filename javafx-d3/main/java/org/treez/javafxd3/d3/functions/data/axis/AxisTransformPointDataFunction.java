@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.functions.data.axis;
 
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.scales.QuantitativeScale;
-
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A datum function that extracts an xy pair, scales the data with the
@@ -14,18 +14,18 @@ public class AxisTransformPointDataFunction implements DataFunction<String> {
 	
 	//#region ATTRIBUTES
 	
-	QuantitativeScale<?> xScale;
+	private JsEngine engine;
 	
-	QuantitativeScale<?> yScale;
+	private QuantitativeScale<?> xScale;
+	
+	private QuantitativeScale<?> yScale;
 	
 	//#end region
 	
-	//#region CONSTRUCTORS
-	
-	/**
-	 * @param webEngine
-	 */
-	public AxisTransformPointDataFunction(QuantitativeScale<?> xScale, QuantitativeScale<?> yScale){
+	//#region CONSTRUCTORS	
+
+	public AxisTransformPointDataFunction(JsEngine engine, QuantitativeScale<?> xScale, QuantitativeScale<?> yScale){
+		this.engine = engine;
 		this.xScale = xScale;
 		this.yScale = yScale;
 	}
@@ -37,7 +37,7 @@ public class AxisTransformPointDataFunction implements DataFunction<String> {
 	@Override
 	public String apply(Object context, Object datum, int index) {
 		
-		JSObject jsObject = (JSObject) datum;	
+		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);	
 		
 		Object xValueObj = jsObject.eval("this.datum[0]");	
 		Double x = Double.parseDouble(xValueObj.toString());	

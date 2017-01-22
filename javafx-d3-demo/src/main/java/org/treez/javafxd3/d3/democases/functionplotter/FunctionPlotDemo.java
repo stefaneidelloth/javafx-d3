@@ -37,11 +37,11 @@ public class FunctionPlotDemo extends AbstractDemoCase {
 				.attr("width", 700) //
 				.attr("height", 400);
 
-		Options options = new Options(webEngine) //
+		Options options = new Options(engine) //
 				.setTarget("#svg") //
 				.setDataExpression("[{fn: 'exp(-x^2)'}]");
 		
-		FunctionPlot functionPlot = new FunctionPlot(webEngine);
+		FunctionPlot functionPlot = new FunctionPlot(engine);
 		functionPlot.apply(options);
 		
 	}

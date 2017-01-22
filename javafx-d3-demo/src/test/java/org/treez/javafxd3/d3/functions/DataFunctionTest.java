@@ -3,14 +3,14 @@ package org.treez.javafxd3.d3.functions;
 import org.treez.javafxd3.d3.AbstractTestCase;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class DataFunctionTest extends AbstractTestCase {
 
 	@Override	
 	public void doTest() {
 		
-		JSObject d3Obj = d3.getJsObject();
+		JsObject d3Obj = d3.getJsObject();
 		
 		DataFunction<String> datumFunction = new StringDataFunction();
 				

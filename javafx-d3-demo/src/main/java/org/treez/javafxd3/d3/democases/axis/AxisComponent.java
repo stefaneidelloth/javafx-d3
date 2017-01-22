@@ -79,14 +79,14 @@ public class AxisComponent extends AbstractDemoCase {
 
 		// An area generator, for the light fill.
 
-		DataFunction<Double> xFunction = new DataFunctionWrapper<>(DsvData.class, webEngine, (dsvData) -> {
+		DataFunction<Double> xFunction = new DataFunctionWrapper<>(DsvData.class, engine, (dsvData) -> {
 			JsDate date = dsvData.getDate();
 			Value scaledValue = x.apply(date);
 			Double xResult = scaledValue.asDouble();
 			return xResult;
 		});
 
-		DataFunction<Double> yFunction = new DataFunctionWrapper<>(DsvData.class, webEngine, (dsvData) -> {
+		DataFunction<Double> yFunction = new DataFunctionWrapper<>(DsvData.class, engine, (dsvData) -> {
 			Double price = dsvData.getPrice();
 			Value scaledValue = y.apply(price);
 			Double yResult = scaledValue.asDouble();
@@ -109,8 +109,8 @@ public class AxisComponent extends AbstractDemoCase {
 
 		Selection svg = d3.select("svg");
 
-		DsvObjectAccessor<DsvData> accessor = new DataDsvObjectAccessor(webEngine, format);
-		DsvCallback<DsvData> callback = new DataDsvCallback(webEngine, svg, x, y, xAxis, yAxis, line, area, m, w, h);
+		DsvObjectAccessor<DsvData> accessor = new DataDsvObjectAccessor(engine, format);
+		DsvCallback<DsvData> callback = new DataDsvCallback(engine, svg, x, y, xAxis, yAxis, line, area, m, w, h);
 
 		String csvData = getCsvData();
 		Dsv<DsvData> csv = d3.<DsvData> csv();

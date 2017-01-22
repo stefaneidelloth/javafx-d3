@@ -2,10 +2,7 @@ package org.treez.javafxd3.d3.svg.datafunction;
 
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-/**
- * A datum function that returns the datum times a constant factor
- * 
- */
+
 public class IndexFactorDataFunction implements DataFunction<Double> {
 
 	//#region ATTRIBUTES
@@ -17,7 +14,7 @@ public class IndexFactorDataFunction implements DataFunction<Double> {
 	//#region CONSTRUCTORS
 
 	/**
-	 * @param webEngine
+	 * @param engine
 	 */
 	public IndexFactorDataFunction(Double factor) {
 		this.factor = factor;

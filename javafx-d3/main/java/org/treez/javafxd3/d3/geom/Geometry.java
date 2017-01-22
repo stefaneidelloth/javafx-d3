@@ -6,8 +6,8 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.arrays.ArrayUtils;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * The geometry module.
@@ -17,11 +17,11 @@ public class Geometry extends JavaScriptObject {
 	//#region CONSTRUCTORS
 	
     /**
-     * @param webEngine
+     * @param engine
      * @param wrappedJsObject
      */
-    public Geometry(WebEngine webEngine, JSObject wrappedJsObject) {
-    	super(webEngine);
+    public Geometry(JsEngine engine, JsObject wrappedJsObject) {
+    	super(engine);
     	setJsObject(wrappedJsObject);
     }
     
@@ -36,8 +36,8 @@ public class Geometry extends JavaScriptObject {
      * @return the hull
      */
     public Hull hull(){
-    	JSObject result = call("hull");
-    	return new Hull(webEngine, result);		
+    	JsObject result = call("hull");
+    	return new Hull(engine, result);		
     }
 
     /**
@@ -49,9 +49,9 @@ public class Geometry extends JavaScriptObject {
      * @return the convex hull as an array of vertices
      */
     public  <T> Array<T> hull(Array<T> vertices){    	
-    	JSObject verticesObj = vertices.getJsObject();
-    	JSObject result = call("hull", verticesObj);
-    	return new Array<T>(webEngine, result);			
+    	JsObject verticesObj = vertices.getJsObject();
+    	JsObject result = call("hull", verticesObj);
+    	return new Array<T>(engine, result);			
     }
 
     /**
@@ -63,7 +63,7 @@ public class Geometry extends JavaScriptObject {
      * @return the convex hull as a list of vertices
      */
     public final <T> List<? extends T> hull(final List<T> vertices, Class<T> clazz) {
-    	Array<T> array = Array.fromList(webEngine, vertices);    	
+    	Array<T> array = Array.fromList(engine, vertices);    	
     	Array<T> hullArray = this.hull(array);
     	List<? extends T> hullList = hullArray.asList(clazz);
     	return hullList;
@@ -80,8 +80,8 @@ public class Geometry extends JavaScriptObject {
     public Polygon polygon(Double[][] vertices){
     	String arrayString = ArrayUtils.createArrayString(vertices);
     	String command = "this.polygon(" + arrayString+ ")";
-    	JSObject result = evalForJsObject(command);
-    	return new Polygon(webEngine, result);			
+    	JsObject result = evalForJsObject(command);
+    	return new Polygon(engine, result);			
     }
 
     /**
@@ -96,8 +96,8 @@ public class Geometry extends JavaScriptObject {
      * @return the {@link Quadtree} factory
      */
     public Quadtree quadtree(){
-    	JSObject result = call("quadtree");
-    	return new Quadtree(webEngine, result);		
+    	JsObject result = call("quadtree");
+    	return new Quadtree(engine, result);		
     }
 
     /**
@@ -106,8 +106,8 @@ public class Geometry extends JavaScriptObject {
      * @return the Voronoi factory
      */
     public Voronoi voronoi(){
-    	JSObject result = call("voronoi");
-    	return new Voronoi(webEngine, result);			
+    	JsObject result = call("voronoi");
+    	return new Voronoi(engine, result);			
     }
     
     //#end region

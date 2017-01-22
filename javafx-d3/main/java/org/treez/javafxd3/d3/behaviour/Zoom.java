@@ -12,8 +12,8 @@ import org.treez.javafxd3.d3.functions.JsFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.scales.QuantitativeScale;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * This behavior automatically creates event listeners to handle scroll gestures
@@ -29,8 +29,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 
 	//#region CONSTRUCTORS
 
-	public Zoom(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Zoom(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -88,7 +88,7 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 
 		String listenerName = createNewTemporaryInstanceName();
 		String varName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(listenerName, listener);
 
 		String eventName = type.name().toLowerCase();
@@ -100,13 +100,13 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 		eval(command);
 		String onCommand = "this.on('" + eventName + "', "+varName+");";
 
-		JSObject result = evalForJsObject(onCommand);
+		JsObject result = evalForJsObject(onCommand);
 		
 
 		if (result == null) {
 			return null;
 		}
-		return new Zoom(webEngine, result);
+		return new Zoom(engine, result);
 	}
 
 	/**
@@ -117,8 +117,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return the x-scale
 	 */
 	public QuantitativeScale<?> x() {
-		JSObject result = call("x");
-		return new LinearScale(webEngine, result);
+		JsObject result = call("x");
+		return new LinearScale(engine, result);
 	}
 
 	/**
@@ -133,9 +133,9 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return Zoom the current Zoom object
 	 */
 	public Zoom x(QuantitativeScale<?> scale) {
-		JSObject jsScale = scale.getJsObject();
-		JSObject result = call("x", jsScale);
-		return new Zoom(webEngine, result);
+		JsObject jsScale = scale.getJsObject();
+		JsObject result = call("x", jsScale);
+		return new Zoom(engine, result);
 	}
 
 	/**
@@ -146,8 +146,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return the y-scale
 	 */
 	public QuantitativeScale<?> y() {
-		JSObject result = call("y");
-		return new LinearScale(webEngine, result);
+		JsObject result = call("y");
+		return new LinearScale(engine, result);
 	}
 
 	/**
@@ -163,9 +163,9 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return the current zoom object
 	 */
 	public Zoom y(QuantitativeScale<?> scale) {
-		JSObject jsScale = scale.getJsObject();
-		JSObject result = call("y", jsScale);
-		return new Zoom(webEngine, result);
+		JsObject jsScale = scale.getJsObject();
+		JsObject result = call("y", jsScale);
+		return new Zoom(engine, result);
 	}
 
 	/**
@@ -176,8 +176,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return the zoom scale's allowed range as a two-element array
 	 */
 	public Array<Double> scaleExtent() {
-		JSObject result = call("scaleExtent");
-		return new Array<Double>(webEngine, result);
+		JsObject result = call("scaleExtent");
+		return new Array<Double>(engine, result);
 	}
 
 	/**
@@ -194,8 +194,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	public Zoom scaleExtent(Double[] scale) {
 		String arrayString = ArrayUtils.createArrayString(scale);
 		String command = "this.scaleExtent(" + arrayString + ")";
-		JSObject result = evalForJsObject(command);
-		return new Zoom(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Zoom(engine, result);
 	}
 
 	/**
@@ -214,8 +214,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 */
 	public Zoom center(double x, double y) {
 		String command = "this.center([" + x + "," + y + "])";
-		JSObject result = evalForJsObject(command);
-		return new Zoom(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Zoom(engine, result);
 	}
 
 	/**
@@ -228,11 +228,11 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return the array of double
 	 */
 	public Array<Double> center() {
-		JSObject result = call("center");
+		JsObject result = call("center");
 		if (result == null) {
 			return null;
 		}
-		return new Array<Double>(webEngine, result);
+		return new Array<Double>(engine, result);
 	}
 
 	/**
@@ -249,8 +249,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 */
 	public Zoom size(int width, int height) {
 		String command = "this.size([" + width + "," + height + "])";
-		JSObject result = evalForJsObject(command);
-		return new Zoom(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Zoom(engine, result);
 	}
 
 	/**
@@ -260,8 +260,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return the size
 	 */
 	public Array<Double> size() {
-		JSObject result = call("size");
-		return new Array<Double>(webEngine, result);
+		JsObject result = call("size");
+		return new Array<Double>(engine, result);
 	}
 
 	/**
@@ -284,8 +284,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return the current zoom object
 	 */
 	public Zoom scale(double scale) {
-		JSObject result = call("scale", scale);
-		return new Zoom(webEngine, result);
+		JsObject result = call("scale", scale);
+		return new Zoom(engine, result);
 	}
 
 	/**
@@ -295,8 +295,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return the current translation vector
 	 */
 	public Array<Double> translate() {
-		JSObject result = call("translate");
-		return new Array<Double>(webEngine, result);
+		JsObject result = call("translate");
+		return new Array<Double>(engine, result);
 	}
 
 	/**
@@ -310,8 +310,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	public Zoom translate(Double[] vector) {
 		String arrayString = ArrayUtils.createArrayString(vector);
 		String command = "this.translate(" + arrayString + ");";
-		JSObject result = evalForJsObject(command);
-		return new Zoom(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Zoom(engine, result);
 	}
 
 	/**
@@ -328,9 +328,9 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return the current zoom
 	 */
 	public Zoom event(Selection selection) {
-		JSObject jsObject = selection.getJsObject();
-		JSObject result = call("event", jsObject);
-		return new Zoom(webEngine, result);
+		JsObject jsObject = selection.getJsObject();
+		JsObject result = call("event", jsObject);
+		return new Zoom(engine, result);
 	}
 
 	/**
@@ -349,9 +349,9 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 	 * @return
 	 */
 	public Zoom event(Transition selection) {
-		JSObject jsObject = selection.getJsObject();
-		JSObject result = call("event", jsObject);
-		return new Zoom(webEngine, result);
+		JsObject jsObject = selection.getJsObject();
+		JsObject result = call("event", jsObject);
+		return new Zoom(engine, result);
 	}
 
 	/**
@@ -371,11 +371,11 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 		/**
 		 * Constructor
 		 * 
-		 * @param webEngine
+		 * @param engine
 		 * @param wrappedJsObject
 		 */
-		public ZoomEvent(WebEngine webEngine, JSObject wrappedJsObject) {
-			super(webEngine);
+		public ZoomEvent(JsEngine engine, JsObject wrappedJsObject) {
+			super(engine);
 			setJsObject(wrappedJsObject);
 		}
 
@@ -402,8 +402,8 @@ public class Zoom extends JavaScriptObject implements JsFunction {
 		 */
 
 		public Array<Double> translate() {
-			JSObject result = getMember("translate");
-			return new Array<Double>(webEngine, result);
+			JsObject result = getMember("translate");
+			return new Array<Double>(engine, result);
 		}
 
 		/**

@@ -54,7 +54,7 @@ public class TsvTest extends AbstractTestCase {
 
 	private void testTsvParseWithAccessor() {		
 
-		Array<Person> rows = d3.<Person> tsv().parse(EXAMPLE_DATA, new PersonAccessor(webEngine));
+		Array<Person> rows = d3.<Person> tsv().parse(EXAMPLE_DATA, new PersonAccessor(engine));
 		assertEquals(5, rows.length());
 		Person jane = rows.get(2, Person.class);
 		assertEquals("Jane", jane.getName());
@@ -72,7 +72,7 @@ public class TsvTest extends AbstractTestCase {
 
 	private void testTsvParseRowsWithAccessor() {		
 
-		Array<Person> rows = d3.<Person> tsv().parseRows(ROW_EXAMPLE_DATA, new PersonArrayAccessor(webEngine));
+		Array<Person> rows = d3.<Person> tsv().parseRows(ROW_EXAMPLE_DATA, new PersonArrayAccessor(engine));
 		assertEquals(5, rows.length());
 		Person jane = rows.get(2,  Person.class);
 		assertEquals("Jane", jane.getName());
@@ -83,15 +83,15 @@ public class TsvTest extends AbstractTestCase {
 
 		// FIXME : we are not really sure if accessor and callback are actually
 		// called
-		PersonAccessor accessor = new PersonAccessor(webEngine);
-		PersonCallback callback = new PersonCallback(webEngine);
+		PersonAccessor accessor = new PersonAccessor(engine);
+		PersonCallback callback = new PersonCallback(engine);
 		d3.tsv("https://github.com/stefaneidelloth/javafx-d3/blob/master/javafx-d3-demo/src/main/resources/test-data/test.tsv", accessor, callback);
 	}
 
 	private void testTsvWithCallback() {	
 
 		// FIXME : we are not really sure if callback is actually called
-		PersonRowCallback callback = new PersonRowCallback(webEngine);
+		PersonRowCallback callback = new PersonRowCallback(engine);
 		d3.tsv("https://github.com/stefaneidelloth/javafx-d3/blob/master/javafx-d3-demo/src/main/resources/test-data/test.tsv", callback);
 	}
 
@@ -99,8 +99,8 @@ public class TsvTest extends AbstractTestCase {
 
 		// FIXME : we are not really sure if accessor and callback are actually
 		// called
-		PersonAccessor accessor = new PersonAccessor(webEngine);
-		PersonCallback callback = new PersonCallback(webEngine);
+		PersonAccessor accessor = new PersonAccessor(engine);
+		PersonCallback callback = new PersonCallback(engine);
 		d3.<Person> tsv("https://github.com/stefaneidelloth/javafx-d3/blob/master/javafx-d3-demo/src/main/resources/test-data/test.tsv").row(accessor).get(callback);
 	}
 }

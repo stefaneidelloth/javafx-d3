@@ -4,8 +4,8 @@ import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.functions.JsFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Allows a number to be formatted as a String.
@@ -92,11 +92,11 @@ public class Formatter extends JavaScriptObject implements JsFunction {
 	//#region CONSTRUCTORS
 
 	/**
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Formatter(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Formatter(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -112,7 +112,7 @@ public class Formatter extends JavaScriptObject implements JsFunction {
 	 * @return the {@link Formatter} instance.
 	 */
 	public Formatter create(final String specifier) {
-		D3 d3 = new D3(webEngine);
+		D3 d3 = new D3(engine);
 		return d3.format(specifier);
 	}
 

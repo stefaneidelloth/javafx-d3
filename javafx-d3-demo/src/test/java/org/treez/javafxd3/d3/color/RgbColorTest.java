@@ -15,7 +15,7 @@ public class RgbColorTest extends AbstractTestCase {
 	@Override
 	public void doTest() {
 
-		Colors colors = new Colors(webEngine);
+		Colors colors = new Colors(engine);
 
 		RGBColor rgb = colors.rgb("#ff0000");
 		assertEquals(255, rgb.r());

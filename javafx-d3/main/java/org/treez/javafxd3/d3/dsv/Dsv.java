@@ -3,19 +3,19 @@ package org.treez.javafxd3.d3.dsv;
 import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class Dsv<T> extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
 	/**
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Dsv(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Dsv(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -39,21 +39,21 @@ public class Dsv<T> extends JavaScriptObject {
 		assertObjectIsNotAnonymous(callback);
 
 		String callbackName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(callbackName, callback);		
 		
 		String command = "this.get(function(row, index) {" + //				
 				"   return d3." + callbackName + ".get(row, index);" //
 				+ "}" +//
 				");";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		
 		
 		if (result == null) {
 			return null;
 		}
 
-		return new DsvRow(webEngine, result);
+		return new DsvRow(engine, result);
 
 		
 	}
@@ -74,14 +74,14 @@ public class Dsv<T> extends JavaScriptObject {
 		assertObjectIsNotAnonymous(accessor);		
 
 		String accessorName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(accessorName, accessor);
 		
 		String command = "this.row(function(row, index) {" + //				
 				"   return d3." + accessorName + ".apply(row, index);" //
 				+ "}" +//
 				");";
-		JSObject result = evalForJsObject(command);		
+		JsObject result = evalForJsObject(command);		
 		
 		
 
@@ -89,7 +89,7 @@ public class Dsv<T> extends JavaScriptObject {
 			return null;
 		}
 
-		return new Dsv<T>(webEngine, result);		
+		return new Dsv<T>(engine, result);		
 		
 	}
 
@@ -109,11 +109,11 @@ public class Dsv<T> extends JavaScriptObject {
 	 */
 	public Array<DsvRow> parse(String csvContent) {
 
-		JSObject result = call("parse", csvContent);
+		JsObject result = call("parse", csvContent);
 		if (result == null) {
 			return null;
 		}
-		return new Array<DsvRow>(webEngine, result);
+		return new Array<DsvRow>(engine, result);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class Dsv<T> extends JavaScriptObject {
 		assertObjectIsNotAnonymous(accessor);
 
 		String accessorName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(accessorName, accessor);
 
 		String correctedCsvContent = csvContent.replace("\n", "\\n");
@@ -145,7 +145,7 @@ public class Dsv<T> extends JavaScriptObject {
 		String command = "this.parse('" + correctedCsvContent + "', function(row, index) {" + "   return d3."
 				+ accessorName + ".apply(row, index);" //
 				+ "}" + ");";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(accessorName);
 		
@@ -154,7 +154,7 @@ public class Dsv<T> extends JavaScriptObject {
 			return null;
 		}
 
-		return new Array<T>(webEngine, result);
+		return new Array<T>(engine, result);
 	}
 
 	/**
@@ -171,11 +171,11 @@ public class Dsv<T> extends JavaScriptObject {
 	 * @return CSV rows
 	 */
 	public Array<Array<String>> parseRows(String csvContent) {
-		JSObject result = call("parseRows", csvContent);
+		JsObject result = call("parseRows", csvContent);
 		if (result == null) {
 			return null;
 		}
-		return new Array<Array<String>>(webEngine, result);
+		return new Array<Array<String>>(engine, result);
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class Dsv<T> extends JavaScriptObject {
 		assertObjectIsNotAnonymous(accessor);
 
 		String accessorName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(accessorName, accessor);
 
 		String correctedCsvContent = csvContent.replace("\n", "\\n");
@@ -206,7 +206,7 @@ public class Dsv<T> extends JavaScriptObject {
 		String command = "this.parseRows('" + correctedCsvContent + "', function(row, index) {" + "   return d3."
 				+ accessorName + ".parse(row, index);" //
 				+ "}" + ");";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(accessorName);
 		
@@ -215,6 +215,6 @@ public class Dsv<T> extends JavaScriptObject {
 			return null;
 		}
 
-		return new Array<T>(webEngine, result);
+		return new Array<T>(engine, result);
 	}
 }

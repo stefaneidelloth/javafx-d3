@@ -3,21 +3,21 @@ package org.treez.javafxd3.d3.democases.svg.line;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class DefinedDataFunction implements DataFunction<Boolean> {
 	
 	//#region ATTRIBUTES
 	
-	private WebEngine webEngine;
+	private JsEngine engine;
 	
 	//#end region
 	
 	//#region CONSTRUCTORS
 	
-	public DefinedDataFunction(WebEngine webEngine){
-		this.webEngine = webEngine;
+	public DefinedDataFunction(JsEngine engine){
+		this.engine = engine;
 	}
 	
 	//#end region
@@ -27,8 +27,8 @@ public class DefinedDataFunction implements DataFunction<Boolean> {
 	@Override
 	public Boolean apply(Object context, Object d, int index) {
 		
-		JSObject datum = (JSObject) d;		
-		Value value = new Value(webEngine, datum);
+		JsObject datum = (JsObject) engine.toJsObjectIfNotSimpleType(d);		
+		Value value = new Value(engine, datum);
 		
 		CustomCoords coords = value.<CustomCoords> as(CustomCoords.class);
 		if (coords!=null){

@@ -2,7 +2,7 @@ package org.treez.javafxd3.d3.interpolators;
 
 
 
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * An interpolator is a function that maps a parametric value t in the domain [0,1] to a color, number or arbitrary value.
@@ -36,5 +36,5 @@ public interface Interpolator<T> {
 	 * 
 	 * @return the JS function
 	 */
-	public JSObject asJSOFunction();
+	public JsObject asJsFunction();
 }

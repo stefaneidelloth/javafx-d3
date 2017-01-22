@@ -13,7 +13,7 @@ public class TransformTest extends AbstractTestCase {
 	@Override
 	public void doTest() {
 
-		Transform transform = new Transform(webEngine);
+		Transform transform = new Transform(engine);
 
 		// empty
 		Transform tr = transform.parse("");

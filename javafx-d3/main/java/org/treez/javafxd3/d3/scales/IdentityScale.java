@@ -5,8 +5,8 @@ import org.treez.javafxd3.d3.core.Formatter;
 import org.treez.javafxd3.d3.svg.Axis;
 import org.treez.javafxd3.d3.svg.Brush;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Identity scales are a special case of linear scales where the domain and
@@ -27,11 +27,11 @@ public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public IdentityScale(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public IdentityScale(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 
 	}
 
@@ -61,8 +61,8 @@ public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 	 * @return the array of ticks
 	 */
 	public <T> Array<T> ticks(int count) {
-		JSObject result = call("ticks", count);
-		return new Array<T>(webEngine, result);		
+		JsObject result = call("ticks", count);
+		return new Array<T>(engine, result);		
 	}
 
 	/**
@@ -71,8 +71,8 @@ public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 	 * @return the array of reference ticks
 	 */
 	public <T> Array<T> ticks() {
-		JSObject result = call("ticks");
-		return new Array<T>(webEngine, result);	
+		JsObject result = call("ticks");
+		return new Array<T>(engine, result);	
 	}
 
 	// =========== tickFormat ==========
@@ -94,8 +94,8 @@ public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 	 * @return a number format
 	 */
 	public Formatter tickFormat(int count) {
-		JSObject result = call("tickFormat", count);
-		return new Formatter(webEngine, result);		
+		JsObject result = call("tickFormat", count);
+		return new Formatter(engine, result);		
 	}
 
 	/**
@@ -120,13 +120,13 @@ public class IdentityScale extends ContinuousQuantitativeScale<IdentityScale> {
 	 * @return a number format
 	 */
 	public Formatter tickFormat(int count, String formatSpecifier) {
-		JSObject result = call("tickFormat", count, formatSpecifier);
-		return new Formatter(webEngine, result);			
+		JsObject result = call("tickFormat", count, formatSpecifier);
+		return new Formatter(engine, result);			
 	}
 
 	@Override
-	public IdentityScale createScale(WebEngine webEngine, JSObject result) {
-		return new IdentityScale(webEngine, result);
+	public IdentityScale createScale(JsEngine engine, JsObject result) {
+		return new IdentityScale(engine, result);
 	}
 
 	//#end region

@@ -4,13 +4,13 @@ import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.functions.KeyFunction;
 import org.treez.javafxd3.d3.functions.data.wrapper.PlainDataFunction;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 public class KeyFunctionWrapper<R, A> implements KeyFunction<R> {
 
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine=null;
+	private JsEngine engine=null;
 
 	private PlainDataFunction<R, A> plainDataFunction = null;
 
@@ -34,9 +34,9 @@ public class KeyFunctionWrapper<R, A> implements KeyFunction<R> {
 	 * Wraps an action that only needs the datum as a single argument.
 	 * The datum is automatically converted to the required type.
 	 */
-	public KeyFunctionWrapper(Class<A> classOfArgument, WebEngine webEngine,
+	public KeyFunctionWrapper(Class<A> classOfArgument, JsEngine engine,
 			PlainDataFunction<R, A> plainDataFunction) {
-		this.webEngine = webEngine;
+		this.engine = engine;
 		this.plainDataFunction = plainDataFunction;
 		this.plainClass = classOfArgument;
 	}
@@ -51,7 +51,7 @@ public class KeyFunctionWrapper<R, A> implements KeyFunction<R> {
 			runnable.run();
 			return null;
 		} else {
-			A convertedDatum = ConversionUtil.convertObjectTo(datum, plainClass, webEngine);
+			A convertedDatum = ConversionUtil.convertObjectTo(datum, plainClass, engine);
 			return plainDataFunction.apply(convertedDatum);
 		}
 	}

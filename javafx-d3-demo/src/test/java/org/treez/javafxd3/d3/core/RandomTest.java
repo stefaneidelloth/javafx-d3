@@ -11,7 +11,7 @@ public class RandomTest extends AbstractTestCase {
 
 	@Override
 	public void doTest() {
-		Random random = new Random(webEngine);
+		Random random = new Random(engine);
 
 		random.normal().generate();
 		random.normal(1000).generate();

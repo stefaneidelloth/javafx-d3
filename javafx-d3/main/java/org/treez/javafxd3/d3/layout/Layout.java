@@ -4,8 +4,8 @@ package org.treez.javafxd3.d3.layout;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * 
@@ -18,11 +18,11 @@ public class Layout extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Layout(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Layout(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}    
     
@@ -34,8 +34,8 @@ public class Layout extends JavaScriptObject {
      * @return
      */
 	public  Chord chord() {
-		JSObject result = call("chord");
-		return new Chord(webEngine, result);		
+		JsObject result = call("chord");
+		return new Chord(engine, result);		
 	}
 
 	/**
@@ -48,8 +48,8 @@ public class Layout extends JavaScriptObject {
 	 * @return the tree layout object
 	 */
 	public  Tree tree() {
-		JSObject result = call("tree");
-		return new Tree(webEngine, result);
+		JsObject result = call("tree");
+		return new Tree(engine, result);
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class Layout extends JavaScriptObject {
 	 * @return the new cluster generator
 	 */
 	public  Cluster cluster(){
-		JSObject result = call("cluster");
-		return new Cluster(webEngine, result);
+		JsObject result = call("cluster");
+		return new Cluster(engine, result);
 	}
 
     /**
@@ -78,7 +78,7 @@ public class Layout extends JavaScriptObject {
      * @return the new force layout object
      */
     public  Force force(){
-    	JSObject result = call("force");
-		return new Force(webEngine, result);
+    	JsObject result = call("force");
+		return new Force(engine, result);
 	}
 }

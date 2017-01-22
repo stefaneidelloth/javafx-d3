@@ -4,8 +4,8 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.svg.Diagonal;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  *
@@ -18,11 +18,11 @@ public class HierarchicalLayout extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public HierarchicalLayout(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public HierarchicalLayout(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -56,9 +56,9 @@ public class HierarchicalLayout extends JavaScriptObject {
 	 * @return array of {@link Node} in the tree stemming from root
 	 */
 	public Array<Node> nodes(Node root) {
-		JSObject rootObj = root.getJsObject();
-		JSObject result = call("nodes", rootObj);
-		return new Array<Node>(webEngine, result);
+		JsObject rootObj = root.getJsObject();
+		JsObject result = call("nodes", rootObj);
+		return new Array<Node>(engine, result);
 	}
 
 	/**
@@ -81,9 +81,9 @@ public class HierarchicalLayout extends JavaScriptObject {
 	 * @return array of {@link Link} connecting nodes
 	 */
 	public Array<Link> links(Array<Node> nodes) {
-		JSObject nodesObj = nodes.getJsObject();
-		JSObject result = call("links", nodesObj);
-		return new Array<Link>(webEngine, result);		
+		JsObject nodesObj = nodes.getJsObject();
+		JsObject result = call("links", nodesObj);
+		return new Array<Link>(engine, result);		
 	}
 
 	/**
@@ -97,8 +97,8 @@ public class HierarchicalLayout extends JavaScriptObject {
 		//#region CONSTRUCTORS
 
 	
-		public Node(WebEngine webEngine, JSObject wrappedJsObject) {
-			super(webEngine, wrappedJsObject);
+		public Node(JsEngine engine, JsObject wrappedJsObject) {
+			super(engine, wrappedJsObject);
 		}
 
 		//#end region
@@ -109,16 +109,16 @@ public class HierarchicalLayout extends JavaScriptObject {
 		 * @return array of {@link Node} objects or null
 		 */
 		public Array<Node> children() {
-			JSObject result = getMember("children");
-			return new Array<Node>(webEngine, result);			
+			JsObject result = getMember("children");
+			return new Array<Node>(engine, result);			
 		}
 
 		/**
 		 * @return parent node
 		 */
 		public Node parent() {
-			JSObject result = getMember("parent");
-			return new Node(webEngine, result);
+			JsObject result = getMember("parent");
+			return new Node(engine, result);
 		}
 
 		/**

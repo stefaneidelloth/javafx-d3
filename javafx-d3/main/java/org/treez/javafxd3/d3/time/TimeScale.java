@@ -8,8 +8,8 @@ import org.treez.javafxd3.d3.core.Formatter;
 import org.treez.javafxd3.d3.scales.ContinuousQuantitativeScale;
 import org.treez.javafxd3.d3.scales.LinearScale;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * D3's time scale is an extension of {@link LinearScale} that uses JavaScript
@@ -43,11 +43,11 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	//#region CONSTRUCTORS
 
 	/**
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public TimeScale(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public TimeScale(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -57,8 +57,8 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	// -- create
 
 	@Override
-	public TimeScale createScale(WebEngine webEngine, JSObject result) {
-		return new TimeScale(webEngine, result);
+	public TimeScale createScale(JsEngine engine, JsObject result) {
+		return new TimeScale(engine, result);
 	}
 
 	/**
@@ -80,9 +80,9 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * @return the current scale
 	 */
 	public TimeScale nice(Interval interval) {
-		JSObject intervalObj = interval.getJsObject();
-		JSObject result = call("nice", intervalObj);
-		return new TimeScale(webEngine, result);
+		JsObject intervalObj = interval.getJsObject();
+		JsObject result = call("nice", intervalObj);
+		return new TimeScale(engine, result);
 	}
 
 	/**
@@ -108,9 +108,9 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * @return the current scale
 	 */
 	public TimeScale nice(Interval interval, int step) {
-		JSObject intervalObj = interval.getJsObject();
-		JSObject result = call("nice", intervalObj, step);
-		return new TimeScale(webEngine, result);
+		JsObject intervalObj = interval.getJsObject();
+		JsObject result = call("nice", intervalObj, step);
+		return new TimeScale(engine, result);
 	}
 
 	/**
@@ -139,8 +139,8 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * @return the array of reference ticks
 	 */
 	public <T> Array<T> ticks(int count) {
-		JSObject result = call("ticks", count);
-		return new Array<T>(webEngine, result);
+		JsObject result = call("ticks", count);
+		return new Array<T>(engine, result);
 	}
 
 	/**
@@ -149,8 +149,8 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * @return the array of reference ticks
 	 */
 	public <T> Array<T> ticks() {
-		JSObject result = call("ticks");
-		return new Array<T>(webEngine, result);
+		JsObject result = call("ticks");
+		return new Array<T>(engine, result);
 	}
 
 	/**
@@ -195,9 +195,9 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * @return the array of reference ticks
 	 */
 	public <T> Array<T> ticks(Interval interval, int steps) {
-		JSObject intervalObj = interval.getJsObject();
-		JSObject result = call("ticks", intervalObj, steps);
-		return new Array<T>(webEngine, result);
+		JsObject intervalObj = interval.getJsObject();
+		JsObject result = call("ticks", intervalObj, steps);
+		return new Array<T>(engine, result);
 	}
 
 	// =========== tickFormat ==========
@@ -240,8 +240,8 @@ public class TimeScale extends ContinuousQuantitativeScale<TimeScale> {
 	 * @return a number format
 	 */
 	public Formatter tickFormat(int count) {
-		JSObject result = call("tickFourmat", count);
-		return new Formatter(webEngine, result);
+		JsObject result = call("tickFourmat", count);
+		return new Formatter(engine, result);
 	}
 
 	//#end region

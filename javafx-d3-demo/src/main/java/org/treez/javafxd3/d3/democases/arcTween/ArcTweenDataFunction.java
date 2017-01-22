@@ -5,15 +5,15 @@ import org.treez.javafxd3.d3.core.ConversionUtil;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.svg.Arc;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 public class ArcTweenDataFunction implements DataFunction<String> {
 
-	private WebEngine webEngine;
+	private JsEngine engine;
 	private ArcTween arcTween;
 
-	public ArcTweenDataFunction(WebEngine webEngine, ArcTween arcTween) {
-		this.webEngine = webEngine;
+	public ArcTweenDataFunction(JsEngine engine, ArcTween arcTween) {
+		this.engine = engine;
 		this.arcTween = arcTween;
 
 	}
@@ -21,9 +21,9 @@ public class ArcTweenDataFunction implements DataFunction<String> {
 	@Override
 	public String apply(Object context, Object datum, int index) {		
 	
-		Arc oldArc = ConversionUtil.convertObjectTo(datum,  Arc.class, webEngine);		
+		Arc oldArc = ConversionUtil.convertObjectTo(datum,  Arc.class, engine);		
 		
-		Arc newArc = Arc.copy(webEngine, oldArc) //
+		Arc newArc = Arc.copy(engine, oldArc) //
 				.endAngle(arcTween.getNewAngle());
 		
 		Arc arc = arcTween.getArc();

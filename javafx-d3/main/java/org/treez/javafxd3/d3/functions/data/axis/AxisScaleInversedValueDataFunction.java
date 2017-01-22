@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.functions.data.axis;
 
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.scales.Scale;
-
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  *  A datum function that extracts the value from a data object
@@ -14,6 +14,8 @@ public class AxisScaleInversedValueDataFunction implements DataFunction<Double> 
 	
 	//#region ATTRIBUTES
 	
+	private JsEngine engine;
+	
 	private Scale<?> scale;	
 	
 	private double maxValue;
@@ -23,9 +25,10 @@ public class AxisScaleInversedValueDataFunction implements DataFunction<Double> 
 	//#region CONSTRUCTORS
 	
 	/**
-	 * @param webEngine
+	 * @param engine
 	 */
-	public AxisScaleInversedValueDataFunction(Scale<?> scale, double maxValue){
+	public AxisScaleInversedValueDataFunction(JsEngine engine,Scale<?> scale, double maxValue){
+		this.engine = engine;
 		this.scale = scale;		
 		this.maxValue = maxValue;
 	}
@@ -37,7 +40,7 @@ public class AxisScaleInversedValueDataFunction implements DataFunction<Double> 
 	@Override
 	public Double apply(Object context, Object datum, int index) {
 		
-		JSObject jsObject = (JSObject) datum;			
+		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);			
 		Object valueObject = jsObject.eval("this.datum.value");			
 		Double scaledValue = scale.applyForDouble(valueObject.toString());		
 		Double inversedValue =  maxValue -scaledValue;

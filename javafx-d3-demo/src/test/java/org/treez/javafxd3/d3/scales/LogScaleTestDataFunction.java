@@ -2,7 +2,7 @@ package org.treez.javafxd3.d3.scales;
 
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 /**
  * Used by the LogScaleTest
@@ -12,15 +12,15 @@ public class LogScaleTestDataFunction implements DataFunction<String> {
 	
 	//#region ATTRIBUTES
 	
-	WebEngine webEngine;
+	JsEngine engine;
 	
 	//#end region
 	
 	
 	//#region CONSTRUCTORS
 	
-	LogScaleTestDataFunction(WebEngine webEngine){
-		this.webEngine = webEngine;
+	LogScaleTestDataFunction(JsEngine engine){
+		this.engine = engine;
 	}
 	
 	//#end region

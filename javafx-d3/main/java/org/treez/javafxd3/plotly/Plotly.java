@@ -17,8 +17,8 @@ import org.treez.javafxd3.plotly.layout.Layout;
 import org.treez.javafxd3.plotly.layout.margin.Margin;
 import org.treez.javafxd3.plotly.layout.margin.ZeroMargin;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 
 public class Plotly extends JavaScriptObject {
@@ -31,9 +31,9 @@ public class Plotly extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	public Plotly(WebEngine webEngine) {
-		super(webEngine);
-		JSObject plotly = (JSObject) webEngine.executeScript("Plotly");
+	public Plotly(JsEngine engine) {
+		super(engine);
+		JsObject plotly = (JsObject) engine.executeScript("Plotly");
 		setJsObject(plotly);
 	}
 
@@ -42,29 +42,29 @@ public class Plotly extends JavaScriptObject {
 	//#region METHODS	
 	
 	public PlotResult newPlot(String targetDiv, Array<Data> data, Layout layout, Configuration configuration){
-		JSObject dataObj = data.getJsObject();
+		JsObject dataObj = data.getJsObject();
 	
-		JSObject layoutObj = layout.getJsObject();
-		JSObject configurationObj = configuration.getJsObject();		
-		JSObject result = call("newPlot", targetDiv, dataObj, layoutObj, configurationObj);
-		return new PlotResult(webEngine, result);		
+		JsObject layoutObj = layout.getJsObject();
+		JsObject configurationObj = configuration.getJsObject();		
+		JsObject result = call("newPlot", targetDiv, dataObj, layoutObj, configurationObj);
+		return new PlotResult(engine, result);		
 	}		
 	
 	public void restyle(Element element, Data data, int... indices ){
-		JSObject elementObj = element.getJsObject();
-		JSObject dataObj = data.getJsObject();
+		JsObject elementObj = element.getJsObject();
+		JsObject dataObj = data.getJsObject();
 		call("restyle", elementObj, dataObj, indices);
 	}
 	
 	public void relayout(Element element, Layout data, int... indices ){
-		JSObject elementObj = element.getJsObject();
-		JSObject layoutObj = data.getJsObject();
+		JsObject elementObj = element.getJsObject();
+		JsObject layoutObj = data.getJsObject();
 		call("relayout", elementObj, layoutObj, indices);
 	}
 	
 	public void addTraces(Element element, Data data){
-		JSObject elementObj = element.getJsObject();
-		JSObject dataObj = data.getJsObject();
+		JsObject elementObj = element.getJsObject();
+		JsObject dataObj = data.getJsObject();
 		call("addTraces", elementObj, dataObj);
 	}
 	
@@ -77,7 +77,7 @@ public class Plotly extends JavaScriptObject {
 	}
 	
 	public void redraw(Element element){
-		JSObject elementObj = element.getJsObject();
+		JsObject elementObj = element.getJsObject();
 		call("redraw", elementObj);		
 	}
 	
@@ -87,47 +87,47 @@ public class Plotly extends JavaScriptObject {
 		 * Creates a Data array with a single entry
 		 */
 		public SingleData createSingleData() {		
-			return new SingleData(webEngine);
+			return new SingleData(engine);
 		}
 		
 		public Data createData() {		
-			return new Data(webEngine);
+			return new Data(engine);
 		}
 
 		public Layout createLayout() {
-			return new Layout(webEngine);
+			return new Layout(engine);
 		}
 
 		public Configuration createConfiguration() {
-			return new Configuration(webEngine);
+			return new Configuration(engine);
 		}
 		
 		public Contours createContourOptions() {
-			return new Contours(webEngine);
+			return new Contours(engine);
 		}
 		
 		public Axis createAxis() {
-			return new Axis(webEngine);
+			return new Axis(engine);
 		}
 		
 		public Margin createMargin() {
-			return new Margin(webEngine);
+			return new Margin(engine);
 		}
 		
 		public ZeroMargin createZeroMargin() {
-			return new ZeroMargin(webEngine);
+			return new ZeroMargin(engine);
 		}
 		
 		public Line createLine() {
-			return new Line(webEngine);
+			return new Line(engine);
 		}
 		
 		public ColorBar createColorBar() {
-			return new ColorBar(webEngine);
+			return new ColorBar(engine);
 		}
 		
 		public Font createFont() {
-			return new Font(webEngine);
+			return new Font(engine);
 		}
 		
 		//#end region
@@ -135,20 +135,20 @@ public class Plotly extends JavaScriptObject {
 	//#region RETRIEVE SELECTIONS / NODES
 	
 	public Selection getSvg() {
-		D3 d3 = new D3(webEngine);
+		D3 d3 = new D3(engine);
 		Selection svgSelection = d3.select(".main-svg");
 		return svgSelection;
 	}
 	
 	public Selection getContour() {
-		D3 d3 = new D3(webEngine);
+		D3 d3 = new D3(engine);
 		Selection contourSelection = d3.select(".contour");
 		return contourSelection;
 	}
 	
 	public Element getElementById(String elementId){
-		JSObject result = evalForJsObject("document.getElementById('" + elementId + "');");
-		return new Element(webEngine, result);		
+		JsObject result = evalForJsObject("document.getElementById('" + elementId + "');");
+		return new Element(engine, result);		
 	}
 
 	

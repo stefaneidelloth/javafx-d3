@@ -50,15 +50,15 @@ public class DragMultiples extends AbstractDemoCase {
 
 	private void init() {
 
-		DataFunction<Void> dragStartFunction = new ContextDataFunctionWrapper<>(webEngine, (context) -> {
+		DataFunction<Void> dragStartFunction = new ContextDataFunctionWrapper<>(engine, (context) -> {
 			d3.select(context) //
 					.attr("fill", "red");
 			return null;
 		});
 
-		DataFunction<Void> dragFunction = new DragFunction(webEngine, d3);
+		DataFunction<Void> dragFunction = new DragFunction(engine, d3);
 
-		DataFunction<Void> dragEndFunction = new ContextDataFunctionWrapper<>(webEngine, (context) -> {
+		DataFunction<Void> dragEndFunction = new ContextDataFunctionWrapper<>(engine, (context) -> {
 			d3.select(context) //
 					.attr("fill", "");
 			return null;
@@ -74,7 +74,7 @@ public class DragMultiples extends AbstractDemoCase {
 		//Double[] data = Arrays.range(16).map(callback);
 		List<Coords> coordsList = new ArrayList<>();
 		for (int index = 0; index < 16; index++) {
-			Coords coords = new Coords(webEngine, SQUARE_WIDTH / 2, SQUARE_HEIGHT / 2);
+			Coords coords = new Coords(engine, SQUARE_WIDTH / 2, SQUARE_HEIGHT / 2);
 			coordsList.add(coords);
 		}
 
@@ -89,11 +89,11 @@ public class DragMultiples extends AbstractDemoCase {
 				.style("float", "left") //
 				.style("border", "solid 1px #aaa");
 
-		DataFunction<Double> xDataFunction = new DataFunctionWrapper<>(Coords.class, webEngine, (coords) -> {
+		DataFunction<Double> xDataFunction = new DataFunctionWrapper<>(Coords.class, engine, (coords) -> {
 			return coords.x();
 		});
 
-		DataFunction<Double> yDataFunction = new DataFunctionWrapper<>(Coords.class, webEngine, (coords) -> {
+		DataFunction<Double> yDataFunction = new DataFunctionWrapper<>(Coords.class, engine, (coords) -> {
 			return coords.y();
 		});
 

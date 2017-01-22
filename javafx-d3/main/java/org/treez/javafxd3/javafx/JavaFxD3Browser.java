@@ -19,6 +19,8 @@ import javafx.geometry.VPos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Region;
+import org.treez.javafxd3.d3.core.JsEngine;
+
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -39,7 +41,7 @@ public class JavaFxD3Browser extends Region {
 	/**
 	 * Controls the browser and provides access to JavaScript functionality
 	 */
-	private WebEngine webEngine;
+	private WebEngine engine;
 
 	/**
 	 * The d3 wrapper
@@ -106,14 +108,14 @@ public class JavaFxD3Browser extends Region {
 		getChildren().add(webView);
 
 		//get web engine
-		webEngine = webView.getEngine();
-		Objects.requireNonNull(webEngine);
+		engine = webView.getEngine();
+		Objects.requireNonNull(engine);
 
 		//enable java script
-		webEngine.setJavaScriptEnabled(true);
+		engine.setJavaScriptEnabled(true);
 
 		//create handler for JavaScript alert event
-		webEngine.setOnAlert((eventArgs) -> {
+		engine.setOnAlert((eventArgs) -> {
 			String message = eventArgs.getData();
 			System.out.println("JavaFxD3Browser-Alert: " + message);
 			showAlert(message);
@@ -126,7 +128,10 @@ public class JavaFxD3Browser extends Region {
 		String initialBrowserContent = createInitialBrowserContent();
 
 		//loadContent(initialBrowserContent);
-		webEngine.loadContent(initialBrowserContent);
+		engine.loadContent(initialBrowserContent);
+		
+		//delete cookies
+		java.net.CookieHandler.setDefault(new java.net.CookieManager());
 
 		//note: after asynchronous loading has been finished, the
 		//loading finished hook will be executed.
@@ -134,7 +139,7 @@ public class JavaFxD3Browser extends Region {
 	}
 
 	private void registerLoadingFinishedHook() {
-		Worker<Void> loadWorker = webEngine.getLoadWorker();
+		Worker<Void> loadWorker = engine.getLoadWorker();
 		ReadOnlyObjectProperty<State> state = loadWorker.stateProperty();
 		state.addListener((obs, oldState, newState) -> {
 
@@ -173,31 +178,31 @@ public class JavaFxD3Browser extends Region {
 	private void injectD3() {
 		// https://github.com/mbostock/d3/blob/master/d3.min.js
 		String d3Content = getJavaScriptLibraryFromFile("d3.min.js");
-		webEngine.executeScript(d3Content);
+		engine.executeScript(d3Content);
 	}
 
 	private void injectFunctionPlotter() {
 		// https://github.com/maurizzzio/function-plot/blob/master/dist/function-plot.js
 		String functionPlotterContent = getJavaScriptLibraryFromFile("function-plot.js");
-		webEngine.executeScript(functionPlotterContent);
+		engine.executeScript(functionPlotterContent);
 	}
 
 	private void injectNvd3() {
 		// https://github.com/novus/nvd3/blob/master/build/nv.d3.min.js
 		String nvd3Content = getJavaScriptLibraryFromFile("nv.d3.min.js");
-		webEngine.executeScript(nvd3Content);
+		engine.executeScript(nvd3Content);
 	}	
 	
 	private void injectPlotly() {
 		// https://code.jquery.com/jquery-2.2.4.js
 		String jQueryContent = getJavaScriptLibraryFromFile("jquery-2.2.4.min.js");
-		webEngine.executeScript(jQueryContent);
+		engine.executeScript(jQueryContent);
 	}	
 	
 	private void injectJQuery() {
 		// https://github.com/plotly/plotly.js/
 		String plotlyContent = getJavaScriptLibraryFromFile("plotly.min.js");
-		webEngine.executeScript(plotlyContent);
+		engine.executeScript(plotlyContent);
 	}
 
 	private void injectFireBug() {
@@ -215,11 +220,11 @@ public class JavaFxD3Browser extends Region {
 				+ "(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);"
 				+ "E = new Image;" + "E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');" + "}";
 
-		webEngine.executeScript(fireBugCommand);
+		engine.executeScript(fireBugCommand);
 	}
 
 	private void createD3Wrapper() {
-		d3 = new D3(webEngine);
+		d3 = new D3(getJsEngine());
 	}
 
 	private void injectSaveHelper() {
@@ -329,7 +334,7 @@ public class JavaFxD3Browser extends Region {
 			throw new IllegalStateException(message);
 		}
 
-		FunctionPlot functionPlot = new FunctionPlot(webEngine);
+		FunctionPlot functionPlot = new FunctionPlot(getJsEngine());
 		return functionPlot;
 	}
 	
@@ -340,15 +345,13 @@ public class JavaFxD3Browser extends Region {
 			throw new IllegalStateException(message);
 		}
 
-		Plotly plotly = new Plotly(webEngine);
+		Plotly plotly = new Plotly(getJsEngine());
 		return plotly;
-	}
-	
-	
+	}	
 
 	
-	public WebEngine getWebEngine() {
-		return webEngine;
+	public JsEngine getJsEngine() {
+		return new JavaFxJsEngine(engine);
 	}
 
 	

@@ -119,7 +119,7 @@ public class GeneralUpdatePattern1 extends AbstractDemoCase {
 		// appending to
 		// the enter selection will apply to both entering and updating nodes.
 
-		DataFunction<String> textFunction = new DataFunctionWrapper<>(String.class, webEngine, (value) -> {			
+		DataFunction<String> textFunction = new DataFunctionWrapper<>(String.class, engine, (value) -> {			
 			return value;
 		});
 

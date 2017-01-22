@@ -2,19 +2,19 @@ package org.treez.javafxd3.plotly.data;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class Font extends JavaScriptObject {
 	
 	//#region CONSTRUCTORS
 
-	public Font(WebEngine webEngine, JSObject jsObject) {
-		super(webEngine,jsObject);		
+	public Font(JsEngine engine, JsObject jsObject) {
+		super(engine,jsObject);		
 	}
 	
-	public Font(WebEngine webEngine) {
-		super(webEngine);
+	public Font(JsEngine engine) {
+		super(engine);
 		setEmptyObjectAsJsObject();	
 	}	
 

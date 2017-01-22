@@ -6,8 +6,8 @@ import java.util.Objects;
 
 import org.treez.javafxd3.d3.core.ConversionUtil;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Base class for all JavaScript wrappers
@@ -19,29 +19,30 @@ public class JavaScriptObject {
 	/**
 	 * The JavaFx web engine
 	 */
-	protected WebEngine webEngine;
+	protected JsEngine engine;
 
 	/**
 	 * The wrapped JavaScript object
 	 */
-	private JSObject jsObject;
+	private JsObject jsObject;
 
 	//#end region
 
 	//#region CONSTRUCTORS
 
 
-	public JavaScriptObject(WebEngine webEngine) {
-		this.webEngine = webEngine;
+	public JavaScriptObject(JsEngine engine) {
+		this.engine = engine;
 	}
 	
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 */
-	public JavaScriptObject(WebEngine webEngine, JSObject wrappedJsObject) {
-		this.webEngine = webEngine;
+	public JavaScriptObject(JsEngine engine, JsObject wrappedJsObject) {
+		this.engine = engine;
+		
 		this.jsObject = wrappedJsObject;
 	}
 
@@ -53,11 +54,11 @@ public class JavaScriptObject {
 		setJsObject(createEmptyArray());		
 	}
 
-	protected JSObject createEmptyArray() {
+	protected JsObject createEmptyArray() {
 		String dummyName = createNewTemporaryInstanceName();
-		webEngine.executeScript("var " +dummyName +"=[];");
-		JSObject emptyObject = (JSObject) webEngine.executeScript(dummyName);
-		webEngine.executeScript("var " +dummyName +"=undefined;");
+		engine.executeScript("var " +dummyName +"=[];");
+		JsObject emptyObject = (JsObject) engine.executeScript(dummyName);
+		engine.executeScript("var " +dummyName +"=undefined;");
 		return emptyObject;
 	}
 	
@@ -65,11 +66,11 @@ public class JavaScriptObject {
 		setJsObject(createEmptyObject());		
 	}
 
-	protected JSObject createEmptyObject() {
+	protected JsObject createEmptyObject() {
 		String dummyName = createNewTemporaryInstanceName();
-		webEngine.executeScript("var " +dummyName +"={};");
-		JSObject emptyObject = (JSObject) webEngine.executeScript(dummyName);
-		webEngine.executeScript("var " +dummyName +"=undefined;");
+		engine.executeScript("var " +dummyName +"={};");
+		JsObject emptyObject = (JsObject) engine.executeScript(dummyName);
+		engine.executeScript("var " +dummyName +"=undefined;");
 		return emptyObject;
 	}
 
@@ -141,7 +142,7 @@ public class JavaScriptObject {
 	 * @param args
 	 * @return
 	 */
-	protected String callForString(String methodName, JSObject... args) {
+	protected String callForString(String methodName, JsObject... args) {
 
 		Object[] objectArray = (Object[]) args;
 		Object resultObj = jsObject.call(methodName, objectArray);
@@ -190,13 +191,13 @@ public class JavaScriptObject {
 
 	/**
 	 * Invokes the method with the given name and arguments and returns the
-	 * result as JSObject
+	 * result as JsObject
 	 * 
 	 * @param methodName
 	 * @param args
 	 * @return
 	 */
-	public JSObject call(String methodName, Object... args) {
+	public JsObject call(String methodName, Object... args) {
 		Objects.requireNonNull(jsObject);
 		
 		checkIfMethodExists(methodName);
@@ -207,9 +208,9 @@ public class JavaScriptObject {
 			return null;
 		}
 		
-		boolean isJsObject = resultObj instanceof JSObject;
+		boolean isJsObject = resultObj instanceof JsObject;
 		if (isJsObject) {
-			JSObject result = (JSObject) resultObj;
+			JsObject result = (JsObject) resultObj;
 			return result;
 		}
 
@@ -240,7 +241,7 @@ public class JavaScriptObject {
 
 	protected Object callThis(Object... args) {
 
-		JSObject d3JsObj = getD3();
+		JsObject d3JsObj = getD3();
 		
 		// store args as member and create variable name list
 		List<String> varNames = new ArrayList<>();
@@ -284,15 +285,15 @@ public class JavaScriptObject {
 		return (Double) result;
 	}
 
-	protected JSObject callThisForJsObject(Object... args) {
+	protected JsObject callThisForJsObject(Object... args) {
 		Object result = callThis(args);
 		if (result==null){
 			return null;
 		}
 		
-		boolean isJsObject = result instanceof JSObject;
+		boolean isJsObject = result instanceof JsObject;
 		if(isJsObject){
-			return (JSObject) result;			
+			return (JsObject) result;			
 		} else{
 			boolean isUndefined = result.equals("undefined");
 			if(isUndefined){
@@ -315,7 +316,7 @@ public class JavaScriptObject {
 	 * @param name
 	 * @return
 	 */
-	public JSObject getMember(String name) {
+	public JsObject getMember(String name) {
 		Object resultObj = jsObject.getMember(name);
 		if (resultObj == null) {
 			return null;
@@ -323,7 +324,7 @@ public class JavaScriptObject {
 		if (resultObj.equals("undefined")) {
 			return null;
 		}
-		JSObject result = (JSObject) resultObj;
+		JsObject result = (JsObject) resultObj;
 		return result;
 	}
 
@@ -338,7 +339,7 @@ public class JavaScriptObject {
 		if(result==null){
 			return null;
 		}
-		Integer intResult = ConversionUtil.convertObjectTo(result, Integer.class, webEngine); 
+		Integer intResult = ConversionUtil.convertObjectTo(result, Integer.class, engine); 
 		return intResult;
 	}
 
@@ -429,7 +430,7 @@ public class JavaScriptObject {
 	 */
 	public Object eval(String command) {
 		try{
-			Object result = jsObject.eval(command);
+			Object result = jsObject.eval(command);			
 			return result;
 		} catch (Exception exception){
 			String message = "Could not eval command " + command;
@@ -535,14 +536,14 @@ public class JavaScriptObject {
 
 	/**
 	 * Evaluates the given java script command and returns the result as
-	 * JSObject
+	 * JsObject
 	 * 
 	 * @param command
 	 * @return
 	 */
-	public JSObject evalForJsObject(String command) {
+	public JsObject evalForJsObject(String command) {
 		Object resultObj = jsObject.eval(command);
-		JSObject result = (JSObject) resultObj;
+		JsObject result = (JsObject) resultObj;
 		return result;
 	};
 
@@ -555,7 +556,7 @@ public class JavaScriptObject {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((jsObject == null) ? 0 : jsObject.hashCode());
-		result = prime * result + ((webEngine == null) ? 0 : webEngine.hashCode());
+		result = prime * result + ((engine == null) ? 0 : engine.hashCode());
 		return result;
 	}
 
@@ -573,10 +574,10 @@ public class JavaScriptObject {
 				return false;
 		} else if (!jsObject.equals(other.jsObject))
 			return false;
-		if (webEngine == null) {
-			if (other.webEngine != null)
+		if (engine == null) {
+			if (other.engine != null)
 				return false;
-		} else if (!webEngine.equals(other.webEngine))
+		} else if (!engine.equals(other.engine))
 			return false;
 		return true;
 	}
@@ -597,8 +598,8 @@ public class JavaScriptObject {
 	}
 	
 	
-	protected JSObject getD3() {
-		JSObject d3jsObj = (JSObject) webEngine.executeScript("d3");
+	protected JsObject getD3() {
+		JsObject d3jsObj = (JsObject) engine.executeScript("d3");
 		return d3jsObj;
 	}
 	
@@ -618,10 +619,10 @@ public class JavaScriptObject {
 	@Override
 	public String toString(){
 		String className =  this.getClass().getSimpleName() ;
-		JSObject jsObject = getJsObject();
+		JsObject jsObject = getJsObject();
 		
 		if(jsObject==null){
-			return "!!" +className + " with missing JSObject!!";
+			return "!!" +className + " with missing JsObject!!";
 		} else {
 			return Inspector.getInspectionInfo(jsObject);
 		}
@@ -632,28 +633,28 @@ public class JavaScriptObject {
 	//#region ACCESSORS
 
 	/**
-	 * Returns the wrapped JSObject
+	 * Returns the wrapped JsObject
 	 * 
 	 * @return
 	 */
-	public JSObject getJsObject() {
+	public JsObject getJsObject() {
 		return jsObject;
 	}
 
 	/**
-	 * Sets the wrapped JSObject
+	 * Sets the wrapped JsObject
 	 * 
 	 * @param wrappedJsObject
 	 */
-	public void setJsObject(JSObject wrappedJsObject) {
+	public void setJsObject(JsObject wrappedJsObject) {
 		this.jsObject = wrappedJsObject;
 	}
 
 	/**
 	 * @return
 	 */
-	public WebEngine getWebEngine() {
-		return webEngine;
+	public JsEngine getJsEngine() {
+		return engine;
 	}
 
 	//#end region

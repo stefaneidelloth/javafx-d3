@@ -79,9 +79,9 @@ public class LineDemo extends AbstractDemoCase {
 
 		// create initial d3 content
 
-		DataFunction<Double> xAccessor = Coords.getXAccessor(webEngine);
-		DataFunction<Double> yAcccessor = Coords.getYAccessor(webEngine);
-		DataFunction<Boolean> isDefinedAccessor = CustomCoords.definedAccessor(webEngine);
+		DataFunction<Double> xAccessor = Coords.getXAccessor(engine);
+		DataFunction<Double> yAcccessor = Coords.getYAccessor(engine);
+		DataFunction<Boolean> isDefinedAccessor = CustomCoords.definedAccessor(engine);
 
 		line = d3.svg() //
 				.line() //
@@ -208,7 +208,7 @@ public class LineDemo extends AbstractDemoCase {
 		Random random = new Random();
 		double x = random.nextInt(width);
 		double y = random.nextInt(height);
-		CustomCoords coords = new CustomCoords(webEngine, x, y, defined);
+		CustomCoords coords = new CustomCoords(engine, x, y, defined);
 		points.push(coords);
 
 		updateD3Content();
@@ -239,9 +239,9 @@ public class LineDemo extends AbstractDemoCase {
 
 		UpdateSelection updateSelection = getSvg().selectAll("circle").data(data);
 
-		DataFunction<Double> cxFunction = Coords.getXAccessor(webEngine);
+		DataFunction<Double> cxFunction = Coords.getXAccessor(engine);
 
-		DataFunction<Double> cyFunction = Coords.getYAccessor(webEngine);
+		DataFunction<Double> cyFunction = Coords.getYAccessor(engine);
 
 		EnteringSelection enter = updateSelection.enter();
 		if (enter != null) {

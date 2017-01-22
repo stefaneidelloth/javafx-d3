@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.color;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Represents a HSL color
@@ -13,11 +13,11 @@ public class HSLColor extends Color {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public HSLColor(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public HSLColor(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -56,8 +56,8 @@ public class HSLColor extends Color {
 	 * @return
 	 */
 	public RGBColor rgb() {
-		JSObject result = call("rgb");
-		return new RGBColor(webEngine, result);
+		JsObject result = call("rgb");
+		return new RGBColor(engine, result);
 	}
 
 	/**
@@ -66,8 +66,8 @@ public class HSLColor extends Color {
 	 * @return the new copy
 	 */
 	public HSLColor brighter() {
-		JSObject result = call("brighter");
-		return new HSLColor(webEngine, result);
+		JsObject result = call("brighter");
+		return new HSLColor(engine, result);
 	}
 
 	/**
@@ -80,8 +80,8 @@ public class HSLColor extends Color {
 	 * @return the new copy
 	 */
 	public HSLColor brighter(double k) {
-		JSObject result = call("brighter", k);
-		return new HSLColor(webEngine, result);
+		JsObject result = call("brighter", k);
+		return new HSLColor(engine, result);
 	}
 
 	/**
@@ -90,8 +90,8 @@ public class HSLColor extends Color {
 	 * @return the new copy
 	 */
 	public HSLColor darker() {
-		JSObject result = call("darker");
-		return new HSLColor(webEngine, result);
+		JsObject result = call("darker");
+		return new HSLColor(engine, result);
 	}
 
 	/**
@@ -104,8 +104,8 @@ public class HSLColor extends Color {
 	 * @return the new copy
 	 */
 	public HSLColor darker(double k) {
-		JSObject result = call("darker", k);
-		return new HSLColor(webEngine, result);
+		JsObject result = call("darker", k);
+		return new HSLColor(engine, result);
 	}
 
 	//#end region

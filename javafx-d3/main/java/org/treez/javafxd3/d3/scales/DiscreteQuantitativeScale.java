@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.scales;
 
 import org.treez.javafxd3.d3.arrays.Array;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * {@link QuantitativeScale} with a discrete output range.
@@ -17,11 +17,11 @@ public abstract class DiscreteQuantitativeScale<S extends DiscreteQuantitativeSc
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public DiscreteQuantitativeScale(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public DiscreteQuantitativeScale(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -40,8 +40,8 @@ public abstract class DiscreteQuantitativeScale<S extends DiscreteQuantitativeSc
 	 * @return the array of doubles
 	 */
 	public Array<Double> invertExtent(double y) {
-		JSObject result = call("invertExtent", y);
-		return new Array<Double>(webEngine, result);		
+		JsObject result = call("invertExtent", y);
+		return new Array<Double>(engine, result);		
 	}
 
 	/**
@@ -58,8 +58,8 @@ public abstract class DiscreteQuantitativeScale<S extends DiscreteQuantitativeSc
 	 * @return the array of doubles
 	 */
 	public Array<Double> invertExtent(String y) {
-		JSObject result = call("invertExtent", y);
-		return new Array<Double>(webEngine, result);
+		JsObject result = call("invertExtent", y);
+		return new Array<Double>(engine, result);
 	}
 
 }

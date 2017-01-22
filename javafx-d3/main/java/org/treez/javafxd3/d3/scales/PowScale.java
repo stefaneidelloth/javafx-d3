@@ -5,8 +5,8 @@ import org.treez.javafxd3.d3.arrays.Array;
 
 import org.treez.javafxd3.d3.core.Formatter;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Power scales are similar to linear scales, except there's an exponential
@@ -33,11 +33,11 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public PowScale(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public PowScale(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 
 	}
 
@@ -62,8 +62,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return the current scale
 	 */
 	public  PowScale exponent(double e){
-		JSObject result = call("exponent", e);
-		return new PowScale(webEngine, result);	
+		JsObject result = call("exponent", e);
+		return new PowScale(engine, result);	
 	}
 
 	// =========== nice ==========
@@ -88,8 +88,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return the current scale
 	 */
 	public  PowScale nice(){
-		JSObject result = call("nice");
-		return new PowScale(webEngine, result);	
+		JsObject result = call("nice");
+		return new PowScale(engine, result);	
 	}
 
 	/**
@@ -103,8 +103,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return the current scale
 	 */
 	public  PowScale nice(int count){
-		JSObject result = call("nice", count);
-		return new PowScale(webEngine, result);	
+		JsObject result = call("nice", count);
+		return new PowScale(engine, result);	
 	}
 
 	// =========== ticks ==========
@@ -126,8 +126,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return
 	 */
 	public  <T> Array<T> ticks(int count){
-		JSObject result = call("ticks", count);
-		return new Array<T>(webEngine, result);
+		JsObject result = call("ticks", count);
+		return new Array<T>(engine, result);
 	}
 
 	/**
@@ -136,8 +136,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return the array of reference ticks
 	 */
 	public  <T> Array<T> ticks(){
-		JSObject result = call("ticks");
-		return new Array<T>(webEngine, result);
+		JsObject result = call("ticks");
+		return new Array<T>(engine, result);
 	}
 
 	// =========== tickFormat ==========
@@ -151,8 +151,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return the number format
 	 */
 	public  Formatter tickFormat(){
-		JSObject result = call("tickFormat");
-		return new Formatter(webEngine, result);	
+		JsObject result = call("tickFormat");
+		return new Formatter(engine, result);	
 	}
 
 	/**
@@ -172,8 +172,8 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return a number format
 	 */
 	public  Formatter tickFormat(int count){
-		JSObject result = call("tickFormat", count);
-		return new Formatter(webEngine, result);
+		JsObject result = call("tickFormat", count);
+		return new Formatter(engine, result);
 	}
 
 	/**
@@ -198,13 +198,13 @@ public class PowScale extends ContinuousQuantitativeScale<PowScale> {
 	 * @return a number format
 	 */
 	public  Formatter tickFormat(int count, String formatSpecifier){
-		JSObject result = call("tickFormat", count, formatSpecifier);
-		return new Formatter(webEngine, result);
+		JsObject result = call("tickFormat", count, formatSpecifier);
+		return new Formatter(engine, result);
 	}
 
 	@Override
-	public PowScale createScale(WebEngine webEngine, JSObject result) {
-		return new PowScale(webEngine, result);	
+	public PowScale createScale(JsEngine engine, JsObject result) {
+		return new PowScale(engine, result);	
 	}
 
 }

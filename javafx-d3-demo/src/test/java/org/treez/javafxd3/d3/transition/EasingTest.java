@@ -17,16 +17,16 @@ public class EasingTest extends AbstractTestCase {
 	public void doTest() {		
 
 		// built in
-		testEasingFunction(Easing.back(webEngine, 4), Easing.back(webEngine,Mode.IN_OUT, 4));
-		testEasingFunction(Easing.bounce(webEngine), Easing.bounce(webEngine,Mode.IN_OUT));
-		testEasingFunction(Easing.circle(webEngine), Easing.circle(webEngine,Mode.OUT));
-		testEasingFunction(Easing.cubic(webEngine), Easing.cubic(webEngine,Mode.IN_OUT));
-		testEasingFunction(Easing.exp(webEngine), Easing.exp(webEngine,Mode.OUT_IN));
-		testEasingFunction(Easing.linear(webEngine), Easing.linear(webEngine,Mode.IN_OUT));
-		testEasingFunction(Easing.quad(webEngine), Easing.quad(webEngine,Mode.IN_OUT));
-		testEasingFunction(Easing.sin(webEngine), Easing.sin(webEngine,Mode.IN_OUT));
-		testEasingFunction(Easing.elastic(webEngine,10, 0.5), Easing.elastic(webEngine,Mode.IN_OUT, 10, 0.5));
-		testEasingFunction(Easing.poly(webEngine,3), Easing.poly(webEngine,Mode.IN_OUT, 3));
+		testEasingFunction(Easing.back(engine, 4), Easing.back(engine,Mode.IN_OUT, 4));
+		testEasingFunction(Easing.bounce(engine), Easing.bounce(engine,Mode.IN_OUT));
+		testEasingFunction(Easing.circle(engine), Easing.circle(engine,Mode.OUT));
+		testEasingFunction(Easing.cubic(engine), Easing.cubic(engine,Mode.IN_OUT));
+		testEasingFunction(Easing.exp(engine), Easing.exp(engine,Mode.OUT_IN));
+		testEasingFunction(Easing.linear(engine), Easing.linear(engine,Mode.IN_OUT));
+		testEasingFunction(Easing.quad(engine), Easing.quad(engine,Mode.IN_OUT));
+		testEasingFunction(Easing.sin(engine), Easing.sin(engine,Mode.IN_OUT));
+		testEasingFunction(Easing.elastic(engine,10, 0.5), Easing.elastic(engine,Mode.IN_OUT, 10, 0.5));
+		testEasingFunction(Easing.poly(engine,3), Easing.poly(engine,Mode.IN_OUT, 3));
 
 		// custom
 		EasingFunction f = new CustomEasingFunction();

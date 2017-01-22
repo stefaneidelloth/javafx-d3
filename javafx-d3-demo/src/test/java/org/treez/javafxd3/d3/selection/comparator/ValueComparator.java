@@ -4,12 +4,9 @@ package org.treez.javafxd3.d3.selection.comparator;
 
 import java.util.Comparator;
 
+import org.treez.javafxd3.d3.core.ConversionUtil;
+import org.treez.javafxd3.d3.core.JsEngine;
 import org.treez.javafxd3.d3.core.Value;
-
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
-
-
 
 /**
  * A datum function that asserts that the datum equals an increasing
@@ -20,28 +17,22 @@ public class ValueComparator implements Comparator<Object> {
 	
 	//#region ATTRIBUTES
 	
-	private WebEngine webEngine;
+	private JsEngine engine;
 		
 	//#end region
 	
 	//#region CONSTRUCTORS
 	
-	/**
-	 * @param webEngine
-	 */
-	public ValueComparator(WebEngine webEngine){
-		this.webEngine = webEngine;
+		public ValueComparator(JsEngine engine){
+		this.engine = engine;
 	}
 
 
 	@Override
-	public int compare(Object o1, Object o2) {
+	public int compare(Object o1, Object o2) {		
 		
-		JSObject firstObject = (JSObject) o1;
-		JSObject secondObject = (JSObject) o2;
-		
-		Value firstValue = new Value(webEngine, firstObject);
-		Value secondValue = new Value(webEngine, secondObject);
+		Value firstValue = ConversionUtil.convertObjectTo(o1,  Value.class, engine);
+		Value secondValue = ConversionUtil.convertObjectTo(o2,  Value.class, engine);
 		
 		Integer d1 = firstValue.<Integer> as();
 		Integer d2 = secondValue.<Integer> as();

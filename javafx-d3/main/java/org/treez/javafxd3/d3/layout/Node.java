@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.layout;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A node in d3j's tree layout, see <a href="https:nodes">d3 docs on node</a>.
@@ -21,11 +21,11 @@ public class Node extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Node(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Node(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 

@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.core;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A <a href="http://en.wikipedia.org/wiki/Metric_prefix">SI Prefix</a>, as
@@ -25,11 +25,11 @@ public class Prefix extends JavaScriptObject {
 	//#region CONSTRUCTORS
 
 	/**
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Prefix(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Prefix(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 
 	}

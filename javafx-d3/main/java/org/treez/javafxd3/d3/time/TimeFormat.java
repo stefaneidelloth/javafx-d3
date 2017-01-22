@@ -6,19 +6,19 @@ import java.util.Date;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class TimeFormat extends JavaScriptObject {
 
 	//#region CONSTUCTORS
     /**
      * Constructor
-     * @param webEngine
+     * @param engine
      * @param wrappedJsObject
      */
-    public TimeFormat(WebEngine webEngine, JSObject wrappedJsObject){
-    	super(webEngine);
+    public TimeFormat(JsEngine engine, JsObject wrappedJsObject){
+    	super(engine);
     	setJsObject(wrappedJsObject);
     }
 
@@ -37,8 +37,8 @@ public class TimeFormat extends JavaScriptObject {
      * @return the corresponding date object.
      */
     public JsDate parse(String s) {
-    	JSObject result = call("parse", s);
-    	return new JsDate(webEngine, result);		
+    	JsObject result = call("parse", s);
+    	return new JsDate(engine, result);		
     }
 
     /**
@@ -48,10 +48,10 @@ public class TimeFormat extends JavaScriptObject {
      * @return The formatted string.
      */
     public String apply(JsDate date) {
-    	JSObject jsDateObj = date.getJsObject();
+    	JsObject jsDateObj = date.getJsObject();
     	
     	String varName = createNewTemporaryInstanceName();
-    	JSObject d3JsObject = getD3();    	
+    	JsObject d3JsObject = getD3();    	
     	d3JsObject.setMember(varName, jsDateObj);
     	
     	String command = "this(d3." + varName +")";    	
@@ -69,7 +69,7 @@ public class TimeFormat extends JavaScriptObject {
      * @return The formatted string.
      */
     public String apply(Date date) {
-        JsDate jsDate = JsDate.create(webEngine, date.getTime());
+        JsDate jsDate = JsDate.create(engine, date.getTime());
         return apply(jsDate);
     }
     
@@ -80,11 +80,11 @@ public class TimeFormat extends JavaScriptObject {
     	//#region CONSTUCTORS
         /**
          * Constructor
-         * @param webEngine
+         * @param engine
          * @param wrappedJsObject
          */
-        public Builder(WebEngine webEngine, JSObject wrappedJsObject){
-        	super(webEngine);
+        public Builder(JsEngine engine, JsObject wrappedJsObject){
+        	super(engine);
         	setJsObject(wrappedJsObject);
         }
 
@@ -108,8 +108,8 @@ public class TimeFormat extends JavaScriptObject {
          * @return the format.
          */
         public TimeFormat utc(String specifier) {
-        	JSObject result = call("utc", specifier);
-        	return new TimeFormat(webEngine, result);			
+        	JsObject result = call("utc", specifier);
+        	return new TimeFormat(engine, result);			
         }
 
         /**
@@ -123,8 +123,8 @@ public class TimeFormat extends JavaScriptObject {
          * @return the format.
          */
         public TimeFormat iso() {
-        	JSObject result = getMember("iso");
-        	return new TimeFormat(webEngine, result);	
+        	JsObject result = getMember("iso");
+        	return new TimeFormat(engine, result);	
         }
         
         //#end region

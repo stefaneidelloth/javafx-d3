@@ -33,20 +33,20 @@ public class AreaTest extends AbstractTestCase {
 		area.apply(new Object[] { new Integer[] { 0, 0 }, new Integer[] { 1, 1 }, new Integer[] { 2, 2 } });
 
 		// x and y
-		area.x(new XDataFunction(webEngine));
+		area.x(new XDataFunction(engine));
 
-		area.x0(new XCaptureDataFunction(webEngine, xCapture));
+		area.x0(new XCaptureDataFunction(engine, xCapture));
 
-		area.x1(new XDataFunction(webEngine));
+		area.x1(new XDataFunction(engine));
 
-		area.y(new YDataFunction(webEngine));
+		area.y(new YDataFunction(engine));
 
-		area.y0(new YCaptureDataFunction(webEngine, yCapture));
+		area.y0(new YCaptureDataFunction(engine, yCapture));
 
-		area.y1(new YDataFunction(webEngine));
+		area.y1(new YDataFunction(engine));
 
 		area.apply(
-				new Object[] { new Coords(webEngine, 1, 1), new Coords(webEngine, 2, 2), new Coords(webEngine, 3, 3) });
+				new Object[] { new Coords(engine, 1, 1), new Coords(engine, 2, 2), new Coords(engine, 3, 3) });
 
 		assertEquals(3, xCapture.size());
 		assertEquals(1.0, xCapture.get(0), DELTA);
@@ -59,12 +59,12 @@ public class AreaTest extends AbstractTestCase {
 		assertEquals(3.0, yCapture.get(2), DELTA);
 
 		area.apply(
-				new Object[] { new Coords(webEngine, 1, 1), new Coords(webEngine, 2, 2), new Coords(webEngine, 3, 3) });
+				new Object[] { new Coords(engine, 1, 1), new Coords(engine, 2, 2), new Coords(engine, 3, 3) });
 		// System.out.println("defined : " + d);
 
 		// x and y constants
 		area.x(50).y(30).x0(20).x1(22).y0(27).y1(35).apply(
-				new Object[] { new Coords(webEngine, 1, 1), new Coords(webEngine, 2, 2), new Coords(webEngine, 3, 3) });
+				new Object[] { new Coords(engine, 1, 1), new Coords(engine, 2, 2), new Coords(engine, 3, 3) });
 		// System.out.println("defined : " + d);
 
 		// TODO: tension
@@ -72,10 +72,10 @@ public class AreaTest extends AbstractTestCase {
 		// defined : it does not seem to work
 		area.defined(new IndexSwitchDataFunction());
 
-		final Coords counter = new Coords(webEngine, 0, 0);
+		final Coords counter = new Coords(engine, 0, 0);
 
 		// not called
-		area.y(new YCoordsCounterDataFunction(webEngine, yCapture, counter));
+		area.y(new YCoordsCounterDataFunction(engine, yCapture, counter));
 
 		// does not assertEquals(2, counter.y);
 

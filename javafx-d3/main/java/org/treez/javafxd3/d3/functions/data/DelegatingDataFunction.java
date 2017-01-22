@@ -2,22 +2,22 @@ package org.treez.javafxd3.d3.functions.data;
 
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
- * A DataFunction that delegates the apply call to a JSObject
+ * A DataFunction that delegates the apply call to a JsObject
  */
 public class DelegatingDataFunction implements DataFunction<Object> {
 	
 	//#region ATTRIBUTES
 	
-	JSObject wrappedJsObject;
+	JsObject wrappedJsObject;
 	
 	//#end region
 	
 	//#region CONSTRUCTORS
 	
-	 public DelegatingDataFunction(JSObject wrappedJsObject){
+	 public DelegatingDataFunction(JsObject wrappedJsObject){
 		this.wrappedJsObject = wrappedJsObject;
 	}
 	//#end region

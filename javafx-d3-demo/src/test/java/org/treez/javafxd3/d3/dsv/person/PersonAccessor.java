@@ -3,22 +3,22 @@ package org.treez.javafxd3.d3.dsv.person;
 import org.treez.javafxd3.d3.dsv.DsvObjectAccessor;
 import org.treez.javafxd3.d3.dsv.DsvRow;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class PersonAccessor implements DsvObjectAccessor<Person> {
 
-	private WebEngine webEngine;
+	private JsEngine engine;
 
-	public PersonAccessor(WebEngine webEngine) {
-		this.webEngine = webEngine;
+	public PersonAccessor(JsEngine engine) {
+		this.engine = engine;
 	}
 
 	@Override
 	public Person apply(final Object row, final int index) {
 
-		JSObject jsRow = (JSObject) row;
-		DsvRow csvRow = new DsvRow(webEngine, jsRow);
+		JsObject jsRow = (JsObject) engine.toJsObjectIfNotSimpleType(row);
+		DsvRow csvRow = new DsvRow(engine, jsRow);
 
 		String name = csvRow.get("Name").asString();
 		int age = csvRow.get("Age").asInt();

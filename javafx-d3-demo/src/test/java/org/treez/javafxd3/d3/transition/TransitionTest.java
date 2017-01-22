@@ -27,7 +27,7 @@ public class TransitionTest extends AbstractSelectionTest {
 		transition.attr("foo", callback);
 		transition.attr("bar", 16);
 		transition.attr("bar", "32px");
-		transition.attrTween("bar", new InterpolatorTweenFunction(webEngine));
+		transition.attrTween("bar", new InterpolatorTweenFunction(engine));
 		
 		
 		transition
@@ -36,7 +36,7 @@ public class TransitionTest extends AbstractSelectionTest {
 				.duration(new ConstantDataFunction<Integer>(123))
 				.each(EventType.START, new ConstantDataFunction<Void>(null))
 				.each(EventType.END, new ConstantDataFunction<Void>(null))
-				.ease(Easing.back(webEngine, 12))
+				.ease(Easing.back(engine, 12))
 				.style("font-size", new ConstantDataFunction<String>(""));
 
 		transition.size();

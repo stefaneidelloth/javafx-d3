@@ -1,10 +1,13 @@
 package org.treez.javafxd3.d3.functions.data.wrapper;
 
+import org.treez.javafxd3.d3.core.JsEngine;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
 public class CompleteDataFunctionWrapper<R> implements DataFunction<R> {
 
 	//#region ATTRIBUTES
+	
+	private JsEngine engine;
 
 	private DataFunction<R> wrappedFunction = null;
 
@@ -12,7 +15,8 @@ public class CompleteDataFunctionWrapper<R> implements DataFunction<R> {
 
 	//#region CONSTRUCTORS	
 	
-	public CompleteDataFunctionWrapper(DataFunction<R> wrappedFunction) {
+	public CompleteDataFunctionWrapper(JsEngine engine, DataFunction<R> wrappedFunction) {
+		this.engine = engine;
 		this.wrappedFunction = wrappedFunction;
 	}
 
@@ -21,8 +25,10 @@ public class CompleteDataFunctionWrapper<R> implements DataFunction<R> {
 	//#region METHODS
 
 	@Override
-	public synchronized R apply(Object context, Object datum, int index) {
-		return wrappedFunction.apply(context, datum, index);
+	public R apply(Object context, Object datum, int index) {
+		Object jsContext = engine.toJsObjectIfNotSimpleType(context);
+		Object jsDatum = engine.toJsObjectIfNotSimpleType(datum);
+		return wrappedFunction.apply(jsContext, jsDatum, index);
 	}
 
 	//#end region

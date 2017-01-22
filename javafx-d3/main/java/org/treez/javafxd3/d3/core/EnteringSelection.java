@@ -9,8 +9,8 @@ import org.treez.javafxd3.d3.functions.JsFunction;
 import org.treez.javafxd3.d3.wrapper.Element;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A selection returned by a call to {@link UpdateSelection#enter()}.
@@ -46,22 +46,22 @@ public class EnteringSelection extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 */
-	public EnteringSelection(WebEngine webEngine) {
-		super(webEngine);
+	public EnteringSelection(JsEngine engine) {
+		super(engine);
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
-	 * @param wrappedJSObject
+	 * @param engine
+	 * @param wrappedJsObject
 	 */
-	public EnteringSelection(WebEngine webEngine, JSObject wrappedJSObject) {
-		super(webEngine);
-		Objects.requireNonNull(wrappedJSObject);
-		setJsObject(wrappedJSObject);
+	public EnteringSelection(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
+		Objects.requireNonNull(wrappedJsObject);
+		setJsObject(wrappedJsObject);
 	}
 
 	//#end region
@@ -91,21 +91,21 @@ public class EnteringSelection extends JavaScriptObject {
 	 * @return a new selection containing the appended elements
 	 */
 	public Selection append(String name) {
-		JSObject result = call("append", name);
+		JsObject result = call("append", name);
 		if (result == null) {
 			return null;
 		}
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
-	public Selection append(DataFunction<JSObject> function) {
+	public Selection append(DataFunction<JsObject> function) {
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, function);
 
 		String command = "this.append(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
 		
@@ -113,7 +113,7 @@ public class EnteringSelection extends JavaScriptObject {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -152,8 +152,8 @@ public class EnteringSelection extends JavaScriptObject {
 	 * @return the returned selection, containing at most only one element
 	 */
 	public Selection select(String selector) {
-		JSObject result = call("select", selector);
-		return new Selection(webEngine, result);
+		JsObject result = call("select", selector);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -171,16 +171,16 @@ public class EnteringSelection extends JavaScriptObject {
 	public Selection select(DataFunction<Element> func) {
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, func);
 
 		String command = "this.select(function(d, i) { " + //
 				"     var element = d3." + funcName + ".apply(this,{datum:d},i);" + //
-				"     var jsElement = element.getJsObject();" + //
+				"     var jsElement = element.getJsObject().unwrap();" + //
 				"     return jsElement; " + //
 				"   }" + //
 				")";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
 		
@@ -188,7 +188,7 @@ public class EnteringSelection extends JavaScriptObject {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -220,8 +220,8 @@ public class EnteringSelection extends JavaScriptObject {
 	 * @return a new selection containing the inserted elements
 	 */
 	public Selection insert(String name, String beforeSelector) {
-		JSObject result = call("insert", name, beforeSelector);
-		return new Selection(webEngine, result);
+		JsObject result = call("insert", name, beforeSelector);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -250,10 +250,10 @@ public class EnteringSelection extends JavaScriptObject {
 			throw new IllegalStateException(message);
 		}
 		JavaScriptObject javaScriptObject = (JavaScriptObject) jsFunction;
-		JSObject functionJsObject = javaScriptObject.getJsObject();
+		JsObject functionJsObject = javaScriptObject.getJsObject();
 
-		JSObject result = call("call", functionJsObject);
-		return new Selection(webEngine, result);
+		JsObject result = call("call", functionJsObject);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -281,11 +281,11 @@ public class EnteringSelection extends JavaScriptObject {
 	 */
 	public Element parentNode(int index) {
 		String command = "this[" + index + "].parentNode";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		if (result == null) {
 			return null;
 		}
-		return new Element(webEngine, result);
+		return new Element(engine, result);
 	}
 
 	/**
@@ -323,12 +323,12 @@ public class EnteringSelection extends JavaScriptObject {
 	 */
 	public final Array<Element> asElementArray() { //equivalent to Array<Element> but not wrapped
 		
-		JSObject result = getJsObject();
+		JsObject result = getJsObject();
 		if(result==null){
 			return null;
 		}
 		
-		return new Array<>(webEngine, result);
+		return new Array<>(engine, result);
 	}
 
 	//#end region

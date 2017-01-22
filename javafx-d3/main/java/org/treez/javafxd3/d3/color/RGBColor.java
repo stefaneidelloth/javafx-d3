@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.color;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * A color defined by red, green and blue components.
@@ -15,11 +15,11 @@ public class RGBColor extends Color {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public RGBColor(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public RGBColor(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -58,8 +58,8 @@ public class RGBColor extends Color {
 	 * @return
 	 */
 	public HSLColor hsl() {
-		JSObject result = call("hsl");
-		return new HSLColor(webEngine, result);
+		JsObject result = call("hsl");
+		return new HSLColor(engine, result);
 	}
 
 	/**
@@ -68,8 +68,8 @@ public class RGBColor extends Color {
 	 * @return the new copy
 	 */
 	public RGBColor brighter() {
-		JSObject result = call("brighter");
-		return new RGBColor(webEngine, result);
+		JsObject result = call("brighter");
+		return new RGBColor(engine, result);
 	}
 
 	/**
@@ -82,8 +82,8 @@ public class RGBColor extends Color {
 	 * @return the new copy
 	 */
 	public RGBColor brighter(double k) {
-		JSObject result = call("brighter", k);
-		return new RGBColor(webEngine, result);
+		JsObject result = call("brighter", k);
+		return new RGBColor(engine, result);
 	}
 
 	/**
@@ -92,8 +92,8 @@ public class RGBColor extends Color {
 	 * @return the new copy
 	 */
 	public RGBColor darker() {
-		JSObject result = call("darker");
-		return new RGBColor(webEngine, result);
+		JsObject result = call("darker");
+		return new RGBColor(engine, result);
 	}
 
 	/**
@@ -106,8 +106,8 @@ public class RGBColor extends Color {
 	 * @return the new copy
 	 */
 	public RGBColor darker(double k) {
-		JSObject result = call("darker", k);
-		return new RGBColor(webEngine, result);
+		JsObject result = call("darker", k);
+		return new RGBColor(engine, result);
 	}
 	
 	@Override

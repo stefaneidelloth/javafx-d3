@@ -5,8 +5,8 @@ import static org.junit.Assert.assertNull;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 
 
@@ -19,17 +19,17 @@ public class AssertNullStringDataFunction implements DataFunction<Void> {
 	
 	//#region ATTRIBUTES
 	
-	private WebEngine webEngine;	
+	private JsEngine engine;	
 	
 	//#end region
 	
 	//#region CONSTRUCTORS
 	
 	/**
-	 * @param webEngine
+	 * @param engine
 	 */
-	public AssertNullStringDataFunction(WebEngine webEngine){
-		this.webEngine=webEngine;
+	public AssertNullStringDataFunction(JsEngine engine){
+		this.engine=engine;
 	}
 	
 	//#end region
@@ -38,8 +38,8 @@ public class AssertNullStringDataFunction implements DataFunction<Void> {
 
 	@Override
 	public Void apply(Object context, Object datum, int index) {
-		JSObject jsObject = (JSObject) datum;
-		Value value = new Value(webEngine, jsObject);
+		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);
+		Value value = new Value(engine, jsObject);
 		assertNull(value.asString());
 		return null;
 	}

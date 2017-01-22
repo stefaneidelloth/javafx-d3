@@ -122,7 +122,7 @@ public class XyDemo extends AbstractDemoCase {
 		g.selectAll("scatter-dots")
 		  .data(yData)  // using the values in the ydata array
 		  .enter().append("svg:circle")  // create a new circle for each value
-		      .attr("cy", new YAxisDataFunction(webEngine, y) ) // translate y value to a pixel
+		      .attr("cy", new YAxisDataFunction(engine, y) ) // translate y value to a pixel
 		      .attr("cx", new XAxisDataFunction(x, xData)) // translate x value
 		      .attr("r", 5) // radius of circle
 		      .style("opacity", 0.6); // opacity of circle

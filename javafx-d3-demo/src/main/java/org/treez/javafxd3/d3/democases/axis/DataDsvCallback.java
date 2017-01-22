@@ -16,14 +16,14 @@ import org.treez.javafxd3.d3.svg.Line;
 import org.treez.javafxd3.d3.time.JsDate;
 import org.treez.javafxd3.d3.time.TimeScale;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class DataDsvCallback implements DsvCallback<DsvData> {
 
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine;
+	private JsEngine engine;
 	private Selection svg;
 	private TimeScale xScale;
 	private LinearScale yScale;
@@ -39,9 +39,9 @@ public class DataDsvCallback implements DsvCallback<DsvData> {
 
 	//#region CONSTRUCTORS
 
-	public DataDsvCallback(WebEngine webEngine, Selection svg, TimeScale xScale, LinearScale yScale, Axis xAxis,
+	public DataDsvCallback(JsEngine engine, Selection svg, TimeScale xScale, LinearScale yScale, Axis xAxis,
 			Axis yAxis, Line line, Area area, int m[], int w, int h) {
-		this.webEngine = webEngine;
+		this.engine = engine;
 		this.svg = svg;
 		this.xScale = xScale;
 		this.yScale = yScale;
@@ -69,8 +69,8 @@ public class DataDsvCallback implements DsvCallback<DsvData> {
 			throw new RuntimeException(message);
 		}
 
-		JSObject jsDsvDataArray = (JSObject) dsvDataArray;
-		Array<DsvData> values = new Array<DsvData>(webEngine, jsDsvDataArray);
+		JsObject jsDsvDataArray = (JsObject) engine.toJsObjectIfNotSimpleType(dsvDataArray);
+		Array<DsvData> values = new Array<DsvData>(engine, jsDsvDataArray);
 		List<? extends DsvData> valueList = values.asList(DsvData.class);
 
 		// // Compute the minimum and maximum date, and the maximum
@@ -84,7 +84,7 @@ public class DataDsvCallback implements DsvCallback<DsvData> {
 		domainValues.add(firstData.getDate());
 		domainValues.add(valueList.get(size - 1).getDate());
 
-		xScale.domain(Array.fromList(webEngine, domainValues));
+		xScale.domain(Array.fromList(engine, domainValues));
 
 		double maxY = values.get(0, DsvData.class).getPrice();
 		for (DsvData entry : valueList) {
@@ -148,10 +148,10 @@ public class DataDsvCallback implements DsvCallback<DsvData> {
 			int n = valueList.size() - 1;
 			int i = (int) Math.floor((Math.random() * n) / 2);
 			int j = i + (int) Math.floor((Math.random() * n) / 2) + 1;
-			JSObject firstObj = valueList.get(i).getDate().getJsObject();
-			JSObject secondObj = valueList.get(j).getDate().getJsObject();
+			JsObject firstObj = valueList.get(i).getDate().getJsObject();
+			JsObject secondObj = valueList.get(j).getDate().getJsObject();
 			
-			xScale.domain(Array.fromJavaScriptObjects(webEngine, firstObj, secondObj));
+			xScale.domain(Array.fromJavaScriptObjects(engine, firstObj, secondObj));
 			
 			Transition transition = svg.transition() //
 					.duration(750);

@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 
 
@@ -17,7 +17,7 @@ public class AssertOddEvenDataFunction implements DataFunction<Void> {
 		
 	private static final double DELTA = 1e-6;
 	
-	private WebEngine webEngine;
+	private JsEngine engine;
 	private double oddValue;
 	private double evenValue;
 	
@@ -27,10 +27,10 @@ public class AssertOddEvenDataFunction implements DataFunction<Void> {
 	//#region CONSTRUCTORS
 	
 	/**
-	 * @param webEngine
+	 * @param engine
 	 */
-	public AssertOddEvenDataFunction(WebEngine webEngine, double oddValue, double evenValue){
-		this.webEngine = webEngine;
+	public AssertOddEvenDataFunction(JsEngine engine, double oddValue, double evenValue){
+		this.engine = engine;
 		this.oddValue = oddValue;
 		this.evenValue = evenValue;
 	}
@@ -41,8 +41,8 @@ public class AssertOddEvenDataFunction implements DataFunction<Void> {
 
 	@Override
 	public Void apply(Object context, Object datum, int index) {
-		JSObject jsObject = (JSObject) datum;
-		Value value = new Value(webEngine, jsObject);
+		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);
+		Value value = new Value(engine, jsObject);
 		
 		Double expected = ((index % 2) == 0) ? oddValue : evenValue;
 		Double actual = value.asDouble();

@@ -13,7 +13,7 @@ import org.treez.javafxd3.d3.demo.DemoFactory;
 import org.treez.javafxd3.d3.demo.SvgTextElementFactory;
 
 import javafx.scene.layout.VBox;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Original demo is <a href="http://bl.ocks.org/mbostock/3808218">here</a>
@@ -101,10 +101,10 @@ public class TextDemo extends AbstractDemoCase {
 
 	private Map<String, String> getDomAttributes(Selection element) {
 		Map<String, String> attributeMap = new HashMap<>();
-		JSObject attributes = element.getMember("attributes");
+		JsObject attributes = element.getMember("attributes");
 		int length = (int) attributes.getMember("length");
 		for (int attributeIndex = 0; attributeIndex < length; attributeIndex++) {
-			JSObject attributeObj = (JSObject) attributes.getMember("" + attributeIndex);
+			JsObject attributeObj = (JsObject) attributes.getMember("" + attributeIndex);
 			String attributeName = attributeObj.getMember("name").toString();
 			String attributeValue = attributeObj.getMember("value").toString();
 			attributeMap.put(attributeName, attributeValue);

@@ -7,8 +7,8 @@ import org.treez.javafxd3.d3.core.Selection;
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Force layout binding to D3. <br>
@@ -44,8 +44,8 @@ public class Force extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	public Force(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Force(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -58,11 +58,11 @@ public class Force extends JavaScriptObject {
 	 */
 	public Array<Short> size() {
 
-		JSObject result = call("size");
+		JsObject result = call("size");
 		if (result == null) {
 			return null;
 		}
-		return new Array<>(webEngine, result);
+		return new Array<>(engine, result);
 	}
 
 	/**
@@ -83,11 +83,11 @@ public class Force extends JavaScriptObject {
 	public Force size(Short[] size) {
 		String arrayString = ArrayUtils.createArrayString(size);
 		String command = "this.size(" + arrayString + ");";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		if (result == null) {
 			return null;
 		}
-		return new Force(webEngine, result);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -109,11 +109,11 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force linkDistance(double distance) {
-		JSObject result = call("linkDistance", distance);
+		JsObject result = call("linkDistance", distance);
 		if (result == null) {
 			return null;
 		}
-		return new Force(webEngine, result);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -133,11 +133,11 @@ public class Force extends JavaScriptObject {
 		assertObjectIsNotAnonymous(callback);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, callback);
 
 		String command = "this.linkDistance(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
 
@@ -145,7 +145,7 @@ public class Force extends JavaScriptObject {
 			return null;
 		}
 
-		return new Force(webEngine, result);
+		return new Force(engine, result);
 
 	}
 
@@ -167,8 +167,8 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force linkStrength(double strength) {
-		JSObject result = call("linkStrength", strength);
-		return new Force(webEngine, result);
+		JsObject result = call("linkStrength", strength);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -187,11 +187,11 @@ public class Force extends JavaScriptObject {
 		assertObjectIsNotAnonymous(callback);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, callback);
 
 		String command = "this.linkStrenght(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
 
@@ -199,7 +199,7 @@ public class Force extends JavaScriptObject {
 			return null;
 		}
 
-		return new Force(webEngine, result);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -226,8 +226,8 @@ public class Force extends JavaScriptObject {
 	 */
 	public Force friction(double friction) {
 
-		JSObject result = call("friction", friction);
-		return new Force(webEngine, result);
+		JsObject result = call("friction", friction);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -257,8 +257,8 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force charge(double x) {
-		JSObject result = call("charge", x);
-		return new Force(webEngine, result);
+		JsObject result = call("charge", x);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -287,11 +287,11 @@ public class Force extends JavaScriptObject {
 		assertObjectIsNotAnonymous(callback);
 
 		String funcName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, callback);
 
 		String command = "this.charge(function(d, i) { return d3." + funcName + ".apply(this,{datum:d},i); });";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 
 		d3JsObject.removeMember(funcName);
 
@@ -299,7 +299,7 @@ public class Force extends JavaScriptObject {
 			return null;
 		}
 
-		return new Force(webEngine, result);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -322,8 +322,8 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force chargeDistance(double x) {
-		JSObject result = call("chargeDistance", x);
-		return new Force(webEngine, result);
+		JsObject result = call("chargeDistance", x);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -358,8 +358,8 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force theta(double x) {
-		JSObject result = call("theta", x);
-		return new Force(webEngine, result);
+		JsObject result = call("theta", x);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -396,8 +396,8 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force gravity(double x) {
-		JSObject result = call("gravity", x);
-		return new Force(webEngine, result);
+		JsObject result = call("gravity", x);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -406,11 +406,11 @@ public class Force extends JavaScriptObject {
 	 */
 	public Array<Node> nodes() {
 
-		JSObject result = call("nodes");
+		JsObject result = call("nodes");
 		if (result == null) {
 			return null;
 		}
-		return new Array<>(webEngine, result);
+		return new Array<>(engine, result);
 	}
 
 	/**
@@ -439,11 +439,11 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force nodes(Array<Node> nodes) {
-		JSObject result = call("nodes", nodes.getJsObject());
+		JsObject result = call("nodes", nodes.getJsObject());
 		if (result == null) {
 			return null;
 		}
-		return new Force(webEngine, result);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -451,11 +451,11 @@ public class Force extends JavaScriptObject {
 	 * @return the links current array, which defaults to the empty array.
 	 */
 	public Array<Link> links() {
-		JSObject result = call("links");
+		JsObject result = call("links");
 		if (result == null) {
 			return null;
 		}
-		return new Array<>(webEngine, result);
+		return new Array<>(engine, result);
 	}
 
 	/**
@@ -478,11 +478,11 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force links(Array<Link> links) {
-		JSObject result = call("links", links.getJsObject());
+		JsObject result = call("links", links.getJsObject());
 		if (result == null) {
 			return null;
 		}
-		return new Force(webEngine, result);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -522,8 +522,8 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force start() {
-		JSObject result = call("start");
-		return new Force(webEngine, result);
+		JsObject result = call("start");
+		return new Force(engine, result);
 	}
 
 	/**
@@ -547,8 +547,8 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force alpha(double x) {
-		JSObject result = call("alpha", x);
-		return new Force(webEngine, result);
+		JsObject result = call("alpha", x);
+		return new Force(engine, result);
 	}
 
 	/**
@@ -569,8 +569,8 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force resume() {
-		JSObject result = call("resume");
-		return new Force(webEngine, result);
+		JsObject result = call("resume");
+		return new Force(engine, result);
 	}
 
 	/**
@@ -592,8 +592,8 @@ public class Force extends JavaScriptObject {
 	 * @return the force layout object.
 	 */
 	public Force stop() {
-		JSObject result = call("stop");
-		return new Force(webEngine, result);
+		JsObject result = call("stop");
+		return new Force(engine, result);
 	}
 
 	/**
@@ -685,7 +685,7 @@ public class Force extends JavaScriptObject {
 
 		String funcName = createNewTemporaryInstanceName();
 		String varName = createNewTemporaryInstanceName();
-		JSObject d3JsObject = getD3();
+		JsObject d3JsObject = getD3();
 		d3JsObject.setMember(funcName, callback);
 
 		String command = "var "+varName+" = d3." + funcName + " == null ? null : " + "function(d, i) {" //		      
@@ -695,13 +695,13 @@ public class Force extends JavaScriptObject {
 		eval(command);
 		String onCommand = "this.on("+varName+");";
 
-		JSObject result = evalForJsObject(onCommand);
+		JsObject result = evalForJsObject(onCommand);
 
 		if (result == null) {
 			return null;
 		}
 
-		return new Selection(webEngine, result);
+		return new Selection(engine, result);
 	}
 
 	/**
@@ -744,8 +744,8 @@ public class Force extends JavaScriptObject {
 	 * @return
 	 */
 	public Drag drag() {
-		JSObject result = call("drag");
-		return new Drag(webEngine, result);
+		JsObject result = call("drag");
+		return new Drag(engine, result);
 	}
 
 	//#end region
@@ -765,11 +765,11 @@ public class Force extends JavaScriptObject {
 		/**
 		 * Constructor
 		 * 
-		 * @param webEngine
+		 * @param engine
 		 * @param wrappedJsObject
 		 */
-		public Node(WebEngine webEngine, JSObject wrappedJsObject) {
-			super(webEngine, wrappedJsObject);
+		public Node(JsEngine engine, JsObject wrappedJsObject) {
+			super(engine, wrappedJsObject);
 		}
 
 		//#end region

@@ -5,13 +5,13 @@ import org.treez.javafxd3.d3.functions.TimerFunction;
 import org.treez.javafxd3.d3.scales.LinearScale;
 import org.treez.javafxd3.d3.wrapper.canvas.Context2d;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 public class LorenzTimerFunction implements TimerFunction {
 	
 	//#region ATTRIBUTES
 
-	private WebEngine webEngine;
+	private JsEngine engine;
 
 	private LorenzSystem lorenzSystem;
 
@@ -31,8 +31,8 @@ public class LorenzTimerFunction implements TimerFunction {
 	
 	//#region CONSTRUCTORS
 
-	public LorenzTimerFunction(WebEngine webEngine, LorenzSystem lorenzSystem) {
-		this.webEngine = webEngine;
+	public LorenzTimerFunction(JsEngine engine, LorenzSystem lorenzSystem) {
+		this.engine = engine;
 		this.lorenzSystem = lorenzSystem;
 
 		this.context = lorenzSystem.getContext();
@@ -58,7 +58,7 @@ public class LorenzTimerFunction implements TimerFunction {
 		double sigma = 10;
 		double beta = 8 / 3;
 
-		Colors colors = new Colors(webEngine);
+		Colors colors = new Colors(engine);
 
 		for (int i = 0; i < n; ++i) {
 

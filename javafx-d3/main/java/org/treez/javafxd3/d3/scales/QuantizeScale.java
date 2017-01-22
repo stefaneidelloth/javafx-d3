@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.scales;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Quantize scales are a variant of linear scales with a discrete rather than
@@ -47,11 +47,11 @@ public class QuantizeScale extends DiscreteQuantitativeScale<QuantizeScale> {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public QuantizeScale(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public QuantizeScale(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}	
 
 	//#end region
@@ -59,8 +59,8 @@ public class QuantizeScale extends DiscreteQuantitativeScale<QuantizeScale> {
 	//#region METHODS
 	
 	@Override
-	public QuantizeScale createScale(WebEngine webEngine, JSObject result) {		
-		return new QuantizeScale(webEngine, result);
+	public QuantizeScale createScale(JsEngine engine, JsObject result) {		
+		return new QuantizeScale(engine, result);
 	}
 	
 	//#end region

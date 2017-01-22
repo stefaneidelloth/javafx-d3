@@ -9,22 +9,22 @@ import org.treez.javafxd3.d3.arrays.Array;
 import org.treez.javafxd3.d3.dsv.DsvCallback;
 import org.treez.javafxd3.d3.dsv.DsvRow;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class PersonRowCallback implements DsvCallback<DsvRow> {
 	
-	private WebEngine webEngine;
+	private JsEngine engine;
 
-	public PersonRowCallback(WebEngine webEngine) {
-		this.webEngine = webEngine;
+	public PersonRowCallback(JsEngine engine) {
+		this.engine = engine;
 	}
 
 	@Override
 	public void get(final Object error, final Object dsvRowArray) {
 
-		JSObject jsDsvDataArray = (JSObject) dsvRowArray;
-		Array<DsvRow> values = new Array<DsvRow>(webEngine, jsDsvDataArray);
+		JsObject jsDsvDataArray = (JsObject) engine.toJsObjectIfNotSimpleType(dsvRowArray);
+		Array<DsvRow> values = new Array<DsvRow>(engine, jsDsvDataArray);
 		List<? extends DsvRow> valueList = values.asList(DsvRow.class);
 
 		assertNull(error);

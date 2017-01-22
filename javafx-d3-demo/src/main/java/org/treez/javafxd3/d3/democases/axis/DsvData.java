@@ -3,8 +3,8 @@ package org.treez.javafxd3.d3.democases.axis;
 import org.treez.javafxd3.d3.time.JsDate;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class DsvData extends JavaScriptObject {
 
@@ -20,23 +20,23 @@ public class DsvData extends JavaScriptObject {
 
 	//#region CONSTRUCTORS	
 	
-	public DsvData(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);		
-		JSObject jsDate = (JSObject) wrappedJsObject.getMember("date");
-		this.date = new JsDate(webEngine, jsDate);
+	public DsvData(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);		
+		JsObject jsDate = (JsObject) wrappedJsObject.getMember("date");
+		this.date = new JsDate(engine, jsDate);
 		this.price =Double.parseDouble(wrappedJsObject.getMember("price").toString());
 		this.symbol = (String) wrappedJsObject.getMember("symbol");				
 	}
 	
-	public DsvData(WebEngine webEngine, final String symbol, final JsDate date, final double price) {
-		super(webEngine);		
+	public DsvData(JsEngine engine, final String symbol, final JsDate date, final double price) {
+		super(engine);		
 		this.date = date;
 		this.price = price;
 		this.symbol = symbol;		
 		
 		String command = "new Object()";
-		JSObject jsObject = (JSObject) webEngine.executeScript(command);		
-		JSObject jsDate = date.getJsObject();
+		JsObject jsObject = (JsObject) engine.executeScript(command);		
+		JsObject jsDate = date.getJsObject();
 		jsObject.setMember("date", jsDate);
 		jsObject.setMember("price", price);
 		jsObject.setMember("symbol", symbol);

@@ -4,22 +4,22 @@ import org.treez.javafxd3.d3.interpolators.Interpolator;
 import org.treez.javafxd3.d3.tweens.TweenFunction;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class InterpolatorTweenFunction extends JavaScriptObject implements TweenFunction<String>{
 
-	public InterpolatorTweenFunction(WebEngine webEngine){
-		super(webEngine);
+	public InterpolatorTweenFunction(JsEngine engine){
+		super(engine);
 	}
 	
 	
 	@Override
-	public JSObject apply(final Object context,
+	public JsObject apply(final Object context,
 			final Object datum, final int index, final Object value) {
 		
-		Interpolator<String> interpolator = new TestCallableInterpolator(webEngine);
-		return interpolator.asJSOFunction();
+		Interpolator<String> interpolator = new TestCallableInterpolator(engine);
+		return interpolator.asJsFunction();
 	}
 	
 }

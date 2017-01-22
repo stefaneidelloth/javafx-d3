@@ -6,7 +6,7 @@ import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.functions.data.wrapper.PlainDataFunction;
 import org.treez.javafxd3.d3.wrapper.Sort;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 /**
  * Convenient methods to deal with arrays.
@@ -53,8 +53,8 @@ public class Arrays {
 	 *            the array to be evaluated
 	 * @return the maximum as a {@link Value} object
 	 */
-	public static Value max(Array<?> array, WebEngine webEngine) {
-		D3 d3 = new D3(webEngine);
+	public static Value max(Array<?> array, JsEngine engine) {
+		D3 d3 = new D3(engine);
 		return d3.max(array);
 	};
 
@@ -83,8 +83,8 @@ public class Arrays {
 	 *            array to a transformed value
 	 * @return the maximum of the transformed values as a {@link Value} object
 	 */
-	public static Value max(Array<?> array, ForEachCallback<?> accessor, WebEngine webEngine) {
-		D3 d3 = new D3(webEngine);
+	public static Value max(Array<?> array, ForEachCallback<?> accessor, JsEngine engine) {
+		D3 d3 = new D3(engine);
 		return d3.max(array, accessor);
 	};
 
@@ -111,9 +111,9 @@ public class Arrays {
 	 *            array to a transformed value
 	 * @return the maximum of the transformed values as a {@link Value} object
 	 */
-	// public static Value max(WebEngine webEngine, JavaScriptObject array,
+	// public static Value max(JsEngine engine, JavaScriptObject array,
 	// NumericForEachCallback accessor) {
-	// D3 d3 = new D3(webEngine);
+	// D3 d3 = new D3(engine);
 	//
 	// var rs = $wnd.d3
 	// .max(
@@ -143,8 +143,8 @@ public class Arrays {
 	 *            the array to be evaluated
 	 * @return the minimum as a {@link Value} object
 	 */
-	public static Value min(Array<?> array, WebEngine webEngine) {
-		D3 d3 = new D3(webEngine);
+	public static Value min(Array<?> array, JsEngine engine) {
+		D3 d3 = new D3(engine);
 		return d3.min(array);
 	};
 
@@ -234,8 +234,8 @@ public class Arrays {
 	 * @return the minimum and maximum value in the given array using natural
 	 *         order.
 	 */
-	public static <T> Array<T> extent(Array<T> array, WebEngine webEngine) {
-		D3 d3 = new D3(webEngine);
+	public static <T> Array<T> extent(Array<T> array, JsEngine engine) {
+		D3 d3 = new D3(engine);
 		return d3.extent(array);
 	};
 
@@ -248,8 +248,8 @@ public class Arrays {
 	 * @return the minimum and maximum value in the given array using the accessor
 	 * method
 	 */
-	 public static <A, R> Array<R> extent(Array<A> array, Class<A> argumentClass, PlainDataFunction<R, A> accessor, WebEngine webEngine) {
-		 D3 d3 = new D3(webEngine);
+	 public static <A, R> Array<R> extent(Array<A> array, Class<A> argumentClass, PlainDataFunction<R, A> accessor, JsEngine engine) {
+		 D3 d3 = new D3(engine);
 		return d3.extent(array, argumentClass, accessor);	
 	 };
 
@@ -293,8 +293,8 @@ public class Arrays {
 	 *
 	 * @return
 	 */
-	public static Sort ascending(WebEngine webEngine) {
-		D3 d3 = new D3(webEngine);
+	public static Sort ascending(JsEngine engine) {
+		D3 d3 = new D3(engine);
 		return d3.ascending();
 	};
 
@@ -305,8 +305,8 @@ public class Arrays {
 	 *
 	 * @return
 	 */
-	public static Sort descending(WebEngine webEngine) {
-		D3 d3 = new D3(webEngine);
+	public static Sort descending(JsEngine engine) {
+		D3 d3 = new D3(engine);
 		return d3.descending();
 	}
 
@@ -319,8 +319,8 @@ public class Arrays {
 	 *            the maximum value (excluded)
 	 * @return the array
 	 */
-	public static Array<Double> range(double stop, WebEngine webEngine) {
-		D3 d3 = new D3(webEngine);
+	public static Array<Double> range(double stop, JsEngine engine) {
+		D3 d3 = new D3(engine);
 		return d3.range(stop);
 	};
 
@@ -338,8 +338,8 @@ public class Arrays {
 	 *            the step between each value
 	 * @return the array
 	 */
-	public static Array<Double> range(double stop, double step, WebEngine webEngine) {
-		D3 d3 = new D3(webEngine);
+	public static Array<Double> range(double stop, double step, JsEngine engine) {
+		D3 d3 = new D3(engine);
 		return d3.range(stop, step);
 	};
 
@@ -368,8 +368,8 @@ public class Arrays {
 	 *            the step between each value
 	 * @return
 	 */
-	public static Array<Double> range(double start, double stop, double step, WebEngine webEngine) {
-		D3 d3 = new D3(webEngine);
+	public static Array<Double> range(double start, double stop, double step, JsEngine engine) {
+		D3 d3 = new D3(engine);
 		return d3.range(start, stop, step);
 	};
 

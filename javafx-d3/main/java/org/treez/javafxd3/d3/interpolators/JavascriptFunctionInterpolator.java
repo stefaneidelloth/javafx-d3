@@ -4,8 +4,8 @@ import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 
 /**
@@ -20,8 +20,8 @@ public class JavascriptFunctionInterpolator extends JavaScriptObject implements 
 
 	//#region CONSTRUCTORS	
 	
-	public JavascriptFunctionInterpolator(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public JavascriptFunctionInterpolator(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 	
@@ -32,11 +32,11 @@ public class JavascriptFunctionInterpolator extends JavaScriptObject implements 
 	@Override
 	public  Value interpolate(Object t){			
 		Object interpolationResult = callThis(t);		
-		return Value.create(webEngine, interpolationResult);
+		return Value.create(engine, interpolationResult);
 	}
 
 	@Override
-	public final JSObject asJSOFunction() {
+	public final JsObject asJsFunction() {
 		return this.getJsObject();
 	}
 	

@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.functions.data.axis;
 
 import org.treez.javafxd3.d3.functions.DataFunction;
 import org.treez.javafxd3.d3.scales.Scale;
-
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  *  A datum function that extracts the value from a data object
@@ -14,16 +14,16 @@ public class AxisScaleValueDataFunction implements DataFunction<Double> {
 	
 	//#region ATTRIBUTES
 	
-	Scale<?> scale;	
+	private JsEngine engine;
+	
+	private Scale<?> scale;	
 	
 	//#end region
 	
 	//#region CONSTRUCTORS
 	
-	/**
-	 * @param webEngine
-	 */
-	public AxisScaleValueDataFunction(Scale<?> scale){
+	public AxisScaleValueDataFunction(JsEngine engine, Scale<?> scale){
+		this.engine = engine;
 		this.scale = scale;		
 	}
 	
@@ -34,7 +34,7 @@ public class AxisScaleValueDataFunction implements DataFunction<Double> {
 	@Override
 	public Double apply(Object context, Object datum, int index) {
 		
-		JSObject jsObject = (JSObject) datum;			
+		JsObject jsObject = (JsObject) engine.toJsObjectIfNotSimpleType(datum);			
 		Object valueObject = jsObject.eval("this.datum.value");			
 		Double scaledValue = scale.applyForDouble(valueObject.toString());		
 		return scaledValue;			

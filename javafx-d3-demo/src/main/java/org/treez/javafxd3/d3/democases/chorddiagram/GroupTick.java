@@ -3,24 +3,24 @@ package org.treez.javafxd3.d3.democases.chorddiagram;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class GroupTick extends JavaScriptObject {
 
 	//#region CONSCTRUCTORS
 
-	public GroupTick(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public GroupTick(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
 
 	//#region METHODS
 
-	public static GroupTick create(double angle, String label, WebEngine webEngine) {
+	public static GroupTick create(double angle, String label, JsEngine engine) {
 
-		D3 d3 = new D3(webEngine);
+		D3 d3 = new D3(engine);
 
 		String command = "d3.new_group_tick = {" + //
 				"angle: " + angle + ", " + //
@@ -28,10 +28,10 @@ public class GroupTick extends JavaScriptObject {
 				"};";
 
 		d3.eval(command);
-		JSObject result = d3.evalForJsObject("d3.new_group_tick");
+		JsObject result = d3.evalForJsObject("d3.new_group_tick");
 
 		d3.eval("d3.new_group_tick=undefined");
-		return new GroupTick(webEngine, result);
+		return new GroupTick(engine, result);
 	}
 
 	//#end region

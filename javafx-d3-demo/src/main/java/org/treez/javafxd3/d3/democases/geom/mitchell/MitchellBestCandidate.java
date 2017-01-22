@@ -74,14 +74,14 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 
 	private CircleGenerator createBestCircleGenerator(final double maxRadius, final double padding) {
 		
-		DataFunction<Double> xDataFunction = new DataFunctionWrapper<>(Circle.class, webEngine, (circle)->{
+		DataFunction<Double> xDataFunction = new DataFunctionWrapper<>(Circle.class, engine, (circle)->{
 			if (circle==null){
 				return null;
 			}			
 			return circle.x;			
 		});
 		
-		DataFunction<Double> yDataFunction = new DataFunctionWrapper<>(Circle.class, webEngine, (circle)->{
+		DataFunction<Double> yDataFunction = new DataFunctionWrapper<>(Circle.class, engine, (circle)->{
 			if (circle==null){
 				return null;
 			}			
@@ -95,7 +95,7 @@ public class MitchellBestCandidate extends AbstractDemoCase {
 				.extent(0, 0, width, height) //
 				.apply(new Circle[1]);
 
-		return new MitchellCircleGenerator(webEngine, quadtree, maxRadius, width, height, padding) ;
+		return new MitchellCircleGenerator(engine, quadtree, maxRadius, width, height, padding) ;
 	}
 	
 	//#end region

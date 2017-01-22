@@ -22,7 +22,7 @@ import org.treez.javafxd3.d3.svg.Arc;
 import org.treez.javafxd3.d3.wrapper.Element;
 
 import javafx.scene.layout.VBox;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class ChordDiagram extends AbstractDemoCase {
 
@@ -55,7 +55,7 @@ public class ChordDiagram extends AbstractDemoCase {
 		Chord chord = d3.layout() //
 				.chord() //
 				.padding(.05) //
-				.sortSubgroups(Arrays.descending(webEngine)) //
+				.sortSubgroups(Arrays.descending(engine)) //
 				.matrix(matrix);
 
 		int width = 900;
@@ -65,7 +65,7 @@ public class ChordDiagram extends AbstractDemoCase {
 
 		final OrdinalScale fillScale = d3.scale() //
 				.ordinal() //
-				.domain(Arrays.range(4, webEngine)) //
+				.domain(Arrays.range(4, engine)) //
 				.range("#000000", "#FFDD89", "#957244", "#F26223");
 
 		final Selection svg = d3.select("#svg") //			
@@ -74,7 +74,7 @@ public class ChordDiagram extends AbstractDemoCase {
 				.append("g") //
 				.attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")");
 
-		DataFunction<String> fillFunction = new DataFunctionWrapper<>(Group.class, webEngine, (group) -> {
+		DataFunction<String> fillFunction = new DataFunctionWrapper<>(Group.class, engine, (group) -> {
 			int i = group.index();
 			Value scaledValue = fillScale.apply(i);
 			String fillString = scaledValue.asString();
@@ -99,11 +99,11 @@ public class ChordDiagram extends AbstractDemoCase {
 				.on("mouseout", fade(svg, 1));
 
 		// Returns an array of tick angles and labels, given a group.
-		DataFunction<GroupTick[]> groupTicksFunction = new DataFunctionWrapper<>(Group.class, webEngine, (group) -> {
+		DataFunction<GroupTick[]> groupTicksFunction = new DataFunctionWrapper<>(Group.class, engine, (group) -> {
 
 			final double k = (group.endAngle() - group.startAngle()) / group.value();
 
-			Array<Double> range = Arrays.range(0, group.value(), 1000, webEngine);
+			Array<Double> range = Arrays.range(0, group.value(), 1000, engine);
 
 			GroupTick[] groupTicks = new GroupTick[range.length()];
 
@@ -112,17 +112,17 @@ public class ChordDiagram extends AbstractDemoCase {
 			int[] index = { 0 };
 			range.forEach((object) -> {
 
-				Double value = ConversionUtil.convertObjectTo(object, Double.class, webEngine);
+				Double value = ConversionUtil.convertObjectTo(object, Double.class, engine);
 				double angle = (value * k) + startAngle;
 				String label = (index[0] % 5) != 0 ? "" : (value / 1000) + "k";
-				groupTicks[index[0]] = GroupTick.create(angle, label, webEngine);
+				groupTicks[index[0]] = GroupTick.create(angle, label, engine);
 				index[0]++;
 			});
 
 			return groupTicks;
 		});
 
-		DataFunction<String> transformGroupFunction = new DataFunctionWrapper<>(GroupTick.class, webEngine,
+		DataFunction<String> transformGroupFunction = new DataFunctionWrapper<>(GroupTick.class, engine,
 				(groupTick) -> {
 					String transformString = "rotate(" + (((groupTick.angle() * 180) / Math.PI) - 90) + ")"
 							+ "translate(" + outerRadius + ",0)";
@@ -150,18 +150,18 @@ public class ChordDiagram extends AbstractDemoCase {
 					.attr("y2", 0) //
 					.style("stroke", "#000");
 
-			DataFunction<String> transformTextFunction = new DataFunctionWrapper<>(GroupTick.class, webEngine,
+			DataFunction<String> transformTextFunction = new DataFunctionWrapper<>(GroupTick.class, engine,
 					(groupTick) -> {
 						String transformString = groupTick.angle() > Math.PI ? "rotate(180)translate(-16)" : null;
 						return transformString;
 					});
 
-			DataFunction<String> styleFunction = new DataFunctionWrapper<>(GroupTick.class, webEngine, (groupTick) -> {
+			DataFunction<String> styleFunction = new DataFunctionWrapper<>(GroupTick.class, engine, (groupTick) -> {
 				String style = groupTick.angle() > Math.PI ? "end" : null;
 				return style;
 			});
 
-			DataFunction<String> textFunction = new DataFunctionWrapper<>(GroupTick.class, webEngine, (groupTick) -> {
+			DataFunction<String> textFunction = new DataFunctionWrapper<>(GroupTick.class, engine, (groupTick) -> {
 				String text = groupTick.label();
 				return text;
 			});
@@ -173,7 +173,7 @@ public class ChordDiagram extends AbstractDemoCase {
 					.style("text-anchor", styleFunction) //
 					.text(textFunction);
 
-			DataFunction<String> fillStyleFunction = new DataFunctionWrapper<>(ChordItem.class, webEngine,
+			DataFunction<String> fillStyleFunction = new DataFunctionWrapper<>(ChordItem.class, engine,
 					(chordItem) -> {
 						int index = chordItem.target().index();
 						String style = fillScale.apply(index).asString();
@@ -214,20 +214,20 @@ public class ChordDiagram extends AbstractDemoCase {
 
 			Selection selection = svg.selectAll(".chord path");
 			Array<Element> array2d = selection.asElementArray();
-			JSObject arrayObj = array2d.get(0, JSObject.class);
-			Array<Element> array = new Array<>(webEngine, arrayObj);
+			JsObject arrayObj = array2d.get(0, JsObject.class);
+			Array<Element> array = new Array<>(engine, arrayObj);
 
-			D3 d3 = new D3(webEngine);
+			D3 d3 = new D3(engine);
 
 			array.forEach((object) -> {
 
-				JSObject jsObject = (JSObject) object;
-				Element element = new Element(webEngine, jsObject);
+				JsObject jsObject = (JsObject) object;
+				Element element = new Element(engine, jsObject);
 
-				Array<JSObject> elementData = d3.select(element).data();
+				Array<JsObject> elementData = d3.select(element).data();
 
-				JSObject jsData = elementData.get(0, JSObject.class);
-				ChordItem chordItem = new ChordItem(webEngine, jsData);
+				JsObject jsData = elementData.get(0, JsObject.class);
+				ChordItem chordItem = new ChordItem(engine, jsData);
 
 				int sourceIndex = chordItem.source().index();
 				int targetIndex = chordItem.target().index();

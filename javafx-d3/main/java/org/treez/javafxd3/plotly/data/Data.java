@@ -9,8 +9,8 @@ import org.treez.javafxd3.plotly.data.contour.Contours;
 import org.treez.javafxd3.plotly.data.contour.colorbar.ColorBar;
 import org.treez.javafxd3.plotly.data.line.Line;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class Data extends JavaScriptObject {
 
@@ -20,12 +20,12 @@ public class Data extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	public Data(WebEngine webEngine, JSObject jsObject) {
-		super(webEngine, jsObject);
+	public Data(JsEngine engine, JsObject jsObject) {
+		super(engine, jsObject);
 	}
 
-	public Data(WebEngine webEngine) {
-		super(webEngine);
+	public Data(JsEngine engine) {
+		super(engine);
 		setEmptyObjectAsJsObject();
 	}
 
@@ -49,23 +49,23 @@ public class Data extends JavaScriptObject {
 	//#region X
 
 	public void setX(Double[] xData) {
-		Array<Double> array = Array.fromDoubles(webEngine, xData);
+		Array<Double> array = Array.fromDoubles(engine, xData);
 		setX(array);
 	}
 
 	public void setX(List<Double> xData) {
-		Array<Double> array = Array.fromList(webEngine, xData);
+		Array<Double> array = Array.fromList(engine, xData);
 		setX(array);
 	}
 
 	public void setX(Array<Double> xData) {
-		JSObject arrayObj = xData.getJsObject();
+		JsObject arrayObj = xData.getJsObject();
 		setMember("x", arrayObj);
 	}
 
 	public Array<Double> getX() {
-		JSObject result = getMember("x");
-		return new Array<Double>(webEngine, result);
+		JsObject result = getMember("x");
+		return new Array<Double>(engine, result);
 	}
 
 	//#end region
@@ -73,23 +73,23 @@ public class Data extends JavaScriptObject {
 	//#region Y
 
 	public void setY(Double[] yData) {
-		Array<Double> array = Array.fromDoubles(webEngine, yData);
+		Array<Double> array = Array.fromDoubles(engine, yData);
 		setY(array);
 	}
 
 	public void setY(List<Double> yData) {
-		Array<Double> array = Array.fromList(webEngine, yData);
+		Array<Double> array = Array.fromList(engine, yData);
 		setY(array);
 	}
 
 	public void setY(Array<Double> yData) {
-		JSObject arrayObj = yData.getJsObject();
+		JsObject arrayObj = yData.getJsObject();
 		setMember("y", arrayObj);
 	}
 
 	public Array<Double> getY() {
-		JSObject result = getMember("y");
-		return new Array<Double>(webEngine, result);
+		JsObject result = getMember("y");
+		return new Array<Double>(engine, result);
 	}
 
 	//#end region
@@ -97,28 +97,28 @@ public class Data extends JavaScriptObject {
 	//#region Z
 
 	public void setZ(Double[] zData) {
-		Array<Double> array = Array.fromDoubles(webEngine, zData);
+		Array<Double> array = Array.fromDoubles(engine, zData);
 		setZ(array);
 	}
 
 	public void setZ(Double[][] zData) {
-		Array<Double> array = Array.fromDoubles(webEngine, zData);
+		Array<Double> array = Array.fromDoubles(engine, zData);
 		setZ(array);
 	}
 
 	public void setZ(List<Double> zData) {
-		Array<Double> array = Array.fromList(webEngine, zData);
+		Array<Double> array = Array.fromList(engine, zData);
 		setZ(array);
 	}
 
 	public void setZ(Array<Double> yData) {
-		JSObject arrayObj = yData.getJsObject();
+		JsObject arrayObj = yData.getJsObject();
 		setMember("z", arrayObj);
 	}
 
 	public Array<Double> getZ() {
-		JSObject result = getMember("z");
-		return new Array<Double>(webEngine, result);
+		JsObject result = getMember("z");
+		return new Array<Double>(engine, result);
 	}
 
 	public void setZAuto(boolean isZAuto) {
@@ -138,18 +138,18 @@ public class Data extends JavaScriptObject {
 	//#region VALUES
 
 	public void setValues(Double[] valueData) {
-		Array<Double> array = Array.fromDoubles(webEngine, valueData);
+		Array<Double> array = Array.fromDoubles(engine, valueData);
 		setValues(array);
 	}
 
 	public void setValues(Array<Double> valueData) {
-		JSObject arrayObj = valueData.getJsObject();
+		JsObject arrayObj = valueData.getJsObject();
 		setMember("values", arrayObj);
 	}
 
 	public Array<Double> getValues() {
-		JSObject result = getMember("values");
-		return new Array<Double>(webEngine, result);
+		JsObject result = getMember("values");
+		return new Array<Double>(engine, result);
 	}
 
 	//#end region
@@ -165,18 +165,18 @@ public class Data extends JavaScriptObject {
 	//#region LABELS
 
 	public void setLabels(String[] labelData) {
-		Array<String> array = Array.fromStrings(webEngine, labelData);
+		Array<String> array = Array.fromStrings(engine, labelData);
 		setLabels(array);
 	}
 
 	public void setLabels(Array<String> labelData) {
-		JSObject arrayObj = labelData.getJsObject();
+		JsObject arrayObj = labelData.getJsObject();
 		setMember("labels", arrayObj);
 	}
 
 	public Array<String> getLabels() {
-		JSObject result = getMember("labels");
-		return new Array<String>(webEngine, result);
+		JsObject result = getMember("labels");
+		return new Array<String>(engine, result);
 	}
 
 	//#end region
@@ -188,8 +188,8 @@ public class Data extends JavaScriptObject {
 	}
 
 	public Marker getMarker() {
-		JSObject result = getMember("marker");
-		return new Marker(webEngine, result);
+		JsObject result = getMember("marker");
+		return new Marker(engine, result);
 	}
 
 	//#end region

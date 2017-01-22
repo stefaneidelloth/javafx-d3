@@ -4,8 +4,8 @@ import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
 import org.treez.javafxd3.d3.D3;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Factory for {@link Scale}s.
@@ -38,20 +38,20 @@ public class Scales extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 */
-	public Scales(WebEngine webEngine) {
-		super(webEngine);
+	public Scales(JsEngine engine) {
+		super(engine);
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Scales(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public Scales(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -60,12 +60,12 @@ public class Scales extends JavaScriptObject {
 	//#region METHODS
 	
 	/**
-	 * @param webEngine 
+	 * @param engine 
 	 * @return
 	 */
-	public static  Scales get(WebEngine webEngine){		
-		JSObject result = (JSObject) webEngine.executeScript("d3.scale");
-		return new Scales(webEngine, result);
+	public static  Scales get(JsEngine engine){		
+		JsObject result = (JsObject) engine.executeScript("d3.scale");
+		return new Scales(engine, result);
 	}
 
 	/**
@@ -76,8 +76,8 @@ public class Scales extends JavaScriptObject {
 	 * @return a new default linear scale
 	 */
 	public  LinearScale linear(){
-		JSObject result = call("linear");
-		return new LinearScale(webEngine, result);
+		JsObject result = call("linear");
+		return new LinearScale(engine, result);
 	}	
 
 	/**
@@ -88,8 +88,8 @@ public class Scales extends JavaScriptObject {
 	 * @return a new identity scale
 	 */
 	public  IdentityScale identity(){
-		JSObject result = call("identity");
-		return new IdentityScale(webEngine, result);
+		JsObject result = call("identity");
+		return new IdentityScale(engine, result);
 	}
 
 	/**
@@ -99,8 +99,8 @@ public class Scales extends JavaScriptObject {
 	 * @return a new default log scale
 	 */
 	public  LogScale log(){
-		JSObject result = call("log");
-		return new LogScale(webEngine, result);
+		JsObject result = call("log");
+		return new LogScale(engine, result);
 	}
 
 	/**
@@ -113,8 +113,8 @@ public class Scales extends JavaScriptObject {
 	 * @return a new default pow scale
 	 */
 	public  PowScale pow(){
-		JSObject result = call("pow");
-		return new PowScale(webEngine, result);
+		JsObject result = call("pow");
+		return new PowScale(engine, result);
 	}
 
 	/**
@@ -137,8 +137,8 @@ public class Scales extends JavaScriptObject {
 	 * @return a new default pow scale with an exponent of 0.5.
 	 */
 	public  PowScale sqrt(){
-		JSObject result = call("sqrt");
-		return new PowScale(webEngine, result);
+		JsObject result = call("sqrt");
+		return new PowScale(engine, result);
 	}
 
 	/**
@@ -153,8 +153,8 @@ public class Scales extends JavaScriptObject {
 	 * @return the new scale
 	 */
 	public  QuantizeScale quantize(){
-		JSObject result = call("quantize");
-		return new QuantizeScale(webEngine, result);
+		JsObject result = call("quantize");
+		return new QuantizeScale(engine, result);
 	}
 
 	/**
@@ -167,8 +167,8 @@ public class Scales extends JavaScriptObject {
 	 * @return the new empty quantile scale
 	 */
 	public  QuantileScale quantile(){
-		JSObject result = call("quantile");
-		return new QuantileScale(webEngine, result);
+		JsObject result = call("quantile");
+		return new QuantileScale(engine, result);
 	}
 
 	/**
@@ -181,8 +181,8 @@ public class Scales extends JavaScriptObject {
 	 * @return the new ordinal scale
 	 */
 	public  OrdinalScale ordinal(){
-		JSObject result = call("ordinal");
-		return new OrdinalScale(webEngine, result);
+		JsObject result = call("ordinal");
+		return new OrdinalScale(engine, result);
 	}
 
 	/**
@@ -197,8 +197,8 @@ public class Scales extends JavaScriptObject {
 	 * @return the new threshold scale
 	 */
 	public  ThresholdScale threshold(){
-		JSObject result = call("threshold");
-		return new ThresholdScale(webEngine, result);
+		JsObject result = call("threshold");
+		return new ThresholdScale(engine, result);
 	}
 
 	/**
@@ -215,8 +215,8 @@ public class Scales extends JavaScriptObject {
 	 * @return the color palette as a {@link OrdinalScale}
 	 */
 	public  OrdinalScale category10(){
-		JSObject result = call("category10");
-		return new OrdinalScale(webEngine, result);
+		JsObject result = call("category10");
+		return new OrdinalScale(engine, result);
 	}
 
 	/**
@@ -238,8 +238,8 @@ public class Scales extends JavaScriptObject {
 	 * @return the color palette as a {@link OrdinalScale}
 	 */
 	public  OrdinalScale category20(){
-		JSObject result = call("category20");
-		return new OrdinalScale(webEngine, result);
+		JsObject result = call("category20");
+		return new OrdinalScale(engine, result);
 	}
 
 	/**
@@ -261,8 +261,8 @@ public class Scales extends JavaScriptObject {
 	 * @return the color palette as a {@link OrdinalScale}
 	 */
 	public  OrdinalScale category20b(){
-		JSObject result = call("category20b");
-		return new OrdinalScale(webEngine, result);
+		JsObject result = call("category20b");
+		return new OrdinalScale(engine, result);
 	}
 
 	/**
@@ -284,8 +284,8 @@ public class Scales extends JavaScriptObject {
 	 * @return the color palette as a {@link OrdinalScale}
 	 */
 	public  OrdinalScale category20c(){
-		JSObject result = call("category20c");
-		return new OrdinalScale(webEngine, result);
+		JsObject result = call("category20c");
+		return new OrdinalScale(engine, result);
 	}	
 
 	//#end region

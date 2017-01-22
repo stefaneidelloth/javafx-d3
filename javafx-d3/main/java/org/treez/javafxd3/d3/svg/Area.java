@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.svg;
 
 import org.treez.javafxd3.d3.functions.DataFunction;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Generates path data for a closed piecewise linear curve, or polygon, as in an
@@ -40,11 +40,11 @@ public class Area extends PathDataGenerator {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Area(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public Area(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -74,11 +74,11 @@ public class Area extends PathDataGenerator {
 	 */
 	public Area interpolate(final InterpolationMode mode) {
 		String modeString = mode.getValue();
-		JSObject result = call("interpolate", modeString);
+		JsObject result = call("interpolate", modeString);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 	}
 
 	/**
@@ -97,17 +97,17 @@ public class Area extends PathDataGenerator {
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
-		JSObject d3jsObj = getD3();
+		JsObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.x(function(d, i) { " + //
 				"   return d3." + memberName + ".apply(this,{datum:d},i); " + //
 				"});";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 	}
 
 	/**
@@ -117,11 +117,11 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Area x(double d) {
-		JSObject result = call("x", d);
+		JsObject result = call("x", d);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 	}
 
 	/**
@@ -131,8 +131,8 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Area x0(double d) {
-		JSObject result = call("x0", d);
-		return new Area(webEngine, result);
+		JsObject result = call("x0", d);
+		return new Area(engine, result);
 	}
 
 	/**
@@ -145,17 +145,17 @@ public class Area extends PathDataGenerator {
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
-		JSObject d3jsObj = getD3();
+		JsObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.x0(function(d, i) { " + //
 				"  return d3." + memberName + ".apply(this,{datum:d},i); " + //
 				"});";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 
 	}
 
@@ -166,11 +166,11 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Area x1(double d) {
-		JSObject result = call("x1", d);
+		JsObject result = call("x1", d);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 
 	}
 
@@ -184,17 +184,17 @@ public class Area extends PathDataGenerator {
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
-		JSObject d3jsObj = getD3();
+		JsObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.x1(function(d, i) { " + //
 				"  return d3." + memberName + ".apply(this,{datum:d},i); " + //
 				"});";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 	}
 
 	/**
@@ -204,11 +204,11 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Area y(double d) {
-		JSObject result = call("y", d);
+		JsObject result = call("y", d);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 	}
 
 	/**
@@ -218,11 +218,11 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Area y0(double d) {
-		JSObject result = call("y0", d);
+		JsObject result = call("y0", d);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 	}
 
 	/**
@@ -232,11 +232,11 @@ public class Area extends PathDataGenerator {
 	 * @return
 	 */
 	public Area y1(double d) {
-		JSObject result = call("y1", d);
+		JsObject result = call("y1", d);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 	}
 
 	/**
@@ -256,17 +256,17 @@ public class Area extends PathDataGenerator {
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
-		JSObject d3jsObj = getD3();
+		JsObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.y(function(d, i) { " + //
 				"   return d3." + memberName + ".apply(this,{datum:d},i); " + //
 				"});";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 	}
 
 	/**
@@ -286,17 +286,17 @@ public class Area extends PathDataGenerator {
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
-		JSObject d3jsObj = getD3();
+		JsObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.y0(function(d, i) { " + //
 				"   return d3." + memberName + ".apply(this,{datum:d},i); " + //
 				"});";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 	}
 
 	/**
@@ -316,17 +316,17 @@ public class Area extends PathDataGenerator {
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
-		JSObject d3jsObj = getD3();
+		JsObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.y1(function(d, i) { " + //
 				"   return d3." + memberName + ".apply(this,{datum:d},i); " + //
 				" });";
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 
 	}
 
@@ -349,7 +349,7 @@ public class Area extends PathDataGenerator {
 		assertObjectIsNotAnonymous(callback);
 
 		String memberName = createNewTemporaryInstanceName();
-		JSObject d3jsObj = getD3();
+		JsObject d3jsObj = getD3();
 		d3jsObj.setMember(memberName, callback);
 
 		String command = "this.defined(function(d) { " //				
@@ -357,11 +357,11 @@ public class Area extends PathDataGenerator {
 				+ "return result; "//
 				+ "});";
 
-		JSObject result = evalForJsObject(command);
+		JsObject result = evalForJsObject(command);
 		if (result == null) {
 			return null;
 		}
-		return new Line(webEngine, result);
+		return new Line(engine, result);
 
 	}
 
@@ -395,11 +395,11 @@ public class Area extends PathDataGenerator {
 	 * @return the current area generator
 	 */
 	public Area tension(double tension) {
-		JSObject result = call("tension", tension);
+		JsObject result = call("tension", tension);
 		if (result == null) {
 			return null;
 		}
-		return new Area(webEngine, result);
+		return new Area(engine, result);
 	}
 
 	/**

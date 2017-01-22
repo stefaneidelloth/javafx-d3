@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.wrapper;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * 
@@ -13,19 +13,19 @@ public class JsArrayMixed extends JavaScriptObject {
 	
 	 /**
 	  * Constructor
-     * @param webEngine
+     * @param engine
      */
-    public JsArrayMixed(WebEngine webEngine) {
-    	super(webEngine);
+    public JsArrayMixed(JsEngine engine) {
+    	super(engine);
     }
 	
     /**
      * Constructor
-     * @param webEngine
+     * @param engine
      * @param wrappedJsObject
      */
-    public JsArrayMixed(WebEngine webEngine, JSObject wrappedJsObject) {
-    	super(webEngine);
+    public JsArrayMixed(JsEngine engine, JsObject wrappedJsObject) {
+    	super(engine);
     	setJsObject(wrappedJsObject);
 
     }

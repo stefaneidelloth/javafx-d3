@@ -5,8 +5,8 @@ import org.treez.javafxd3.d3.arrays.ArrayUtils;
 import org.treez.javafxd3.d3.core.Value;
 import org.treez.javafxd3.d3.time.TimeScale;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * {@link QuantitativeScale} with a continuous range:
@@ -30,11 +30,11 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public ContinuousQuantitativeScale(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public ContinuousQuantitativeScale(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 
 	//#end region
@@ -57,22 +57,22 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 	 * @param callingScale 
 	 * @return the current scale for chaining
 	 */
-	public S rangeRound(JSObject values) {		
-		JSObject result = call("rangeRound", values);
-		S resultScale = createScale(webEngine, result);
+	public S rangeRound(JsObject values) {		
+		JsObject result = call("rangeRound", values);
+		S resultScale = createScale(engine, result);
 		return resultScale;		
 	}
 
 	/**
 	 * Factory method for creating a new scale
-	 * @param webEngine
+	 * @param engine
 	 * @param result
 	 * @return
 	 */
-	public abstract S createScale(WebEngine webEngine, JSObject result); 
+	public abstract S createScale(JsEngine engine, JsObject result); 
 
 	/**
-	 * See #rangeRound(JSObject).
+	 * See #rangeRound(JsObject).
 	 * 
 	 * @param numbers
 	 * @return the current scale for chaining
@@ -80,8 +80,8 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 	public final S rangeRound(final double... numbers) {
 		String arrayString = ArrayUtils.createArrayString(numbers);
 		String command = "this.rangeRound(" + arrayString + ")";
-		JSObject result = evalForJsObject(command);
-		S resultScale = createScale(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		S resultScale = createScale(engine, result);
 		return resultScale;	
 		
 		
@@ -95,8 +95,8 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 	public final S rangeRound(final String... strings) {
 		String arrayString = ArrayUtils.createArrayString(strings);
 		String command = "this.rangeRound(" + arrayString + ")";
-		JSObject result = evalForJsObject(command);
-		S resultScale = createScale(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		S resultScale = createScale(engine, result);
 		return resultScale;
 	}
 
@@ -132,7 +132,7 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 		if (result==null){
 			return null;
 		}
-		Value value = Value.create(webEngine, result);
+		Value value = Value.create(engine, result);
 		
 		return value;		
 	}
@@ -169,49 +169,12 @@ public abstract class ContinuousQuantitativeScale<S extends ContinuousQuantitati
 	 * @return the current scale for chaining
 	 */
 	public S clamp(boolean clamping) {		
-		JSObject result = call("clamp", clamping);
-		S resultScale = createScale(webEngine, result);
+		JsObject result = call("clamp", clamping);
+		S resultScale = createScale(engine, result);
 		return resultScale;		
 	}
 
-	// ======== interpolate ========
-	// TODO : WORK IN PROGRESS
-	// /**
-	// * If factory is specified, sets the scale's output interpolator using the
-	// * specified factory.
-	// * <p>
-	// * The interpolator factory defaults to {@link Interpolators#interpolate},
-	// * and is used to map the normalized domain parameter t in [0,1] to the
-	// * corresponding value in the output range. The interpolator factory will
-	// be
-	// * used to construct interpolators for each adjacent pair of values from
-	// the
-	// * output range.
-	// *
-	// * @param factory
-	// * the factory used to create an interpolator
-	// * @return the scale
-	// */
-	// public final S interpolate(InterpolatorFactory<?> factory) {
-	// return interpolate0(factory.asJSOFunction());
-	// }
-	//
-	// /**
-	// * Return the scale's interpolator factory.
-	// *
-	// * @return the factory
-	// */
-	// public final InterpolatorFactory<?> interpolate() {
-	// return this.interpolate0();
-	// }
-	//
-	// protected JSNIInterpolatorFactory<?> interpolate0(){
-	// return this.interpolate();
-	// }
-	//
-	// protected S interpolate0(JavaScriptObject factory){
-	// return this.interpolate(factory);
-	// }
+
 
 	//#end region
 

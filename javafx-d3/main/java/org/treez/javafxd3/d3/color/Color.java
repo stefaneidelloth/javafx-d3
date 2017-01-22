@@ -3,8 +3,8 @@ package org.treez.javafxd3.d3.color;
 import org.treez.javafxd3.d3.D3;
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Constructing visualizations often involves working with colors.
@@ -30,11 +30,11 @@ public class Color extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappingJsObject
 	 */
-	public Color(WebEngine webEngine, JSObject wrappingJsObject) {
-		super(webEngine);
+	public Color(JsEngine engine, JsObject wrappingJsObject) {
+		super(engine);
 		setJsObject(wrappingJsObject);
 	}
 

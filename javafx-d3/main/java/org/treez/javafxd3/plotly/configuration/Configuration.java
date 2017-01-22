@@ -2,8 +2,8 @@ package org.treez.javafxd3.plotly.configuration;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class Configuration extends JavaScriptObject {
 
@@ -15,12 +15,12 @@ public class Configuration extends JavaScriptObject {
 
 	//#region CONSTRUCTORS
 
-	public Configuration(WebEngine webEngine, JSObject jsObject) {
-		super(webEngine,jsObject);		
+	public Configuration(JsEngine engine, JsObject jsObject) {
+		super(engine,jsObject);		
 	}
 	
-	public Configuration(WebEngine webEngine) {
-		super(webEngine);
+	public Configuration(JsEngine engine) {
+		super(engine);
 		setEmptyObjectAsJsObject();	
 	}
 

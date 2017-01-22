@@ -97,7 +97,7 @@ public class FocusAndContext extends AbstractDemoCase {
 				.scale(y) //
 				.orient(Orientation.LEFT);
 
-		DataFunction<Double> xDataFunction = new DataFunctionWrapper<>(FocusAndContextData.class, webEngine, (data) -> {
+		DataFunction<Double> xDataFunction = new DataFunctionWrapper<>(FocusAndContextData.class, engine, (data) -> {
 			if (data == null) {
 				return 0d;
 			}
@@ -110,7 +110,7 @@ public class FocusAndContext extends AbstractDemoCase {
 			return scaledValue.asDouble();
 		});
 
-		DataFunction<Double> y1DataFunction = new DataFunctionWrapper<>(FocusAndContextData.class, webEngine,
+		DataFunction<Double> y1DataFunction = new DataFunctionWrapper<>(FocusAndContextData.class, engine,
 				(data) -> {
 					if (data == null) {
 						return 0d;
@@ -132,7 +132,7 @@ public class FocusAndContext extends AbstractDemoCase {
 				.y1(y1DataFunction);
 
 		DataFunction<Double> x2DataFunction = new DataFunctionWrapper<Double, FocusAndContextData>(
-				FocusAndContextData.class, webEngine, (data) -> {
+				FocusAndContextData.class, engine, (data) -> {
 					JsDate date = data.getDate();
 					Value scaledValue = x2.apply(date);
 					if (scaledValue == null) {
@@ -141,7 +141,7 @@ public class FocusAndContext extends AbstractDemoCase {
 					return scaledValue.asDouble();
 				});
 
-		DataFunction<Double> y2DataFunction = new DataFunctionWrapper<>(FocusAndContextData.class, webEngine,
+		DataFunction<Double> y2DataFunction = new DataFunctionWrapper<>(FocusAndContextData.class, engine,
 				(data) -> {
 					Double price = data.getPrice();
 					Value scaledValue = y2.apply(price);
@@ -197,29 +197,29 @@ public class FocusAndContext extends AbstractDemoCase {
 		brush.on(BrushEvent.BRUSH, brushFunction);
 
 		DsvObjectAccessor<FocusAndContextData> objectAccessor = new DsvObjectAccessorWrapper<FocusAndContextData, DsvRow>(
-				DsvRow.class, webEngine, (row) -> {
+				DsvRow.class, engine, (row) -> {
 					String date = row.get("date").asString();
 					Double price = row.get("price").asDouble();
 					return new FocusAndContextData(dateFormat.parse(date), price);
 				});
 
-		DsvCallback<FocusAndContextData> callback = new DsvCallbackWrapper<>(webEngine, (array) -> {
+		DsvCallback<FocusAndContextData> callback = new DsvCallbackWrapper<>(engine, (array) -> {
 
 			Array<JsDate> jsDateArray = array.map((focusAndContextData) -> {
 				JsDate date = focusAndContextData.getDate();
 				return date;
 			});
 
-			Array<JsDate> limits = Arrays.extent(jsDateArray, webEngine);
+			Array<JsDate> limits = Arrays.extent(jsDateArray, engine);
 			x.domain(limits);
 
-			ForEachCallback<Double> priceCallback = new ForEachCallbackWrapper<>(FocusAndContextData.class, webEngine,
+			ForEachCallback<Double> priceCallback = new ForEachCallbackWrapper<>(FocusAndContextData.class, engine,
 					(focusAndContextData) -> {
 						Double price = focusAndContextData.getPrice();
 						return price;
 					});
 
-			Value maxPrice = Arrays.max(array, priceCallback, webEngine);
+			Value maxPrice = Arrays.max(array, priceCallback, engine);
 
 			y.domain(0, maxPrice.asInt());
 

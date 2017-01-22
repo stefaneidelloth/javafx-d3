@@ -1,14 +1,14 @@
 package org.treez.javafxd3.plotly.layout.margin;
 
-import javafx.scene.web.WebEngine;
+import org.treez.javafxd3.d3.core.JsEngine;
 
 public class ZeroMargin extends Margin {
 
 
 	//#region CONSTRUCTORS	
 	
-	public ZeroMargin(WebEngine webEngine) {
-		super(webEngine);		
+	public ZeroMargin(JsEngine engine) {
+		super(engine);		
 		setZeroMargins();
 	}	
 

@@ -2,19 +2,19 @@ package org.treez.javafxd3.plotly.data.line;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class Line extends JavaScriptObject {	
 
 	//#region CONSTRUCTORS
 
-	public Line(WebEngine webEngine, JSObject jsObject) {
-		super(webEngine,jsObject);		
+	public Line(JsEngine engine, JsObject jsObject) {
+		super(engine,jsObject);		
 	}
 	
-	public Line(WebEngine webEngine) {
-		super(webEngine);
+	public Line(JsEngine engine) {
+		super(engine);
 		setEmptyObjectAsJsObject();	
 	}
 

@@ -2,8 +2,8 @@ package org.treez.javafxd3.d3.svg;
 
 import org.treez.javafxd3.d3.wrapper.JavaScriptObject;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * Provide access to svg routines.
@@ -15,11 +15,11 @@ public class SVG extends JavaScriptObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public SVG(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine);
+	public SVG(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine);
 		setJsObject(wrappedJsObject);
 	}
 
@@ -34,8 +34,8 @@ public class SVG extends JavaScriptObject {
 	 * @return the arc
 	 */
 	public Arc arc() {
-		JSObject result = call("arc");
-		return new Arc(webEngine, result);
+		JsObject result = call("arc");
+		return new Arc(engine, result);
 	}
 
 	/**
@@ -44,8 +44,8 @@ public class SVG extends JavaScriptObject {
 	 * @return the area
 	 */
 	public Area area() {
-		JSObject result = call("area");
-		return new Area(webEngine, result);
+		JsObject result = call("area");
+		return new Area(engine, result);
 	}
 
 	/**
@@ -54,8 +54,8 @@ public class SVG extends JavaScriptObject {
 	 * @return the axis
 	 */
 	public Axis axis() {
-		JSObject result = call("axis");
-		return new Axis(webEngine, result);
+		JsObject result = call("axis");
+		return new Axis(engine, result);
 	}
 
 	/**
@@ -64,8 +64,8 @@ public class SVG extends JavaScriptObject {
 	 * @return the brush
 	 */
 	public Brush brush() {
-		JSObject result = call("brush");
-		return new Brush(webEngine, result);
+		JsObject result = call("brush");
+		return new Brush(engine, result);
 	}
 
 	/**
@@ -74,8 +74,8 @@ public class SVG extends JavaScriptObject {
 	 * @return the chord
 	 */
 	public Chord chord() {
-		JSObject result = call("chord");
-		return new Chord(webEngine, result);
+		JsObject result = call("chord");
+		return new Chord(engine, result);
 	}
 
 	/**
@@ -84,8 +84,8 @@ public class SVG extends JavaScriptObject {
 	 * @return the diagonal
 	 */
 	public Diagonal diagonal() {
-		JSObject result = call("diagonal");
-		return new Diagonal(webEngine, result);
+		JsObject result = call("diagonal");
+		return new Diagonal(engine, result);
 	}
 
 	/**
@@ -94,8 +94,8 @@ public class SVG extends JavaScriptObject {
 	 * @return the line
 	 */
 	public Line line() {
-		JSObject result = call("line");
-		return new Line(webEngine, result);
+		JsObject result = call("line");
+		return new Line(engine, result);
 	}
 
 	/**
@@ -111,8 +111,8 @@ public class SVG extends JavaScriptObject {
 	 */
 	public RadialLine radialLine() {
 		String command = "this.line.radial()";
-		JSObject result = evalForJsObject(command);
-		return new RadialLine(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new RadialLine(engine, result);
 	}
 
 	/**
@@ -121,8 +121,8 @@ public class SVG extends JavaScriptObject {
 	 * @return the symbol
 	 */
 	public Symbol symbol() {
-		JSObject result = call("symbol");
-		return new Symbol(webEngine, result);
+		JsObject result = call("symbol");
+		return new Symbol(engine, result);
 	}
 
 	/**

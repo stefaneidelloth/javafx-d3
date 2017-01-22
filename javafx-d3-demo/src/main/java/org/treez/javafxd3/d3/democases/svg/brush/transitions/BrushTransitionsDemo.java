@@ -19,8 +19,8 @@ import org.treez.javafxd3.d3.svg.Brush;
 import org.treez.javafxd3.d3.svg.Brush.BrushEvent;
 
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 public class BrushTransitionsDemo extends AbstractDemoCase {
 
@@ -66,7 +66,7 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
 		List<Point> points = new ArrayList<>();
 		
 		pointSeed.forEach((value)->{
-			Point point = new Point(webEngine, Math.random() * width, Math.random() *
+			Point point = new Point(engine, Math.random() * width, Math.random() *
 					  width);
 			points.add(point);
 		});		 
@@ -75,8 +75,8 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
 
 		final RootNode<Point> quadtree = d3.geom() //
 				.quadtree() //
-				.extent(-1, -1, width + 1, height + 1).x(Coords.getXAccessor(webEngine)) //
-				.y(Coords.getYAccessor(webEngine)) //
+				.extent(-1, -1, width + 1, height + 1).x(Coords.getXAccessor(engine)) //
+				.y(Coords.getYAccessor(engine)) //
 				.apply(data);
 
 		IdentityScale x = d3.scale() //
@@ -90,7 +90,7 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
 		DataFunction<Void> brushFunction = new DataFunctionWrapper<>(()->{
 			Array<Double> extent = brush.extent();
 
-			DataFunction<Void> unselectFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
+			DataFunction<Void> unselectFunction = new DataFunctionWrapper<>(Point.class, engine, (point) -> {
 				point.setSelected(false);
 				return null;
 			});
@@ -99,7 +99,7 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
 			search(quadtree, extent.get(0, 0, Double.class), extent.get(0, 1, Double.class),
 					extent.get(1, 0, Double.class), extent.get(1, 1, Double.class));
 
-			DataFunction<Boolean> isSelectedFunction = new DataFunctionWrapper<>(Point.class, webEngine,
+			DataFunction<Boolean> isSelectedFunction = new DataFunctionWrapper<>(Point.class, engine,
 					(point) -> {
 						return point.isSelected();
 					});
@@ -107,7 +107,7 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
 			point.classed("selected", isSelectedFunction);
 		});	
 
-		DataFunction<Void> brushEndFunction = new ContextDataFunctionWrapper<>(webEngine, (element)->{
+		DataFunction<Void> brushEndFunction = new ContextDataFunctionWrapper<>(engine, (element)->{
 			if (d3.event().sourceEvent() == null) {
 				return null; // only transition after input
 			}		
@@ -133,11 +133,11 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
 				.attr("width", width) //
 				.attr("height", height);
 
-		DataFunction<Double> cxFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
+		DataFunction<Double> cxFunction = new DataFunctionWrapper<>(Point.class, engine, (point) -> {
 			return point.x();
 		});
 
-		DataFunction<Double> cyFunction = new DataFunctionWrapper<>(Point.class, webEngine, (point) -> {
+		DataFunction<Double> cyFunction = new DataFunctionWrapper<>(Point.class, engine, (point) -> {
 			return point.y();
 		});
 
@@ -163,7 +163,7 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
 	private void search(final RootNode<Point> quadtreeRoot, final double x0, final double y0, final double x3,
 			final double y3) {
 
-		quadtreeRoot.visit(new BrushTransitionsDemoCallback(webEngine, x0, y0, x3, y3));
+		quadtreeRoot.visit(new BrushTransitionsDemoCallback(engine, x0, y0, x3, y3));
 	}
 
 	@Override
@@ -179,12 +179,12 @@ public class BrushTransitionsDemo extends AbstractDemoCase {
 
 		//#region CONSTRUCTORS
 
-		public Point(WebEngine webEngine, JSObject wrappedJsObject) {
-			super(webEngine, wrappedJsObject);
+		public Point(JsEngine engine, JsObject wrappedJsObject) {
+			super(engine, wrappedJsObject);
 		}
 
-		public Point(WebEngine webEngine, double x, double y) {
-			super(webEngine, x, y);
+		public Point(JsEngine engine, double x, double y) {
+			super(engine, x, y);
 		}
 
 		//#end region

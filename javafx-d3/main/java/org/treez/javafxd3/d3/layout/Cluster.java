@@ -1,7 +1,7 @@
 package org.treez.javafxd3.d3.layout;
 
-import javafx.scene.web.WebEngine;
-import netscape.javascript.JSObject;
+import org.treez.javafxd3.d3.core.JsEngine;
+import org.treez.javafxd3.d3.core.JsObject;
 
 /**
  * The cluster layout produces dendrograms: node-link diagrams that place leaf
@@ -25,11 +25,11 @@ public class Cluster extends HierarchicalLayout {
 	/**
 	 * Constructor
 	 * 
-	 * @param webEngine
+	 * @param engine
 	 * @param wrappedJsObject
 	 */
-	public Cluster(WebEngine webEngine, JSObject wrappedJsObject) {
-		super(webEngine, wrappedJsObject);
+	public Cluster(JsEngine engine, JsObject wrappedJsObject) {
+		super(engine, wrappedJsObject);
 	}
 	
 	//#end region
@@ -43,8 +43,8 @@ public class Cluster extends HierarchicalLayout {
 	 */
 	public  Cluster size(int width, int height){
 		String command = "this.size(["+width+", "+height+"]);";
-		JSObject result = evalForJsObject(command);
-		return new Cluster(webEngine, result);
+		JsObject result = evalForJsObject(command);
+		return new Cluster(engine, result);
 	};
 
 	//#end region
