@@ -230,6 +230,22 @@ public class JavaFxD3Browser extends Region {
 	private void injectSaveHelper() {
 		SaveHelper saveHelper = new SaveHelper();
 		d3.setMember("saveHelper", saveHelper);
+		
+		String createSaveFunctionCommand = "d3.saveSvg = function(){" //				
+		+ "	  var svg = document.getElementById('svg');" //		
+		+ "	  var svgXml = (new XMLSerializer).serializeToString(svg);" //	
+		+ "   d3.saveHelper.saveSvg(svgXml);" //				
+		+ "};";
+		
+		d3.eval(createSaveFunctionCommand);
+		
+		String createSaveToFunctionCommand = "d3.saveSvgTo = function(filePath){" //			
+				+ "	  var svg = document.getElementById('svg');" //		
+				+ "	  var svgXml = (new XMLSerializer).serializeToString(svg);" //	
+				+ "   d3.saveHelper.saveSvgTo(svgXml, filePath);" //				
+				+ "};";
+				
+		d3.eval(createSaveToFunctionCommand);
 
 	}
 
@@ -257,20 +273,12 @@ public class JavaFxD3Browser extends Region {
 	private String createInitialBrowserContent() {
 		String htmlContent = "<!DOCTYPE html>\n" //
 				+ "<meta charset=\"utf-8\">\n" //	
-				+ "<body style = \"margin:0;padding:0;\">"	
-				+ "<div id = \"dummyDiv\"></div>\n"
-				+ "<div id=\"invisibleDummyDiv\" style=\"display: none;\"></div>\n"
-				+ "<div id = \"root\" ondblclick=\"saveSvg()\" style = \"margin:0;padding:0;font-family:Consolas;font-size:small;\">\n" //
+				+ "<body style = \"margin:0;padding:0;\">"							
+				+ "<div id = \"root\" ondblclick=\"d3.saveSvg()\" style = \"margin:0;padding:0;font-family:Consolas;font-size:small;\">\n" //
 				+ "<svg id=\"svg\" class=\"svg\"></svg>\n"//
-				+ "</div>\n"				
-				+ "</body>"
-				+ "<script>\n" //
-				+ "function saveSvg(e){\n" //				
-				+ "	  var svg = document.getElementById('svg');\n" //		
-				+ "	  var svgXml = (new XMLSerializer).serializeToString(svg);\n" //	
-				+ "   d3.saveHelper.saveSvg(svgXml);\n"				
-				+ "}\n" //
-				+ "</script>\n";				
+				+ "</div>\n"	
+				+ "<div id = \"dummyDiv\"></div>\n"	
+				+ "</body>\n";								
 				
 		return htmlContent;
 	}

@@ -110,6 +110,8 @@ public class JavaFxD3SingleDemo extends Application {
 				.attr("dy", ".35em") //
 				.textExpression("function(d) { return d; }") //
 				.attr("style", textStyle);
+		
+		//d3.saveSvg("C:/test.svg");
 
 	}
 

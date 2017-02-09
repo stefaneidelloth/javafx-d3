@@ -14,7 +14,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 public class SaveHelper {
 
 	/**
-	 * Save the given svg content as svg file
+	 * Saves the given svg content as svg file after asking for the
+	 * file path
 	 * 
 	 * @param svgContent
 	 */
@@ -27,6 +28,24 @@ public class SaveHelper {
 		fileChooser.getExtensionFilters().add(extensionFilter);
 		File file = fileChooser.showSaveDialog(null);
 
+		if (file != null) {			
+			try {
+				PrintWriter out = new PrintWriter(file);
+				out.print(svgContent);
+				out.close();
+			} catch (FileNotFoundException e) {
+				// 
+			}
+		}
+	}
+	
+	
+	/**
+	 * Saves the given svg content as svg file at the given file path
+	 */
+	public void saveSvgTo(String svgContent, String filePath) {
+	
+		File file = new File(filePath);
 		if (file != null) {			
 			try {
 				PrintWriter out = new PrintWriter(file);

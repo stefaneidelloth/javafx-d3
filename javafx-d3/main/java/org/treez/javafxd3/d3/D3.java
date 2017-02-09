@@ -1098,6 +1098,14 @@ public class D3 extends JavaScriptObject {
 		JsObject result = evalForJsObject("identity");
 		return result;
 	}
+	
+	public void saveSvg(){
+		call("saveSvg");
+	}
+	
+	public void saveSvg(String filePath){
+		call("saveSvgTo", filePath);
+	}
 
 	/**
 	 * Creates a new variable in the JavaScript space and applies the given
