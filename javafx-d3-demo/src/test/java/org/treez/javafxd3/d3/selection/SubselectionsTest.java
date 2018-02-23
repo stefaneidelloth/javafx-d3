@@ -10,7 +10,7 @@ import org.treez.javafxd3.d3.core.JsObject;
 /**
  * Testing the internal structure of the selections and sub selections.
  */
-public class SubSelectionsTest extends AbstractSelectionTest {
+public class SubselectionsTest extends AbstractSelectionTest {
 
 	@Override
 	public void doTest() {
